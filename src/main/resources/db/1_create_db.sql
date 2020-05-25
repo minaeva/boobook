@@ -1,0 +1,3 @@
+CREATE DATABASE bubuk ENCODING 'UTF-8';
+CREATE USER admin with password 'admin';
+GRANT ALL PRIVILEGES ON DATABASE bubuk TO admin;
