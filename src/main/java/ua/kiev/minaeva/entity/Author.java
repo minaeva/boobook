@@ -19,7 +19,7 @@ public class Author extends MapId {
     @Column(name = "surname")
     private String surname;
 
-    @OneToMany(mappedBy = "author")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "author")
     @JsonManagedReference
     private List<Book> booksWritten;
 

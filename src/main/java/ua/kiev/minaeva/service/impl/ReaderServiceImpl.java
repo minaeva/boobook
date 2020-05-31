@@ -1,19 +1,19 @@
 package ua.kiev.minaeva.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.assertj.core.util.Lists;
 import org.mapstruct.factory.Mappers;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import ua.kiev.minaeva.dto.ReaderDto;
-import ua.kiev.minaeva.dto.LoginDto;
 import ua.kiev.minaeva.entity.Reader;
+import ua.kiev.minaeva.entity.RegistrationType;
 import ua.kiev.minaeva.exception.BoobookValidationException;
 import ua.kiev.minaeva.mapper.ReaderMapper;
 import ua.kiev.minaeva.repository.ReaderRepository;
 import ua.kiev.minaeva.service.ReaderService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static ua.kiev.minaeva.service.helper.ReaderValidator.validateReader;
 
@@ -22,6 +22,7 @@ import static ua.kiev.minaeva.service.helper.ReaderValidator.validateReader;
 public class ReaderServiceImpl implements ReaderService {
 
     private final ReaderRepository readerRepository;
+    private final PasswordEncoder passwordEncoder;
 
     private ReaderMapper mapper = Mappers.getMapper(ReaderMapper.class);
 
@@ -29,6 +30,10 @@ public class ReaderServiceImpl implements ReaderService {
         validateReader(readerDto);
 
         Reader reader = mapper.dtoToReader(readerDto);
+        if (RegistrationType.CUSTOM.equals(readerDto.getRegistrationType())) {
+            reader.setPassword(passwordEncoder.encode(readerDto.getPassword()));
+        }
+
         return readerRepository.save(reader);
     }
 
@@ -41,12 +46,25 @@ public class ReaderServiceImpl implements ReaderService {
         return mapper.readerToDto(reader);
     }
 
-    public List<Reader> getAll() {
-        return Lists.newArrayList(readerRepository.findAll());
+    public ReaderDto getByLoginAndPassword(String login, String password) {
+        ReaderDto foundByLogin = getByLogin(login);
+        if (foundByLogin != null) {
+            if (RegistrationType.CUSTOM.equals(foundByLogin.getRegistrationType())) {
+                if (passwordEncoder.matches(password, foundByLogin.getPassword())) {
+                    return foundByLogin;
+                }
+            } else {
+                return foundByLogin;
+            }
+        }
+        return null;
     }
 
-    public String login(final LoginDto loginDto) {
-        return "success";
+    public List<ReaderDto> getAll() {
+        return readerRepository.findAll()
+                .stream()
+                .map(reader -> mapper.readerToDto(reader))
+                .collect(Collectors.toList());
     }
 
 }

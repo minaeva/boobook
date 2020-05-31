@@ -1,11 +1,10 @@
 package ua.kiev.minaeva.repository;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import ua.kiev.minaeva.entity.Reader;
 
-public interface ReaderRepository extends CrudRepository<Reader, Long> {
-
-    Reader findByLoginAndPassword(String login, String password);
+public interface ReaderRepository extends JpaRepository<Reader, Long> {
 
     Reader findByLogin(String login);
+
 }

@@ -1,14 +1,15 @@
 package ua.kiev.minaeva.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.assertj.core.util.Lists;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 import ua.kiev.minaeva.dto.BookDto;
+import ua.kiev.minaeva.entity.Author;
 import ua.kiev.minaeva.entity.Book;
 import ua.kiev.minaeva.exception.BoobookNotFoundException;
 import ua.kiev.minaeva.exception.BoobookValidationException;
 import ua.kiev.minaeva.mapper.BookMapper;
+import ua.kiev.minaeva.repository.AuthorRepository;
 import ua.kiev.minaeva.repository.BookRepository;
 import ua.kiev.minaeva.service.BookService;
 
@@ -22,21 +23,22 @@ import static ua.kiev.minaeva.service.helper.BookValidator.validateBook;
 public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
+    private final AuthorRepository authorRepository;
 
     private BookMapper mapper = Mappers.getMapper(BookMapper.class);
 
-    public Book createBook(BookDto bookDto) throws BoobookValidationException {
+    public BookDto createBook(BookDto bookDto) throws BoobookValidationException {
         validateBook(bookDto);
 
         Book book = mapper.dtoToBook(bookDto);
-        return bookRepository.save(book);
+        return mapper.bookToDto(bookRepository.save(book));
     }
 
-    public Book updateBook(BookDto bookDto) throws BoobookValidationException {
+    public BookDto updateBook(BookDto bookDto) throws BoobookValidationException {
         validateBook(bookDto);
 
         Book book = mapper.dtoToBook(bookDto);
-        return bookRepository.save(book);
+        return mapper.bookToDto(bookRepository.save(book));
     }
 
     public void deleteBook(BookDto bookDto) {
@@ -44,14 +46,42 @@ public class BookServiceImpl implements BookService {
     }
 
     public List<BookDto> getAll() {
-        return Lists.newArrayList(bookRepository.findAll()).stream()
-                .map(b -> mapper.bookToDto(b)).collect(Collectors.toList());
+        return bookRepository.findAll()
+                .stream()
+                .map(book -> mapper.bookToDto(book))
+                .collect(Collectors.toList());
     }
 
     public BookDto getById(Long id) throws BoobookNotFoundException {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new BoobookNotFoundException("No book found with id " + id));
+
         return mapper.bookToDto(book);
+    }
+
+    public List<BookDto> getByTitle(String title) throws BoobookNotFoundException {
+        List<Book> foundBooks = bookRepository.getByTitle(title);
+        if (foundBooks == null) {
+            throw new BoobookNotFoundException("No book found with title " + title);
+        }
+
+        return foundBooks.stream()
+                .map(b -> mapper.bookToDto(b))
+                .collect(Collectors.toList());
+    }
+
+    public List<BookDto> getByAuthor(Long authorId) throws BoobookNotFoundException {
+        Author author = authorRepository.findById(authorId)
+                .orElseThrow(() -> new BoobookNotFoundException("No author found with id " + authorId));
+
+        List<Book> foundBooks = bookRepository.getByAuthor(author);
+        if (foundBooks == null) {
+            throw new BoobookNotFoundException("No book found written by author " + author.getName() + author.getSurname());
+        }
+
+        return foundBooks.stream()
+                .map(b -> mapper.bookToDto(b))
+                .collect(Collectors.toList());
     }
 
 }

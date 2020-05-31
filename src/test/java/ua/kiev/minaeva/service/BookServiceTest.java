@@ -52,15 +52,15 @@ public class BookServiceTest {
 
         aBookDto = new BookDto();
         aBookDto.setTitle("title");
-        aBookDto.setAuthor(anAuthor);
-        aBookDto.setOwner(aReader);
+        aBookDto.setAuthorId(anAuthor.getId());
+        aBookDto.setOwnerId(aReader.getId());
     }
 
     @Test
     void createBook_successful() throws BoobookValidationException {
         when(bookRepository.save(any())).thenReturn(aBook);
 
-        Book createdBook = bookService.createBook(aBookDto);
+        BookDto createdBook = bookService.createBook(aBookDto);
 
         assertThat(createdBook).isNotNull();
         assertThat(createdBook.getTitle()).isEqualTo(aBook.getTitle());
@@ -79,7 +79,7 @@ public class BookServiceTest {
     void updateBook_successful() throws BoobookValidationException {
         when(bookRepository.save(any())).thenReturn(aBook);
 
-        Book updatedBook = bookService.updateBook(aBookDto);
+        BookDto updatedBook = bookService.updateBook(aBookDto);
 
         assertThat(updatedBook).isNotNull();
         assertThat(updatedBook.getTitle()).isEqualTo(aBook.getTitle());

@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.web.bind.annotation.*;
 import ua.kiev.minaeva.dto.ReaderDto;
-import ua.kiev.minaeva.dto.LoginDto;
 import ua.kiev.minaeva.entity.Reader;
 import ua.kiev.minaeva.exception.BoobookValidationException;
 import ua.kiev.minaeva.service.ReaderService;
@@ -24,12 +23,6 @@ public class ReaderController {
         return readerService.createReader(readerDto);
     }
 
-    @PostMapping("/users/auth")
-    public String authenticate(@RequestBody LoginDto loginDto) {
-        log.info("handling authenticate reader request: " + loginDto);
-        return null;
-    }
-
     @GetMapping("/users/login")
     public ReaderDto getByLogin(String login) {
         log.info("handling get reader by login request: " + login);
@@ -37,7 +30,7 @@ public class ReaderController {
     }
 
     @GetMapping("/users")
-    public List<Reader> getAllReaders() {
+    public List<ReaderDto> getAllReaders() {
         log.info("handling get all readers request");
         return readerService.getAll();
     }

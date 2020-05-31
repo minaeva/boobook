@@ -7,8 +7,8 @@ WHERE datname = 'bubuk';
 DROP DATABASE bubuk;
 
 DROP TABLE IF EXISTS friendship;
-DROP TABLE IF EXISTS reader;
 DROP TABLE IF EXISTS book;
+DROP TABLE IF EXISTS reader;
 DROP TABLE IF EXISTS author;
 
 GRANT ALL ON SCHEMA public TO admin;

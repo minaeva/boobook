@@ -1,7 +1,15 @@
 package ua.kiev.minaeva.repository;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import ua.kiev.minaeva.entity.Author;
 import ua.kiev.minaeva.entity.Book;
 
-public interface BookRepository extends CrudRepository<Book, Long> {
+import java.util.List;
+
+public interface BookRepository extends JpaRepository<Book, Long> {
+
+    List<Book> getByTitle(String title);
+
+    List<Book> getByAuthor(Author author);
+
 }

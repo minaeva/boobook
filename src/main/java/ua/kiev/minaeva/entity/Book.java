@@ -7,7 +7,7 @@ import lombok.ToString;
 import javax.persistence.*;
 
 @Data
-@ToString(exclude = "owner")
+@ToString(exclude = {"author", "owner"})
 @Entity
 @Table(name = "book")
 public class Book extends MapId{
@@ -20,7 +20,7 @@ public class Book extends MapId{
     @JoinColumn(name="author_id", nullable=false)
     private Author author;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "reader_id", referencedColumnName = "id")
     private Reader owner;
 

@@ -4,8 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import ua.kiev.minaeva.dto.ReaderDto;
 import ua.kiev.minaeva.entity.Reader;
@@ -17,7 +15,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -91,10 +88,6 @@ public class ReaderServiceTest {
 
         assertThat(foundReader).isNotNull();
         assertThat(foundReader.getLogin()).isEqualTo("login");
-    }
-
-    @Test
-    void getAll() {
     }
 
 }

@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Data
-@ToString(exclude = {"friends", "book"})
+@ToString(exclude = "friends")
 @Entity
 @Table(name = "reader")
 public class Reader extends MapId{
@@ -34,12 +34,13 @@ public class Reader extends MapId{
     @Column(name = "email")
     private String email;
 
-    @OneToMany(mappedBy = "friend2")
+    @Column(name = "registration_type")
+    @Enumerated(EnumType.STRING)
+    private RegistrationType registrationType;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "friend2")
     @JsonBackReference
     private Set<Friendship> friends;
-
-    @OneToOne(mappedBy = "owner")
-    private Book book;
 
 }
 

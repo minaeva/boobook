@@ -11,11 +11,11 @@ public class BookValidator {
             throw new BoobookValidationException("Title cannot be empty");
         }
 
-        if (StringUtils.isEmpty(bookDto.getAuthor())) {
+        if (StringUtils.isEmpty(bookDto.getAuthorId())) {
             throw new BoobookValidationException("Author cannot be empty");
         }
 
-        if (StringUtils.isEmpty(bookDto.getOwner())) {
+        if (StringUtils.isEmpty(bookDto.getOwnerId())) {
             throw new BoobookValidationException("Reader cannot be empty");
         }
     }
