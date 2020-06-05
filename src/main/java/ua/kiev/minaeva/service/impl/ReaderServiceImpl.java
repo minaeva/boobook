@@ -26,7 +26,11 @@ public class ReaderServiceImpl implements ReaderService {
 
     private ReaderMapper mapper = Mappers.getMapper(ReaderMapper.class);
 
-    public Reader createReader(ReaderDto readerDto) throws BoobookValidationException {
+    public ReaderDto createReader(ReaderDto readerDto) throws BoobookValidationException {
+        if (getByLogin(readerDto.getLogin()) != null) {
+            return new ReaderDto();
+        }
+
         validateReader(readerDto);
 
         Reader reader = mapper.dtoToReader(readerDto);
@@ -34,7 +38,7 @@ public class ReaderServiceImpl implements ReaderService {
             reader.setPassword(passwordEncoder.encode(readerDto.getPassword()));
         }
 
-        return readerRepository.save(reader);
+        return mapper.readerToDto(readerRepository.save(reader));
     }
 
     public void deleteReader(Reader reader) {

@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ReaderService {
 
-    Reader createReader(ReaderDto readerDto) throws BoobookValidationException;
+    ReaderDto createReader(ReaderDto readerDto) throws BoobookValidationException;
 
     void deleteReader(Reader reader);
 

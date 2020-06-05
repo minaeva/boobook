@@ -46,7 +46,7 @@ public class ReaderServiceTest {
     void createReader_successful() throws BoobookValidationException {
         when(readerRepository.save(any())).thenReturn(aReader);
 
-        Reader createdReader = readerService.createReader(aReaderDto);
+        ReaderDto createdReader = readerService.createReader(aReaderDto);
 
         assertThat(createdReader).isNotNull();
         assertThat(createdReader.getName()).isEqualTo(aReaderDto.getName());

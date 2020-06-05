@@ -2,8 +2,8 @@ package ua.kiev.minaeva.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.mapstruct.factory.Mappers;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,6 +12,7 @@ import ua.kiev.minaeva.dto.ReaderDto;
 import ua.kiev.minaeva.entity.RegistrationType;
 import ua.kiev.minaeva.exception.BoobookUnauthorizedException;
 import ua.kiev.minaeva.exception.BoobookValidationException;
+import ua.kiev.minaeva.mapper.ReaderRegistrationMapper;
 import ua.kiev.minaeva.service.ReaderService;
 
 import javax.validation.Valid;
@@ -20,27 +21,25 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @Log
+@CrossOrigin
 public class AuthController {
 
     private final ReaderService readerService;
     private final JwtProvider jwtProvider;
+    private ReaderRegistrationMapper mapper = Mappers.getMapper(ReaderRegistrationMapper.class);
 
     @PostMapping("/users/register")
-    public ResponseEntity registerReader(@RequestBody @Valid RegistrationRequest request) throws BoobookValidationException {
+    public RegistrationResponse registerReader(@RequestBody @Valid RegistrationRequest request) throws BoobookValidationException {
         log.info("handling register reader request: " + request);
 
-        ReaderDto readerDto = new ReaderDto();
-        readerDto.setLogin(request.getLogin());
-        readerDto.setPassword(request.getPassword());
-        readerDto.setName(request.getName());
-        readerDto.setSurname(request.getSurname());
-        readerDto.setCity(request.getCity());
-        readerDto.setFbPage(request.getFbPage());
-        readerDto.setEmail(request.getEmail());
-        readerDto.setRegistrationType(RegistrationType.CUSTOM);
-
+        ReaderDto readerDto = mapper.requestToReaderDto(request);
         readerService.createReader(readerDto);
-        return new ResponseEntity("OK", HttpStatus.OK);
+
+        if (RegistrationType.FB.equals(request.getRegistrationType())) {
+            String token = jwtProvider.generateToken(readerDto.getLogin());
+            return new RegistrationResponse(token, readerDto.getLogin(), readerDto.getEmail());
+        }
+        return new RegistrationResponse();
     }
 
     @PostMapping("/users/auth")
