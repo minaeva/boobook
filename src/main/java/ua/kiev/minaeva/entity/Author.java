@@ -2,12 +2,14 @@ package ua.kiev.minaeva.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 @ToString(exclude = "booksWritten")
 @Entity
 @Table(name = "author")

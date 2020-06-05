@@ -2,6 +2,7 @@ package ua.kiev.minaeva.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mapstruct.factory.Mappers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,13 +12,18 @@ import ua.kiev.minaeva.entity.Book;
 import ua.kiev.minaeva.entity.Reader;
 import ua.kiev.minaeva.exception.BoobookNotFoundException;
 import ua.kiev.minaeva.exception.BoobookValidationException;
+import ua.kiev.minaeva.mapper.BookMapper;
+import ua.kiev.minaeva.repository.AuthorRepository;
 import ua.kiev.minaeva.repository.BookRepository;
 import ua.kiev.minaeva.service.impl.BookServiceImpl;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -26,6 +32,9 @@ public class BookServiceTest {
     @Mock
     private BookRepository bookRepository;
 
+    @Mock
+    private AuthorRepository authorRepository;
+
     @InjectMocks
     public BookServiceImpl bookService;
 
@@ -33,6 +42,8 @@ public class BookServiceTest {
     private static Reader aReader;
     private static Author anAuthor;
     private static BookDto aBookDto;
+    private BookMapper mapper = Mappers.getMapper(BookMapper.class);
+
 
     @BeforeEach
     void setup() {
@@ -52,8 +63,8 @@ public class BookServiceTest {
 
         aBookDto = new BookDto();
         aBookDto.setTitle("title");
-        aBookDto.setAuthorId(anAuthor.getId());
-        aBookDto.setOwnerId(aReader.getId());
+        aBookDto.setAuthorId(1L);
+        aBookDto.setOwnerId(1L);
     }
 
     @Test
@@ -103,5 +114,45 @@ public class BookServiceTest {
         assertThat(foundBook).isNotNull();
         assertThat(foundBook.getTitle()).isEqualTo("Harry Potter");
     }
+
+    @Test
+    void getById_nothingFound() throws BoobookNotFoundException {
+        when(bookRepository.findById(anyLong())).thenReturn(java.util.Optional.empty());
+
+        assertThrows(BoobookNotFoundException.class,
+                () -> bookService.getById(1L),
+                "No book found with id 1");
+    }
+
+    @Test
+    void getAll() {
+        when(bookRepository.findAll()).thenReturn(Collections.singletonList(aBook));
+
+        List<BookDto> foundBooks = bookService.getAll();
+
+        assertThat(foundBooks).isNotEmpty();
+    }
+
+    @Test
+    void getByTitle() throws BoobookNotFoundException {
+        when(bookRepository.getByTitle(anyString())).thenReturn(Collections.singletonList(aBook));
+
+        List<BookDto> foundBooks = bookService.getByTitle("test");
+
+        assertThat(foundBooks).isNotNull();
+        assertThat(foundBooks.get(0).getTitle()).isEqualTo("Harry Potter");
+    }
+
+    @Test
+    void getByAuthor() throws BoobookNotFoundException {
+        when(authorRepository.findById(anyLong())).thenReturn(Optional.of(anAuthor));
+        when(bookRepository.getByAuthor(any(Author.class))).thenReturn(Collections.singletonList(aBook));
+
+        List<BookDto> foundBooks = bookService.getByAuthor(1L);
+
+        assertThat(foundBooks).isNotNull();
+        assertThat(foundBooks.get(0).getTitle()).isEqualTo("Harry Potter");
+    }
+
 
 }

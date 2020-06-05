@@ -26,20 +26,20 @@ public class BookController {
         return bookService.getAll();
     }
 
-    @GetMapping("/{id}")
-    public BookDto getBookById(@PathParam("id") Long bookId) throws BoobookNotFoundException {
+    @GetMapping("/{bookId}")
+    public BookDto getBookById(@PathVariable final Long bookId) throws BoobookNotFoundException {
         log.info("handling GET BOOK BY ID request: " + bookId);
         return bookService.getById(bookId);
     }
 
-    @GetMapping("/{title}")
-    public List<BookDto> getByTitle(@PathParam("title") String title) throws BoobookNotFoundException {
+    @GetMapping("/title/{title}")
+    public List<BookDto> getByTitle(@PathVariable final String title) throws BoobookNotFoundException {
         log.info("handling GET BOOK BY TITLE request: " + title);
         return bookService.getByTitle(title);
     }
 
-    @GetMapping("/author/{id}")
-    public List<BookDto> getByAuthor(@PathParam("authorId") Long authorId) throws BoobookNotFoundException {
+    @GetMapping("/author/{authorId}")
+    public List<BookDto> getByAuthor(@PathVariable final Long authorId) throws BoobookNotFoundException {
         log.info("handling GET BOOK BY AUTHOR request: " + authorId);
         return bookService.getByAuthor(authorId);
     }
