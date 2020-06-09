@@ -107,7 +107,8 @@ public class BookServiceTest {
 
     @Test
     void getById_successful() throws BoobookNotFoundException {
-        when(bookRepository.findById(eq(1L))).thenReturn(java.util.Optional.ofNullable(aBook));
+        when(bookRepository.findById(eq(1L)))
+                .thenReturn(Optional.ofNullable(aBook));
 
         BookDto foundBook = bookService.getById(1L);
 
@@ -116,8 +117,9 @@ public class BookServiceTest {
     }
 
     @Test
-    void getById_nothingFound() throws BoobookNotFoundException {
-        when(bookRepository.findById(anyLong())).thenReturn(java.util.Optional.empty());
+    void getById_nothingFound() {
+        when(bookRepository.findById(anyLong()))
+                .thenReturn(java.util.Optional.empty());
 
         assertThrows(BoobookNotFoundException.class,
                 () -> bookService.getById(1L),
@@ -126,7 +128,8 @@ public class BookServiceTest {
 
     @Test
     void getAll() {
-        when(bookRepository.findAll()).thenReturn(Collections.singletonList(aBook));
+        when(bookRepository.findAll())
+                .thenReturn(Collections.singletonList(aBook));
 
         List<BookDto> foundBooks = bookService.getAll();
 
@@ -135,7 +138,8 @@ public class BookServiceTest {
 
     @Test
     void getByTitle() throws BoobookNotFoundException {
-        when(bookRepository.getByTitle(anyString())).thenReturn(Collections.singletonList(aBook));
+        when(bookRepository.findByTitle(anyString()))
+                .thenReturn(Optional.of(Collections.singletonList(aBook)));
 
         List<BookDto> foundBooks = bookService.getByTitle("test");
 
@@ -145,8 +149,10 @@ public class BookServiceTest {
 
     @Test
     void getByAuthor() throws BoobookNotFoundException {
-        when(authorRepository.findById(anyLong())).thenReturn(Optional.of(anAuthor));
-        when(bookRepository.getByAuthor(any(Author.class))).thenReturn(Collections.singletonList(aBook));
+        when(authorRepository.findById(anyLong()))
+                .thenReturn(Optional.of(anAuthor));
+        when(bookRepository.findByAuthor(any(Author.class)))
+                .thenReturn(Optional.of(Collections.singletonList(aBook)));
 
         List<BookDto> foundBooks = bookService.getByAuthor(1L);
 

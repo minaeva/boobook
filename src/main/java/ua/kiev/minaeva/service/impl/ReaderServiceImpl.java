@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import ua.kiev.minaeva.dto.ReaderDto;
 import ua.kiev.minaeva.entity.Reader;
 import ua.kiev.minaeva.entity.RegistrationType;
+import ua.kiev.minaeva.exception.BoobookNotFoundException;
 import ua.kiev.minaeva.exception.BoobookValidationException;
 import ua.kiev.minaeva.mapper.ReaderMapper;
 import ua.kiev.minaeva.repository.ReaderRepository;
@@ -27,10 +28,6 @@ public class ReaderServiceImpl implements ReaderService {
     private ReaderMapper mapper = Mappers.getMapper(ReaderMapper.class);
 
     public ReaderDto createReader(ReaderDto readerDto) throws BoobookValidationException {
-        if (getByLogin(readerDto.getLogin()) != null) {
-            return new ReaderDto();
-        }
-
         validateReader(readerDto);
 
         Reader reader = mapper.dtoToReader(readerDto);
@@ -45,22 +42,25 @@ public class ReaderServiceImpl implements ReaderService {
         readerRepository.delete(reader);
     }
 
-    public ReaderDto getByLogin(String login) {
-        Reader reader = readerRepository.findByLogin(login);
+    public ReaderDto getByLogin(String login) throws BoobookNotFoundException {
+        Reader reader = readerRepository.findByLogin(login)
+                .orElseThrow(() ->
+                        new BoobookNotFoundException("No reader with login " + login + "  found"));
+
         return mapper.readerToDto(reader);
     }
 
-    public ReaderDto getByLoginAndPassword(String login, String password) {
+    public ReaderDto getByLoginAndPassword(String login, String password) throws BoobookNotFoundException {
         ReaderDto foundByLogin = getByLogin(login);
-        if (foundByLogin != null) {
-            if (RegistrationType.CUSTOM.equals(foundByLogin.getRegistrationType())) {
-                if (passwordEncoder.matches(password, foundByLogin.getPassword())) {
-                    return foundByLogin;
-                }
-            } else {
+
+        if (RegistrationType.CUSTOM.equals(foundByLogin.getRegistrationType())) {
+            if (passwordEncoder.matches(password, foundByLogin.getPassword())) {
                 return foundByLogin;
             }
+        } else {
+            return foundByLogin;
         }
+
         return null;
     }
 

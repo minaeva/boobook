@@ -5,11 +5,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import ua.kiev.minaeva.exception.BoobookNotFoundException;
 import ua.kiev.minaeva.service.BookService;
 
 import java.util.Collections;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -28,7 +31,10 @@ public class BookControllerTest {
     @BeforeEach
     void setUp() {
         bookService = mock(BookService.class);
-        mockMvc = MockMvcBuilders.standaloneSetup(new BookController(bookService)).build();
+        mockMvc = MockMvcBuilders
+                .standaloneSetup(new BookController(bookService))
+                .setControllerAdvice(new ControllerAdvisor())
+                .build();
         objectMapper = new ObjectMapper();
     }
 
@@ -62,12 +68,36 @@ public class BookControllerTest {
     }
 
     @Test
+    void getBookById_notFound() throws Exception {
+        when(bookService.getById(anyLong())).thenThrow(BoobookNotFoundException.class);
+
+        MvcResult result = mockMvc.perform(get("/books/5"))
+                .andExpect(status().isNotFound())
+                .andReturn();
+
+        String message = result.getResponse().getContentAsString();
+        assertTrue(message.contains("Not found"));
+    }
+
+    @Test
     void getByTitle() throws Exception {
         when(bookService.getByTitle(anyString())).thenReturn(Collections.singletonList(aBookDto()));
         mockMvc.perform(get("/books/title/test title request"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(objectMapper.writeValueAsString(Collections.singletonList(aBookDto()))));
+    }
+
+    @Test
+    void getByTitle_notFound() throws Exception {
+        when(bookService.getByTitle(anyString())).thenThrow(BoobookNotFoundException.class);
+
+        MvcResult result = mockMvc.perform(get("/books/title/test title request"))
+                .andExpect(status().isNotFound())
+                .andReturn();
+
+        String message = result.getResponse().getContentAsString();
+        assertTrue(message.contains("Not found"));
     }
 
     @Test
@@ -78,5 +108,18 @@ public class BookControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(objectMapper.writeValueAsString(Collections.singletonList(aBookDto()))));
     }
+
+    @Test
+    void getByAuthor_notFound() throws Exception {
+        when(bookService.getByAuthor(anyLong())).thenThrow(BoobookNotFoundException.class);
+
+        MvcResult result = mockMvc.perform(get("/books/author/5"))
+                .andExpect(status().isNotFound())
+                .andReturn();
+
+        String message = result.getResponse().getContentAsString();
+        assertTrue(message.contains("Not found"));
+    }
+
 
 }

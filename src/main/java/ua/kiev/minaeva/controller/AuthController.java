@@ -10,13 +10,15 @@ import org.springframework.web.bind.annotation.RestController;
 import ua.kiev.minaeva.config.jwt.JwtProvider;
 import ua.kiev.minaeva.dto.ReaderDto;
 import ua.kiev.minaeva.entity.RegistrationType;
+import ua.kiev.minaeva.exception.BoobookNotFoundException;
 import ua.kiev.minaeva.exception.BoobookUnauthorizedException;
 import ua.kiev.minaeva.exception.BoobookValidationException;
 import ua.kiev.minaeva.mapper.ReaderRegistrationMapper;
 import ua.kiev.minaeva.service.ReaderService;
 
-import javax.validation.Valid;
 import java.util.Optional;
+
+import static ua.kiev.minaeva.controller.helper.RegistrationRequestValidator.validateRegistrationRequest;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,8 +31,10 @@ public class AuthController {
     private ReaderRegistrationMapper mapper = Mappers.getMapper(ReaderRegistrationMapper.class);
 
     @PostMapping("/users/register")
-    public RegistrationResponse registerReader(@RequestBody @Valid RegistrationRequest request) throws BoobookValidationException {
+    public RegistrationResponse registerReader(@RequestBody RegistrationRequest request) throws BoobookValidationException {
         log.info("handling register reader request: " + request);
+
+        validateRegistrationRequest(request);
 
         ReaderDto readerDto = mapper.requestToReaderDto(request);
         readerService.createReader(readerDto);
@@ -43,10 +47,11 @@ public class AuthController {
     }
 
     @PostMapping("/users/auth")
-    public AuthResponse authenticate(@RequestBody AuthRequest authRequest) throws BoobookUnauthorizedException {
+    public AuthResponse authenticate(@RequestBody AuthRequest authRequest)
+            throws BoobookNotFoundException, BoobookUnauthorizedException {
         log.info("handling authenticate reader request: " + authRequest);
         ReaderDto readerDto = Optional
-                .of(readerService.getByLoginAndPassword(authRequest.getLogin(), authRequest.getPassword()))
+                .ofNullable(readerService.getByLoginAndPassword(authRequest.getLogin(), authRequest.getPassword()))
                 .orElseThrow(() -> new BoobookUnauthorizedException("Reader not found"));
 
         String token = jwtProvider.generateToken(readerDto.getLogin());

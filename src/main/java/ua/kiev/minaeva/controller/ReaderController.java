@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.web.bind.annotation.*;
 import ua.kiev.minaeva.dto.ReaderDto;
+import ua.kiev.minaeva.exception.BoobookNotFoundException;
 import ua.kiev.minaeva.exception.BoobookValidationException;
 import ua.kiev.minaeva.service.ReaderService;
 
@@ -25,7 +26,7 @@ public class ReaderController {
     }
 
     @GetMapping("/login")
-    public ReaderDto getByLogin(String login) {
+    public ReaderDto getByLogin(String login) throws BoobookNotFoundException {
         log.info("handling get reader by login request: " + login);
         return readerService.getByLogin(login);
     }

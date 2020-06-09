@@ -60,10 +60,9 @@ public class BookServiceImpl implements BookService {
     }
 
     public List<BookDto> getByTitle(String title) throws BoobookNotFoundException {
-        List<Book> foundBooks = bookRepository.getByTitle(title);
-        if (foundBooks == null) {
-            throw new BoobookNotFoundException("No book found with title " + title);
-        }
+        List<Book> foundBooks = bookRepository.findByTitle(title)
+                .orElseThrow(() ->
+                        new BoobookNotFoundException("No book found with title " + title));
 
         return foundBooks.stream()
                 .map(b -> mapper.bookToDto(b))
@@ -72,12 +71,13 @@ public class BookServiceImpl implements BookService {
 
     public List<BookDto> getByAuthor(Long authorId) throws BoobookNotFoundException {
         Author author = authorRepository.findById(authorId)
-                .orElseThrow(() -> new BoobookNotFoundException("No author found with id " + authorId));
+                .orElseThrow(() ->
+                        new BoobookNotFoundException("No author found with id " + authorId));
 
-        List<Book> foundBooks = bookRepository.getByAuthor(author);
-        if (foundBooks == null) {
-            throw new BoobookNotFoundException("No book found written by author " + author.getName() + author.getSurname());
-        }
+        List<Book> foundBooks = bookRepository.findByAuthor(author)
+                .orElseThrow(() ->
+                        new BoobookNotFoundException("No book found written by author "
+                                + author.getName() + author.getSurname()));
 
         return foundBooks.stream()
                 .map(b -> mapper.bookToDto(b))

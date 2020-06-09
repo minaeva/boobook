@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import ua.kiev.minaeva.dto.ReaderDto;
+import ua.kiev.minaeva.exception.BoobookNotFoundException;
 import ua.kiev.minaeva.service.ReaderService;
 
 @Component
@@ -20,8 +21,12 @@ public class CustomReaderDetailsService implements UserDetailsService {
 
     @Override
     public CustomReaderDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        ReaderDto readerDto = readerService.getByLogin(login);
-        return CustomReaderDetails.fromReaderDtoToCustomUserDetails(readerDto);
+        try {
+            ReaderDto readerDto = readerService.getByLogin(login);
+            return CustomReaderDetails.fromReaderDtoToCustomUserDetails(readerDto);
+        } catch (BoobookNotFoundException e) {
+            throw new UsernameNotFoundException(e.getMessage(), e);
+        }
     }
 
 }

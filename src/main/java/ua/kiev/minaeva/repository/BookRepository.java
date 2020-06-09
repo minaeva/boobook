@@ -5,11 +5,12 @@ import ua.kiev.minaeva.entity.Author;
 import ua.kiev.minaeva.entity.Book;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
 
-    List<Book> getByTitle(String title);
+    Optional<List<Book>> findByTitle(String title);
 
-    List<Book> getByAuthor(Author author);
+    Optional<List<Book>> findByAuthor(Author author);
 
 }

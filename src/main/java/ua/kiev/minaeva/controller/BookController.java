@@ -8,7 +8,6 @@ import ua.kiev.minaeva.exception.BoobookNotFoundException;
 import ua.kiev.minaeva.exception.BoobookValidationException;
 import ua.kiev.minaeva.service.BookService;
 
-import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RestController
