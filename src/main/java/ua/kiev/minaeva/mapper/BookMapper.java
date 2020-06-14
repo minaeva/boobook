@@ -14,8 +14,8 @@ public interface BookMapper {
 
     @Mappings({
             @Mapping(target = "authorId", expression = "java(book.getAuthor().getId())"),
-            @Mapping(target = "authorName",
-                    expression = "java(book.getAuthor().getName() + \" \" + book.getAuthor().getSurname())"),
+            @Mapping(target = "authorName", expression = "java(book.getAuthor().getName())"),
+            @Mapping(target = "authorSurname", expression = "java(book.getAuthor().getSurname())"),
             @Mapping(target = "ownerId", expression = "java(book.getOwner().getId())"),
             @Mapping(target = "ownerName",
                     expression = "java(book.getOwner().getName() + \" \" + book.getOwner().getSurname())"),

@@ -44,9 +44,15 @@ public class BookController {
     }
 
     @PostMapping
-    public BookDto createBook(@RequestBody BookDto bookDto) throws BoobookValidationException {
+    public BookDto createBook(@RequestBody BookDto bookDto) throws BoobookValidationException, BoobookNotFoundException {
         log.info("handling CREATE BOOK request: " + bookDto);
         return bookService.createBook(bookDto);
+    }
+
+    @GetMapping("/owner/{ownerId}")
+    public List<BookDto> getByOwner(@PathVariable final Long ownerId) throws BoobookNotFoundException {
+        log.info("handling GET BOOK BY OWNER request: " + ownerId);
+        return bookService.getByOwner(ownerId);
     }
 
 }

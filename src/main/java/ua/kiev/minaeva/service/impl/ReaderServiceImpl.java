@@ -35,7 +35,12 @@ public class ReaderServiceImpl implements ReaderService {
             reader.setPassword(passwordEncoder.encode(readerDto.getPassword()));
         }
 
-        return mapper.readerToDto(readerRepository.save(reader));
+        try {
+            return mapper.readerToDto(readerRepository.save(reader));
+        } catch (Exception e) {
+            throw new BoobookValidationException("Reader with login " + reader.getLogin() +
+                    " already exists");
+        }
     }
 
     public void deleteReader(Reader reader) {

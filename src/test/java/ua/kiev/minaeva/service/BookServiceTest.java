@@ -68,7 +68,7 @@ public class BookServiceTest {
     }
 
     @Test
-    void createBook_successful() throws BoobookValidationException {
+    void createBook_successful() throws BoobookValidationException, BoobookNotFoundException {
         when(bookRepository.save(any())).thenReturn(aBook);
 
         BookDto createdBook = bookService.createBook(aBookDto);

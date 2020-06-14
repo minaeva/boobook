@@ -6,14 +6,17 @@ import org.springframework.stereotype.Service;
 import ua.kiev.minaeva.dto.BookDto;
 import ua.kiev.minaeva.entity.Author;
 import ua.kiev.minaeva.entity.Book;
+import ua.kiev.minaeva.entity.Reader;
 import ua.kiev.minaeva.exception.BoobookNotFoundException;
 import ua.kiev.minaeva.exception.BoobookValidationException;
 import ua.kiev.minaeva.mapper.BookMapper;
 import ua.kiev.minaeva.repository.AuthorRepository;
 import ua.kiev.minaeva.repository.BookRepository;
+import ua.kiev.minaeva.repository.ReaderRepository;
 import ua.kiev.minaeva.service.BookService;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static ua.kiev.minaeva.service.helper.BookValidator.validateBook;
@@ -24,14 +27,36 @@ public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
+    private final ReaderRepository readerRepository;
 
     private BookMapper mapper = Mappers.getMapper(BookMapper.class);
 
-    public BookDto createBook(BookDto bookDto) throws BoobookValidationException {
-        validateBook(bookDto);
+    public BookDto createBook(BookDto bookDto) throws BoobookValidationException, BoobookNotFoundException {
 
-        Book book = mapper.dtoToBook(bookDto);
-        return mapper.bookToDto(bookRepository.save(book));
+        validateBook(bookDto);
+        Book newBook = mapper.dtoToBook(bookDto);
+        Author newBookAuthor;
+        Reader newBookOwner;
+
+        Optional<Author> existentAuthor = authorRepository
+                .findByNameAndSurname(bookDto.getAuthorName(), bookDto.getAuthorSurname());
+        if (existentAuthor.isPresent()) {
+            newBookAuthor = existentAuthor.get();
+        } else {
+            newBookAuthor = authorRepository.save(new Author(bookDto.getAuthorName(), bookDto.getAuthorSurname()));
+        }
+        newBook.setAuthor(newBookAuthor);
+
+        Optional<Reader> existentOwner = readerRepository.findById(bookDto.getOwnerId());
+
+        if (existentOwner.isPresent()) {
+            newBookOwner = existentOwner.get();
+        } else {
+            throw new BoobookNotFoundException("reader with id " + bookDto.getOwnerId() + " cannot be found");
+        }
+        newBook.setOwner(newBookOwner);
+
+        return mapper.bookToDto(bookRepository.save(newBook));
     }
 
     public BookDto updateBook(BookDto bookDto) throws BoobookValidationException {
@@ -80,6 +105,21 @@ public class BookServiceImpl implements BookService {
                                 + author.getName() + author.getSurname()));
 
         return foundBooks.stream()
+                .map(b -> mapper.bookToDto(b))
+                .collect(Collectors.toList());
+    }
+
+    public List<BookDto> getByOwner(Long readerId) throws BoobookNotFoundException {
+        Reader reader = readerRepository.findById(readerId)
+                .orElseThrow(() ->
+                        new BoobookNotFoundException("Reader with id " + readerId + " cannot be found"));
+
+        List<Book> readerBooks = bookRepository.findByOwner(reader)
+                .orElseThrow(() ->
+                        new BoobookNotFoundException("The reader " + reader.getId() + " "
+                                + reader.getLogin() + " " + reader.getName() + " does not have any book"));
+
+        return readerBooks.stream()
                 .map(b -> mapper.bookToDto(b))
                 .collect(Collectors.toList());
     }

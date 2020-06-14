@@ -43,24 +43,37 @@ function authenticateAReader() {
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function () {
 
-            if (this.status == 500) {
-                swal({
-                    title: "Login " + reader_login,
-                    text: "with the password entered is not found",
-                    icon: "warning",
-                    button: "let's try another",
-                });
-                document.getElementById("reader_login").value = '';
-                document.getElementById("reader_password").value = '';
+            if (this.readyState == 4) {
+                if (this.status == 404) {
+                    swal({
+                        title: "Reader with login " + reader_login,
+                        text: "is not found",
+                        icon: "warning",
+                        button: "let's try another",
+                    });
+                    document.getElementById("reader_login").value = '';
+                    document.getElementById("reader_password").value = '';
 
-                return false;
-            }
+                    return false;
+                }
 
-            if (this.readyState == 4 && this.status == 200) {
-                var token = JSON.parse(this.responseText);
-                console.log(token);
-                console.log(JSON.stringify(token));
-                localStorage.setItem('tokenData', JSON.stringify(token));
+                if (this.status == 401) {
+                    swal({
+                        title: "Incorrect password for a reader",
+                        text: "with login " + reader_login,
+                        icon: "warning",
+                        button: "let's try another",
+                    });
+                    document.getElementById("reader_password").value = '';
+
+                    return false;
+                }
+
+                if (this.status == 200) {
+                    var token = JSON.parse(this.responseText);
+                    localStorage.setItem('tokenData', JSON.stringify(token));
+                    window.location.href = 'cabinet.html';
+                }
             }
         };
 
@@ -70,13 +83,10 @@ function authenticateAReader() {
             "login": reader_login,
             "password": reader_password
         };
-        console.log(requestBody);
 
         xhr.open("POST", requestUrl);
         xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         xhr.send(JSON.stringify(requestBody));
-
-        console.log(requestUrl);
 
         return false;
     }
@@ -97,33 +107,42 @@ function registerAReader() {
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function () {
 
-            if (this.status == 500) {
-                swal({
-                    title: "User with login " + new_login,
-                    text: "cannot be created",
-                    icon: "warning",
-                    button: "let's try another",
-                });
-                document.getElementById("new_login").value = '';
-                document.getElementById("new_password").value = '';
-                document.getElementById("new_name").value = '';
-                document.getElementById("new_surname").value = '';
-                document.getElementById("new_email").value = '';
-                document.getElementById("new_fb_page").value = '';
-                document.getElementById("new_city").value = '';
+            if (this.readyState == 4) {
+                if (this.status == 400) {
+                    swal({
+                        title: "User with login " + new_login,
+                        text: "cannot be created",
+                        icon: "warning",
+                        button: "let's try another",
+                    });
+                    document.getElementById("new_login").value = '';
+                    document.getElementById("new_password").value = '';
+                    document.getElementById("new_name").value = '';
+                    document.getElementById("new_surname").value = '';
+                    document.getElementById("new_email").value = '';
+                    document.getElementById("new_fb_page").value = '';
+                    document.getElementById("new_city").value = '';
 
-                return false;
-            }
+                    return false;
+                } else if (this.status == 200) {
+                    swal({
+                        title: "User with login " + new_login,
+                        text: "was created",
+                        type: "success",
+                        button: "Time to sign up"
+                    }).then(function () {
+                        window.location = "index.html";
+                    });
 
-            if (this.readyState == 4 && this.status == 200) {
-                console.log(this.responseText);
-                console.log(this.statusText);
-                swal({
-                    title: "User with login " + new_login,
-                    text: "was created",
-                    icon: "success",
-                    button: "OK"
-                });
+                    // swal({
+                    //     title: "User with login " + new_login,
+                    //     text: "was created",
+                    //     icon: "success",
+                    //     button: "Time to sign up"
+                    // }, function () {
+                    //     window.location = 'index.html';
+                    // });
+                }
             }
         };
 
@@ -139,13 +158,10 @@ function registerAReader() {
             "city": new_city,
             "registrationType": 'CUSTOM'
         };
-        console.log(requestBody);
 
         xhr.open("POST", requestUrl);
         xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-
         xhr.send(JSON.stringify(requestBody));
-        console.log(requestUrl);
 
         return false;
     }
@@ -167,17 +183,12 @@ function registerAFbReader(fullName, email, id) {
 
         if (this.readyState == 4 && this.status == 200) {
             var token = JSON.parse(this.responseText);
-            console.log(token);
-            console.log(JSON.stringify(token));
             localStorage.setItem('tokenData', JSON.stringify(token));
-
         }
     };
 
     var requestUrl = "http://localhost:8008/users/register";
-
     const nameParts = fullName.split(' ');
-
     const requestBody = {
         "login": id,
         "name": nameParts[0],
@@ -185,21 +196,36 @@ function registerAFbReader(fullName, email, id) {
         "email": email,
         "registrationType": 'FB'
     };
-    console.log(requestBody);
 
     xhr.open("POST", requestUrl);
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-
     xhr.send(JSON.stringify(requestBody));
-    console.log(requestUrl);
 
     return false;
 }
 
-
 function setAuthorization() {
-    var tokenFromStorage = localStorage.getItem('tokenData');
     var xhr = new XMLHttpRequest();
-    xhr.setRequestHeader('Authorization', 'Bearer ' + tokenFromStorage);
+    addAuthorization(xhr);
+}
+
+function addAuthorization(xhr) {
+    var localStorageInfo = localStorage.getItem('tokenData');
+    var jsonInsideLocalStorage = JSON.parse(localStorageInfo);
+    var tokenString = jsonInsideLocalStorage.token;
+    xhr.setRequestHeader('Authorization', 'Bearer ' + tokenString);
     xhr.setRequestHeader('Accept', 'application/json');
+}
+
+function logout() {
+    clearHeader();
+    window.location.href = 'index.html';
+    return false;
+}
+
+function clearHeader() {
+    localStorage.clear();
+    var myHeaders = new Headers();
+    myHeaders.delete('Authorization');
+    return false;
 }

@@ -11,8 +11,8 @@ public class BookValidator {
             throw new BoobookValidationException("Title cannot be empty");
         }
 
-        if (StringUtils.isEmpty(bookDto.getAuthorId())) {
-            throw new BoobookValidationException("Author cannot be empty");
+        if (StringUtils.isEmpty(bookDto.getAuthorSurname())) {
+            throw new BoobookValidationException("Author surname cannot be empty");
         }
 
         if (StringUtils.isEmpty(bookDto.getOwnerId())) {

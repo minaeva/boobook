@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Reader's Home</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon.png">
+    <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/bulma@0.8.2/css/bulma.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/cabinet.css">
+</head>
+
+<body>
+<nav class="navbar has-shadow">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="#">
+                <img src="images/bulma-logo.png" alt="Booboook: sharing good books with good people">
+            </a>
+
+            <div class="navbar-burger burger" data-target="navMenu">
+                <span>My Books</span>
+                <span>Friends</span>
+                <span>Search</span>
+            </div>
+        </div>
+        <div class="navbar-end">
+            <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link">
+                    Account
+                </a>
+                <div class="navbar-dropdown">
+                    <a class="navbar-item">
+                        Settings
+                    </a>
+                    <hr class="navbar-divider">
+                    <a class="navbar-item" onclick="return logout();">
+                        Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+<div class="columns" id="reader-cabinet">
+    <aside class="column is-2 aside hero is-fullheight">
+        <div>
+            <div id="create-book-modal-window" class="modal">
+                <div class="modal-background"></div>
+                <div class="modal-content">
+                    <div class="box">
+                        <article class="media">
+                            <div class="media-content">
+                                <div class="content">
+                                    <div class="field">
+                                        <label class="label">Title</label>
+                                        <div class="control has-icons-left">
+                                            <input class="input is-success" type="text" placeholder="Book Title" value="" id="book_title">
+                                            <span class="icon is-small is-left"><i class="fa fa-book"></i></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="field">
+                                        <label class="label">Author Name</label>
+                                        <div class="control has-icons-left">
+                                            <input class="input is-info" type="text" placeholder="Name of the Author of a Book"
+                                                   value="" id="author_name">
+                                            <span class="icon is-small is-left"><i class="fa fa-user"></i></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="field">
+                                        <label class="label">Author Surname</label>
+                                        <div class="control has-icons-left">
+                                            <input class="input is-success" type="text" placeholder="Surname of the Author of a Book"
+                                                   value="" id="author_surname">
+                                            <span class="icon is-small is-left"><i class="fa fa-user"></i></span>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="field is-grouped">
+                                    <div class="control">
+                                        <button class="button is-link" id="savebutton"
+                                        onclick="saveBook(); return false">Save</button>
+                                    </div>
+                                    <div class="control">
+                                        <button class="button is-link is-light" id="closebutton"
+                                                onclick="closeCreateBookModalWindow(); return false">Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+                <button class="modal-close is-large" aria-label="close"
+                        onclick="closeCreateBookModalWindow(); return false"></button>
+            </div>
+            <div class="compose has-text-centered">
+                <a class="button is-success is-block is-bold" id="add-book-button"
+                   onclick="openCreateBookModalWindow(); return false">
+                    <span class="compose">Add book</span>
+                </a>
+            </div>
+            <div class="main">
+                <a href="#" class="item active"><span class="icon"><i class="fa fa-home"></i></span><span class="name">My Books</span></a>
+                <a href="#" class="item"><span class="icon"><i class="fa fa-star"></i></span><span
+                        class="name">Friends</span></a>
+                <a href="#" class="item"><span class="icon"><i class="fa fa-search"></i></span><span
+                        class="name">Search</span></a>
+                <a href="#" class="item"><span class="icon"><i class="fa fa-cog"></i></span><span
+                        class="name">Settings</span></a>
+            </div>
+        </div>
+    </aside>
+    <div class="column is-6 messages hero is-fullheight" id="message-feed">
+        <div class="action-buttons">
+            <div class="control is-grouped">
+                <a class="button is-small" id="add-book-icon" onclick="openCreateBookModalWindow(); return false"><i
+                        class="fa fa-plus"></i></a>
+                <a class="button is-small"><i class="fa fa-pencil"></i></a>
+                <a class="button is-small"><i class="fa fa-trash-o"></i></a>
+            </div>
+            <div class="control is-grouped">
+                <a class="button is-small"><i class="fa fa-chevron-left"></i></a>
+                <a class="button is-small"><i class="fa fa-refresh"></i></a>
+                <a class="button is-small"><i class="fa fa-chevron-right"></i></a>
+            </div>
+        </div>
+        <div class="inbox-messages" id="inbox-messages">
+        </div>
+
+    </div>
+    <div class="column is-4 message hero is-fullheight is-hidden" id="message-pane">
+        <div class="action-buttons">
+            <div class="control is-grouped">
+                <a class="button is-small"><i class="fa fa-inbox"></i></a>
+                <a class="button is-small"><i class="fa fa-exclamation-circle"></i></a>
+                <a class="button is-small"><i class="fa fa-trash-o"></i></a>
+            </div>
+            <div class="control is-grouped">
+                <a class="button is-small"><i class="fa fa-exclamation-circle"></i></a>
+                <a class="button is-small"><i class="fa fa-trash-o"></i></a>
+            </div>
+            <div class="control is-grouped">
+                <a class="button is-small"><i class="fa fa-folder"></i></a>
+                <a class="button is-small"><i class="fa fa-tag"></i></a>
+            </div>
+        </div>
+        <div class="box message-preview">
+            <div class="top">
+                <div class="avatar">
+                    <img src="https://placehold.it/128x128">
+                </div>
+                <div class="address">
+                    <div class="name">John Smith</div>
+                    <div class="email">someone@gmail.com</div>
+                </div>
+                <hr>
+                <div class="content">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer class="footer">
+    <div class="container">
+        <div class="content has-text-centered">
+            <p>
+                <strong>Boobook</strong> by Minaeva
+            </p>
+        </div>
+    </div>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/vue@2.5.16/dist/vue.min.js"></script>
+<script src="js/bulma.js"></script>
+<script src="js/main.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/cabinet.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<script>getOwnersBooks();</script>
+
+</body>
+
+</html>

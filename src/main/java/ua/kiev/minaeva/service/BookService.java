@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface BookService {
 
-    BookDto createBook(BookDto bookDto) throws BoobookValidationException;
+    BookDto createBook(BookDto bookDto) throws BoobookValidationException, BoobookNotFoundException;
 
     BookDto updateBook(BookDto bookDto) throws BoobookValidationException;
 
@@ -21,4 +21,6 @@ public interface BookService {
     List<BookDto> getByTitle(String title) throws BoobookNotFoundException;
 
     List<BookDto> getByAuthor(Long authorId) throws BoobookNotFoundException;
+
+    List<BookDto> getByOwner(Long readerId) throws BoobookNotFoundException;
 }
