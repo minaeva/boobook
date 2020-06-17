@@ -8,6 +8,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import ua.kiev.minaeva.exception.BoobookNotFoundException;
+import ua.kiev.minaeva.service.FriendshipService;
 import ua.kiev.minaeva.service.ReaderService;
 
 import java.util.Collections;
@@ -27,12 +28,13 @@ public class ReaderControllerTest {
     MockMvc mockMvc;
     ObjectMapper objectMapper;
     ReaderService readerService;
+    FriendshipService friendshipService;
 
     @BeforeEach
     void setUp() {
         readerService = mock(ReaderService.class);
         mockMvc = MockMvcBuilders
-                .standaloneSetup(new ReaderController(readerService))
+                .standaloneSetup(new ReaderController(readerService, friendshipService))
                 .setControllerAdvice(new ControllerAdvisor())
                 .build();
         objectMapper = new ObjectMapper();

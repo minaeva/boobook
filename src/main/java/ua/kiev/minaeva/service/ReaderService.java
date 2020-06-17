@@ -19,4 +19,6 @@ public interface ReaderService {
 
     List<ReaderDto> getAll();
 
+    ReaderDto getById(Long id) throws BoobookNotFoundException;
+
 }

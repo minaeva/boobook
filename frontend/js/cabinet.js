@@ -12,15 +12,15 @@ function closeCreateBookModalWindow() {
 }
 
 function saveBook() {
-    var book_title = document.getElementById("book_title").value;
-    var author_name = document.getElementById("author_name").value;
-    var author_surname = document.getElementById("author_surname").value;
+    var book_title = document.getElementById("book-title").value;
+    var author_name = document.getElementById("author-name").value;
+    var author_surname = document.getElementById("author-surname").value;
 
     if (validateBook(book_title, author_name, author_surname)) {
         closeCreateBookModalWindow();
-        document.getElementById("book_title").value = '';
-        document.getElementById("author_name").value = '';
-        document.getElementById("author_surname").value = '';
+        document.getElementById("book-title").value = '';
+        document.getElementById("author-name").value = '';
+        document.getElementById("author-surname").value = '';
 
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function () {
@@ -35,20 +35,19 @@ function saveBook() {
                     });
                     return false;
                 } else if (this.status == 200) {
-                    getOwnersBooks();
+                    showOwnersBooks();
                 }
             }
         };
 
-        var tokenData = localStorage.getItem('tokenData');
-        var jsonInside = JSON.parse(tokenData);
-        var requestUrl = "http://localhost:8008/books";
+        var requestUrl = HOME_PAGE + "/books";
+        var currentUserId = getCurrentUserId();
 
         const requestBody = {
             "title": book_title,
             "authorName": author_name,
             "authorSurname": author_surname,
-            "ownerId": jsonInside.id
+            "ownerId": currentUserId
         };
 
         xhr.open("POST", requestUrl);
@@ -87,5 +86,268 @@ function validateBook(book_title, author_name, author_surname) {
         return false;
     }
     return true;
+}
+
+function selectCard(cardToSelect) {
+    var selected = document.getElementsByClassName("card active");
+    if (selected.length > 0) {
+        selected[0].className = selected[0].className.replace(" active", "");
+    }
+    cardToSelect.className += " active";
+    return false;
+}
+
+function hideRightPane() {
+    var rightPane = document.getElementById("right-pane");
+    rightPane.classList.add("is-hidden");
+}
+
+function showRightPane() {
+    var rightPane = document.getElementById("right-pane");
+    rightPane.className = rightPane.className.replace("is-hidden", "");
+}
+
+function showBookDetails(id, bookId, ownerId) {
+    selectCard(id);
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4) {
+            if (this.status == 200) {
+                var bookDetails = JSON.parse(this.responseText);
+                console.log(bookDetails);
+                var html = '            <div class="top">\n' +
+                    '                <div class="avatar">\n' +
+                    '                    <img src="https://placehold.it/128x128">\n' +
+                    '                </div>\n' +
+                    '                <div class="book-detail">\n' +
+                    '                    <div class="title">' + bookDetails.title + '</div>\n' +
+                    '                    <div class="author">' + bookDetails.authorName +
+                    ' ' + bookDetails.authorSurname + '</div>\n' +
+                    '                </div>\n' +
+                    '                <hr>\n' +
+                    '                <div class="content">\n owner: <a class="owner" id="book-details-owner" onclick="openReaderPage(' + ownerId +
+                    '); return false">' + bookDetails.ownerName +
+                    '                </a></div>\n' +
+                    '            </div>\n'
+            }
+            showRightPane();
+            document.getElementById("right-pane").innerHTML = html;
+        }
+    }
+
+    var requestUrl = HOME_PAGE + "/books/" + bookId;
+
+    xhttp.open("GET", requestUrl);
+    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    addAuthorization(xhttp);
+    xhttp.send();
+
+    return false;
+}
+
+function selectMenu(menuToSelect) {
+    var selected = document.getElementsByClassName("menu active");
+    if (selected.length > 0) {
+        selected[0].className = selected[0].className.replace(" active", "");
+    }
+
+    var toSelect = document.getElementById(menuToSelect);
+    toSelect.className += " active";
+    return false;
+}
+
+function showReaderDetails(readerId) {
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+
+        if (this.readyState == 4) {
+            if (this.status == 404) {
+                document.getElementById("reader-detail").innerHTML = 'error';
+            } else if (this.status == 200) {
+                var detail = JSON.parse(this.responseText);
+                var html = '<div> NAME = ' + detail.name + '</div>\n';
+                html += '<div> SURNAME = ' + detail.surname + '</div>\n';
+                html += '<div> CITY = ' + detail.city + '</div>\n';
+                html += '<div> FB = <a href=' + detail.fbPage + '>' + detail.fbPage + '</a></div>\n';
+                var readerDetailDiv = document.getElementById("reader-detail");
+                readerDetailDiv.innerHTML = html;
+                readerDetailDiv.classList.remove("is-hidden");
+            }
+        }
+    }
+    var getReaderByIdUrl = HOME_PAGE + "/users/" + readerId;
+    xhttp.open("GET", getReaderByIdUrl, true);
+    addAuthorization(xhttp);
+    xhttp.send();
+
+    return false;
+}
+
+function openReaderPage(readerId) {
+    if (readerId != getCurrentUserId()) {
+        selectMenu("menu-readers");
+        showReaderDetails(readerId);
+    } else {
+        selectMenu("menu-home");
+    }
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+
+        if (this.readyState == 4) {
+            if (this.status == 404) {
+                document.getElementById("main-window").innerHTML = 'error';
+            } else if (this.status == 200) {
+                var books = JSON.parse(this.responseText);
+                var html = ' ';
+                for (var i = 0; i < books.length; i++) {
+                    var book = books[i];
+                    console.log(book);
+                    var cardId = "book-card-" + i;
+                    html = html +
+                        '<div class="card" id="' + cardId + '" onclick="showBookDetails(this, ' + book.id + ', ' + book.ownerId +
+                        '); return false">\n' +
+                        '    <div class="card-content">\n' +
+                        '        <div class="msg-subject">\n' +
+                        '            <span class="msg-subject"><strong> ' + book.title + '</strong></span>\n' +
+                        '        </div>\n' +
+                        '        <div class="msg-header">\n' +
+                        '            <span class="msg-subject"><small>by</small></span>\n' +
+                        '            <span class="msg-subject">' + book.authorName + ' ' + book.authorSurname + '</span>\n' +
+                        '            <span class="msg-timestamp"></span>\n' +
+                        '            <span class="msg-attachment"><i class="fa fa-paperclip"></i></span>\n' +
+                        '        </div>\n' +
+                        '    </div>\n' +
+                        '</div>\n';
+                }
+                document.getElementById("main-window").innerHTML = html;
+            }
+        }
+    }
+
+    var getOwnBooksUrl = HOME_PAGE + "/books/owner/" + readerId;
+    xhttp.open("GET", getOwnBooksUrl, true);
+    addAuthorization(xhttp);
+    xhttp.send();
+
+    return false;
+}
+
+function showAllBooks() {
+    hideRightPane();
+    selectMenu("menu-search");
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+
+        if (this.readyState == 4) {
+            if (this.status == 404) {
+                var html = '<div class="card">\n' +
+                    '    <div class="card-content">\n' +
+                    '        <div class="msg-header">\n' +
+                    '            <span class="msg-from">So far, there is not any book in db. Fortunately you can be the first one! </span><br/><br/>\n' +
+                    '                <a class="button is-light is-block is-bold" id="add-first-book-button" ' +
+                    '                       onclick="openCreateBookModalWindow(); return false">\n' +
+                    '                    <span class="compose">Add your first book</span>\n' +
+                    '                </a>\n   ' +
+                    '        </div>\n' +
+                    '    </div>\n' +
+                    '</div>\n';
+                document.getElementById("main-window").innerHTML = html;
+            } else if (this.status == 200) {
+                var books = JSON.parse(this.responseText);
+                var html = '';
+                for (var i = 0; i < books.length; i++) {
+                    var book = books[i];
+                    console.log(book);
+                    var cardId = "book-card-" + i;
+                    html = html +
+                        '<div class="card" id="' + cardId + '" onclick="showBookDetails(this, ' + book.id + ', ' + book.ownerId +
+                        '); return false">\n' +
+                        '    <div class="card-content">\n' +
+                        '        <div class="msg-subject">\n' +
+                        '            <span class="msg-subject"><strong> ' + book.title + '</strong></span>\n' +
+                        '        </div>\n' +
+                        '        <div class="msg-header">\n' +
+                        '            <span class="msg-subject"><small>by</small></span>\n' +
+                        '            <span class="msg-subject">' + book.authorName + ' ' + book.authorSurname + '</span>\n' +
+                        '            <span class="msg-timestamp"></span>\n' +
+                        '            <span class="msg-attachment"><i class="fa fa-paperclip"></i></span>\n' +
+                        '        </div>\n' +
+                        '    </div>\n' +
+                        '</div>\n';
+                }
+                document.getElementById("main-window").innerHTML = html;
+            }
+        }
+    }
+
+    var getAllBooksUrl = HOME_PAGE + "/books";
+    xhttp.open("GET", getAllBooksUrl, true);
+    addAuthorization(xhttp);
+    xhttp.send();
+
+    return false;
+
+}
+
+function showOwnersBooks() {
+    hideRightPane();
+    selectMenu("menu-home");
+    var readerDetailDiv = document.getElementById("reader-detail");
+    readerDetailDiv.classList.add("is-hidden");
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+
+        if (this.readyState == 4) {
+            if (this.status == 404) {
+                var html = '<div class="card">\n' +
+                    '    <div class="card-content">\n' +
+                    '        <div class="msg-header">\n' +
+                    '            <span class="msg-from">So far, you do not have any book added</span><br/><br/>\n' +
+                    '                <a class="button is-light is-block is-bold" id="add-first-book-button" ' +
+                    '                       onclick="openCreateBookModalWindow(); return false">\n' +
+                    '                    <span class="compose">Add your first book</span>\n' +
+                    '                </a>\n   ' +
+                    '        </div>\n' +
+                    '    </div>\n' +
+                    '</div>\n';
+                document.getElementById("main-window").innerHTML = html;
+            } else if (this.status == 200) {
+                var books = JSON.parse(this.responseText);
+                var html = '';
+                for (var i = 0; i < books.length; i++) {
+                    var book = books[i];
+                    console.log(book);
+                    var cardId = "book-card-" + i;
+                    html = html +
+                        '<div class="card" id="' + cardId + '" onclick="showBookDetails(this, ' + book.id + ', ' + book.ownerId +
+                        '); return false">\n' +
+                        '    <div class="card-content">\n' +
+                        '        <div class="msg-subject">\n' +
+                        '            <span class="msg-subject"><strong> ' + book.title + '</strong></span>\n' +
+                        '        </div>\n' +
+                        '        <div class="msg-header">\n' +
+                        '            <span class="msg-subject"><small>by</small></span>\n' +
+                        '            <span class="msg-subject">' + book.authorName + ' ' + book.authorSurname + '</span>\n' +
+                        '            <span class="msg-timestamp"></span>\n' +
+                        '            <span class="msg-attachment"><i class="fa fa-paperclip"></i></span>\n' +
+                        '        </div>\n' +
+                        '    </div>\n' +
+                        '</div>\n';
+                }
+                document.getElementById("main-window").innerHTML = html;
+            }
+        }
+    }
+
+    var getOwnBooksUrl = HOME_PAGE + "/books/owner/" + getCurrentUserId();
+    xhttp.open("GET", getOwnBooksUrl, true);
+    addAuthorization(xhttp);
+    xhttp.send();
+
+    return false;
 }
 

@@ -77,7 +77,7 @@ function authenticateAReader() {
             }
         };
 
-        var requestUrl = "http://localhost:8008/users/auth";
+        var requestUrl = HOME_PAGE + "/users/auth";
 
         const requestBody = {
             "login": reader_login,
@@ -146,7 +146,7 @@ function registerAReader() {
             }
         };
 
-        var requestUrl = "http://localhost:8008/users/register";
+        var requestUrl = HOME_PAGE + "/users/register";
 
         const requestBody = {
             "login": new_login,
@@ -187,7 +187,7 @@ function registerAFbReader(fullName, email, id) {
         }
     };
 
-    var requestUrl = "http://localhost:8008/users/register";
+    var requestUrl = HOME_PAGE + "/users/register";
     const nameParts = fullName.split(' ');
     const requestBody = {
         "login": id,

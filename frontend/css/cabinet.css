@@ -5,6 +5,10 @@ html,body {
   height: 100%;
   background-color: #fff;
 }
+a .owner {
+  color: #777777;
+  text-decoration: underline;
+}
 .nav.is-dark {
   background-color: #232B2D;
   color: #F6F7F7;
@@ -42,26 +46,26 @@ html,body {
   background-color: #F9F9F9;
   border-right: 1px solid #DEDEDE;
 }
-.messages {
+.list {
   display:block;
   background-color: #fff;
   border-right: 1px solid #DEDEDE;
   padding: 40px 20px;
 }
-.message {
+.detail {
   display:block;
   background-color: #fff;
   padding: 40px 20px;
 }
-.aside .compose {
+.aside .create {
   height: 95px;
   margin:0 -10px;
   padding: 25px 30px;
 }
-.aside .compose .button {
+.aside .create .button {
   color: #F6F7F7;
 }
-.aside .compose .button .compose {
+.aside .create .button {
   font-size: 14px;
   font-weight: 700;
 }
@@ -75,17 +79,17 @@ html,body {
   font-weight: bold;
   text-transform: uppercase;
 }
-.aside .main .item {
+.aside .main .menu {
   display: block;
   padding: 10px 0;
   color: #6F7B7E;
 }
-.aside .main .item.active {
-  background-color: #F1F1F1;
+.aside .main .menu.active {
+  background-color: #EEEEEE;
   margin: 0 -50px;
   padding-left: 50px;
 }
-.aside .main .item:active,.aside .main .item:hover {
+.aside .main .menu:active,.aside .main .menu:hover {
   background-color: #F2F2F2;
   margin: 0 -50px;
   padding-left: 50px;
@@ -100,11 +104,11 @@ html,body {
   color: #5D5D5D;
   font-weight: 500;
 }
-.messages .action-buttons {
+.list .action-buttons {
   padding: 0;
   margin-top: -20px;
 }
-.message .action-buttons {
+.detail .action-buttons {
   padding: 0;
   margin-top: -5px;
 }
@@ -135,7 +139,7 @@ html,body {
   padding-top: 0;
   margin-bottom: 3px;
   font-size:12px;
-  color: #AAAAA;
+  color: #AAAAAA;
 }
 .action-buttons .pg a{
   font-size:12px;
@@ -149,44 +153,50 @@ html,body {
   font-size: 15px;
   color: #AAAAAA;
 }
-.inbox-messages {
-  margin-top:60px;
+.reader-detail {
+  margin-top: 20px;
+  border: #9e9e9e;
+  border-width: 1px;
+  background-color: #EEEEEE;
 }
-.message-preview {
+.main-window {
   margin-top: 60px;
 }
-.inbox-messages .card {
+.detail-preview {
+  margin-top: 60px;
+}
+.main-window .card {
   width: 100%;
 }
-.inbox-messages strong {
+.main-window strong {
   color: #5D5D5D;
 }
-.inbox-messages .msg-check {
+.main-window .msg-check {
   padding: 0 20px;
 }
-.inbox-messages .msg-subject {
+.main-window .msg-subject {
   padding: 10px 0;
   color: #5D5D5D;
 }
-.inbox-messages .msg-attachment {
+.main-window .msg-attachment {
   float:right;
 }
-.inbox-messages .msg-snippet {
+.main-window .msg-snippet {
   padding: 5px 20px 0px 5px;
 }
-.inbox-messages .msg-subject .fa {
+.main-window .msg-subject .fa {
   font-size: 14px;
   padding:3px 0;
 }
-.inbox-messages .msg-timestamp {
+.main-window .msg-timestamp {
   float: right;
   padding: 0 20px;
   color: #5D5D5D;
 }
-.message-preview .avatar {
+.detail-preview .avatar {
   display: inline-block;
 }
-.message-preview .top .address {
+.detail-preview .top .book-detail {
   display: inline-block;
   padding: 0 20px;
 }
@@ -196,12 +206,15 @@ html,body {
   border: 2px solid #999;
   padding: 2px;
 }
-.address .name {
+.book-detail .title {
   font-size: 16px;
   font-weight: bold;
 }
-.address .email {
-  font-weight: bold;
+.book-detail .author {
+  color: #B6C7D1;
+}
+.book-detail .info {
+  font-weight: normal;
   color: #B6C7D1;
 }
 .card.active {

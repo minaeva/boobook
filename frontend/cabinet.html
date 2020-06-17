@@ -59,7 +59,7 @@
                                     <div class="field">
                                         <label class="label">Title</label>
                                         <div class="control has-icons-left">
-                                            <input class="input is-success" type="text" placeholder="Book Title" value="" id="book_title">
+                                            <input class="input is-success" type="text" placeholder="Book Title" value="" id="book-title">
                                             <span class="icon is-small is-left"><i class="fa fa-book"></i></span>
                                         </div>
                                     </div>
@@ -68,7 +68,7 @@
                                         <label class="label">Author Name</label>
                                         <div class="control has-icons-left">
                                             <input class="input is-info" type="text" placeholder="Name of the Author of a Book"
-                                                   value="" id="author_name">
+                                                   value="" id="author-name">
                                             <span class="icon is-small is-left"><i class="fa fa-user"></i></span>
                                         </div>
                                     </div>
@@ -77,7 +77,7 @@
                                         <label class="label">Author Surname</label>
                                         <div class="control has-icons-left">
                                             <input class="input is-success" type="text" placeholder="Surname of the Author of a Book"
-                                                   value="" id="author_surname">
+                                                   value="" id="author-surname">
                                             <span class="icon is-small is-left"><i class="fa fa-user"></i></span>
                                         </div>
                                     </div>
@@ -102,24 +102,24 @@
                 <button class="modal-close is-large" aria-label="close"
                         onclick="closeCreateBookModalWindow(); return false"></button>
             </div>
-            <div class="compose has-text-centered">
+            <div class="create has-text-centered">
                 <a class="button is-success is-block is-bold" id="add-book-button"
                    onclick="openCreateBookModalWindow(); return false">
-                    <span class="compose">Add book</span>
+                    <span class="create">Add book</span>
                 </a>
             </div>
             <div class="main">
-                <a href="#" class="item active"><span class="icon"><i class="fa fa-home"></i></span><span class="name">My Books</span></a>
-                <a href="#" class="item"><span class="icon"><i class="fa fa-star"></i></span><span
-                        class="name">Friends</span></a>
-                <a href="#" class="item"><span class="icon"><i class="fa fa-search"></i></span><span
+                <a href="#" class="menu active" id="menu-home" onclick="showOwnersBooks(); return false"><span class="icon"><i class="fa fa-home"></i></span><span class="name">Home</span></a>
+                <a href="#" class="menu" id="menu-search" onclick="showAllBooks(); return false"><span class="icon"><i class="fa fa-search"></i></span><span
                         class="name">Search</span></a>
-                <a href="#" class="item"><span class="icon"><i class="fa fa-cog"></i></span><span
-                        class="name">Settings</span></a>
+                <a href="#" class="menu" id="menu-readers"><span class="icon"><i class="fa fa-users"></i></span><span
+                        class="name">Readers</span></a>
+                <a href="#" class="menu" id="menu-friends"><span class="icon"><i class="fa fa-heart"></i></span><span
+                        class="name">Friends</span></a>
             </div>
         </div>
     </aside>
-    <div class="column is-6 messages hero is-fullheight" id="message-feed">
+    <div class="column is-6 list hero is-fullheight">
         <div class="action-buttons">
             <div class="control is-grouped">
                 <a class="button is-small" id="add-book-icon" onclick="openCreateBookModalWindow(); return false"><i
@@ -133,12 +133,13 @@
                 <a class="button is-small"><i class="fa fa-chevron-right"></i></a>
             </div>
         </div>
-        <div class="inbox-messages" id="inbox-messages">
+        <div class="reader-detail is-hidden" id="reader-detail"></div>
+        <div class="main-window" id="main-window">
         </div>
 
     </div>
-    <div class="column is-4 message hero is-fullheight is-hidden" id="message-pane">
-        <div class="action-buttons">
+    <div class="column is-4 detail hero is-fullheight">
+        <div class="action-buttons is-hidden">
             <div class="control is-grouped">
                 <a class="button is-small"><i class="fa fa-inbox"></i></a>
                 <a class="button is-small"><i class="fa fa-exclamation-circle"></i></a>
@@ -153,19 +154,7 @@
                 <a class="button is-small"><i class="fa fa-tag"></i></a>
             </div>
         </div>
-        <div class="box message-preview">
-            <div class="top">
-                <div class="avatar">
-                    <img src="https://placehold.it/128x128">
-                </div>
-                <div class="address">
-                    <div class="name">John Smith</div>
-                    <div class="email">someone@gmail.com</div>
-                </div>
-                <hr>
-                <div class="content">
-                </div>
-            </div>
+        <div class="box detail-preview is-hidden" id="right-pane">
         </div>
     </div>
 </div>
@@ -187,7 +176,7 @@
 <script src="js/cabinet.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-<script>getOwnersBooks();</script>
+<script>showOwnersBooks();</script>
 
 </body>
 

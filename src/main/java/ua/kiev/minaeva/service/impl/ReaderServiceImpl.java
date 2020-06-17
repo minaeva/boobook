@@ -76,4 +76,13 @@ public class ReaderServiceImpl implements ReaderService {
                 .collect(Collectors.toList());
     }
 
+    public ReaderDto getById(Long id) throws BoobookNotFoundException{
+        Reader reader = readerRepository.findById(id)
+                .orElseThrow(() ->
+                        new BoobookNotFoundException("No reader with id " + id + "  found"));
+
+        return mapper.readerToDto(reader);
+    }
+
+
 }

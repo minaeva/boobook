@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import ua.kiev.minaeva.dto.ReaderDto;
 import ua.kiev.minaeva.exception.BoobookNotFoundException;
 import ua.kiev.minaeva.exception.BoobookValidationException;
+import ua.kiev.minaeva.service.FriendshipService;
 import ua.kiev.minaeva.service.ReaderService;
 
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.List;
 public class ReaderController {
 
     private final ReaderService readerService;
+    private final FriendshipService friendshipService;
 
     @PostMapping
     public ReaderDto createReader(@RequestBody ReaderDto readerDto) throws BoobookValidationException {
@@ -37,4 +39,15 @@ public class ReaderController {
         return readerService.getAll();
     }
 
+    @GetMapping("/{id}")
+    public ReaderDto getById(@PathVariable final Long id) throws BoobookNotFoundException {
+        log.info("handling get reader by id request: " + id);
+        return readerService.getById(id);
+    }
+
+    @GetMapping("/friends/{id}")
+    public List<ReaderDto> getFriends(@PathVariable final Long id) throws BoobookNotFoundException {
+        log.info("handling get readers' friends request");
+        return friendshipService.getFriendsByReaderId(id);
+    }
 }
