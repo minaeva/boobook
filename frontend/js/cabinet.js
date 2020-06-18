@@ -121,12 +121,12 @@ function showBookDetails(id, bookId, ownerId) {
                     '                </div>\n' +
                     '                <div class="book-detail">\n' +
                     '                    <div class="title">' + bookDetails.title + '</div>\n' +
-                    '                    <div class="author">' + bookDetails.authorName +
-                    ' ' + bookDetails.authorSurname + '</div>\n' +
+                    '                    <div class="author">' + notNull(bookDetails.authorName) +
+                    ' ' + notNull(bookDetails.authorSurname) + '</div>\n' +
                     '                </div>\n' +
                     '                <hr>\n' +
                     '                <div class="content">\n owner: <a class="owner" id="book-details-owner" onclick="openReaderPage(' + ownerId +
-                    '); return false">' + bookDetails.ownerName +
+                    '); return false">' + notNull(bookDetails.ownerName) +
                     '                </a></div>\n' +
                     '            </div>\n'
             }
@@ -156,23 +156,41 @@ function selectMenu(menuToSelect) {
     return false;
 }
 
-function showReaderDetails(readerId) {
+function notNull(str) {
+    if (str == null) {
+        return '';
+    }
+    return str;
+}
 
+function showReaderDetailsSection() {
+    var readerDetailDiv = document.getElementById("reader-detail");
+    readerDetailDiv.classList.remove("is-hidden");
+    return false;
+}
+
+function hideReaderDetailsSection() {
+    var readerDetailDiv = document.getElementById("reader-detail");
+    readerDetailDiv.classList.add("is-hidden");
+    return false;
+}
+
+function showReaderDetails(readerId) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
 
         if (this.readyState == 4) {
+            var readerDetailDiv = document.getElementById("reader-detail");
             if (this.status == 404) {
-                document.getElementById("reader-detail").innerHTML = 'error';
+                readerDetailDiv.innerHTML = 'error';
             } else if (this.status == 200) {
                 var detail = JSON.parse(this.responseText);
-                var html = '<div> NAME = ' + detail.name + '</div>\n';
-                html += '<div> SURNAME = ' + detail.surname + '</div>\n';
-                html += '<div> CITY = ' + detail.city + '</div>\n';
-                html += '<div> FB = <a href=' + detail.fbPage + '>' + detail.fbPage + '</a></div>\n';
-                var readerDetailDiv = document.getElementById("reader-detail");
+                console.log(detail);
+                var html = '<div class="card"><div class="card-content"><div class="msg-subject"><span class="msg-subject"> Reader: <strong>' + notNull(detail.name) + ' ' + notNull(detail.surname) + '</strong></span></div>\n';
+                html += '<div class="msg-header"><span class="msg-subject"> City: ' + notNull(detail.city) + '</span></div>\n';
+                html += '<div class="msg-header"><span class="msg-subject"> Facebook: <a href=' + detail.fbPage + '>' + notNull(detail.fbPage) + '</a></span></div></div></div>\n';
                 readerDetailDiv.innerHTML = html;
-                readerDetailDiv.classList.remove("is-hidden");
+                showReaderDetailsSection();
             }
         }
     }
@@ -216,7 +234,7 @@ function openReaderPage(readerId) {
                         '            <span class="msg-subject"><small>by</small></span>\n' +
                         '            <span class="msg-subject">' + book.authorName + ' ' + book.authorSurname + '</span>\n' +
                         '            <span class="msg-timestamp"></span>\n' +
-                        '            <span class="msg-attachment"><i class="fa fa-paperclip"></i></span>\n' +
+                        '            <span class="msg-attachment"><i class="fa fa-edit"></i></span>\n' +
                         '        </div>\n' +
                         '    </div>\n' +
                         '</div>\n';
@@ -236,6 +254,7 @@ function openReaderPage(readerId) {
 
 function showAllBooks() {
     hideRightPane();
+    hideReaderDetailsSection();
     selectMenu("menu-search");
 
     var xhttp = new XMLHttpRequest();
@@ -273,7 +292,7 @@ function showAllBooks() {
                         '            <span class="msg-subject"><small>by</small></span>\n' +
                         '            <span class="msg-subject">' + book.authorName + ' ' + book.authorSurname + '</span>\n' +
                         '            <span class="msg-timestamp"></span>\n' +
-                        '            <span class="msg-attachment"><i class="fa fa-paperclip"></i></span>\n' +
+                        '            <span class="msg-attachment"><i class="fa fa-heart-o"></i></span>\n' +
                         '        </div>\n' +
                         '    </div>\n' +
                         '</div>\n';
@@ -294,6 +313,7 @@ function showAllBooks() {
 
 function showOwnersBooks() {
     hideRightPane();
+    hideReaderDetailsSection();
     selectMenu("menu-home");
     var readerDetailDiv = document.getElementById("reader-detail");
     readerDetailDiv.classList.add("is-hidden");
@@ -333,7 +353,7 @@ function showOwnersBooks() {
                         '            <span class="msg-subject"><small>by</small></span>\n' +
                         '            <span class="msg-subject">' + book.authorName + ' ' + book.authorSurname + '</span>\n' +
                         '            <span class="msg-timestamp"></span>\n' +
-                        '            <span class="msg-attachment"><i class="fa fa-paperclip"></i></span>\n' +
+                        '            <span class="msg-attachment"><i class="fa fa-edit"></i>&nbsp;</span>\n' +
                         '        </div>\n' +
                         '    </div>\n' +
                         '</div>\n';
