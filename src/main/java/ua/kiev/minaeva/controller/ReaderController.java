@@ -2,6 +2,7 @@ package ua.kiev.minaeva.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.kiev.minaeva.dto.ReaderDto;
 import ua.kiev.minaeva.exception.BoobookNotFoundException;
@@ -50,4 +51,20 @@ public class ReaderController {
         log.info("handling get readers' friends request");
         return friendshipService.getFriendsByReaderId(id);
     }
+
+    @PostMapping("/friends/{id1}/{id2}")
+    public ResponseEntity<Void> addFriend(@PathVariable final Long id1, @PathVariable final Long id2) throws BoobookNotFoundException, BoobookValidationException {
+        log.info("handling add friend request: " + id1 + " to connect with " + id2);
+        friendshipService.addFriend(id1, id2);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/friends/{id1}/{id2}")
+    public ResponseEntity<Void> removeFriend(@PathVariable final Long id1, @PathVariable final Long id2) throws BoobookNotFoundException {
+        log.info("handling delete friend request: reader with id " + id1 + " won't be connected with reader with id " + id2);
+        friendshipService.removeFriend(id1, id2);
+        return ResponseEntity.ok().build();
+    }
+
+
 }

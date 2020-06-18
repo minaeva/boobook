@@ -2,6 +2,7 @@ package ua.kiev.minaeva.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,7 +12,7 @@ import java.time.LocalDateTime;
 @Table(name = "friendship")
 public class Friendship extends MapId {
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JsonManagedReference
     @JoinColumn(name = "friend1_id", referencedColumnName = "id")
     private Reader friend1;
@@ -22,6 +23,7 @@ public class Friendship extends MapId {
     private Reader friend2;
 
     @Column(name = "date_added")
+    @CreationTimestamp
     private LocalDateTime dateAdded;
 
 }

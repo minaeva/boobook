@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import ua.kiev.minaeva.dto.ReaderDto;
 import ua.kiev.minaeva.exception.BoobookNotFoundException;
 import ua.kiev.minaeva.exception.BoobookValidationException;
+import ua.kiev.minaeva.repository.FriendshipRepository;
 import ua.kiev.minaeva.repository.ReaderRepository;
 import ua.kiev.minaeva.service.impl.ReaderServiceImpl;
 

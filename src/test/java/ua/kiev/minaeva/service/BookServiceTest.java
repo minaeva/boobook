@@ -160,5 +160,4 @@ public class BookServiceTest {
         assertThat(foundBooks.get(0).getTitle()).isEqualTo("Harry Potter");
     }
 
-
 }
