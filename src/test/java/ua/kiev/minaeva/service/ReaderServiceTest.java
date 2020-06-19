@@ -11,6 +11,8 @@ import ua.kiev.minaeva.exception.BoobookValidationException;
 import ua.kiev.minaeva.repository.ReaderRepository;
 import ua.kiev.minaeva.service.impl.ReaderServiceImpl;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -83,6 +85,37 @@ public class ReaderServiceTest {
 
         assertThat(foundReader).isNotNull();
         assertThat(foundReader.getLogin()).isEqualTo(aReader().getLogin());
+    }
+
+    @Test
+    void findByLogin_notFound() {
+        when(readerRepository.findByLogin(anyString()))
+                .thenReturn(Optional.empty());
+
+        assertThrows(BoobookNotFoundException.class,
+                () -> readerService.getByLogin("not existent"),
+                "No reader with login not existent found");
+    }
+
+    @Test
+    void findByName() throws BoobookNotFoundException {
+        when(readerRepository.findByName(anyString()))
+                .thenReturn(Collections.singletonList(aReader()));
+
+        List<ReaderDto> foundReaders = readerService.getByName("login");
+
+        assertThat(foundReaders).isNotNull();
+        assertThat(foundReaders.get(0).getLogin()).isEqualTo(aReader().getLogin());
+    }
+
+    @Test
+    void findByName_notFound() {
+        when(readerRepository.findByName(anyString()))
+                .thenReturn(Collections.emptyList());
+
+        assertThrows(BoobookNotFoundException.class,
+                () -> readerService.getByName("not existent"),
+                "No reader with name not existent found");
     }
 
 }

@@ -76,7 +76,7 @@ public class ReaderServiceImpl implements ReaderService {
                 .collect(Collectors.toList());
     }
 
-    public ReaderDto getById(Long id) throws BoobookNotFoundException{
+    public ReaderDto getById(Long id) throws BoobookNotFoundException {
         Reader reader = readerRepository.findById(id)
                 .orElseThrow(() ->
                         new BoobookNotFoundException("No reader with id " + id + "  found"));
@@ -84,5 +84,16 @@ public class ReaderServiceImpl implements ReaderService {
         return mapper.readerToDto(reader);
     }
 
+    public List<ReaderDto> getByName(String name) throws BoobookNotFoundException {
+        List<Reader> readers = readerRepository.findByName(name);
+
+        if (readers.isEmpty()) {
+            throw new BoobookNotFoundException("No reader with name " + name + "  found");
+        }
+
+        return readers.stream()
+                .map(reader -> mapper.readerToDto(reader))
+                .collect(Collectors.toList());
+    }
 
 }
