@@ -15,6 +15,8 @@ public interface ReaderService {
 
     ReaderDto getByLogin(String login) throws BoobookNotFoundException;
 
+    List<ReaderDto> getByName(String name) throws BoobookNotFoundException;
+
     ReaderDto getByLoginAndPassword(String login, String password) throws BoobookNotFoundException;
 
     List<ReaderDto> getAll();

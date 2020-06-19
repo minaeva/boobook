@@ -25,28 +25,11 @@ public class FriendshipServiceImpl implements FriendshipService {
 
     private ReaderMapper mapper = Mappers.getMapper(ReaderMapper.class);
 
-    private Reader readerIsPresent(Long readerId) throws BoobookNotFoundException {
-        return readerRepository.findById(readerId)
-                .orElseThrow(() -> new BoobookNotFoundException("Reader with id " + readerId + " cannot be found"));
-    }
-
-    private Friendship friendshipIsPresent(Reader friend1, Reader friend2) throws BoobookNotFoundException {
-        return friendshipRepository.findByFriend1AndFriend2(friend1, friend2)
-                .orElseThrow(() -> new BoobookNotFoundException("Friendship of readers " + friend1.getName() + " and "
-                        + friend2.getName() + " does not exist"));
-    }
-
-    private void validateFriendship(Long friend1Id, Long friend2Id) throws BoobookValidationException {
-        if (friend1Id.equals(friend2Id)) {
-            throw new BoobookValidationException("Friend to be added should be the other person");
-        }
-    }
-
     public List<ReaderDto> getFriendsByReaderId(Long readerId) throws BoobookNotFoundException {
         Reader existentReader = readerIsPresent(readerId);
 
         List<Friendship> foundFriendships = friendshipRepository.findByFriend1(existentReader);
-        if (foundFriendships.size() == 0) {
+        if (foundFriendships.isEmpty()) {
             throw new BoobookNotFoundException("Not any friend of reader with id " +
                     readerId + " found");
         }
@@ -79,5 +62,21 @@ public class FriendshipServiceImpl implements FriendshipService {
         friendshipRepository.delete(friendshipToDelete);
     }
 
+    private Reader readerIsPresent(Long readerId) throws BoobookNotFoundException {
+        return readerRepository.findById(readerId)
+                .orElseThrow(() -> new BoobookNotFoundException("Reader with id " + readerId + " cannot be found"));
+    }
+
+    private Friendship friendshipIsPresent(Reader friend1, Reader friend2) throws BoobookNotFoundException {
+        return friendshipRepository.findByFriend1AndFriend2(friend1, friend2)
+                .orElseThrow(() -> new BoobookNotFoundException("Friendship of readers " + friend1.getName() + " and "
+                        + friend2.getName() + " does not exist"));
+    }
+
+    private void validateFriendship(Long friend1Id, Long friend2Id) throws BoobookValidationException {
+        if (friend1Id.equals(friend2Id)) {
+            throw new BoobookValidationException("Friend to be added should be the other person");
+        }
+    }
 
 }
