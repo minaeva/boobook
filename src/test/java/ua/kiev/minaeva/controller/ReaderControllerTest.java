@@ -112,6 +112,17 @@ public class ReaderControllerTest {
     }
 
     @Test
+    void getByName() throws Exception {
+        when(readerService.getByName(anyString()))
+                .thenReturn(Collections.singletonList(aReaderDto()));
+
+        mockMvc.perform(get("/users/name").param("name", "test"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(objectMapper.writeValueAsString(Collections.singletonList(aReaderDto()))));
+    }
+
+    @Test
     void getFriends() throws Exception {
         when(friendshipService.getFriendsByReaderId(anyLong()))
                 .thenReturn(Collections.singletonList(aReaderDto()));
