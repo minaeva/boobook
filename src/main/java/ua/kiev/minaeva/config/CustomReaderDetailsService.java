@@ -20,9 +20,9 @@ public class CustomReaderDetailsService implements UserDetailsService {
     }
 
     @Override
-    public CustomReaderDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+    public CustomReaderDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         try {
-            ReaderDto readerDto = readerService.getByLogin(login);
+            ReaderDto readerDto = readerService.getByEmail(email);
             return CustomReaderDetails.fromReaderDtoToCustomUserDetails(readerDto);
         } catch (BoobookNotFoundException e) {
             throw new UsernameNotFoundException(e.getMessage(), e);

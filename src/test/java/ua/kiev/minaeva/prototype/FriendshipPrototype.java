@@ -11,10 +11,10 @@ public class FriendshipPrototype {
 
     public static Friendship aFriendship() {
         Reader reader1 = aReader();
-        reader1.setLogin("test_login1");
+        reader1.setEmail("test_email1");
 
         Reader reader2 = aReader();
-        reader2.setLogin("test_login2");
+        reader2.setEmail("test_email2");
 
         Friendship friendship = new Friendship();
         friendship.setFriend1(reader1);

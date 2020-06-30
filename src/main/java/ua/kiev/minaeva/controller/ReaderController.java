@@ -28,10 +28,10 @@ public class ReaderController {
         return readerService.createReader(readerDto);
     }
 
-    @GetMapping("/login")
-    public ReaderDto getByLogin(String login) throws BoobookNotFoundException {
-        log.info("handling get READER by LOGIN request: " + login);
-        return readerService.getByLogin(login);
+    @GetMapping("/email")
+    public ReaderDto getByEmail(String email) throws BoobookNotFoundException {
+        log.info("handling get READER by EMAIL request: " + email);
+        return readerService.getByEmail(email);
     }
 
     @GetMapping("/name")

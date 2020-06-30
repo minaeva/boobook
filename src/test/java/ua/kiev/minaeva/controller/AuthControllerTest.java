@@ -54,9 +54,9 @@ public class AuthControllerTest {
     }
 
     @Test
-    void registerReader_emptyLogin_exception() throws Exception {
+    void registerReader_emptyEmail_exception() throws Exception {
         RegistrationRequest request = aRequest();
-        request.setLogin("");
+        request.setEmail("");
         when(readerService.createReader(any(ReaderDto.class))).thenReturn(aReaderDto());
 
         MvcResult result = mockMvc.perform(post("/users/register")
@@ -120,7 +120,7 @@ public class AuthControllerTest {
 
     @Test
     void authenticate_success() throws Exception {
-        when(readerService.getByLoginAndPassword(anyString(), anyString())).thenReturn(aReaderDto());
+        when(readerService.getByEmailAndPassword(anyString(), anyString())).thenReturn(aReaderDto());
         when(jwtProvider.generateToken(anyString())).thenReturn("test_request_token");
 
         mockMvc.perform(post("/users/auth")
@@ -133,7 +133,7 @@ public class AuthControllerTest {
 
     @Test
     void authenticate_nonAuthorized() throws Exception {
-        when(readerService.getByLoginAndPassword(anyString(), anyString()))
+        when(readerService.getByEmailAndPassword(anyString(), anyString()))
                 .thenReturn(null);
 
         MvcResult result = mockMvc.perform(post("/users/auth")

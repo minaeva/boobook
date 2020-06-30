@@ -10,11 +10,10 @@ public class RegistrationRequestPrototype {
 
     public static RegistrationRequest aRequest() {
         RegistrationRequest request = new RegistrationRequest();
-        request.setLogin("test_request_login");
+        request.setEmail("test_request_email");
         request.setPassword("test_request_pass");
         request.setName("test_request_name");
         request.setSurname("test_request_surname");
-        request.setEmail("test_request_email");
         request.setCity("test_request_city");
         request.setFbPage("test_request_fbPage");
         request.setRegistrationType(RegistrationType.CUSTOM);
@@ -24,7 +23,6 @@ public class RegistrationRequestPrototype {
 
     public static RegistrationResponse aResponse() {
         RegistrationResponse response = new RegistrationResponse();
-        response.setLogin("test_request_login");
         response.setEmail("test_request_email");
         response.setToken("test_request_token");
 
@@ -33,7 +31,7 @@ public class RegistrationRequestPrototype {
 
     public static AuthRequest anAuthRequest() {
         AuthRequest request = new AuthRequest();
-        request.setLogin("login");
+        request.setEmail("email");
         request.setPassword("password");
 
         return request;

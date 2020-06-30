@@ -7,8 +7,8 @@ import ua.kiev.minaeva.exception.BoobookValidationException;
 public class RegistrationRequestValidator {
 
     public static void validateRegistrationRequest(RegistrationRequest request) throws BoobookValidationException {
-        if (StringUtils.isEmpty(request.getLogin())) {
-            throw new BoobookValidationException("Login cannot be empty");
+        if (StringUtils.isEmpty(request.getEmail())) {
+            throw new BoobookValidationException("Email cannot be empty");
         }
 
         if (StringUtils.isEmpty(request.getPassword())) {

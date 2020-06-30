@@ -8,13 +8,12 @@ import ua.kiev.minaeva.entity.RegistrationType;
 @ToString(exclude = "password")
 public class RegistrationRequest {
 
-    private String login;
+    private String email;
     private String password;
     private String name;
     private String surname;
     private String city;
     private String fbPage;
-    private String email;
     private RegistrationType registrationType;
 
 }

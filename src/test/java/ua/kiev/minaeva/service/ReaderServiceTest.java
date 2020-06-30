@@ -47,13 +47,13 @@ public class ReaderServiceTest {
     }
 
     @Test
-    void createReader_failedOnEmptyLogin() {
+    void createReader_failedOnEmptyEmail() {
         ReaderDto readerDto = aReaderDto();
-        readerDto.setLogin("");
+        readerDto.setEmail("");
 
         assertThrows(BoobookValidationException.class,
                 () -> readerService.createReader(readerDto),
-                "Login cannot be empty");
+                "Email cannot be empty");
     }
 
     @Test
@@ -77,24 +77,24 @@ public class ReaderServiceTest {
     }
 
     @Test
-    void findByLogin() throws BoobookNotFoundException {
-        when(readerRepository.findByLogin(eq("login")))
+    void findByEmail() throws BoobookNotFoundException {
+        when(readerRepository.findByEmail(eq("email")))
                 .thenReturn(Optional.of(aReader()));
 
-        ReaderDto foundReader = readerService.getByLogin("login");
+        ReaderDto foundReader = readerService.getByEmail("email");
 
         assertThat(foundReader).isNotNull();
-        assertThat(foundReader.getLogin()).isEqualTo(aReader().getLogin());
+        assertThat(foundReader.getEmail()).isEqualTo(aReader().getEmail());
     }
 
     @Test
-    void findByLogin_notFound() {
-        when(readerRepository.findByLogin(anyString()))
+    void findByEmail_notFound() {
+        when(readerRepository.findByEmail(anyString()))
                 .thenReturn(Optional.empty());
 
         assertThrows(BoobookNotFoundException.class,
-                () -> readerService.getByLogin("not existent"),
-                "No reader with login not existent found");
+                () -> readerService.getByEmail("not existent"),
+                "No reader with email _not existent_ found");
     }
 
     @Test
@@ -102,10 +102,10 @@ public class ReaderServiceTest {
         when(readerRepository.findByName(anyString()))
                 .thenReturn(Collections.singletonList(aReader()));
 
-        List<ReaderDto> foundReaders = readerService.getByName("login");
+        List<ReaderDto> foundReaders = readerService.getByName("email");
 
         assertThat(foundReaders).isNotNull();
-        assertThat(foundReaders.get(0).getLogin()).isEqualTo(aReader().getLogin());
+        assertThat(foundReaders.get(0).getEmail()).isEqualTo(aReader().getEmail());
     }
 
     @Test

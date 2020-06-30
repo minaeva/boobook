@@ -38,7 +38,7 @@ public class ReaderServiceImpl implements ReaderService {
         try {
             return mapper.readerToDto(readerRepository.save(reader));
         } catch (Exception e) {
-            throw new BoobookValidationException("Reader with login " + reader.getLogin() +
+            throw new BoobookValidationException("Reader with email " + reader.getEmail() +
                     " already exists");
         }
     }
@@ -47,23 +47,23 @@ public class ReaderServiceImpl implements ReaderService {
         readerRepository.delete(reader);
     }
 
-    public ReaderDto getByLogin(String login) throws BoobookNotFoundException {
-        Reader reader = readerRepository.findByLogin(login)
+    public ReaderDto getByEmail(String email) throws BoobookNotFoundException {
+        Reader reader = readerRepository.findByEmail(email)
                 .orElseThrow(() ->
-                        new BoobookNotFoundException("No reader with login " + login + "  found"));
+                        new BoobookNotFoundException("No reader with email " + email + "  found"));
 
         return mapper.readerToDto(reader);
     }
 
-    public ReaderDto getByLoginAndPassword(String login, String password) throws BoobookNotFoundException {
-        ReaderDto foundByLogin = getByLogin(login);
+    public ReaderDto getByEmailAndPassword(String email, String password) throws BoobookNotFoundException {
+        ReaderDto foundByEmail = getByEmail(email);
 
-        if (RegistrationType.CUSTOM.equals(foundByLogin.getRegistrationType())) {
-            if (passwordEncoder.matches(password, foundByLogin.getPassword())) {
-                return foundByLogin;
+        if (RegistrationType.CUSTOM.equals(foundByEmail.getRegistrationType())) {
+            if (passwordEncoder.matches(password, foundByEmail.getPassword())) {
+                return foundByEmail;
             }
         } else {
-            return foundByLogin;
+            return foundByEmail;
         }
 
         return null;

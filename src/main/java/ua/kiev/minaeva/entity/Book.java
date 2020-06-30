@@ -24,4 +24,27 @@ public class Book extends MapId{
     @JoinColumn(name = "reader_id", referencedColumnName = "id")
     private Reader owner;
 
+    @Column(name = "year")
+    private int year;
+
+    @Column(name = "publisher")
+    private String publisher;
+
+    @Column(name = "age_group")
+    private int age_group;
+
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "is_hard_cover")
+    private boolean isHardCover;
+
+    @Column(name = "language")
+    private String language;
+
+    @Column(name = "illustrations")
+    private int illustrations;
+
+    @Column(name = "pages_quantity")
+    int pagesQuantity;
 }

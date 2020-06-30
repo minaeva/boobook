@@ -48,7 +48,7 @@ public class BookServiceTest {
     @BeforeEach
     void setup() {
         aReader = new Reader();
-        aReader.setLogin("login");
+        aReader.setEmail("email");
         aReader.setPassword("pass");
         aReader.setName("owner");
 

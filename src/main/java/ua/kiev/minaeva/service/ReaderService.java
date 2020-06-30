@@ -13,11 +13,11 @@ public interface ReaderService {
 
     void deleteReader(Reader reader);
 
-    ReaderDto getByLogin(String login) throws BoobookNotFoundException;
+    ReaderDto getByEmail(String email) throws BoobookNotFoundException;
 
     List<ReaderDto> getByName(String name) throws BoobookNotFoundException;
 
-    ReaderDto getByLoginAndPassword(String login, String password) throws BoobookNotFoundException;
+    ReaderDto getByEmailAndPassword(String email, String password) throws BoobookNotFoundException;
 
     List<ReaderDto> getAll();
 
