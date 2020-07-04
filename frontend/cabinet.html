@@ -44,28 +44,31 @@
             <i class="icon-close" id="sidebar-toggle-button-close"></i>
         </a>
 
-
         <div class="page-sidebar-inner">
             <div class="page-sidebar-menu">
-
                 <ul class="accordion-menu">
-                    <li class="active-page" id="menu-home">
-                        <a href="#">
-                            <i class="menu-icon icon-home4"></i><span>Home</span>
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#addBookModal">
+                            <i class="menu-icon fa fa-book"></i><span>Add book</span>
                         </a>
                     </li>
-                    <li id="menu-books">
-                        <a href="#" onclick="showAllBooks(); return false">
-                            <!--                            <i class="menu-icon icon-format_list_bulleted"></i>-->
+                    <li class="menu-divider"></li>
+
+                    <li class="active-page" id="menu_home">
+                        <a href="#" onclick="clickHome(); return false;">
+                            <i class="menu-icon icon-home4"></i><span>My Books</span>
+                        </a>
+                    </li>
+                    <li id="menu_books">
+                        <a href="#" onclick="clickBooks(); return false">
                             <i class="menu-icon"><img src="images/books-icon.svg" width="18px"></i>
                             <span>Books</span>
                         </a>
                     </li>
-                    <li id="menu-readers">
+                    <li id="menu_readers">
                         <a href="#">
                             <i class="menu-icon"><img src="images/reader-icon.svg" width="18px"></i>
                             <span>Readers</span>
-                            <!--                            <i class="menu-icon icon-format_list_bulleted"></i><span>Readers</span>-->
                         </a>
                     </li>
                     <li id="menu-favorite">
@@ -77,12 +80,6 @@
                             <li id="menu-favorite-books"><a href="#">Books</a></li>
                             <li id="menu-favorite-readers"><a href="#">Readers</a></li>
                         </ul>
-                    </li>
-                    <li class="menu-divider"></li>
-                    <li>
-                        <a href="#" data-toggle="modal" data-target="#addBookModal">
-                            <i class="menu-icon fa fa-book"></i><span>Add book</span>
-                        </a>
                     </li>
                 </ul>
             </div>
@@ -194,15 +191,22 @@
         </div><!-- /Page Header -->
         <!-- Page Inner -->
         <div class="page-inner">
-            <div class="page-title">
-                <h3 class="breadcrumb-header" id="page_title">Home</h3>
-            </div>
             <div id="main-wrapper">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="panel panel-white">
-                            <div class="panel-heading clearfix" id="main-list-header">
+
+                            <div class="panel-body">
+                                <div class="panel-group">
+                                    <div class="alert alert-info">
+                                        <h4 id="accordion_header">
+                                        </h4>
+                                        <span id="accordion_subheader">
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
+
                             <div class="panel-body">
                                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                                 </div>
@@ -210,13 +214,15 @@
                         </div>
                     </div>
 
+                    <!--                    ADD BOOK - modal - start-->
                     <div class="modal fade border" id="addBookModal" tabindex="-1" role="dialog"
                          aria-labelledby="myModalLabel"
                          aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    <button type="button" class="close" data-dismiss="modal"
+                                            aria-label="Close"><span
                                             aria-hidden="true">&times;</span></button>
                                     <h4 class="modal-title" id="myModalLabel">Add book</h4>
                                 </div>
@@ -234,7 +240,8 @@
                                                    placeholder="">
                                         </div>
                                         <div class="form-group col-sm-6 required">
-                                            <label for="author_surname" class="control-label">Author Surname </label>
+                                            <label for="author_surname" class="control-label">Author
+                                                Surname </label>
                                             <input type="text" class="form-control" id="author_surname"
                                                    placeholder="">
                                         </div>
@@ -270,7 +277,8 @@
                                         <div class="form-group col-sm-4">
                                             <label class="control-label" for="age_group">Age group</label>
                                             <div class="">
-                                                <select style="margin-bottom:15px;" class="form-control" id="age_group">
+                                                <select style="margin-bottom:15px;" class="form-control"
+                                                        id="age_group">
                                                     <option value="0">baby</option>
                                                     <option value="1">preschool</option>
                                                     <option value="2">junior-school</option>
@@ -291,7 +299,8 @@
                                         <div class="form-group col-sm-4">
                                             <label for="language" class="control-label">Language</label>
                                             <div class="">
-                                                <select style="margin-bottom:15px;" class="form-control" id="language">
+                                                <select style="margin-bottom:15px;" class="form-control"
+                                                        id="language">
                                                     <option>rus</option>
                                                     <option>ukr</option>
                                                     <option>eng</option>
@@ -310,7 +319,8 @@
 
                                     <div class="row">
                                         <div class="form-group">
-                                            <label class="col-sm-2 control-label" for="description">Description</label>
+                                            <label class="col-sm-2 control-label"
+                                                   for="description">Description</label>
                                             <div class="col-sm-10">
                                                 <textarea class="form-control" id="description" rows="5"></textarea>
                                             </div>
@@ -320,7 +330,8 @@
 
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close
+                                    </button>
                                     <button type="button" class="btn btn-info" onclick="saveBook(); return false">
                                         Add book
                                     </button>
@@ -328,7 +339,9 @@
                             </div>
                         </div>
                     </div>
+                    <!--                    ADD BOOK - modal - end-->
 
+                    <!--                    MESSAGE - modal - start-->
                     <div class="modal fade bs-example-modal-sm border" tabindex="-1" role="dialog"
                          aria-labelledby="smallModalLabel" aria-hidden="true" id="smallModal">
                         <div class="modal-dialog modal-sm">
@@ -349,7 +362,7 @@
                             </div>
                         </div>
                     </div>
-
+                    <!--                    MESSAGE - modal - end-->
                 </div><!-- Row -->
             </div><!-- Main Wrapper -->
             <div class="page-footer">
@@ -362,11 +375,13 @@
                     <div class="right-sidebar-tabs">
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs" role="tablist">
-                            <li role="presentation" class="active" id="chat-tab"><a href="#chat" aria-controls="chat"
+                            <li role="presentation" class="active" id="chat-tab"><a href="#chat"
+                                                                                    aria-controls="chat"
                                                                                     role="tab"
                                                                                     data-toggle="tab">chat</a></li>
                             <li role="presentation" id="settings-tab"><a href="#settings" aria-controls="settings"
-                                                                         role="tab" data-toggle="tab">settings</a></li>
+                                                                         role="tab" data-toggle="tab">settings</a>
+                            </li>
                         </ul>
                     </div>
                     <a href="javascript:void(0)" class="right-sidebar-toggle right-sidebar-close"
@@ -389,7 +404,8 @@
                                         <span class="chat-time">08:50</span>
                                     </div>
                                 </a>
-                                <a href="javascript:void(0);" class="right-sidebar-toggle chat-item unread active-user"
+                                <a href="javascript:void(0);"
+                                   class="right-sidebar-toggle chat-item unread active-user"
                                    data-sidebar-id="chat-right-sidebar">
                                     <div class="user-avatar">
                                         <img src="http://via.placeholder.com/40x40" alt="">
@@ -548,7 +564,7 @@
 <script src="assets/js/space.min.js"></script>
 <script src="assets/js/pages/ui-modals.js"></script>
 
-<script src="js/bulma.js"></script>
+<!--<script src="js/bulma.js"></script>-->
 <script src="js/main.js"></script>
 <script src="js/auth.js"></script>
 <script src="js/cabinet.js"></script>

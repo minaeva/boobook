@@ -1,5 +1,4 @@
 const HOME_PAGE = "http://localhost:8008";
-
 // const HOME_PAGE = "https://enigmatic-coast-66167.herokuapp.com";
 
 function getCurrentUserId() {
@@ -22,7 +21,7 @@ function getRandomSuccessImage() {
     var pictures = ['01.jpg', '02.jpg', '03.jpg', '04.jpg', '05.jpg', '06.jpg', '07.jpg', '08.jpg', '09.jpg', '10.jpg',
         '11.jpg', '12.jpg', '13.jpg', '14.jpg', '15.jpg', '16.jpg', '17.jpg', '18.jpg', '19.jpg', '20.jpg',
         '21.jpg', '22.jpg', '23.jpg', '24.jpg', '25.jpg', '26.jpg', '27.jpg', '28.jpg', '29.jpg', '30.jpg',
-        '31.jpg'];
+        '31.jpg', '32.jpg', '33.jpg', '34.jpg', '35.jpg', '36.jpg', '37.jpg', '38.jpg'];
     var path = 'images/animals/happy/';
     return getRandomImage(path, pictures)
 }
@@ -70,7 +69,6 @@ function validateYear(year, warningText) {
         return false;
     }
     return true;
-
 }
 
 function addAuthorization(xhr) {
@@ -95,7 +93,7 @@ function clearHeader() {
 }
 
 function selectMenu(menuToSelect, titleText) {
-    var  titleElement = document.getElementById("page_title");
+    var  titleElement = document.getElementById("accordion_header");
     titleElement.innerHTML = titleText;
 
     var selected = document.getElementsByClassName("active-page");
@@ -108,5 +106,17 @@ function selectMenu(menuToSelect, titleText) {
     return false;
 }
 
+function addClassToElement(elementId, classToAdd) {
+    var elementOnPage = document.getElementById(elementId);
+    elementOnPage.className += classToAdd;
+}
+
+function removeClassFromElement(elementId, classToRemove) {
+    var selected = document.getElementsByClassName(classToRemove);
+    var elementToRemoveClassFrom = document.getElementById(elementId);
+    if (selected.length > 0 && selected[0] == elementToRemoveClassFrom) {
+        selected[0].className = selected[0].className.replace(classToRemove, "");
+    }
+}
 
 

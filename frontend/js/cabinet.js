@@ -10,16 +10,6 @@ function closeAddBookModal() {
     return false;
 }
 
-// function selectCard(cardToSelect) {
-//     var selected = document.getElementsByClassName("card active");
-//     if (selected.length > 0) {
-//         selected[0].className = selected[0].className.replace(" active", "");
-//     }
-//     cardToSelect.className += " active";
-//     return false;
-// }
-
-
 function saveBook() {
     var book_title = document.getElementById("book_title").value;
     var author_name = document.getElementById("author_name").value;
@@ -99,25 +89,35 @@ function notNull(str) {
     return str;
 }
 
-function showReaderDetails(readerId) {
-    // var header = document.getElementById("main-list-header");
+function setPageTitle(text) {
+    var header = document.getElementById("accordion_header");
+    header.innerHTML = text;
+}
 
+function setPageSubtitle(text) {
+    var subHeader = document.getElementById("accordion_subheader");
+    subHeader.innerHTML = text;
+}
+
+function showReaderDetails(readerId) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
 
         if (this.readyState == 4) {
-            var headerDiv = document.getElementById("main-list-header");
             if (this.status == 404) {
-                headerDiv.innerHTML = 'error';
+                showWarningModal("Reader details for reader with id " + readerId + " cannot be found");
+                return false;
             } else if (this.status == 200) {
                 var detail = JSON.parse(this.responseText);
                 console.log(detail);
-                var html = '<h4>Reader: <strong>' + notNull(detail.name) + ' ' + notNull(detail.surname) + '</strong></h4>';
-                    // '<div class="card"><div class="card-content"><div class="msg-subject"><span class="msg-subject"> Reader: <strong>' + notNull(detail.name) + ' ' + notNull(detail.surname) + '</strong></span></div>\n';
-                html += '<h4 class="panel-title"> City: ' + notNull(detail.city) + '</h4>\n';
-                html += '<div class="msg-header"><span class="msg-subject"> Facebook: <a href=' + detail.fbPage + '>' + notNull(detail.fbPage) + '</a></span></div></div></div>\n';
-                headerDiv.innerHTML = html;
-                // showReaderDetailsSection();
+                setPageTitle(notNull(detail.name) + ' ' + notNull(detail.surname));
+
+                var html = '<span class="text-muted">City: ' + notNull(detail.city) + '</span><br/>\n' +
+                    '<span class="text-muted">Facebook: </span>';
+                if (detail.fbPage != null) {
+                    html += '<a href=' + detail.fbPage + ' target="_blank"><i class="fa fa-facebook-square"></i></a>\n';
+                }
+                setPageSubtitle(html);
             }
         }
     }
@@ -132,10 +132,10 @@ function showReaderDetails(readerId) {
 
 function openReaderPage(readerId) {
     if (readerId != getCurrentUserId()) {
-        selectMenu("menu-readers");
+        selectMenu("menu_readers");
         showReaderDetails(readerId);
     } else {
-        selectMenu("menu-home");
+        selectMenu("menu_home");
     }
 
     var xhttp = new XMLHttpRequest();
@@ -144,7 +144,6 @@ function openReaderPage(readerId) {
         if (this.readyState == 4) {
             if (this.status == 404) {
                 showWarningModal("Cannot find details for the reader");
-                // document.getElementById("main-window").innerHTML = 'error';
             } else if (this.status == 200) {
                 var books = JSON.parse(this.responseText);
                 var html = ' ';
@@ -152,23 +151,22 @@ function openReaderPage(readerId) {
                     var book = books[i];
                     console.log(book);
                     var cardId = "book-card-" + i;
-                    html = html +
-                        '<div class="card" id="' + cardId + '" onclick="showBookDetails(' + book.id + ', ' + book.ownerId +
-                        '); return false">\n' +
-                        '    <div class="card-content">\n' +
-                        '        <div class="msg-subject">\n' +
-                        '            <span class="msg-subject"><strong> ' + book.title + '</strong></span>\n' +
-                        '        </div>\n' +
-                        '        <div class="msg-header">\n' +
-                        '            <span class="msg-subject"><small>by</small></span>\n' +
-                        '            <span class="msg-subject">' + book.authorName + ' ' + book.authorSurname + '</span>\n' +
-                        '            <span class="msg-timestamp"></span>\n' +
-                        '            <span class="msg-attachment"><i class="fa fa-edit"></i></span>\n' +
-                        '        </div>\n' +
+                    html +=
+                        '<div class="panel panel-default">\n' +
+                        '    <div class="panel-heading" role="tab" id="heading' + book.id + '">\n' +
+                        '        <h4 class="panel-title">\n' +
+                        '            <a data-toggle="collapse" onclick="showBookDetails(' + book.id + ', ' + book.ownerId + '); return false;" data-parent="#accordion" href="#collapse' + book.id + '"\n' +
+                        '               aria-expanded="true" aria-controls="collapse' + book.id + '">\n' + book.title +
+                        '            <h5 class="text-muted"> by ' + notNull(book.authorName) + ' ' + notNull(book.authorSurname) + '</h5>\n' +
+                        '            </a>\n' +
+                        '        </h4>\n' +
                         '    </div>\n' +
-                        '</div>\n';
+                        '    <div id="collapse' + book.id + '" class="panel-collapse collapse" role="tabpanel"\n' +
+                        '         aria-labelledby="heading' + book.id + '">\n' +
+                        '    </div>\n' +
+                        '</div>';
                 }
-                document.getElementById("main-list-header").innerHTML = html;
+                document.getElementById("accordion").innerHTML = html;
             }
         }
     }
@@ -182,9 +180,9 @@ function openReaderPage(readerId) {
 }
 
 function showAllBooks() {
-    selectMenu("menu-books", 'Books');
+    selectMenu("menu_books", 'Books');
 
-    var header = document.getElementById("main-list-header");
+    var header = document.getElementById("accordion_header");
 
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
@@ -197,7 +195,7 @@ function showAllBooks() {
                     '    </h4>\n' +
                     '  <div class="panel panel-white">\n' +
                     '        <div class="panel-body">\n' +
-                    '            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addBookModal">'+
+                    '            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addBookModal">' +
                     '               Add your first book</button>\n' +
                     '        </div>\n' +
                     '    </div>\n';
@@ -237,8 +235,8 @@ function showAllBooks() {
 }
 
 function showOwnersBooks() {
-    var header = document.getElementById("main-list-header");
-    header.innerHTML = '<h4>My Books</h4>\n';
+    setPageTitle('My Books');
+    setPageSubtitle('');
 
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
@@ -266,14 +264,14 @@ function showOwnersBooks() {
                         '        <h4 class="panel-title">\n' +
                         '            <a data-toggle="collapse" onclick="showBookDetails(' + book.id + ', ' + book.ownerId + '); return false;" data-parent="#accordion" href="#collapse' + book.id + '"\n' +
                         '               aria-expanded="true" aria-controls="collapse' + book.id + '">\n' + book.title +
-                        '            <h5 class="text-muted"> by ' + book.authorName + ' ' + book.authorSurname + '</h5>\n' +
+                        '            <h5 class="text-muted"> by ' + notNull(book.authorName) + ' ' + notNull(book.authorSurname) + '</h5>\n' +
                         '            </a>\n' +
                         '        </h4>\n' +
                         '    </div>\n' +
                         '    <div id="collapse' + book.id + '" class="panel-collapse collapse" role="tabpanel"\n' +
                         '         aria-labelledby="heading' + book.id + '">\n' +
                         '    </div>\n' +
-                        '</div>'
+                        '</div>';
                 }
                 document.getElementById("accordion").innerHTML = html;
             }
@@ -335,13 +333,17 @@ function showBookDetails(bookId, ownerId) {
                 console.log(bookDetails);
                 var html =
                     '<div class="panel-body">\n' +
-                    '<h5> <span class="text-muted">Year: </span>' + notNull(bookDetails.year) + '</h5>' +
                     '<h5><span class="text-muted"> Publisher: </span>' + notNull(bookDetails.publisher) + '</h5>' +
-                    '<h5><span class="text-muted"> Age group: </span>' + parseAgeGroup(bookDetails.ageGroup) + '</h5>' +
-                    '<h5><span class="text-muted"> Cover: </span>' + parseHardCover(bookDetails.cover) + '</h5>' +
-                    '<h5><span class="text-muted"> Language: </span>' + bookDetails.language + '</h5>' +
-                    '<h5><span class="text-muted"> Illustrations: </span>' + parseIllustrations(bookDetails.illustrations) + '</h5>' +
-                    '<h5><span class="text-muted"> Pages: </span>' + notNull(bookDetails.pagesQuantity) + '</h5>' +
+
+                    '<h5><span class="text-muted"> Language: </span>' + bookDetails.language + '</span>' +
+                    '<span style="float:right;"><span class="text-muted">Year: </span>' + notNull(bookDetails.year) + '</span></h5>' +
+
+                    '<h5><span class="text-muted"> Cover: </span>' + parseHardCover(bookDetails.cover) +
+                    '<span style="float:right;"><span class="text-muted"> Illustrations: </span>' + parseIllustrations(bookDetails.illustrations) + '</span></h5>' +
+
+                    '<h5><span class="text-muted"> Age group: </span>' + parseAgeGroup(bookDetails.ageGroup) +
+                    '<span style="float:right;"><span class="text-muted"> Pages: </span>' + notNull(bookDetails.pagesQuantity) + '</span></h5>' +
+
                     '<h5><span class="text-muted"> Description: </span>' + notNull(bookDetails.description) + '</h5>';
 
                 if (bookDetails.ownerId != getCurrentUserId()) {
@@ -366,3 +368,11 @@ function showBookDetails(bookId, ownerId) {
     return false;
 }
 
+function clickHome() {
+    selectMenu("menu_home", 'My Books');
+    showOwnersBooks();
+}
+
+function clickBooks() {
+    showAllBooks();
+}
