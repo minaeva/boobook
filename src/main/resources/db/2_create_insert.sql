@@ -38,7 +38,8 @@ CREATE TABLE IF NOT EXISTS book
     is_hard_cover boolean,
     language varchar(20),
     illustrations int, --0-no, 1-bw, 2-color
-    pages_quantity int
+    pages_quantity int,
+    active boolean default true
 );
 create unique index book_all_fields_key
     on book (title, author_id, reader_id);
