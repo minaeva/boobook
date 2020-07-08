@@ -47,4 +47,7 @@ public class Book extends MapId{
 
     @Column(name = "pages_quantity")
     int pagesQuantity;
+
+    @Column(name = "active")
+    boolean isActive;
 }

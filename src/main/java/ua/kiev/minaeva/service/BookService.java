@@ -12,6 +12,10 @@ public interface BookService {
 
     BookDto updateBook(BookDto bookDto) throws BoobookValidationException;
 
+    BookDto setInactive(Long bookId) throws BoobookNotFoundException;
+
+    BookDto setActive(Long bookId) throws BoobookNotFoundException;
+
     void deleteBook(BookDto bookDto);
 
     List<BookDto> getAll();

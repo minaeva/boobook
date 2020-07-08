@@ -129,4 +129,11 @@ function changeElementClass(elementId, classToRemove, classToAdd) {
     element.classList.add(classToAdd);
 }
 
+function notNull(str) {
+    if (str === null || str === "0") {
+        return '';
+    }
+    return str;
+}
+
 

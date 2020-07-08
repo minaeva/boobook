@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS book
     pages_quantity int,
     active boolean default true
 );
-create unique index book_all_fields_key
+create unique index book_title_author_reader_key
     on book (title, author_id, reader_id);
 
 

@@ -19,7 +19,8 @@ public class BookDto {
     private boolean isHardCover;
     private String language;
     private int illustrations;
-    int pagesQuantity;
+    private int pagesQuantity;
+    private boolean isActive = true;
 
     public static class Builder {
 
@@ -79,6 +80,11 @@ public class BookDto {
 
         public Builder withPagesQuantity(int pagesQuantity) {
             newBookDto.pagesQuantity = pagesQuantity;
+            return this;
+        }
+
+        public Builder withActive(boolean active) {
+            newBookDto.isActive = active;
             return this;
         }
 

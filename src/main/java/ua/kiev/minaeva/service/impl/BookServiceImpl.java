@@ -124,4 +124,22 @@ public class BookServiceImpl implements BookService {
                 .collect(Collectors.toList());
     }
 
+    public BookDto setInactive(Long bookId) throws BoobookNotFoundException {
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new BoobookNotFoundException("No book found with id " + bookId));
+
+        book.setActive(false);
+
+        return mapper.bookToDto(bookRepository.save(book));
+    }
+
+    public BookDto setActive(Long bookId) throws BoobookNotFoundException {
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new BoobookNotFoundException("No book found with id " + bookId));
+
+        book.setActive(true);
+
+        return mapper.bookToDto(bookRepository.save(book));
+    }
+
 }
