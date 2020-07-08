@@ -120,6 +120,7 @@ public class BookServiceImpl implements BookService {
                                 + reader.getEmail() + " " + reader.getName() + " does not have any book"));
 
         return readerBooks.stream()
+                .filter(book -> book.isActive())
                 .map(b -> mapper.bookToDto(b))
                 .collect(Collectors.toList());
     }

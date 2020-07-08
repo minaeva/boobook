@@ -55,7 +55,6 @@ public class BookController {
         return bookService.createBook(bookDto);
     }
 
-
     @PostMapping("/setInactive/{bookId}")
     public BookDto setInactive(@PathVariable final Long bookId) throws BoobookNotFoundException{
         log.info("handling SET BOOK INACTIVE request: " + bookId);
