@@ -52,6 +52,10 @@ CREATE TABLE IF NOT EXISTS friendship
     friend2_id SERIAL REFERENCES reader (id),
     date_added date
 );
+create unique index friendship_friend1_id_friend2_id_index
+	on friendship (friend1_id, friend2_id);
+
+
 
 ---****
 

@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Responsive Admin Dashboard Template">
-    <meta name="keywords" content="admin,dashboard">
+    <meta name="description" content="Sharing good Books with good People">
+    <meta name="keywords" content="book, share, boobook">
     <meta name="author" content="stacks">
     <!-- The above 6 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
@@ -66,7 +66,7 @@
                         </a>
                     </li>
                     <li id="menu_readers">
-                        <a href="#">
+                        <a href="#" onclick="clickReaders(); return false">
                             <i class="menu-icon"><img src="images/reader-icon.svg" width="18px"></i>
                             <span>Readers</span>
                         </a>
@@ -77,8 +77,8 @@
                                 class="accordion-icon fa fa-angle-left"></i>
                         </a>
                         <ul class="sub-menu">
-                            <li id="menu-favorite-books"><a href="#">Books</a></li>
-                            <li id="menu-favorite-readers"><a href="#">Readers</a></li>
+                            <li id="menu_favorite_books"><a href="#">Books</a></li>
+                            <li id="menu_favorite_readers"><a href="#" onclick="clickFavoriteReaders(); return false">Readers</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -195,11 +195,10 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="panel panel-white">
-
                             <div class="panel-body">
                                 <div class="panel-group">
                                     <div class="alert alert-info">
-                                        <h4 id="accordion_header">
+                                        <h4 id="accordion_header" class="panel-title top">
                                         </h4>
                                         <span id="accordion_subheader">
                                         </span>

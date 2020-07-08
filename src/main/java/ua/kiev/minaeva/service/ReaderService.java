@@ -21,6 +21,9 @@ public interface ReaderService {
 
     List<ReaderDto> getAll();
 
+    List<ReaderDto> getAllWithIsFriend(Long friend1Id) throws BoobookNotFoundException;
+
     ReaderDto getById(Long id) throws BoobookNotFoundException;
 
+    ReaderDto getByIdWithIsFriend(Long id, Long friendOfId) throws BoobookNotFoundException;
 }

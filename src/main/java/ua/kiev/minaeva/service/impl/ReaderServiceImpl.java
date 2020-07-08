@@ -11,6 +11,7 @@ import ua.kiev.minaeva.exception.BoobookNotFoundException;
 import ua.kiev.minaeva.exception.BoobookValidationException;
 import ua.kiev.minaeva.mapper.ReaderMapper;
 import ua.kiev.minaeva.repository.ReaderRepository;
+import ua.kiev.minaeva.service.FriendshipService;
 import ua.kiev.minaeva.service.ReaderService;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class ReaderServiceImpl implements ReaderService {
 
     private final ReaderRepository readerRepository;
     private final PasswordEncoder passwordEncoder;
+    private final FriendshipService friendshipService;
 
     private ReaderMapper mapper = Mappers.getMapper(ReaderMapper.class);
 
@@ -51,7 +53,6 @@ public class ReaderServiceImpl implements ReaderService {
         Reader reader = readerRepository.findByEmail(email)
                 .orElseThrow(() ->
                         new BoobookNotFoundException("No reader with email " + email + "  found"));
-
         return mapper.readerToDto(reader);
     }
 
@@ -76,12 +77,40 @@ public class ReaderServiceImpl implements ReaderService {
                 .collect(Collectors.toList());
     }
 
+    public List<ReaderDto> getAllWithIsFriend(Long friend1Id) throws BoobookNotFoundException {
+        List<ReaderDto> foundReaders = readerRepository.findAll()
+                .stream()
+                .filter(reader -> !friend1Id.equals(reader.getId()))
+                .map(reader -> mapper.readerToDto(reader))
+                .collect(Collectors.toList());
+
+        List<ReaderDto> foundFriends = friendshipService.getFriendsByReaderId(friend1Id);
+
+        for (ReaderDto friend : foundFriends) {
+            for (ReaderDto reader : foundReaders) {
+                if (reader.getId().equals(friend.getId())) {
+                    reader.setFriend(true);
+                }
+            }
+        }
+
+        return foundReaders;
+    }
+
     public ReaderDto getById(Long id) throws BoobookNotFoundException {
         Reader reader = readerRepository.findById(id)
                 .orElseThrow(() ->
                         new BoobookNotFoundException("No reader with id " + id + "  found"));
 
         return mapper.readerToDto(reader);
+    }
+
+    public ReaderDto getByIdWithIsFriend(Long id, Long friendOfId) throws BoobookNotFoundException {
+        ReaderDto readerDto = getById(id);
+        if (friendshipService.areFriends(friendOfId, id)) {
+            readerDto.setFriend(true);
+        }
+        return readerDto;
     }
 
     public List<ReaderDto> getByName(String name) throws BoobookNotFoundException {

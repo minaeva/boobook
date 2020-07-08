@@ -26,9 +26,8 @@ public class FriendshipServiceImpl implements FriendshipService {
     private ReaderMapper mapper = Mappers.getMapper(ReaderMapper.class);
 
     public List<ReaderDto> getFriendsByReaderId(Long readerId) throws BoobookNotFoundException {
-        Reader existentReader = readerIsPresent(readerId);
+        List<Friendship> foundFriendships = getFriendshipsByReaderId(readerId);
 
-        List<Friendship> foundFriendships = friendshipRepository.findByFriend1(existentReader);
         if (foundFriendships.isEmpty()) {
             throw new BoobookNotFoundException("Not any friend of reader with id " +
                     readerId + " found");
@@ -41,10 +40,10 @@ public class FriendshipServiceImpl implements FriendshipService {
     }
 
     public void addFriend(Long friend1Id, Long friend2Id) throws BoobookNotFoundException, BoobookValidationException {
-        validateFriendship(friend1Id, friend2Id);
-
         Reader existentReader1 = readerIsPresent(friend1Id);
         Reader existentReader2 = readerIsPresent(friend2Id);
+
+        validateFriendship(friend1Id, friend2Id, existentReader1, existentReader2);
 
         Friendship newFriendship = new Friendship();
         newFriendship.setFriend1(existentReader1);
@@ -53,12 +52,24 @@ public class FriendshipServiceImpl implements FriendshipService {
         friendshipRepository.save(newFriendship);
     }
 
+    public boolean areFriends(Long friend1Id, Long friend2Id) throws BoobookNotFoundException {
+        Reader existentReader1 = readerIsPresent(friend1Id);
+        Reader existentReader2 = readerIsPresent(friend2Id);
+
+        try {
+            friendshipIsPresent(existentReader1, existentReader2);
+        } catch (BoobookNotFoundException ex) {
+            return false;
+        }
+
+        return true;
+    }
+
     public void removeFriend(Long friend1Id, Long friend2Id) throws BoobookNotFoundException {
         Reader existentReader1 = readerIsPresent(friend1Id);
         Reader existentReader2 = readerIsPresent(friend2Id);
 
         Friendship friendshipToDelete = friendshipIsPresent(existentReader1, existentReader2);
-
         friendshipRepository.delete(friendshipToDelete);
     }
 
@@ -73,10 +84,26 @@ public class FriendshipServiceImpl implements FriendshipService {
                         + friend2.getName() + " does not exist"));
     }
 
-    private void validateFriendship(Long friend1Id, Long friend2Id) throws BoobookValidationException {
+    private void validateFriendship(Long friend1Id, Long friend2Id, Reader existentReader1, Reader existentReader2) throws BoobookValidationException, BoobookNotFoundException {
         if (friend1Id.equals(friend2Id)) {
             throw new BoobookValidationException("Friend to be added should be the other person");
         }
+
+        List<Friendship> foundFriendships = getFriendshipsByReaderId(friend1Id);
+        if (!foundFriendships.isEmpty()) {
+            List<Reader> aFriendAlready = foundFriendships.stream()
+                    .map(Friendship::getFriend2)
+                    .filter(existentReader2::equals)
+                    .collect(Collectors.toList());
+            if (!aFriendAlready.isEmpty()) {
+                throw new BoobookValidationException(existentReader2 + " is already a friend of " + existentReader1);
+            }
+        }
+    }
+
+    private List<Friendship> getFriendshipsByReaderId(Long friend1) throws BoobookNotFoundException {
+        Reader existentReader = readerIsPresent(friend1);
+        return friendshipRepository.findByFriend1(existentReader);
     }
 
 }

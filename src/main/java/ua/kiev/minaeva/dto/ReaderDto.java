@@ -16,5 +16,6 @@ public class ReaderDto {
     private String city;
     private String fbPage;
     private RegistrationType registrationType;
+    private boolean isFriend;
 
 }

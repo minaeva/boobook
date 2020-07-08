@@ -81,6 +81,15 @@ a:hover {
 .underlined:hover {
     color: #999999;
 }
+.underline {
+    color: #637282;
+    text-decoration: underline;
+}
+.underline:hover {
+    text-decoration: underline;
+    color: #999999;
+}
+
 
 p {
     line-height: 1.6;
@@ -964,8 +973,18 @@ blockquote {
     color: #637282;
     font-weight: 500;
     padding: 0;
-    padding-bottom: 30px;
-    font-size: 14px;
+    padding-bottom: 20px;
+    font-size: 16px;
+}
+
+.top {
+    font-size: 18px;
+}
+
+.city-fb {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
 }
 
 .alert .alert-link {

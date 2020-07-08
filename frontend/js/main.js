@@ -1,4 +1,5 @@
 const HOME_PAGE = "http://localhost:8008";
+
 // const HOME_PAGE = "https://enigmatic-coast-66167.herokuapp.com";
 
 function getCurrentUserId() {
@@ -27,13 +28,14 @@ function getRandomSuccessImage() {
 }
 
 function getRandomImage(path, array) {
-    var randomNumber = Math.floor( Math.random() * array.length );
+    var randomNumber = Math.floor(Math.random() * array.length);
     var randomImage = array[randomNumber];
     var pathToRandomImage = '' + path + randomImage;
     console.log(pathToRandomImage);
     return pathToRandomImage;
 
 }
+
 function showWarningModal(text) {
     document.getElementById("smallModalTitle").innerHTML = ' <img class="img-responsive" style="margin:0 auto;" src="' +
         getRandomWarningImage() + '" alt="">\n';
@@ -43,7 +45,7 @@ function showWarningModal(text) {
 
 function showSuccessModal(text) {
     document.getElementById("smallModalTitle").innerHTML = ' <img class="img-responsive" style="margin:0 auto;" src="' +
-        getRandomSuccessImage() +'" alt="">\n';
+        getRandomSuccessImage() + '" alt="">\n';
     document.getElementById("smallModalBody").innerHTML = text;
     $('#smallModal').modal('show');
 }
@@ -93,7 +95,7 @@ function clearHeader() {
 }
 
 function selectMenu(menuToSelect, titleText) {
-    var  titleElement = document.getElementById("accordion_header");
+    var titleElement = document.getElementById("accordion_header");
     titleElement.innerHTML = titleText;
 
     var selected = document.getElementsByClassName("active-page");
@@ -117,6 +119,14 @@ function removeClassFromElement(elementId, classToRemove) {
     if (selected.length > 0 && selected[0] == elementToRemoveClassFrom) {
         selected[0].className = selected[0].className.replace(classToRemove, "");
     }
+}
+
+function changeElementClass(elementId, classToRemove, classToAdd) {
+    var element = document.getElementById(elementId);
+    if (element.classList.contains(classToRemove)) {
+        element.classList.remove(classToRemove);
+    }
+    element.classList.add(classToAdd);
 }
 
 
