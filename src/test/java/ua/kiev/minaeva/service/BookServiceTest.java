@@ -87,7 +87,7 @@ public class BookServiceTest {
     }
 
     @Test
-    void updateBook_successful() throws BoobookValidationException {
+    void updateBook_successful() throws BoobookValidationException, BoobookNotFoundException {
         when(bookRepository.save(any())).thenReturn(aBook);
 
         BookDto updatedBook = bookService.updateBook(aBookDto);

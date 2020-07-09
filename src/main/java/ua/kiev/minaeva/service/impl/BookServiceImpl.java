@@ -59,8 +59,11 @@ public class BookServiceImpl implements BookService {
         return mapper.bookToDto(bookRepository.save(newBook));
     }
 
-    public BookDto updateBook(BookDto bookDto) throws BoobookValidationException {
+    public BookDto updateBook(BookDto bookDto) throws BoobookValidationException, BoobookNotFoundException {
         validateBook(bookDto);
+
+        bookRepository.findById(bookDto.getId())
+                .orElseThrow(() -> new BoobookNotFoundException("No book found with id " + bookDto.getId()));
 
         Book book = mapper.dtoToBook(bookDto);
         return mapper.bookToDto(bookRepository.save(book));
@@ -120,8 +123,19 @@ public class BookServiceImpl implements BookService {
                                 + reader.getEmail() + " " + reader.getName() + " does not have any book"));
 
         return readerBooks.stream()
-                .filter(book -> book.isActive())
+//                .filter(book -> book.isActive())
                 .map(b -> mapper.bookToDto(b))
+                .collect(Collectors.toList());
+    }
+
+    public List<BookDto> getByOwnerActive(Long readerId) throws BoobookNotFoundException {
+        List<BookDto> activeAndInactive = getByOwner(readerId);
+        return filterActive(activeAndInactive);
+    }
+
+    private List<BookDto> filterActive(List<BookDto> activeAndInactive) throws BoobookNotFoundException {
+        return activeAndInactive.stream()
+                .filter(bookDto -> bookDto.isActive())
                 .collect(Collectors.toList());
     }
 

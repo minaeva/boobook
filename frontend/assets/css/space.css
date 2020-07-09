@@ -964,6 +964,10 @@ blockquote {
     padding: 0;
 }
 
+.inactive {
+    background-color: #cad2c5;
+}
+
 .panel-heading {
     padding: 0;
     border: 0;

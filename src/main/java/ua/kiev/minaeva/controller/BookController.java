@@ -49,20 +49,32 @@ public class BookController {
         return bookService.getByOwner(ownerId);
     }
 
+    @GetMapping("/owner/active/{ownerId}")
+    public List<BookDto> getByOwnerActive(@PathVariable final Long ownerId) throws BoobookNotFoundException {
+        log.info("handling GET BOOK BY OWNER request: " + ownerId);
+        return bookService.getByOwnerActive(ownerId);
+    }
+
     @PostMapping
     public BookDto createBook(@RequestBody BookDto bookDto) throws BoobookValidationException, BoobookNotFoundException {
         log.info("handling CREATE BOOK request: " + bookDto);
         return bookService.createBook(bookDto);
     }
 
+    @PutMapping
+    public BookDto updateBook(@RequestBody BookDto bookDto) throws BoobookValidationException, BoobookNotFoundException {
+        log.info("handling UPDATE BOOK request: " + bookDto);
+        return bookService.updateBook(bookDto);
+    }
+
     @PostMapping("/setInactive/{bookId}")
-    public BookDto setInactive(@PathVariable final Long bookId) throws BoobookNotFoundException{
+    public BookDto setInactive(@PathVariable final Long bookId) throws BoobookNotFoundException {
         log.info("handling SET BOOK INACTIVE request: " + bookId);
         return bookService.setInactive(bookId);
     }
 
     @PostMapping("/setActive/{bookId}")
-    public BookDto setActive(@PathVariable final Long bookId) throws BoobookNotFoundException{
+    public BookDto setActive(@PathVariable final Long bookId) throws BoobookNotFoundException {
         log.info("handling SET BOOK ACTIVE request: " + bookId);
         return bookService.setActive(bookId);
     }

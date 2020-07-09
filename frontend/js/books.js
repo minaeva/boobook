@@ -70,6 +70,46 @@ function saveBook() {
     }
 }
 
+function setInactive(bookId) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+
+        if (this.readyState === 4) {
+            if (this.status === 404) {
+                showWarningModal('cannot find ' + bookId);
+            } else if (this.status === 200) {
+                showSuccessModal('Book has been set inactive');
+            }
+        }
+    }
+    var setInactiveUrl = HOME_PAGE + "/books/setInactive/" + bookId;
+    xhttp.open("POST", setInactiveUrl, true);
+    addAuthorization(xhttp);
+    xhttp.send();
+
+    return false;
+}
+
+function setActive(bookId) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+
+        if (this.readyState === 4) {
+            if (this.status === 404) {
+                showWarningModal('cannot find ' + bookId);
+            } else if (this.status === 200) {
+                showSuccessModal('Book has been set active');
+            }
+        }
+    }
+    var setActiveUrl = HOME_PAGE + "/books/setActive/" + bookId;
+    xhttp.open("POST", setActiveUrl, true);
+    addAuthorization(xhttp);
+    xhttp.send();
+
+    return false;
+}
+
 function closeAddBookModal() {
     $('#addBookModal').modal('hide');
     document.getElementById("book_title").value = '';
@@ -190,9 +230,14 @@ function showBookDetails(bookId, ownerId) {
             if (this.status === 200) {
                 var bookDetails = JSON.parse(this.responseText);
                 console.log(bookDetails);
-                var html =
-                    '<div class="panel-body">\n' +
-                    '<h5><span class="text-muted"> Publisher: </span>' + notNull(bookDetails.publisher) + '</h5>' +
+                var html = '';
+                if (bookDetails.active) {
+                    html += '<div class="panel-body">\n';
+                } else {
+                    html += '<div class="panel-body inactive">\n';
+                }
+                    html +=
+                        '<h5><span class="text-muted"> Publisher: </span>' + notNull(bookDetails.publisher) + '</h5>' +
 
                     '<h5><span class="text-muted"> Language: </span>' + bookDetails.language + '</h5>' +
                     '<h5><span class="text-muted">Year: </span>' + notNull(bookDetails.year) + '</h5>' +
@@ -203,13 +248,24 @@ function showBookDetails(bookId, ownerId) {
                     '<h5><span class="text-muted">Age group: </span>' + parseAgeGroup(bookDetails.ageGroup) + '</h5>' +
                     '<h5><span class="text-muted">Pages: </span>' + notNull(bookDetails.pagesQuantity) + '</h5>' +
 
-                    '<h5><span class="text-muted"> Description: </span>' + notNull(bookDetails.description) + '</h5>';
+                    '<h5><span class="text-muted"> Description: </span>' + notNull(bookDetails.description) + '</h5>' +
+                    '<hr>';
 
                 if (bookDetails.ownerId != getCurrentUserId()) {
-                    html += '  <hr>\n' +
-                        '  <div class="content">\n owner: <a class="underlined" id="book-details-owner" onclick="openReaderPage(' + ownerId +
-                        '); return false;">' + notNull(bookDetails.ownerName) +
-                        '</a></div>\n';
+                    html +=
+                        '<div class="content">\n owner: ' +
+                        '<a class="underlined" id="book-details-owner" onclick="openReaderPage(' + ownerId + '); return false;">'
+                        + notNull(bookDetails.ownerName) + '</a></div>\n';
+                } else {
+                    html +=
+                        '<div class="btn-group" style="float: right"> <button type="button" class="btn btn-default">Edit</button>';
+                    if (bookDetails.active) {
+                        html +=
+                            '<button type="button" class="btn btn-default" onclick="setInactive(' + bookId + '); showOwnersBooks(); return false; ">Set inactive</button></div>';
+                    } else {
+                        html +=
+                            '<button type="button" class="btn btn-default" onclick="setActive(' + bookId + '); showOwnersBooks(); return false; ">Set active</button></div>';
+                    }
                 }
                 html += '  </div>\n';
             }
