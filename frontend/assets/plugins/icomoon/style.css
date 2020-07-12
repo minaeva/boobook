@@ -1185,6 +1185,12 @@
 .icon-home4:before {
   content: "\e88a";
 }
+.icon-reader:before {
+  content: "\e87c";
+}
+.icon-books:before {
+  content: "\e53b";
+}
 .icon-hot_tub:before {
   content: "\eb46";
 }

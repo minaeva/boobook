@@ -31,13 +31,13 @@ public class Book extends MapId{
     private String publisher;
 
     @Column(name = "age_group")
-    private int age_group;
+    private int ageGroup;
 
     @Column(name = "description")
     private String description;
 
     @Column(name = "is_hard_cover")
-    private boolean isHardCover;
+    private boolean hardCover;
 
     @Column(name = "language")
     private String language;

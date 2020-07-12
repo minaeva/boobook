@@ -16,7 +16,7 @@ public class BookDto {
     private String publisher;
     private int ageGroup;
     private String description;
-    private boolean isHardCover;
+    private boolean hardCover;
     private String language;
     private int illustrations;
     private int pagesQuantity;
@@ -63,8 +63,8 @@ public class BookDto {
             return this;
         }
 
-        public Builder withIsHardCover(boolean isHardCover) {
-            newBookDto.isHardCover = isHardCover;
+        public Builder withHardCover(boolean hardCover) {
+            newBookDto.hardCover = hardCover;
             return this;
         }
 

@@ -965,7 +965,10 @@ blockquote {
 }
 
 .inactive {
-    background-color: #cad2c5;
+    background-color: #f3e1e1;
+}
+.strong {
+    letter-spacing: 5px;
 }
 
 .panel-heading {

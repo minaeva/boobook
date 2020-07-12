@@ -61,14 +61,12 @@
                     </li>
                     <li id="menu_books">
                         <a href="#" onclick="clickBooks(); return false">
-                            <i class="menu-icon"><img src="images/books-icon.svg" width="18px"></i>
-                            <span>Books</span>
+                            <i class="menu-icon icon-books"></i><span>Books</span>
                         </a>
                     </li>
                     <li id="menu_readers">
                         <a href="#" onclick="clickReaders(); return false">
-                            <i class="menu-icon"><img src="images/reader-icon.svg" width="18px"></i>
-                            <span>Readers</span>
+                            <i class="menu-icon icon-reader"></i><span>Readers</span>
                         </a>
                     </li>
                     <li id="menu-favorite">
@@ -214,42 +212,34 @@
                     </div>
 
                     <!--                    ADD BOOK - modal - start-->
-                    <div class="modal fade border" id="addBookModal" tabindex="-1" role="dialog"
-                         aria-labelledby="myModalLabel"
-                         aria-hidden="true">
+                    <div class="modal fade border" id="addBookModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal"
-                                            aria-label="Close"><span
-                                            aria-hidden="true">&times;</span></button>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span></button>
                                     <h4 class="modal-title" id="myModalLabel">Add book</h4>
                                 </div>
                                 <div class="modal-body">
                                     <div class="form-group required">
                                         <label for="book_title" class="control-label">Title </label>
-                                        <input type="text" class="form-control" id="book_title"
-                                               placeholder="">
+                                        <input type="text" class="form-control" id="book_title" placeholder="">
                                     </div>
 
                                     <div class="row">
                                         <div class="form-group col-sm-6 required">
                                             <label for="author_name" class="control-label">Author Name </label>
-                                            <input type="text" class="form-control" id="author_name"
-                                                   placeholder="">
+                                            <input type="text" class="form-control" id="author_name" placeholder="">
                                         </div>
                                         <div class="form-group col-sm-6 required">
-                                            <label for="author_surname" class="control-label">Author
-                                                Surname </label>
-                                            <input type="text" class="form-control" id="author_surname"
-                                                   placeholder="">
+                                            <label for="author_surname" class="control-label">Author Surname </label>
+                                            <input type="text" class="form-control" id="author_surname" placeholder="">
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="publisher" class="control-label">Publisher</label>
-                                        <input type="text" class="form-control" id="publisher"
-                                               placeholder="">
+                                        <input type="text" class="form-control" id="publisher" placeholder="">
                                     </div>
 
                                     <div class="row">
@@ -257,8 +247,8 @@
                                             <label class="control-label" for="cover">Cover</label>
                                             <div class="">
                                                 <select style="margin-bottom:15px;" class="form-control" id="cover">
-                                                    <option>hard</option>
-                                                    <option>soft</option>
+                                                    <option value="true">hard</option>
+                                                    <option value="false">soft</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -276,13 +266,12 @@
                                         <div class="form-group col-sm-4">
                                             <label class="control-label" for="age_group">Age group</label>
                                             <div class="">
-                                                <select style="margin-bottom:15px;" class="form-control"
-                                                        id="age_group">
+                                                <select style="margin-bottom:15px;" class="form-control" id="age_group">
                                                     <option value="0">baby</option>
                                                     <option value="1">preschool</option>
                                                     <option value="2">junior-school</option>
                                                     <option value="3">mid-school</option>
-                                                    <option value="0">adult</option>
+                                                    <option value="4">adult</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -291,15 +280,13 @@
                                     <div class="row">
                                         <div class="form-group col-sm-4">
                                             <label for="year" class="control-label">Year</label>
-                                            <input type="text" class="form-control" id="year"
-                                                   placeholder="1800<=year<=current">
+                                            <input type="text" class="form-control" id="year" placeholder=">1799">
                                         </div>
 
                                         <div class="form-group col-sm-4">
                                             <label for="language" class="control-label">Language</label>
                                             <div class="">
-                                                <select style="margin-bottom:15px;" class="form-control"
-                                                        id="language">
+                                                <select style="margin-bottom:15px;" class="form-control" id="language">
                                                     <option>rus</option>
                                                     <option>ukr</option>
                                                     <option>eng</option>
@@ -310,8 +297,7 @@
 
                                         <div class="form-group col-sm-4">
                                             <label for="pages_quantity" class="control-label">Pages</label>
-                                            <input type="text" class="form-control" id="pages_quantity"
-                                                   placeholder="">
+                                            <input type="text" class="form-control" id="pages_quantity" placeholder="">
                                         </div>
                                     </div>
 
@@ -339,6 +325,120 @@
                         </div>
                     </div>
                     <!--                    ADD BOOK - modal - end-->
+
+
+                    <!--                    EDIT BOOK - modal - start-->
+                    <div class="modal fade border" id="editBookModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="editBookModalLabel">Edit book</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group required">
+                                        <label for="edit_book_title" class="control-label">Title </label>
+                                        <input type="text" class="form-control" id="edit_book_title" placeholder="">
+                                        <input class="hidden" id="edit_book_id">
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group col-sm-6 required">
+                                            <label for="edit_author_name" class="control-label">Author Name </label>
+                                            <input type="text" class="form-control" id="edit_author_name" placeholder="">
+                                        </div>
+                                        <div class="form-group col-sm-6 required">
+                                            <label for="edit_author_surname" class="control-label">Author Surname </label>
+                                            <input type="text" class="form-control" id="edit_author_surname" placeholder="">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="edit_publisher" class="control-label">Publisher</label>
+                                        <input type="text" class="form-control" id="edit_publisher" placeholder="">
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group col-sm-4">
+                                            <label class="control-label" for="edit_cover">Cover</label>
+                                            <div class="">
+                                                <select style="margin-bottom:15px;" class="form-control" id="edit_cover">
+                                                    <option value="true">hard</option>
+                                                    <option value="false">soft</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-sm-4">
+                                            <label class="control-label" for="edit_illustrations">Illustrations</label>
+                                            <div class="">
+                                                <select style="margin-bottom:15px;" class="form-control" id="edit_illustrations">
+                                                    <option value="0">no</option>
+                                                    <option value="1">bw</option>
+                                                    <option value="2">color</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-sm-4">
+                                            <label class="control-label" for="edit_age_group">Age group</label>
+                                            <div class="">
+                                                <select style="margin-bottom:15px;" class="form-control" id="edit_age_group">
+                                                    <option value="0">baby</option>
+                                                    <option value="1">preschool</option>
+                                                    <option value="2">junior-school</option>
+                                                    <option value="3">mid-school</option>
+                                                    <option value="4">adult</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group col-sm-4">
+                                            <label for="edit_year" class="control-label">Year</label>
+                                            <input type="text" class="form-control" id="edit_year" placeholder=">1799">
+                                        </div>
+
+                                        <div class="form-group col-sm-4">
+                                            <label for="edit_language" class="control-label">Language</label>
+                                            <div class="">
+                                                <select style="margin-bottom:15px;" class="form-control" id="edit_language">
+                                                    <option>rus</option>
+                                                    <option>ukr</option>
+                                                    <option>eng</option>
+                                                    <option>other</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-sm-4">
+                                            <label for="edit_pages_quantity" class="control-label">Pages</label>
+                                            <input type="text" class="form-control" id="edit_pages_quantity" placeholder="">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label" for="edit_description">Description</label>
+                                            <div class="col-sm-10">
+                                                <textarea class="form-control" id="edit_description" rows="5"></textarea>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close
+                                    </button>
+                                    <button type="button" class="btn btn-info" onclick="editBook(); return false">Edit book
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--                    EDIT BOOK - modal - end-->
 
                     <!--                    MESSAGE - modal - start-->
                     <div class="modal fade bs-example-modal-sm border" tabindex="-1" role="dialog"

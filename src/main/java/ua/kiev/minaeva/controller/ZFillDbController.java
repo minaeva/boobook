@@ -57,7 +57,7 @@ public class ZFillDbController {
                 .withAgeGroup(AGE_GROUP_ADULT)
                 .withDescription("to the ones who love counting")
                 .withLanguage("ukr")
-                .withIsHardCover(true)
+                .withHardCover(true)
                 .withIllustrations(ILLUSTRATION_BW)
                 .withPagesQuantity(322)
                 .build();
@@ -71,7 +71,7 @@ public class ZFillDbController {
                 .withAgeGroup(AGE_GROUP_MIDDLE)
                 .withDescription("chronicles are my love")
                 .withLanguage("rus")
-                .withIsHardCover(true)
+                .withHardCover(true)
                 .withIllustrations(ILLUSTRATION_COLOR)
                 .withPagesQuantity(302)
                 .build();
@@ -85,7 +85,7 @@ public class ZFillDbController {
                 .withAgeGroup(AGE_GROUP_ADULT)
                 .withDescription("man is man")
                 .withLanguage("eng")
-                .withIsHardCover(true)
+                .withHardCover(true)
                 .withIllustrations(ILLUSTRATION_ABSENT)
                 .withPagesQuantity(200)
                 .build();
