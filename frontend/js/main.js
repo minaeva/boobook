@@ -1,6 +1,5 @@
-const HOME_PAGE = "http://localhost:8008";
-
-// const HOME_PAGE = "https://enigmatic-coast-66167.herokuapp.com";
+// const HOME_PAGE = "http://localhost:8008";
+const HOME_PAGE = "https://enigmatic-coast-66167.herokuapp.com";
 
 function getCurrentUserId() {
     var tokenData = localStorage.getItem('tokenData');
