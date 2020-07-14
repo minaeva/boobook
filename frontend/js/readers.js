@@ -1,7 +1,4 @@
-
 function showReaderDetails(readerId) {
-    setPageSubtitle('');
-
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
 
@@ -48,14 +45,6 @@ function showReaderDetails(readerId) {
 }
 
 function openReaderPage(readerId) {
-    if (readerId != getCurrentUserId()) {
-        selectMenu("menu_readers", '');
-        showReaderDetails(readerId);
-    } else {
-        selectMenu("menu_home", 'My Books');
-    }
-    document.getElementById("accordion").innerHTML = '';
-
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
 
@@ -95,8 +84,6 @@ function openReaderPage(readerId) {
 }
 
 function showAllReaders() {
-    selectMenu("menu_readers", 'Readers');
-
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
 
@@ -111,7 +98,7 @@ function showAllReaders() {
                         '<div class="panel panel-default">\n' +
                         '    <div class="panel-heading" role="tab" id="heading' + reader.id + '">\n' +
                         '        <h4 class="panel-title">\n' +
-                        '            <a data-toggle="collapse" onclick="openReaderPage(' + reader.id + '); return false;" data-parent="#accordion" ' +
+                        '            <a data-toggle="collapse" onclick="clickReader(' + reader.id + '); return false;" data-parent="#accordion" ' +
                         'href="#collapse' + reader.id + '"\n aria-expanded="true" aria-controls="collapse' + reader.id + '">\n';
                     var heartId = 'heart' + reader.id;
                     var nameSurname = notNull(reader.name) + ' ' + notNull(reader.surname);
@@ -137,6 +124,58 @@ function showAllReaders() {
 
     var getAllReadersUrl = HOME_PAGE + "/users/allWithIsFriend/" + getCurrentUserId();
     xhttp.open("GET", getAllReadersUrl, true);
+    addAuthorization(xhttp);
+    xhttp.send();
+
+    return false;
+}
+
+function showFavoriteReaders() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+
+        if (this.readyState === 4) {
+            if (404 === this.status) {
+                showWarningModal('Not any friend added yet. Click on <i class="fa fa-heart-o"></i> icon next to any reader')
+            } else if (200 === this.status) {
+                var readers = JSON.parse(this.responseText);
+                var html = '';
+                for (var i = 0; i < readers.length; i++) {
+                    var reader = readers[i];
+                    console.log(reader);
+                    var heartId = 'heart' + reader.id;
+
+                    html +=
+                        '<div class="panel panel-default">\n' +
+                        '    <div class="panel-heading" role="tab" id="heading' + reader.id + '">\n' +
+                        '        <h4 class="panel-title">\n' +
+                        '            <a data-toggle="collapse" onclick="clickReader(' + reader.id +
+                        '); return false;" data-parent="#accordion" href="#collapse' + reader.id + '"\n' +
+                        '               aria-expanded="true" aria-controls="collapse' + reader.id + '">\n';
+                    var nameSurname = notNull(reader.name) + ' ' + notNull(reader.surname);
+                    html += nameSurname +
+                        ' <i class="fa fa-heart" id = \'' + heartId + '\' style="float: right"></i>' +
+                        ' <h5><span class="text-muted"> City: </span> ' + notNull(reader.city) + '</h5>\n';
+
+                    if (reader.fbPage != null) {
+                        html +=
+                            ' <h5><span class="text-muted"> Facebook page: </span> ' +
+                            '     <a href=' + reader.fbPage + ' target="_blank" class="underline">view</a></h5>\n';
+                    }
+                    html +=
+                        '               </a>\n' +
+                        '        </h4>\n' +
+                        '    </div>\n' +
+                        '</div>\n';
+                }
+                document.getElementById("accordion").innerHTML = html;
+            }
+        }
+    }
+
+    var getFriendsUrl = HOME_PAGE + "/users/friends/" + getCurrentUserId();
+    console.log(getFriendsUrl);
+    xhttp.open("GET", getFriendsUrl, true);
     addAuthorization(xhttp);
     xhttp.send();
 

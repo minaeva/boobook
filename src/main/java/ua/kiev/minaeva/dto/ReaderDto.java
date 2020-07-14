@@ -15,6 +15,10 @@ public class ReaderDto {
     private String surname;
     private String city;
     private String fbPage;
+    private String telegram;
+    private String viber;
+    private String whatsapp;
+    private String skype;
     private RegistrationType registrationType;
     private boolean isFriend;
 

@@ -1,6 +1,5 @@
 function setPageTitle(text) {
-    var header = document.getElementById("accordion_header");
-    header.innerHTML = text;
+    document.getElementById("accordion_header").innerHTML = text;
 }
 
 function setPageSubtitle(text) {
@@ -9,69 +8,66 @@ function setPageSubtitle(text) {
 }
 
 function clickHome() {
-    selectMenu("menu_home", 'My Books');
+    activateCabinet();
+    selectMenu("menu_home");
+    setPageTitle('My Books');
+
     showOwnersBooks();
 }
 
-function clickBooks() {
+function clickAllBooks() {
+    activateCabinet();
+    selectMenu("menu_books");
+    setPageTitle('Books');
+
     showAllBooks();
 }
 
-function clickReaders() {
+function clickAllReaders() {
+    activateCabinet();
+    selectMenu("menu_readers");
+    setPageTitle('Readers');
+
     showAllReaders();
 }
 
+function clickReader(readerId) {
+    if (readerId != getCurrentUserId()) {
+        selectMenu("menu_readers");
+        setPageTitle('');
+        setPageSubtitle('');
+        showReaderDetails(readerId);
+    } else {
+        selectMenu("menu_home");
+        setPageTitle('My Books');
+    }
+    document.getElementById("accordion").innerHTML = '';
+
+    openReaderPage(readerId);
+}
+
 function clickFavoriteReaders() {
-    selectMenu('menu_favorite_readers', 'My favorite readers');
+    activateCabinet();
+    selectMenu('menu_favorite_readers');
+    setPageTitle('My favorite readers');
     setPageSubtitle('');
 
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
+    showFavoriteReaders();
+}
 
-        if (this.readyState === 4) {
-            if (404 === this.status) {
-                showWarningModal('Not any friend added yet. Click on <i class="fa fa-heart-o"></i> icon next to any reader')
-            } else if (200 === this.status) {
-                var readers = JSON.parse(this.responseText);
-                var html = '';
-                for (var i = 0; i < readers.length; i++) {
-                    var reader = readers[i];
-                    console.log(reader);
-                    var heartId = 'heart' + reader.id;
+function clickProfile() {
+    deselectActiveMenu();
+    activateProfile();
 
-                    html +=
-                        '<div class="panel panel-default">\n' +
-                        '    <div class="panel-heading" role="tab" id="heading' + reader.id + '">\n' +
-                        '        <h4 class="panel-title">\n' +
-                        '            <a data-toggle="collapse" onclick="openReaderPage(' + reader.id +
-                        '); return false;" data-parent="#accordion" href="#collapse' + reader.id + '"\n' +
-                        '               aria-expanded="true" aria-controls="collapse' + reader.id + '">\n';
-                    var nameSurname = notNull(reader.name) + ' ' + notNull(reader.surname);
-                    html += nameSurname +
-                        ' <i class="fa fa-heart" id = \'' + heartId + '\' style="float: right"></i>' +
-                        ' <h5><span class="text-muted"> City: </span> ' + notNull(reader.city) + '</h5>\n';
+    showProfile();
+}
 
-                    if (reader.fbPage != null) {
-                        html +=
-                            ' <h5><span class="text-muted"> Facebook page: </span> ' +
-                            '     <a href=' + reader.fbPage + ' target="_blank" class="underline">view</a></h5>\n';
-                    }
-                    html +=
-                        '               </a>\n' +
-                        '        </h4>\n' +
-                        '    </div>\n' +
-                        '</div>\n';
-                }
-                document.getElementById("accordion").innerHTML = html;
-            }
-        }
-    }
+function activateCabinet() {
+    addClassToElement("page-inner-profile", "hidden");
+    removeClassFromElement("page-inner-cabinet", "hidden");
+}
 
-    var getFriendsUrl = HOME_PAGE + "/users/friends/" + getCurrentUserId();
-    console.log(getFriendsUrl);
-    xhttp.open("GET", getFriendsUrl, true);
-    addAuthorization(xhttp);
-    xhttp.send();
-
-    return false;
+function activateProfile() {
+    addClassToElement("page-inner-cabinet", "hidden");
+    removeClassFromElement("page-inner-profile", "hidden");
 }

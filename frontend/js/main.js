@@ -1,5 +1,5 @@
-// const HOME_PAGE = "http://localhost:8008";
-const HOME_PAGE = "https://enigmatic-coast-66167.herokuapp.com";
+const HOME_PAGE = "http://localhost:8008";
+// const HOME_PAGE = "https://enigmatic-coast-66167.herokuapp.com";
 
 function getCurrentUserId() {
     var tokenData = localStorage.getItem('tokenData');
@@ -93,30 +93,31 @@ function clearHeader() {
     return false;
 }
 
-function selectMenu(menuToSelect, titleText) {
-    var titleElement = document.getElementById("accordion_header");
-    titleElement.innerHTML = titleText;
+function selectMenu(menuToSelect) {
+    deselectActiveMenu();
+    addClassToElement(menuToSelect, "active-page");
 
+    // var toSelect = document.getElementById(menuToSelect);
+    // toSelect.className += " active-page";
+    return false;
+}
+
+function deselectActiveMenu() {
     var selected = document.getElementsByClassName("active-page");
     if (selected.length > 0) {
         selected[0].className = selected[0].className.replace("active-page", "");
     }
-
-    var toSelect = document.getElementById(menuToSelect);
-    toSelect.className += " active-page";
-    return false;
 }
 
 function addClassToElement(elementId, classToAdd) {
     var elementOnPage = document.getElementById(elementId);
-    elementOnPage.className += classToAdd;
+    elementOnPage.classList.add(classToAdd);
 }
 
 function removeClassFromElement(elementId, classToRemove) {
-    var selected = document.getElementsByClassName(classToRemove);
     var elementToRemoveClassFrom = document.getElementById(elementId);
-    if (selected.length > 0 && selected[0] == elementToRemoveClassFrom) {
-        selected[0].className = selected[0].className.replace(classToRemove, "");
+    if (elementToRemoveClassFrom.classList.contains(classToRemove)) {
+        elementToRemoveClassFrom.classList.remove(classToRemove);
     }
 }
 

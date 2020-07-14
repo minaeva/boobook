@@ -1,3 +1,69 @@
+DROP TABLE IF EXISTS friendship;
+DROP TABLE IF EXISTS book;
+DROP TABLE IF EXISTS author;
+DROP TABLE IF EXISTS reader;
+
+-- ***
+
+CREATE TABLE IF NOT EXISTS reader
+(
+    id       SERIAL PRIMARY KEY,
+    email    VARCHAR(30)  NOT NULL,
+    password VARCHAR(100),
+    name     VARCHAR(20)  NOT NULL,
+    surname  VARCHAR(30),
+    city    VARCHAR(15),
+    fb_page    VARCHAR(80),
+    registration_type VARCHAR(10),
+    telegram varchar(20),
+    viber varchar(20),
+    whatsapp varchar(20),
+    skype varchar(20)
+);
+CREATE UNIQUE INDEX reader_email_uindex
+    on reader (email);
+
+CREATE TABLE IF NOT EXISTS author
+(
+    id      SERIAL PRIMARY KEY,
+    name    VARCHAR(20),
+    surname VARCHAR(30) NOT NULL
+);
+create index author_name_surname_index
+    on author (name, surname);
+
+CREATE TABLE IF NOT EXISTS book
+(
+    id        SERIAL PRIMARY KEY,
+    title      VARCHAR(80),
+    author_id SERIAL REFERENCES author (id),
+    reader_id SERIAL REFERENCES reader (id),
+    year int,
+    publisher VARCHAR(30),
+    age_group int,--     0-baby, 1-preschool, 2-junior, 3-middle, 4-teenager, 5-adult
+    description varchar(600),
+    is_hard_cover boolean,
+    language varchar(20),
+    illustrations int, --0-no, 1-bw, 2-color
+    pages_quantity int,
+    active boolean default true
+);
+create unique index book_title_author_reader_key
+    on book (title, author_id, reader_id);
+
+CREATE TABLE IF NOT EXISTS friendship
+(
+    id        SERIAL PRIMARY KEY,
+    friend1_id   SERIAL REFERENCES reader (id),
+    friend2_id SERIAL REFERENCES reader (id),
+    date_added date
+);
+create unique index friendship_friend1_id_friend2_id_index
+    on friendship (friend1_id, friend2_id);
+
+
+---****
+
 INSERT INTO author (name, surname)
 VALUES ('Alexander', 'Pushkin'),
        ('Vsevolod', 'Nestajko'),
@@ -24,4 +90,3 @@ VALUES ('Sapiens', 3, 2, 2019, 'Vivat', 5, '', true, 'ukr', 0, 313),
        ('Captains Daughter', 1, 4, 1980, 'SSSR', 5, 'my favorite book', false, 'rus', 1, 105),
        ('Homo Deus', 3, 5, 2019, 'Vivat', 5, '', true, 'ukr', 2, 313),
        ('Homo Deus', 3, 1, 2019, 'Vivat', 5, '', true, 'ukr', 0, 313)
-

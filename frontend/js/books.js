@@ -209,8 +209,6 @@ function closeEditBookModal() {
 }
 
 function showAllBooks() {
-    selectMenu("menu_books", 'Books');
-
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
 
@@ -343,7 +341,7 @@ function showBookDetails(bookId, ownerId) {
                 if (bookDetails.ownerId != getCurrentUserId()) {
                     html +=
                         '<div class="content">\n owner: ' +
-                        '<a class="underlined" id="book-details-owner" onclick="openReaderPage(' + ownerId + '); return false;">'
+                        '<a class="underlined" id="book-details-owner" onclick="clickReader(' + ownerId + '); return false;">'
                         + notNull(bookDetails.ownerName) + '</a></div>\n';
                 } else {
                     html +=

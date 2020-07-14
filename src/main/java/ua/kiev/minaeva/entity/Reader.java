@@ -31,6 +31,18 @@ public class Reader extends MapId{
     @Column(name = "fb_page")
     private String fbPage;
 
+    @Column(name = "telegram")
+    private String telegram;
+
+    @Column(name = "viber")
+    private String viber;
+
+    @Column(name = "whatsapp")
+    private String whatsapp;
+
+    @Column(name = "skype")
+    private String skype;
+
     @Column(name = "registration_type")
     @Enumerated(EnumType.STRING)
     private RegistrationType registrationType;
