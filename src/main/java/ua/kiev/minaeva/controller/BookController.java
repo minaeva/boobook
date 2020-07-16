@@ -20,7 +20,7 @@ public class BookController {
     private final BookService bookService;
 
     @GetMapping
-    public List<BookDto> getAllBooks() {
+    public List<BookDto> getAllBooks() throws BoobookNotFoundException {
         log.info("handling GET ALL books request");
         return bookService.getAll();
     }

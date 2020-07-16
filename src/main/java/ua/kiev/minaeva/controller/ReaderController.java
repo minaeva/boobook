@@ -28,6 +28,12 @@ public class ReaderController {
         return readerService.createReader(readerDto);
     }
 
+    @PutMapping
+    public ReaderDto updateReader(@RequestBody ReaderDto readerDto) throws BoobookNotFoundException, BoobookValidationException {
+        log.info("handling UPDATE READER request: " + readerDto);
+        return readerService.updateReader(readerDto);
+    }
+
     @GetMapping("/email")
     public ReaderDto getByEmail(String email) throws BoobookNotFoundException {
         log.info("handling get READER by EMAIL request: " + email);
@@ -47,7 +53,7 @@ public class ReaderController {
     }
 
     @GetMapping("/allWithIsFriend/{id}")
-    public List<ReaderDto> getAllWithIsFriend(@PathVariable final Long id) throws BoobookNotFoundException{
+    public List<ReaderDto> getAllWithIsFriend(@PathVariable final Long id) throws BoobookNotFoundException {
         log.info("handling get ALL READERS + IS FRIEND OF USER with id: " + id);
         return readerService.getAllWithIsFriend(id);
     }

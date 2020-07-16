@@ -18,7 +18,7 @@ public interface BookService {
 
     void deleteBook(BookDto bookDto);
 
-    List<BookDto> getAll();
+    List<BookDto> getAll() throws BoobookNotFoundException;
 
     BookDto getById(Long id) throws BoobookNotFoundException;
 

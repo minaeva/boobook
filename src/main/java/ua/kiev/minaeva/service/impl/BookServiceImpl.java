@@ -67,9 +67,12 @@ public class BookServiceImpl implements BookService {
         bookRepository.delete(mapper.dtoToBook(bookDto));
     }
 
-    public List<BookDto> getAll() {
-        return bookRepository.findAll()
-                .stream()
+    public List<BookDto> getAll() throws BoobookNotFoundException {
+        List<Book> books = bookRepository.findAll();
+        if (books == null) {
+            throw new BoobookNotFoundException("Not any book found");
+        }
+        return books.stream()
                 .map(book -> mapper.bookToDto(book))
                 .collect(Collectors.toList());
     }
@@ -117,7 +120,6 @@ public class BookServiceImpl implements BookService {
                                 + reader.getEmail() + " " + reader.getName() + " does not have any book"));
 
         return readerBooks.stream()
-//                .filter(book -> book.isActive())
                 .map(b -> mapper.bookToDto(b))
                 .collect(Collectors.toList());
     }

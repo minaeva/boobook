@@ -45,6 +45,17 @@ public class ReaderServiceImpl implements ReaderService {
         }
     }
 
+    public ReaderDto updateReader(ReaderDto readerDto) throws BoobookValidationException, BoobookNotFoundException {
+        validateReader(readerDto);
+
+        readerRepository.findById(readerDto.getId())
+                .orElseThrow(() -> new BoobookNotFoundException("No reader found with id " + readerDto.getId()));
+
+        Reader readerToUpdate = mapper.dtoToReader(readerDto);
+
+        return mapper.readerToDto(readerRepository.save(readerToUpdate));
+    }
+
     public void deleteReader(Reader reader) {
         readerRepository.delete(reader);
     }

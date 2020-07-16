@@ -11,6 +11,8 @@ public interface ReaderService {
 
     ReaderDto createReader(ReaderDto readerDto) throws BoobookValidationException;
 
+    ReaderDto updateReader(ReaderDto readerDto) throws BoobookValidationException, BoobookNotFoundException;
+
     void deleteReader(Reader reader);
 
     ReaderDto getByEmail(String email) throws BoobookNotFoundException;

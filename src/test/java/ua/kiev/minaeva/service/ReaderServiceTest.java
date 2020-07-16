@@ -6,14 +6,15 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import ua.kiev.minaeva.dto.ReaderDto;
+import ua.kiev.minaeva.entity.Reader;
+import ua.kiev.minaeva.entity.RegistrationType;
 import ua.kiev.minaeva.exception.BoobookNotFoundException;
 import ua.kiev.minaeva.exception.BoobookValidationException;
 import ua.kiev.minaeva.repository.ReaderRepository;
 import ua.kiev.minaeva.service.impl.ReaderServiceImpl;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import javax.persistence.criteria.CriteriaBuilder;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -52,8 +53,7 @@ public class ReaderServiceTest {
         readerDto.setEmail("");
 
         assertThrows(BoobookValidationException.class,
-                () -> readerService.createReader(readerDto),
-                "Email cannot be empty");
+                () -> readerService.createReader(readerDto));
     }
 
     @Test
@@ -62,8 +62,7 @@ public class ReaderServiceTest {
         readerDto.setPassword("");
 
         assertThrows(BoobookValidationException.class,
-                () -> readerService.createReader(readerDto),
-                "Password cannot be empty");
+                () -> readerService.createReader(readerDto));
     }
 
     @Test
@@ -72,12 +71,83 @@ public class ReaderServiceTest {
         readerDto.setName("");
 
         assertThrows(BoobookValidationException.class,
-                () -> readerService.createReader(readerDto),
-                "Name cannot be empty");
+                () -> readerService.createReader(readerDto));
     }
 
     @Test
-    void findByEmail() throws BoobookNotFoundException {
+    void updateReader_successful() throws BoobookNotFoundException, BoobookValidationException {
+        ReaderDto readerDto = aReaderDto();
+        readerDto.setId(11L);
+        when(readerRepository.findById(anyLong())).thenReturn(Optional.of(aReader()));
+        when(readerRepository.save(any())).thenReturn(aReader());
+
+        ReaderDto updatedReader = readerService.updateReader(readerDto);
+
+        assertThat(updatedReader).isNotNull();
+        assertThat(updatedReader.getName()).isEqualTo(readerDto.getName());
+    }
+
+    @Test
+    void updateReader_failsOnNotExistentReader() throws BoobookNotFoundException, BoobookValidationException {
+        ReaderDto readerDto = aReaderDto();
+        readerDto.setId(11L);
+        when(readerRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+        assertThrows(BoobookNotFoundException.class,
+                () -> readerService.updateReader(readerDto));
+    }
+
+    @Test
+    void updateReader_failsOnNotEmptyEmail() throws BoobookNotFoundException, BoobookValidationException {
+        ReaderDto readerDto = aReaderDto();
+        readerDto.setId(11L);
+        readerDto.setEmail("");
+        when(readerRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+        assertThrows(BoobookValidationException.class,
+                () -> readerService.updateReader(readerDto));
+    }
+
+    @Test
+    void updateReader_failsOnNotEmptyName() throws BoobookNotFoundException, BoobookValidationException {
+        ReaderDto readerDto = aReaderDto();
+        readerDto.setId(11L);
+        readerDto.setName("");
+        when(readerRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+        assertThrows(BoobookValidationException.class,
+                () -> readerService.updateReader(readerDto));
+    }
+
+    @Test
+    void updateReader_failsOnNotFbEmptyPassword() throws BoobookNotFoundException, BoobookValidationException {
+        ReaderDto readerDto = aReaderDto();
+        readerDto.setId(11L);
+        readerDto.setRegistrationType(RegistrationType.CUSTOM);
+        readerDto.setPassword("");
+        when(readerRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+        assertThrows(BoobookValidationException.class,
+                () -> readerService.updateReader(readerDto));
+    }
+
+    @Test
+    void updateReader_successfulOnFbEmptyPassword() throws BoobookNotFoundException, BoobookValidationException {
+        ReaderDto readerDto = aReaderDto();
+        readerDto.setId(11L);
+        readerDto.setRegistrationType(RegistrationType.FB);
+        readerDto.setPassword("");
+        when(readerRepository.findById(anyLong())).thenReturn(Optional.of(aReader()));
+        when(readerRepository.save(any())).thenReturn(aReader());
+
+        ReaderDto updatedReader = readerService.updateReader(readerDto);
+
+        assertThat(updatedReader).isNotNull();
+        assertThat(updatedReader.getName()).isEqualTo(readerDto.getName());
+    }
+
+    @Test
+    void getByEmail() throws BoobookNotFoundException {
         when(readerRepository.findByEmail(eq("email")))
                 .thenReturn(Optional.of(aReader()));
 
@@ -88,17 +158,37 @@ public class ReaderServiceTest {
     }
 
     @Test
-    void findByEmail_notFound() {
+    void getByEmail_notFound() {
         when(readerRepository.findByEmail(anyString()))
                 .thenReturn(Optional.empty());
 
         assertThrows(BoobookNotFoundException.class,
-                () -> readerService.getByEmail("not existent"),
-                "No reader with email _not existent_ found");
+                () -> readerService.getByEmail("not existent"));
     }
 
     @Test
-    void findByName() throws BoobookNotFoundException {
+    void getByEmailAndPassword() throws BoobookNotFoundException {
+        Reader reader = aReader();
+        reader.setRegistrationType(RegistrationType.FB);
+        when(readerRepository.findByEmail(anyString()))
+                .thenReturn(Optional.of(reader));
+
+        ReaderDto foundReader = readerService.getByEmailAndPassword("email", "password");
+
+        assertThat(foundReader).isNotNull();
+        assertThat(foundReader.getEmail()).isEqualTo(aReader().getEmail());
+    }
+
+        @Test
+        void getByEmailAndPassword_notFound() {
+            when(readerRepository.findByEmail(anyString())).thenReturn(Optional.empty());
+
+            assertThrows(BoobookNotFoundException.class,
+                    () -> readerService.getByEmailAndPassword("mail", "password"));
+        }
+
+    @Test
+    void getByName() throws BoobookNotFoundException {
         when(readerRepository.findByName(anyString()))
                 .thenReturn(Collections.singletonList(aReader()));
 
@@ -109,7 +199,7 @@ public class ReaderServiceTest {
     }
 
     @Test
-    void findByName_notFound() {
+    void getByName_notFound() {
         when(readerRepository.findByName(anyString()))
                 .thenReturn(Collections.emptyList());
 
