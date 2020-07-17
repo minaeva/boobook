@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -56,8 +57,7 @@ public class FriendshipServiceTest {
                 .thenReturn(Optional.empty());
 
         assertThrows(BoobookNotFoundException.class,
-                () -> friendshipService.getFriendsByReaderId(44L),
-                "Reader with id 44 cannot be found");
+                () -> friendshipService.getFriendsByReaderId(44L));
     }
 
     @Test
@@ -68,8 +68,7 @@ public class FriendshipServiceTest {
                 .thenReturn(Collections.emptyList());
 
         assertThrows(BoobookNotFoundException.class,
-                () -> friendshipService.getFriendsByReaderId(44L),
-                "Not any friend of reader with id 44 found");
+                () -> friendshipService.getFriendsByReaderId(44L));
     }
 
     @Test
@@ -88,15 +87,40 @@ public class FriendshipServiceTest {
                 .thenReturn(Optional.empty());
 
         assertThrows(BoobookNotFoundException.class,
-                () -> friendshipService.addFriend(1L, 2L),
-                "Reader with id 1 cannot be found");
+                () -> friendshipService.addFriend(1L, 2L));
     }
 
     @Test
     void addFriend_validationException() {
+        when(readerRepository.findById(anyLong())).thenReturn(Optional.of(aReader()));
+
         assertThrows(BoobookValidationException.class,
-                () -> friendshipService.addFriend(1L, 1L),
-                "Friend to be added should be the other person");
+                () -> friendshipService.addFriend(1L, 1L));
+    }
+
+    @Test
+    public void areFriends_friends() throws BoobookNotFoundException {
+        when(readerRepository.findById(anyLong())).thenReturn(Optional.of(aReader()));
+        when(friendshipRepository.findByFriend1AndFriend2(any(Reader.class), any(Reader.class)))
+                .thenReturn(Optional.of(aFriendship()));
+
+        assertEquals(true, friendshipService.areFriends(1L, 2L));
+    }
+
+    @Test
+    public void areFriends_notFriends() throws BoobookNotFoundException {
+        when(readerRepository.findById(anyLong())).thenReturn(Optional.of(aReader()));
+        when(friendshipRepository.findByFriend1AndFriend2(any(Reader.class), any(Reader.class)))
+                .thenReturn(Optional.empty());
+
+        assertEquals(false, friendshipService.areFriends(1L, 2L));
+    }
+
+    @Test
+    public void areFriends_failsOnNotExistentReader() {
+        when(readerRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+        assertThrows(BoobookNotFoundException.class, () -> friendshipService.areFriends(1L, 3L));
     }
 
     @Test

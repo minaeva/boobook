@@ -1,6 +1,7 @@
 package ua.kiev.minaeva.service;
 
 import org.junit.jupiter.api.Test;
+import org.mapstruct.factory.Mappers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,13 +11,17 @@ import ua.kiev.minaeva.entity.Reader;
 import ua.kiev.minaeva.entity.RegistrationType;
 import ua.kiev.minaeva.exception.BoobookNotFoundException;
 import ua.kiev.minaeva.exception.BoobookValidationException;
+import ua.kiev.minaeva.mapper.ReaderMapper;
 import ua.kiev.minaeva.repository.ReaderRepository;
+import ua.kiev.minaeva.service.impl.FriendshipServiceImpl;
 import ua.kiev.minaeva.service.impl.ReaderServiceImpl;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
@@ -34,6 +39,12 @@ public class ReaderServiceTest {
 
     @InjectMocks
     private ReaderServiceImpl readerService;
+
+    @Mock
+    private FriendshipServiceImpl friendshipService;
+
+    private ReaderMapper mapper = Mappers.getMapper(ReaderMapper.class);
+
 
     @Test
     void createReader_successful() throws BoobookValidationException {
@@ -179,13 +190,87 @@ public class ReaderServiceTest {
         assertThat(foundReader.getEmail()).isEqualTo(aReader().getEmail());
     }
 
-        @Test
-        void getByEmailAndPassword_notFound() {
-            when(readerRepository.findByEmail(anyString())).thenReturn(Optional.empty());
+    @Test
+    void getByEmailAndPassword_notFound() {
+        when(readerRepository.findByEmail(anyString())).thenReturn(Optional.empty());
 
-            assertThrows(BoobookNotFoundException.class,
-                    () -> readerService.getByEmailAndPassword("mail", "password"));
-        }
+        assertThrows(BoobookNotFoundException.class,
+                () -> readerService.getByEmailAndPassword("mail", "password"));
+    }
+
+    @Test
+    public void getAllWithIsFriend_success() throws BoobookNotFoundException {
+        Reader reader2 = aReader();
+        reader2.setId(2L);
+        reader2.setEmail("test@mail");
+
+        when(readerRepository.findAll()).thenReturn(Collections.singletonList(reader2));
+        when(friendshipService.getFriendsByReaderId(anyLong()))
+                .thenReturn(Collections.singletonList(mapper.readerToDto(reader2)));
+
+        assertEquals(true, readerService.getAllWithIsFriend(1L).get(0).isFriend());
+    }
+
+    @Test
+    public void getAllWithIsFriend_notAFriend() throws BoobookNotFoundException {
+        Reader reader2 = aReader();
+        reader2.setId(2L);
+
+        Reader reader3 = aReader();
+        reader3.setId(3L);
+
+        when(readerRepository.findAll()).thenReturn(Collections.singletonList(reader2));
+        when(friendshipService.getFriendsByReaderId(anyLong()))
+                .thenReturn(Collections.singletonList(mapper.readerToDto(reader3)));
+
+        assertEquals(false, readerService.getAllWithIsFriend(1L).get(0).isFriend());
+    }
+
+    @Test
+    public void getAllWithIsFriend_noFriendsFound() throws BoobookNotFoundException {
+        Reader reader2 = aReader();
+        reader2.setId(2L);
+
+        when(readerRepository.findAll()).thenReturn(Collections.singletonList(reader2));
+        when(friendshipService.getFriendsByReaderId(anyLong()))
+                .thenThrow(BoobookNotFoundException.class);
+
+        assertEquals(false, readerService.getAllWithIsFriend(1L).get(0).isFriend());
+    }
+
+    @Test
+    public void getById_success() throws BoobookNotFoundException {
+        when(readerRepository.findById(anyLong())).thenReturn(Optional.of(aReader()));
+
+        ReaderDto readerDto = readerService.getById(1L);
+
+        assertThat(readerDto).isNotNull();
+        assertEquals(aReader().getName(), readerDto.getName());
+    }
+
+    @Test
+    public void getById_notFound() {
+        when(readerRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+        assertThrows(BoobookNotFoundException.class,
+                () -> readerService.getById(1L));
+    }
+
+    @Test
+    public void getByIdWithIsFriend_friend() throws BoobookNotFoundException {
+        when(readerRepository.findById(anyLong())).thenReturn(Optional.of(aReader()));
+        when(friendshipService.areFriends(anyLong(), anyLong())).thenReturn(true);
+
+        assertEquals(true, readerService.getByIdWithIsFriend(1L, 2L).isFriend());
+    }
+
+    @Test
+    public void getByIdWithIsFriend_notFriend() throws BoobookNotFoundException {
+        when(readerRepository.findById(anyLong())).thenReturn(Optional.of(aReader()));
+        when(friendshipService.areFriends(anyLong(), anyLong())).thenReturn(false);
+
+        assertEquals(false, readerService.getByIdWithIsFriend(1L, 2L).isFriend());
+    }
 
     @Test
     void getByName() throws BoobookNotFoundException {
@@ -195,7 +280,7 @@ public class ReaderServiceTest {
         List<ReaderDto> foundReaders = readerService.getByName("email");
 
         assertThat(foundReaders).isNotNull();
-        assertThat(foundReaders.get(0).getEmail()).isEqualTo(aReader().getEmail());
+        assertEquals(foundReaders.get(0).getEmail(), aReader().getEmail());
     }
 
     @Test

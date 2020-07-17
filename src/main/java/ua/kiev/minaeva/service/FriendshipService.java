@@ -18,5 +18,4 @@ public interface FriendshipService {
 
     boolean areFriends(Long friend1Id, Long friend2Id) throws BoobookNotFoundException;
 
-//    Friendship friendshipIsPresent(Reader friend1, Reader friend2) throws BoobookNotFoundException;
 }

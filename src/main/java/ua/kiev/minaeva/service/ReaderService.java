@@ -23,7 +23,7 @@ public interface ReaderService {
 
     List<ReaderDto> getAll();
 
-    List<ReaderDto> getAllWithIsFriend(Long friend1Id) throws BoobookNotFoundException;
+    List<ReaderDto> getAllWithIsFriend(Long friend1Id);
 
     ReaderDto getById(Long id) throws BoobookNotFoundException;
 

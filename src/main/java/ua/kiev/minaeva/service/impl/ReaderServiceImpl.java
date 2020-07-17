@@ -88,14 +88,19 @@ public class ReaderServiceImpl implements ReaderService {
                 .collect(Collectors.toList());
     }
 
-    public List<ReaderDto> getAllWithIsFriend(Long friend1Id) throws BoobookNotFoundException {
+    public List<ReaderDto> getAllWithIsFriend(Long friend1Id) {
         List<ReaderDto> foundReaders = readerRepository.findAll()
                 .stream()
                 .filter(reader -> !friend1Id.equals(reader.getId()))
                 .map(reader -> mapper.readerToDto(reader))
                 .collect(Collectors.toList());
+        List<ReaderDto> foundFriends;
 
-        List<ReaderDto> foundFriends = friendshipService.getFriendsByReaderId(friend1Id);
+        try {
+            foundFriends = friendshipService.getFriendsByReaderId(friend1Id);
+        } catch (BoobookNotFoundException e) {
+            return foundReaders;
+        }
 
         for (ReaderDto friend : foundFriends) {
             for (ReaderDto reader : foundReaders) {

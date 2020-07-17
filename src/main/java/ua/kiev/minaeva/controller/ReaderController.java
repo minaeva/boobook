@@ -53,7 +53,7 @@ public class ReaderController {
     }
 
     @GetMapping("/allWithIsFriend/{id}")
-    public List<ReaderDto> getAllWithIsFriend(@PathVariable final Long id) throws BoobookNotFoundException {
+    public List<ReaderDto> getAllWithIsFriend(@PathVariable final Long id) {
         log.info("handling get ALL READERS + IS FRIEND OF USER with id: " + id);
         return readerService.getAllWithIsFriend(id);
     }
