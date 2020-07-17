@@ -194,6 +194,7 @@ function addFriend(friend1, friend2, friend2NameSurname, heartId) {
                 showWarningModal(friend2 + ' is already a friend of ' + friend1);
             } else if (this.status === 200) {
                 showSuccessModal(friend2NameSurname + ' has been successfully added to friends');
+                showReaderDetails(friend2);
             }
         }
     }
@@ -219,6 +220,7 @@ function removeFriend(friend1, friend2, friend2NameSurname, heartId) {
                 showWarningModal(friend2 + ' is not a friend of ' + friend1);
             } else if (this.status === 200) {
                 showSuccessModal(friend2NameSurname + ' has been successfully removed from friends');
+                showReaderDetails(friend2);
             }
         }
     }
