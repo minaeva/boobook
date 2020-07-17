@@ -2,6 +2,7 @@ package ua.kiev.minaeva.prototype;
 
 import ua.kiev.minaeva.entity.Friendship;
 import ua.kiev.minaeva.entity.Reader;
+import ua.kiev.minaeva.entity.RegistrationType;
 
 import java.time.LocalDateTime;
 

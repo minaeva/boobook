@@ -202,7 +202,7 @@ public class BookServiceTest {
     }
 
     @Test
-    void getAll() throws BoobookNotFoundException {
+    void getAll() {
         when(bookRepository.findAll())
                 .thenReturn(Collections.singletonList(aBook));
 
@@ -213,10 +213,11 @@ public class BookServiceTest {
 
     @Test
     void getAll_nothingFound() {
-        when(bookRepository.findAll()).thenReturn(null);
+        when(bookRepository.findAll()).thenReturn(Collections.EMPTY_LIST);
 
-        assertThrows(BoobookNotFoundException.class,
-                () -> bookService.getAll());
+        List<BookDto> foundBooks = bookService.getAll();
+
+        assertThat(foundBooks).isEmpty();
     }
 
     @Test
