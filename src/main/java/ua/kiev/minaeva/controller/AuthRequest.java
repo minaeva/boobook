@@ -7,7 +7,7 @@ import lombok.ToString;
 @ToString(exclude = "password")
 public class AuthRequest {
 
-    private String login;
+    private String email;
     private String password;
 
 }

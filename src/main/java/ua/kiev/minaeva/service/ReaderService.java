@@ -11,16 +11,21 @@ public interface ReaderService {
 
     ReaderDto createReader(ReaderDto readerDto) throws BoobookValidationException;
 
+    ReaderDto updateReader(ReaderDto readerDto) throws BoobookValidationException, BoobookNotFoundException;
+
     void deleteReader(Reader reader);
 
-    ReaderDto getByLogin(String login) throws BoobookNotFoundException;
+    ReaderDto getByEmail(String email) throws BoobookNotFoundException;
 
     List<ReaderDto> getByName(String name) throws BoobookNotFoundException;
 
-    ReaderDto getByLoginAndPassword(String login, String password) throws BoobookNotFoundException;
+    ReaderDto getByEmailAndPassword(String email, String password) throws BoobookNotFoundException;
 
     List<ReaderDto> getAll();
 
+    List<ReaderDto> getAllWithIsFriend(Long friend1Id);
+
     ReaderDto getById(Long id) throws BoobookNotFoundException;
 
+    ReaderDto getByIdWithIsFriend(Long id, Long friendOfId) throws BoobookNotFoundException;
 }

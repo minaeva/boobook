@@ -40,8 +40,8 @@ public class AuthController {
         readerService.createReader(readerDto);
 
         if (RegistrationType.FB.equals(request.getRegistrationType())) {
-            String token = jwtProvider.generateToken(readerDto.getLogin());
-            return new RegistrationResponse(token, readerDto.getLogin(), readerDto.getEmail());
+            String token = jwtProvider.generateToken(readerDto.getEmail());
+            return new RegistrationResponse(token, readerDto.getEmail());
         }
         return new RegistrationResponse();
     }
@@ -51,10 +51,10 @@ public class AuthController {
             throws BoobookNotFoundException, BoobookUnauthorizedException {
         log.info("handling authenticate reader request: " + authRequest);
         ReaderDto readerDto = Optional
-                .ofNullable(readerService.getByLoginAndPassword(authRequest.getLogin(), authRequest.getPassword()))
+                .ofNullable(readerService.getByEmailAndPassword(authRequest.getEmail(), authRequest.getPassword()))
                 .orElseThrow(() -> new BoobookUnauthorizedException("Reader not found"));
 
-        String token = jwtProvider.generateToken(readerDto.getLogin());
+        String token = jwtProvider.generateToken(readerDto.getEmail());
         return new AuthResponse(token, readerDto.getId(), readerDto.getEmail());
     }
 

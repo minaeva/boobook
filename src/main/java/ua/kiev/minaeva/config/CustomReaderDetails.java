@@ -11,13 +11,13 @@ import java.util.Collections;
 public class CustomReaderDetails implements UserDetails {
 
     public static final String ROLE_READER = "ROLE_READER";
-    private String login;
+    private String email;
     private String password;
     private Collection<? extends GrantedAuthority> grantedAuthorities;
 
     public static CustomReaderDetails fromReaderDtoToCustomUserDetails(ReaderDto readerDto){
         CustomReaderDetails details = new CustomReaderDetails();
-        details.login = readerDto.getLogin();
+        details.email = readerDto.getEmail();
         details.password = readerDto.getPassword();
         details.grantedAuthorities = Collections.singletonList(new SimpleGrantedAuthority(ROLE_READER));
         return details;
@@ -35,7 +35,7 @@ public class CustomReaderDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return login;
+        return email;
     }
 
     @Override

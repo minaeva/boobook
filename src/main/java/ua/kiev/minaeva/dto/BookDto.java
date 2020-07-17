@@ -12,5 +12,85 @@ public class BookDto {
     private String authorSurname;
     private Long ownerId;
     private String ownerName;
+    private int year;
+    private String publisher;
+    private int ageGroup;
+    private String description;
+    private boolean hardCover;
+    private String language;
+    private int illustrations;
+    private int pagesQuantity;
+    private boolean isActive = true;
 
+    public static class Builder {
+
+        private BookDto newBookDto;
+
+        public Builder(String title, Long authorId, Long ownerId) {
+            newBookDto = new BookDto();
+            newBookDto.title = title;
+            newBookDto.authorId = authorId;
+            newBookDto.ownerId = ownerId;
+        }
+
+        public  Builder withAuthorName(String authorName) {
+            newBookDto.authorName = authorName;
+            return this;
+        }
+
+        public  Builder withAuthorSurname(String authorSurname) {
+            newBookDto.authorSurname = authorSurname;
+            return this;
+        }
+
+        public Builder withYear(int year) {
+            newBookDto.year = year;
+            return this;
+        }
+
+        public Builder withPublisher(String publisher) {
+            newBookDto.publisher = publisher;
+            return this;
+        }
+
+        public Builder withAgeGroup(int ageGroup) {
+            newBookDto.ageGroup = ageGroup;
+            return this;
+        }
+
+        public Builder withDescription(String description) {
+            newBookDto.description = description;
+            return this;
+        }
+
+        public Builder withHardCover(boolean hardCover) {
+            newBookDto.hardCover = hardCover;
+            return this;
+        }
+
+        public Builder withLanguage(String language) {
+            newBookDto.language = language;
+            return this;
+        }
+
+        public Builder withIllustrations(int illustrations) {
+            newBookDto.illustrations = illustrations;
+            return this;
+        }
+
+        public Builder withPagesQuantity(int pagesQuantity) {
+            newBookDto.pagesQuantity = pagesQuantity;
+            return this;
+        }
+
+        public Builder withActive(boolean active) {
+            newBookDto.isActive = active;
+            return this;
+        }
+
+        public BookDto build() {
+            return newBookDto;
+        }
+
+    }
 }

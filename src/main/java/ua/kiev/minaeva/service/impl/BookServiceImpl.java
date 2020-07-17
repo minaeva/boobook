@@ -38,41 +38,41 @@ public class BookServiceImpl implements BookService {
         Author newBookAuthor;
         Reader newBookOwner;
 
-        Optional<Author> existentAuthor = authorRepository
-                .findByNameAndSurname(bookDto.getAuthorName(), bookDto.getAuthorSurname());
-        if (existentAuthor.isPresent()) {
-            newBookAuthor = existentAuthor.get();
-        } else {
-            newBookAuthor = authorRepository.save(new Author(bookDto.getAuthorName(), bookDto.getAuthorSurname()));
-        }
+        newBookAuthor = getOrCreateAuthor(bookDto);
         newBook.setAuthor(newBookAuthor);
 
-        Optional<Reader> existentOwner = readerRepository.findById(bookDto.getOwnerId());
-
-        if (existentOwner.isPresent()) {
-            newBookOwner = existentOwner.get();
-        } else {
-            throw new BoobookNotFoundException("reader with id " + bookDto.getOwnerId() + " cannot be found");
-        }
+        newBookOwner = getOwner(bookDto);
         newBook.setOwner(newBookOwner);
 
         return mapper.bookToDto(bookRepository.save(newBook));
     }
 
-    public BookDto updateBook(BookDto bookDto) throws BoobookValidationException {
+    public BookDto updateBook(BookDto bookDto) throws BoobookValidationException, BoobookNotFoundException {
         validateBook(bookDto);
 
-        Book book = mapper.dtoToBook(bookDto);
-        return mapper.bookToDto(bookRepository.save(book));
+        bookRepository.findById(bookDto.getId())
+                .orElseThrow(() -> new BoobookNotFoundException("No book found with id " + bookDto.getId()));
+
+        Book bookToUpdate = mapper.dtoToBook(bookDto);
+        Author newBookAuthor = getOrCreateAuthor(bookDto);
+        bookToUpdate.setAuthor(newBookAuthor);
+
+        Reader newBookOwner = getOwner(bookDto);
+        bookToUpdate.setOwner(newBookOwner);
+
+        return mapper.bookToDto(bookRepository.save(bookToUpdate));
     }
 
     public void deleteBook(BookDto bookDto) {
         bookRepository.delete(mapper.dtoToBook(bookDto));
     }
 
-    public List<BookDto> getAll() {
-        return bookRepository.findAll()
-                .stream()
+    public List<BookDto> getAll() throws BoobookNotFoundException {
+        List<Book> books = bookRepository.findAll();
+        if (books == null) {
+            throw new BoobookNotFoundException("Not any book found");
+        }
+        return books.stream()
                 .map(book -> mapper.bookToDto(book))
                 .collect(Collectors.toList());
     }
@@ -117,11 +117,63 @@ public class BookServiceImpl implements BookService {
         List<Book> readerBooks = bookRepository.findByOwner(reader)
                 .orElseThrow(() ->
                         new BoobookNotFoundException("The reader " + reader.getId() + " "
-                                + reader.getLogin() + " " + reader.getName() + " does not have any book"));
+                                + reader.getEmail() + " " + reader.getName() + " does not have any book"));
 
         return readerBooks.stream()
                 .map(b -> mapper.bookToDto(b))
                 .collect(Collectors.toList());
+    }
+
+    public List<BookDto> getByOwnerActive(Long readerId) throws BoobookNotFoundException {
+        List<BookDto> activeAndInactive = getByOwner(readerId);
+        return filterActive(activeAndInactive);
+    }
+
+    private List<BookDto> filterActive(List<BookDto> activeAndInactive) throws BoobookNotFoundException {
+        return activeAndInactive.stream()
+                .filter(bookDto -> bookDto.isActive())
+                .collect(Collectors.toList());
+    }
+
+    public BookDto setInactive(Long bookId) throws BoobookNotFoundException {
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new BoobookNotFoundException("No book found with id " + bookId));
+
+        book.setActive(false);
+
+        return mapper.bookToDto(bookRepository.save(book));
+    }
+
+    public BookDto setActive(Long bookId) throws BoobookNotFoundException {
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new BoobookNotFoundException("No book found with id " + bookId));
+
+        book.setActive(true);
+
+        return mapper.bookToDto(bookRepository.save(book));
+    }
+
+    private Author getOrCreateAuthor(BookDto bookDto) {
+        Author newBookAuthor;
+        Optional<Author> existentAuthor = authorRepository
+                .findByNameAndSurname(bookDto.getAuthorName(), bookDto.getAuthorSurname());
+        if (existentAuthor.isPresent()) {
+            newBookAuthor = existentAuthor.get();
+        } else {
+            newBookAuthor = authorRepository.save(new Author(bookDto.getAuthorName(), bookDto.getAuthorSurname()));
+        }
+        return newBookAuthor;
+    }
+
+    private Reader getOwner(BookDto bookDto) throws BoobookNotFoundException {
+        Reader newBookOwner;
+        Optional<Reader> existentOwner = readerRepository.findById(bookDto.getOwnerId());
+        if (existentOwner.isPresent()) {
+            newBookOwner = existentOwner.get();
+        } else {
+            throw new BoobookNotFoundException("reader with id " + bookDto.getOwnerId() + " cannot be found");
+        }
+        return newBookOwner;
     }
 
 }

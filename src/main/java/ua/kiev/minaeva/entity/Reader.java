@@ -13,8 +13,8 @@ import java.util.Set;
 @Table(name = "reader")
 public class Reader extends MapId{
 
-    @Column(name = "login")
-    private String login;
+    @Column(name = "email")
+    private String email;
 
     @Column(name = "password")
     private String password;
@@ -31,8 +31,17 @@ public class Reader extends MapId{
     @Column(name = "fb_page")
     private String fbPage;
 
-    @Column(name = "email")
-    private String email;
+    @Column(name = "telegram")
+    private String telegram;
+
+    @Column(name = "viber")
+    private String viber;
+
+    @Column(name = "whatsapp")
+    private String whatsapp;
+
+    @Column(name = "skype")
+    private String skype;
 
     @Column(name = "registration_type")
     @Enumerated(EnumType.STRING)

@@ -12,7 +12,7 @@ public class ReaderPrototype {
 
     public static Reader aReader() {
         Reader reader = new Reader();
-        reader.setLogin("test_login");
+        reader.setEmail("test_email");
         reader.setPassword("test_password");
         reader.setName("test_name");
         reader.setSurname("test_surname");

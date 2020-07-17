@@ -1,6 +1,8 @@
 package ua.kiev.minaeva.service;
 
 import ua.kiev.minaeva.dto.ReaderDto;
+import ua.kiev.minaeva.entity.Friendship;
+import ua.kiev.minaeva.entity.Reader;
 import ua.kiev.minaeva.exception.BoobookNotFoundException;
 import ua.kiev.minaeva.exception.BoobookValidationException;
 
@@ -13,4 +15,7 @@ public interface FriendshipService {
     void addFriend(Long friend1Id, Long friend2Id) throws BoobookNotFoundException, BoobookValidationException;
 
     void removeFriend(Long friend1Id, Long friend2Id) throws BoobookNotFoundException;
+
+    boolean areFriends(Long friend1Id, Long friend2Id) throws BoobookNotFoundException;
+
 }

@@ -54,20 +54,20 @@ public class ReaderControllerTest {
     }
 
     @Test
-    void getByLogin() throws Exception {
-        when(readerService.getByLogin(any())).thenReturn(aReaderDto());
+    void getByEmail() throws Exception {
+        when(readerService.getByEmail(any())).thenReturn(aReaderDto());
 
-        mockMvc.perform(get("/users/login").param("login", "test"))
+        mockMvc.perform(get("/users/email").param("email", "test"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(objectMapper.writeValueAsString(aReaderDto())));
     }
 
     @Test
-    void getByLogin_notFound() throws Exception {
-        when(readerService.getByLogin(any())).thenThrow(BoobookNotFoundException.class);
+    void getByEmail_notFound() throws Exception {
+        when(readerService.getByEmail(any())).thenThrow(BoobookNotFoundException.class);
 
-        MvcResult result = mockMvc.perform(get("/users/login").param("login", "test"))
+        MvcResult result = mockMvc.perform(get("/users/email").param("email", "test"))
                 .andExpect(status().isNotFound())
                 .andReturn();
 

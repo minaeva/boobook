@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface ReaderRepository extends JpaRepository<Reader, Long> {
 
-    Optional<Reader> findByLogin(String login);
+    Optional<Reader> findByEmail(String email);
 
     Optional<Reader> findById(Long id);
 

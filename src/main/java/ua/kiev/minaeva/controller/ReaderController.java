@@ -28,10 +28,16 @@ public class ReaderController {
         return readerService.createReader(readerDto);
     }
 
-    @GetMapping("/login")
-    public ReaderDto getByLogin(String login) throws BoobookNotFoundException {
-        log.info("handling get READER by LOGIN request: " + login);
-        return readerService.getByLogin(login);
+    @PutMapping
+    public ReaderDto updateReader(@RequestBody ReaderDto readerDto) throws BoobookNotFoundException, BoobookValidationException {
+        log.info("handling UPDATE READER request: " + readerDto);
+        return readerService.updateReader(readerDto);
+    }
+
+    @GetMapping("/email")
+    public ReaderDto getByEmail(String email) throws BoobookNotFoundException {
+        log.info("handling get READER by EMAIL request: " + email);
+        return readerService.getByEmail(email);
     }
 
     @GetMapping("/name")
@@ -41,15 +47,27 @@ public class ReaderController {
     }
 
     @GetMapping
-    public List<ReaderDto> getAllReaders() {
+    public List<ReaderDto> getAll() {
         log.info("handling get ALL READERS request");
         return readerService.getAll();
+    }
+
+    @GetMapping("/allWithIsFriend/{id}")
+    public List<ReaderDto> getAllWithIsFriend(@PathVariable final Long id) {
+        log.info("handling get ALL READERS + IS FRIEND OF USER with id: " + id);
+        return readerService.getAllWithIsFriend(id);
     }
 
     @GetMapping("/{id}")
     public ReaderDto getById(@PathVariable final Long id) throws BoobookNotFoundException {
         log.info("handling get READER by ID request: " + id);
         return readerService.getById(id);
+    }
+
+    @GetMapping("/{id}/{friendOfId}")
+    public ReaderDto getByIdWithIsFriend(@PathVariable final Long id, @PathVariable final Long friendOfId) throws BoobookNotFoundException {
+        log.info("handling get READER BY ID + IS FRIEND OF USER with id: " + id);
+        return readerService.getByIdWithIsFriend(id, friendOfId);
     }
 
     @GetMapping("/friends/{id}")
@@ -71,6 +89,5 @@ public class ReaderController {
         friendshipService.removeFriend(id1, id2);
         return ResponseEntity.ok().build();
     }
-
 
 }
