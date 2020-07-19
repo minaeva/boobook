@@ -2,6 +2,8 @@ package ua.kiev.minaeva.controller.helper;
 
 public class BoobookConstants {
 
+    private BoobookConstants() {}
+
     public static int ILLUSTRATION_ABSENT = 0;
     public static int ILLUSTRATION_BW = 1;
     public static int ILLUSTRATION_COLOR = 2;

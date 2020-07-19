@@ -6,6 +6,8 @@ import ua.kiev.minaeva.exception.BoobookValidationException;
 
 public class BookValidator {
 
+    private BookValidator() {}
+
     public static void validateBook(BookDto bookDto) throws BoobookValidationException {
         if (StringUtils.isEmpty(bookDto.getTitle())) {
             throw new BoobookValidationException("Title cannot be empty");

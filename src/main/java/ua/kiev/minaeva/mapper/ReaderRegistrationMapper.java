@@ -8,8 +8,6 @@ import ua.kiev.minaeva.dto.ReaderDto;
 @Mapper
 public interface ReaderRegistrationMapper {
 
-    ReaderRegistrationMapper INSTANCE = Mappers.getMapper(ReaderRegistrationMapper.class);
-
     ReaderDto requestToReaderDto(RegistrationRequest request);
 
 }

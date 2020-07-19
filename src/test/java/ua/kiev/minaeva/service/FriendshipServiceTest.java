@@ -18,8 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
@@ -78,7 +77,7 @@ public class FriendshipServiceTest {
         when(friendshipRepository.save(any(Friendship.class)))
                 .thenReturn(aFriendship());
 
-        friendshipService.addFriend(1L, 2L);
+        assertDoesNotThrow(() -> friendshipService.addFriend(1L, 2L));
     }
 
     @Test
@@ -131,7 +130,7 @@ public class FriendshipServiceTest {
                 .thenReturn(Optional.of(aFriendship()));
         doNothing().when(friendshipRepository).delete(any(Friendship.class));
 
-        friendshipService.removeFriend(1L, 2L);
+        assertDoesNotThrow(() -> friendshipService.removeFriend(1L, 2L));
     }
 
     @Test

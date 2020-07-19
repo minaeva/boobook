@@ -10,8 +10,6 @@ import ua.kiev.minaeva.entity.Book;
 @Mapper
 public interface BookMapper {
 
-    BookMapper INSTANCE = Mappers.getMapper(BookMapper.class);
-
     @Mappings({
             @Mapping(target = "authorId", expression = "java(book.getAuthor().getId())"),
             @Mapping(target = "authorName", expression = "java(book.getAuthor().getName())"),

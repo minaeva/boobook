@@ -25,6 +25,7 @@ import static ua.kiev.minaeva.service.helper.BookValidator.validateBook;
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
 
+    public static final String NO_BOOK_FOUND_WITH_ID = "No book found with id ";
     private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
     private final ReaderRepository readerRepository;
@@ -51,7 +52,7 @@ public class BookServiceImpl implements BookService {
         validateBook(bookDto);
 
         bookRepository.findById(bookDto.getId())
-                .orElseThrow(() -> new BoobookNotFoundException("No book found with id " + bookDto.getId()));
+                .orElseThrow(() -> new BoobookNotFoundException(NO_BOOK_FOUND_WITH_ID + bookDto.getId()));
 
         Book bookToUpdate = mapper.dtoToBook(bookDto);
         Author newBookAuthor = getOrCreateAuthor(bookDto);
@@ -77,7 +78,7 @@ public class BookServiceImpl implements BookService {
 
     public BookDto getById(Long id) throws BoobookNotFoundException {
         Book book = bookRepository.findById(id)
-                .orElseThrow(() -> new BoobookNotFoundException("No book found with id " + id));
+                .orElseThrow(() -> new BoobookNotFoundException(NO_BOOK_FOUND_WITH_ID + id));
 
         return mapper.bookToDto(book);
     }
@@ -136,7 +137,7 @@ public class BookServiceImpl implements BookService {
 
     public BookDto setInactive(Long bookId) throws BoobookNotFoundException {
         Book book = bookRepository.findById(bookId)
-                .orElseThrow(() -> new BoobookNotFoundException("No book found with id " + bookId));
+                .orElseThrow(() -> new BoobookNotFoundException(NO_BOOK_FOUND_WITH_ID + bookId));
 
         book.setActive(false);
 
@@ -145,7 +146,7 @@ public class BookServiceImpl implements BookService {
 
     public BookDto setActive(Long bookId) throws BoobookNotFoundException {
         Book book = bookRepository.findById(bookId)
-                .orElseThrow(() -> new BoobookNotFoundException("No book found with id " + bookId));
+                .orElseThrow(() -> new BoobookNotFoundException(NO_BOOK_FOUND_WITH_ID + bookId));
 
         book.setActive(true);
 

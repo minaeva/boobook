@@ -338,7 +338,7 @@ public class BookServiceTest {
 
         List<BookDto> books = bookService.getByOwnerActive(1L);
 
-        assertThat(books.isEmpty());
+        assertThat(books).isEmpty();
     }
 
     @Test

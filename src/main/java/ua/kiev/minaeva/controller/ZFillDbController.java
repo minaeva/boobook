@@ -1,7 +1,6 @@
 package ua.kiev.minaeva.controller;
 
 import lombok.extern.java.Log;
-import org.hibernate.service.spi.InjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,14 +15,6 @@ import ua.kiev.minaeva.exception.BoobookValidationException;
 import ua.kiev.minaeva.repository.AuthorRepository;
 import ua.kiev.minaeva.service.BookService;
 import ua.kiev.minaeva.service.ReaderService;
-import ua.kiev.minaeva.dto.BookDto;
-import ua.kiev.minaeva.dto.ReaderDto;
-import ua.kiev.minaeva.entity.Author;
-import ua.kiev.minaeva.entity.Reader;
-import ua.kiev.minaeva.entity.RegistrationType;
-import ua.kiev.minaeva.exception.BoobookValidationException;
-import ua.kiev.minaeva.repository.AuthorRepository;
-import ua.kiev.minaeva.service.ReaderService;
 
 import static ua.kiev.minaeva.controller.helper.BoobookConstants.*;
 
@@ -33,6 +24,9 @@ import static ua.kiev.minaeva.controller.helper.BoobookConstants.*;
 @CrossOrigin
 public class ZFillDbController {
 
+    public static final String BRADBURY = "Bradbury";
+    public static final String RAY = "Ray";
+    public static final String VIVAT = "Vivat";
     @Autowired
     private AuthorRepository authorRepository;
 
@@ -43,17 +37,17 @@ public class ZFillDbController {
     private BookService bookService;
 
     private ReaderDto vovka;
-    private Author bradbury;
+    private Author author;
 
     @GetMapping
     public void fillData() throws BoobookValidationException, BoobookNotFoundException {
         createReaderAndAuthor();
 
-        BookDto farenheit = new BookDto.Builder("451 in Fahrenheit", bradbury.getId(), vovka.getId())
-                .withAuthorName("Ray")
-                .withAuthorSurname("Bradbury")
+        BookDto farenheit = new BookDto.Builder("451 in Fahrenheit", author.getId(), vovka.getId())
+                .withAuthorName(RAY)
+                .withAuthorSurname(BRADBURY)
                 .withYear(1990)
-                .withPublisher("Vivat")
+                .withPublisher(VIVAT)
                 .withAgeGroup(AGE_GROUP_ADULT)
                 .withDescription("to the ones who love counting")
                 .withLanguage("ukr")
@@ -63,11 +57,11 @@ public class ZFillDbController {
                 .build();
         bookService.createBook(farenheit);
 
-        BookDto chronicles = new BookDto.Builder("Martian Chronicles", bradbury.getId(), vovka.getId())
-                .withAuthorName("Ray")
-                .withAuthorSurname("Bradbury")
+        BookDto chronicles = new BookDto.Builder("Martian Chronicles", author.getId(), vovka.getId())
+                .withAuthorName(RAY)
+                .withAuthorSurname(BRADBURY)
                 .withYear(1960)
-                .withPublisher("Vivat")
+                .withPublisher(VIVAT)
                 .withAgeGroup(AGE_GROUP_MIDDLE)
                 .withDescription("chronicles are my love")
                 .withLanguage("rus")
@@ -77,9 +71,9 @@ public class ZFillDbController {
                 .build();
         bookService.createBook(chronicles);
 
-        BookDto man = new BookDto.Builder("The Illustrated Man", bradbury.getId(), vovka.getId())
-                .withAuthorName("Ray")
-                .withAuthorSurname("Bradbury")
+        BookDto man = new BookDto.Builder("The Illustrated Man", author.getId(), vovka.getId())
+                .withAuthorName(RAY)
+                .withAuthorSurname(BRADBURY)
                 .withYear(1965)
                 .withPublisher("New Book")
                 .withAgeGroup(AGE_GROUP_ADULT)
@@ -100,10 +94,10 @@ public class ZFillDbController {
         vovkaToSave.setRegistrationType(RegistrationType.CUSTOM);
         vovka = readerService.createReader(vovkaToSave);
 
-        Author bradburyToSave = new Author();
-        bradburyToSave.setName("Ray");
-        bradburyToSave.setSurname("Bradbury");
-        bradbury = authorRepository.save(bradburyToSave);
+        Author authorToSave = new Author();
+        authorToSave.setName(RAY);
+        authorToSave.setSurname(BRADBURY);
+        author = authorRepository.save(authorToSave);
     }
 
 

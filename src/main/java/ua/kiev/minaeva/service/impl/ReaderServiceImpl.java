@@ -23,6 +23,9 @@ import static ua.kiev.minaeva.service.helper.ReaderValidator.validateReader;
 @RequiredArgsConstructor
 public class ReaderServiceImpl implements ReaderService {
 
+    public static final String NO_READER_FOUND_WITH_EMAIL = "No reader found with email ";
+    public static final String NO_READER_FOUND_WITH_ID = "No reader found with id ";
+    public static final String NO_READER_FOUND_WITH_NAME = "No reader found with name ";
     private final ReaderRepository readerRepository;
     private final PasswordEncoder passwordEncoder;
     private final FriendshipService friendshipService;
@@ -49,7 +52,7 @@ public class ReaderServiceImpl implements ReaderService {
         validateReader(readerDto);
 
         readerRepository.findById(readerDto.getId())
-                .orElseThrow(() -> new BoobookNotFoundException("No reader found with id " + readerDto.getId()));
+                .orElseThrow(() -> new BoobookNotFoundException(NO_READER_FOUND_WITH_ID + readerDto.getId()));
 
         Reader readerToUpdate = mapper.dtoToReader(readerDto);
 
@@ -63,7 +66,7 @@ public class ReaderServiceImpl implements ReaderService {
     public ReaderDto getByEmail(String email) throws BoobookNotFoundException {
         Reader reader = readerRepository.findByEmail(email)
                 .orElseThrow(() ->
-                        new BoobookNotFoundException("No reader with email " + email + "  found"));
+                        new BoobookNotFoundException(NO_READER_FOUND_WITH_EMAIL + email));
         return mapper.readerToDto(reader);
     }
 
@@ -116,7 +119,7 @@ public class ReaderServiceImpl implements ReaderService {
     public ReaderDto getById(Long id) throws BoobookNotFoundException {
         Reader reader = readerRepository.findById(id)
                 .orElseThrow(() ->
-                        new BoobookNotFoundException("No reader with id " + id + "  found"));
+                        new BoobookNotFoundException(NO_READER_FOUND_WITH_ID + id));
 
         return mapper.readerToDto(reader);
     }
@@ -133,7 +136,7 @@ public class ReaderServiceImpl implements ReaderService {
         List<Reader> readers = readerRepository.findByName(name);
 
         if (readers.isEmpty()) {
-            throw new BoobookNotFoundException("No reader with name " + name + "  found");
+            throw new BoobookNotFoundException(NO_READER_FOUND_WITH_NAME + name);
         }
 
         return readers.stream()
