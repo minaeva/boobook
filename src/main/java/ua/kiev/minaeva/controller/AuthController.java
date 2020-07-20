@@ -3,10 +3,7 @@ package ua.kiev.minaeva.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.mapstruct.factory.Mappers;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ua.kiev.minaeva.config.jwt.JwtProvider;
 import ua.kiev.minaeva.dto.ReaderDto;
 import ua.kiev.minaeva.entity.RegistrationType;
@@ -18,6 +15,7 @@ import ua.kiev.minaeva.service.ReaderService;
 
 import java.util.Optional;
 
+import static ua.kiev.minaeva.config.jwt.JwtFilter.AUTHORIZATION;
 import static ua.kiev.minaeva.controller.helper.RegistrationRequestValidator.validateRegistrationRequest;
 
 @RestController
@@ -28,6 +26,7 @@ public class AuthController {
 
     private final ReaderService readerService;
     private final JwtProvider jwtProvider;
+
     private ReaderRegistrationMapper mapper = Mappers.getMapper(ReaderRegistrationMapper.class);
 
     @PostMapping("/users/register")
@@ -57,5 +56,17 @@ public class AuthController {
         String token = jwtProvider.generateToken(readerDto.getEmail());
         return new AuthResponse(token, readerDto.getId(), readerDto.getEmail());
     }
+
+
+    @GetMapping("/users/jwt")
+    public ReaderDto getUserByJwt(@RequestHeader(AUTHORIZATION) String jwt) throws BoobookNotFoundException, BoobookUnauthorizedException {
+        log.info("handling getUserByJwt request: " + jwt);
+        if (jwt != null && jwtProvider.validateToken(jwt)) {
+            String email = jwtProvider.getEmailFromToken(jwt);
+            return readerService.getByEmail(email);
+        }
+        throw new BoobookUnauthorizedException("JWT is not correct");
+    }
+
 
 }

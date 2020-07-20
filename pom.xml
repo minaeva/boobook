@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>ua.kiev.minaeva</groupId>
-    <artifactId>boobook</artifactId>
+    <artifactId>boobook-reader-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>boobook</name>
-    <description>Book sharing project</description>
+    <name>boobook-reader-service</name>
+    <description>Book sharing project: reader-service</description>
 
     <properties>
         <java.version>11</java.version>
