@@ -15,7 +15,8 @@ import ua.kiev.minaeva.service.ReaderService;
 
 import java.util.Optional;
 
-import static ua.kiev.minaeva.config.jwt.JwtFilter.AUTHORIZATION;
+import static ua.kiev.minaeva.controller.helper.JwtHelper.AUTHORIZATION;
+import static ua.kiev.minaeva.controller.helper.JwtHelper.getJwtFromString;
 import static ua.kiev.minaeva.controller.helper.RegistrationRequestValidator.validateRegistrationRequest;
 
 @RestController
@@ -39,8 +40,8 @@ public class AuthController {
         readerService.createReader(readerDto);
 
         if (RegistrationType.FB.equals(request.getRegistrationType())) {
-            String token = jwtProvider.generateToken(readerDto.getEmail());
-            return new RegistrationResponse(token, readerDto.getEmail());
+            String jwt = jwtProvider.generateToken(readerDto.getEmail());
+            return new RegistrationResponse(jwt, readerDto.getEmail());
         }
         return new RegistrationResponse();
     }
@@ -53,20 +54,21 @@ public class AuthController {
                 .ofNullable(readerService.getByEmailAndPassword(authRequest.getEmail(), authRequest.getPassword()))
                 .orElseThrow(() -> new BoobookUnauthorizedException("Reader not found"));
 
-        String token = jwtProvider.generateToken(readerDto.getEmail());
-        return new AuthResponse(token, readerDto.getId(), readerDto.getEmail());
+        String jwt = jwtProvider.generateToken(readerDto.getEmail());
+        return new AuthResponse(jwt, readerDto.getId(), readerDto.getEmail());
     }
 
 
     @GetMapping("/users/jwt")
-    public ReaderDto getUserByJwt(@RequestHeader(AUTHORIZATION) String jwt) throws BoobookNotFoundException, BoobookUnauthorizedException {
-        log.info("handling getUserByJwt request: " + jwt);
+    public ReaderDto getUserByJwt(@RequestHeader(AUTHORIZATION) String jwtWithBearer) throws BoobookNotFoundException, BoobookUnauthorizedException {
+        log.info("handling getUserByJwt request: " + jwtWithBearer);
+        String jwt = getJwtFromString(jwtWithBearer);
+
         if (jwt != null && jwtProvider.validateToken(jwt)) {
             String email = jwtProvider.getEmailFromToken(jwt);
             return readerService.getByEmail(email);
         }
         throw new BoobookUnauthorizedException("JWT is not correct");
     }
-
 
 }

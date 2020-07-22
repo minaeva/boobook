@@ -24,7 +24,7 @@ public class RegistrationRequestPrototype {
     public static RegistrationResponse aResponse() {
         RegistrationResponse response = new RegistrationResponse();
         response.setEmail("test_request_email");
-        response.setToken("test_request_token");
+        response.setJwt("test_request_token");
 
         return response;
     }
@@ -39,7 +39,7 @@ public class RegistrationRequestPrototype {
 
     public static AuthResponse anAuthResponse() {
         AuthResponse response = new AuthResponse();
-        response.setToken("test_request_token");
+        response.setJwt("test_request_token");
         response.setEmail("test@gmail.com");
 
         return response;

@@ -11,7 +11,7 @@ import java.util.Set;
 @ToString(exclude = "friends")
 @Entity
 @Table(name = "reader")
-public class Reader extends MapId{
+public class Reader extends MapId {
 
     @Column(name = "email")
     private String email;
