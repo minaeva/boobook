@@ -72,10 +72,15 @@ function validateYear(year, warningText) {
     return true;
 }
 
-function addAuthorization(xhr) {
+function getTokenFromLocalStorage() {
     var localStorageInfo = localStorage.getItem('tokenData');
     var jsonInsideLocalStorage = JSON.parse(localStorageInfo);
-    var tokenString = jsonInsideLocalStorage.token;
+    var tokenString = jsonInsideLocalStorage.jwt;
+    return tokenString;
+}
+
+function addAuthorization(xhr) {
+    var tokenString = getTokenFromLocalStorage();
     xhr.setRequestHeader('Authorization', 'Bearer ' + tokenString);
     xhr.setRequestHeader('Accept', 'application/json');
 }
@@ -97,8 +102,6 @@ function selectMenu(menuToSelect) {
     deselectActiveMenu();
     addClassToElement(menuToSelect, "active-page");
 
-    // var toSelect = document.getElementById(menuToSelect);
-    // toSelect.className += " active-page";
     return false;
 }
 
