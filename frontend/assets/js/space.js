@@ -204,7 +204,7 @@ $(document).ready(function() {
     };
 
     
-    // Fulscreen Function
+    // Fullscreen Function
     function toggleFullScreen() {
         if (!document.fullscreenElement &&    // alternative standard method
             !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement ) {  // current working methods
@@ -238,18 +238,19 @@ $(document).ready(function() {
             return false;
             
         });
-        
+
         $('#search-button').on('click', function(){
             body.toggleClass('search-open')
             if(body.hasClass('search-open')) {
-                $('.search-form input').focus();
+                // $('.search-form input').focus();
+                $('.search-form input').val('To be implemented soon');
             }
         });
-        
+
         $('#close-search').on('click', function(){
             body.toggleClass('search-open')
         });
-        
+
     };
     
     // Right Sidebar

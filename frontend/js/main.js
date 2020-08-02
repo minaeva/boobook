@@ -1,4 +1,9 @@
 const HOME_PAGE = "http://localhost:8008";
+const MESSAGE_SERVICE_HOME = 'http://localhost:8010';
+const MESSAGE_CONTROLLER = MESSAGE_SERVICE_HOME + '/messages';
+const BEARER = 'Bearer ';
+const AUTHORIZATION = 'Authorization';
+
 // const HOME_PAGE = "https://enigmatic-coast-66167.herokuapp.com";
 
 function getCurrentUserId() {

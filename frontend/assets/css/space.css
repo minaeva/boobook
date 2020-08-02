@@ -4559,23 +4559,24 @@ body.error-page {
     .navbar-collapse {
         padding: 0px 25px!important;
     }
-    
-    .navbar-nav {
+
+    .navbar-nav.navbar-right {
         float: right;
     }
-    
+
+    /*
     .navbar-nav.navbar-right {
         display: none;
     }
-    
+    */
     .page-sidebar-visible .page-sidebar {
         left: 0;
     }
-    
+
     #fixed-sidebar-toggle-button {
         display: none;
     }
-    
+
     #sidebar-toggle-button-close {
         margin-left: 12px;
         float: right;

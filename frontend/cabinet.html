@@ -93,7 +93,7 @@
     <div class="page-content">
         <!-- Page Header -->
         <div class="page-header">
- <!--           <div class="search-form">
+            <div class="search-form">
                 <form action="#" method="GET">
                     <div class="input-group">
                         <input type="text" name="search" class="form-control search-input"
@@ -104,13 +104,13 @@
                         </span>
                     </div>
                 </form>
-            </div> -->
+            </div>
             <nav class="navbar navbar-default">
                 <div class="container-fluid">
                     <!-- Brand and toggle get grouped for better mobile display -->
                     <div class="navbar-header">
                         <div class="logo-sm">
-                            <a href="javascript:void(0)" id="sidebar-toggle-button"><i class="fa fa-bars"></i></a>
+                            <a href="#" id="sidebar-toggle-button"><i class="fa fa-bars"></i></a>
                             <a class="logo-box" href="#"><span>Boobook</span></a>
                         </div>
                         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
@@ -119,18 +119,13 @@
                         </button>
                     </div>
 
-                    <!-- Collect the nav links, forms, and other content for toggling -->
-
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                        <ul class="nav navbar-nav">
-                            <li><a href="javascript:void(0)" id="collapsed-sidebar-toggle-button"><i
-                                    class="fa fa-bars"></i></a></li>
-                            <li><a href="javascript:void(0)" id="toggle-fullscreen"><i class="fa fa-expand"></i></a>
-                            </li>
-<!--                            <li><a href="javascript:void(0)" id="search-button"><i class="fa fa-search"></i></a></li>-->
-                        </ul>
                         <ul class="nav navbar-nav navbar-right">
-                            <li><a href="javascript:void(0)" class="right-sidebar-toggle"
+                            <li><a href="#" id="search-button"><i class="fa fa-search"></i></a></li>
+                            <li><a href="#" id="toggle-fullscreen">
+                                <i class="fa fa-expand"></i></a>
+                            </li>
+                            <li><a href="#" class="right-sidebar-toggle"
                                    onclick="getUserConversationalists();"
                                    data-sidebar-id="main-right-sidebar"><i class="fa fa-envelope"></i></a></li>
 
@@ -564,13 +559,12 @@
                                                                                     data-toggle="tab">chat</a></li>
                         </ul>
                     </div>
-                    <a href="javascript:void(0)" class="right-sidebar-toggle right-sidebar-close"
+                    <a href="#" class="right-sidebar-toggle right-sidebar-close"
                        data-sidebar-id="main-right-sidebar"><i class="icon-close"></i></a>
                 </div>
                 <div class="right-sidebar-content">
                     <!-- Tab panes -->
                     <div class="tab-content">
-
                         <!--  CHAT   -->
                         <div role="tabpanel" class="tab-pane active" id="chat">
                         </div>
@@ -591,7 +585,7 @@
 <script src="assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <script src="assets/plugins/uniform/js/jquery.uniform.standalone.js"></script>
 <script src="assets/plugins/switchery/switchery.min.js"></script>
-<script src="assets/js/space.min.js"></script>
+<script src="assets/js/space.js"></script>
 <script src="assets/js/pages/ui-modals.js"></script>
 
 <!--<script src="js/bulma.js"></script>-->
@@ -604,5 +598,6 @@
 <script src="js/chat.js"></script>
 
 <script>showOwnersBooks();</script>
+<script>connectToChat();</script>
 </body>
 </html>

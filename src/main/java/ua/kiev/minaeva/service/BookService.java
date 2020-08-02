@@ -20,6 +20,10 @@ public interface BookService {
 
     BookDto setActive(Long bookId) throws BoobookNotFoundException;
 
+    BookDto setInactive(Long bookId) throws BoobookNotFoundException;
+
+    BookDto setActive(Long bookId) throws BoobookNotFoundException;
+
     void deleteBook(BookDto bookDto);
 
     List<BookDto> getAll();

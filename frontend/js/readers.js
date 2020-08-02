@@ -31,6 +31,10 @@ function showReaderDetails(readerId) {
                         '<span class="text-muted">Facebook: </span>' +
                         '    <a href=' + detail.fbPage + ' target="_blank" class="underline">view</a></h5>\n';
                 }
+
+                html += '<h5><a href="#" class="right-sidebar-toggle"\n' +
+                    '    onclick="openConversation(' + detail.id + ',\'' + nameSurname + '\');"\n' +
+                    '    data-sidebar-id="main-right-sidebar"><i class="fa fa-envelope"></i></a></h5>';
                 setPageSubtitle(html);
             }
         }
