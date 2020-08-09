@@ -273,29 +273,23 @@ $(document).ready(function() {
                 } else if(e.which === 13) {
                     return;
                 }
-                var scrollTo_int = $('.right-sidebar-chat').prop('scrollHeight') + 'px';
-                $('.right-sidebar-chat').slimscroll({
-                    allowPageScroll: true,
-                    scrollTo : scrollTo_int
-                });
             });
         };
         write_message();
     };
     
     // Plugins
-    var plugins_init = function(){
-        // Slimscroll
-        $('.slimscroll').slimScroll();
-        
+    var plugins_init = function() {
+
         // Uniform
         var checkBox = $("input[type=checkbox]:not(.js-switch), input[type=radio]:not(.no-uniform)");
         if (checkBox.length > 0) {
-            checkBox.each(function() {
+            checkBox.each(function () {
                 $(this).uniform();
             });
-        };
-        
+        }
+        ;
+
         var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
         elems.forEach(function(html) {
             var switchery = new Switchery(html, {size: 'small', color: '#637282'});

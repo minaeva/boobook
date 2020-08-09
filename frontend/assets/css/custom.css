@@ -4,3 +4,8 @@
     overflow-x: hidden;
     overflow-y: auto;
 }
+
+.chat-list {
+    overflow-x: hidden;
+    overflow-y: auto;
+}

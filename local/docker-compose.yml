@@ -1,0 +1,50 @@
+version: '3'
+services:
+  reader-service:
+    build:
+      context: ../
+      dockerfile: Dockerfile_reader
+    expose:
+      - 8008
+    ports:
+      - 8008:8008
+    depends_on:
+      - postgres
+  book-service:
+    build:
+      context: ../../boobook-book-service
+      dockerfile: Dockerfile_book
+    expose:
+      - 8009
+    ports:
+      - 8009:8009
+    depends_on:
+      - reader-service
+      - mongo-service
+  message-service:
+    build:
+      context: ../../boobook-messaging-service
+      dockerfile: Dockerfile_message
+    expose:
+      - 8010
+    ports:
+      - 8010:8010
+    depends_on:
+      - reader-service
+      - postgres
+  postgres:
+    image: postgres:13-alpine
+    volumes:
+      - ./initial_sql_script.sql:/docker-entrypoint-initdb.d/initial_sql_script.sql
+    ports:
+      - 5555:5432
+    environment:
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_USER=admin
+  mongo-service:
+    image: mongo
+    environment:
+      - MONGO_INITDB_DATABASE=book_db
+    ports:
+      - 27777:27017
+  
