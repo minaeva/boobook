@@ -1,16 +1,19 @@
 let stompClient;
+let insideTheList = false;
 
 function connectToChat() {
     let userId = getCurrentUserId();
-    console.log("connecting to chat");
-    let url = MESSAGE_SERVICE_HOME + "/chat";
-    let socket = new SockJS(url);
+    console.log("connecting to chat with user: " + userId);
+    let chatUrl = MESSAGE_SERVICE_HOME + '/chat';
+    let subscribeUrl = '/topic/messages/' + userId;
+    console.log("chatUrl: " + chatUrl + ', subscribeUrl: ' + subscribeUrl);
+    let socket = new SockJS(chatUrl);
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
-        console.log("connected to: " + frame);
-        stompClient.subscribe('/topic/messages/' + userId, function (response) {
-            let data = JSON.parse(response.body);
-            console.log('Topic/messages subscribe response: ' + data);
+        console.log("connected to frame: " + frame);
+        stompClient.subscribe(subscribeUrl, function (response) {
+            console.log('on message happened');
+            receiveMessage(response);
         })
     });
 }
@@ -25,15 +28,33 @@ function sendMessage(from, to) {
             message: text,
             authToken: token
         }))
-    appendNewMessage(getCurrentTime(), text, to);
+    let newMessage = {
+        from: from,
+        message: text,
+        to: to,
+        dateTimeString: formatDate()
+    };
+    appendNewMessage(newMessage, to);
 }
 
-function getCurrentTime() {
-    return new Date().toLocaleTimeString().replace(/([\d]+:[\d]{2})(:[\d]{2})(.*)/, "$1$3");
+function formatDate() {
+    mlist = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    let d = new Date(),
+        month = '' + mlist[d.getMonth()],
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (day.length < 2) day = '0' + day;
+
+    let time = d.toLocaleTimeString().replace(/([\d]+:[\d]{2})(:[\d]{2})(.*)/, "$1$3");
+
+    return day + ' ' + month + ' ' + year + ', ' + time;
 }
 
 function getUserConversationalists() {
-    // connectToChat(getCurrentUserId());
+
+    insideTheList = true;
 
     let token = getTokenFromLocalStorage();
     $.ajaxSetup({
@@ -75,8 +96,28 @@ function closeChatWindow() {
     getUserConversationalists();
 }
 
-function openConversation(userId, userNameSurname) {
-    console.log("open chat for user " + userId + ' ' + userNameSurname);
+function convertMessageToHtml(message, conversationalistId) {
+    let chatBubbleOwner;
+    if (message.from === conversationalistId) {
+        chatBubbleOwner =
+            '   <div class="chat-bubble them">\n' +
+            '       <div class="chat-bubble-img-container">\n' +
+            '            <img src="images/reader-girl.png" alt="">\n' +
+            '       </div>\n';
+    } else {
+        chatBubbleOwner =
+            '   <div class="chat-bubble me">\n';
+    }
+    return '   <div class="chat-start-date">' + message.dateTimeString + '</div>\n' +
+        chatBubbleOwner +
+        '       <div class="chat-bubble-text-container">\n' +
+        '           <span class="chat-bubble-text">' + message.message + '</span>\n' +
+        '       </div>' +
+        '   </div>\n';
+}
+
+function openConversation(conversationalistId, userNameSurname) {
+    console.log("open chat for user " + conversationalistId + ' ' + userNameSurname);
     openChatWindow();
 
     let token = getTokenFromLocalStorage();
@@ -86,29 +127,11 @@ function openConversation(userId, userNameSurname) {
         }
     });
 
-    $.get(MESSAGE_CONTROLLER + "/withUser/" + userId, function (response) {
+    $.get(MESSAGE_CONTROLLER + "/withUser/" + conversationalistId, function (response) {
         let messages = response;
         let messageDataHtml = '';
         for (let i = 0; i < messages.length; i++) {
-            console.log(messages[i]);
-            let chatBubbleOwner;
-            if (messages[i].from === userId) {
-                chatBubbleOwner =
-                    '    <div class="chat-bubble them">\n' +
-                    '        <div class="chat-bubble-img-container">\n' +
-                    '            <img src="images/reader-girl.png" alt="">\n' +
-                    '        </div>\n';
-            } else {
-                chatBubbleOwner =
-                    '    <div class="chat-bubble me">\n';
-            }
-            messageDataHtml +=
-                '   <div class="chat-start-date">' + messages[i].dateTimeString + '</div>\n' +
-                chatBubbleOwner +
-                '       <div class="chat-bubble-text-container">\n' +
-                '           <span class="chat-bubble-text">' + messages[i].message + '</span>\n' +
-                '       </div>' +
-                '   </div>\n';
+            messageDataHtml += convertMessageToHtml(messages[i], conversationalistId);
         }
         let wholeChatHtml =
             '<div class="page-right-sidebar-inner">\n' +
@@ -128,8 +151,7 @@ function openConversation(userId, userNameSurname) {
 
             '          <div class="chat-write">\n' +
             '               <form class="form-horizontal" action="#" onsubmit="sendMessage(' +
-            getCurrentUserId() +
-            ', ' + userId + '); return false;">\n' +
+            getCurrentUserId() + ', ' + conversationalistId + '); return false;">\n' +
             '                   <input type="text" id="chat-new-text" class="form-control" autocomplete="off" placeholder="Say something">\n' +
             '               </form>\n' +
             '           </div>' +
@@ -143,19 +165,29 @@ function openConversation(userId, userNameSurname) {
 
 }
 
-function appendNewMessage(dateTime, text, to) {
+function receiveMessage(event) {
+    console.log('received event');
+    console.log(insideTheList);
+    if (insideTheList) {
+        let jsonObject = JSON.parse(event.body);
+        appendNewMessage(jsonObject, jsonObject.from);
+    } else {
+        console.log('not inside the list')
+        document.getElementById("new_event_dropdown_id").style.color = 'red';
+    }
+}
+
+function closeDialogs() {
+    insideTheList = false;
+}
+
+function appendNewMessage(message, conversationalistId) {
     $('.chat-write').remove();
-    let newMessage =
-        '   <div class="chat-start-date">' + dateTime +
-        '   </div>\n' +
-        '   <div class="chat-bubble me">\n' +
-        '       <div class="chat-bubble-text-container">\n' +
-        '           <span class="chat-bubble-text">' + text + '</span>\n' +
-        '       </div>' +
-        '   </div>\n' +
+    let newMessage = convertMessageToHtml(message, conversationalistId);
+    newMessage +=
         '   <div class="chat-write">\n' +
         '       <form class="form-horizontal" action="#" onsubmit="sendMessage(' +
-        getCurrentUserId() + ', ' + to + '); return false;">' +
+        getCurrentUserId() + ', ' + conversationalistId + '); return false;">' +
         '           <input type="text" id="chat-new-text" class="form-control" autocomplete="off" placeholder="Say something">\n' +
         '       </form>\n' +
         '   </div>';
@@ -163,4 +195,9 @@ function appendNewMessage(dateTime, text, to) {
     $('#to-be-scrolled').append(newMessage);
     $('#to-be-scrolled').scrollTop($('#to-be-scrolled')[0].scrollHeight);
     $('#chat-new-text').focus();
+}
+
+function notificationIsSeen() {
+    document.getElementById("new_event_dropdown_id").style.color = 'black';
+    getUserConversationalists();
 }
