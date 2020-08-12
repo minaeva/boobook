@@ -78,4 +78,20 @@ public class BookController {
         log.info("handling SET BOOK ACTIVE request: " + bookId);
         return bookService.setActive(bookId);
     }
+
+    @GetMapping("/search")
+    public List<BookDto> getByQuery(
+            @RequestParam(value = "title", required = false) String title,
+            @RequestParam(value = "authorSurname", required = false) String authorSurname,
+            @RequestParam(value = "ageGroup", required = false) Integer ageGroup,
+            @RequestParam(value = "hardCover", required = false) boolean hardCover,
+            @RequestParam(value = "language", required = false) String language,
+            @RequestParam(value = "illustrations", required = false) Integer illustrations,
+            @RequestParam(value = "city", required = false) String city
+    ) throws BoobookNotFoundException {
+        log.info("handling SEARCH BOOK request, title: " + title + ", authorSurname: " + authorSurname +
+                ", ageGroup: " + ageGroup + ", hardCover: " + hardCover + ", language: " + language +
+                ", illustrations: " + illustrations + ", city: " + city);
+        return bookService.getByQuery(title, authorSurname, ageGroup, hardCover, language, illustrations, city);
+    }
 }

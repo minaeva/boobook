@@ -29,4 +29,7 @@ public interface BookService {
     List<BookDto> getByOwner(Long readerId) throws BoobookNotFoundException;
 
     List<BookDto> getByOwnerActive(Long readerId) throws BoobookNotFoundException;
+
+    List<BookDto> getByQuery(String title, String authorSurname, Integer ageGroup, boolean hardCover,
+                             String language, Integer illustrations, String city) throws BoobookNotFoundException;
 }

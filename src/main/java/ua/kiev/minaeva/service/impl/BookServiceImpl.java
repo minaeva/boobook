@@ -153,6 +153,21 @@ public class BookServiceImpl implements BookService {
         return mapper.bookToDto(bookRepository.save(book));
     }
 
+    public List<BookDto> getByQuery(String title, String authorSurname, Integer ageGroup, boolean hardCover,
+                                    String language, Integer illustrations, String city) throws BoobookNotFoundException {
+
+        List<Book> foundBooks = bookRepository.getByQuery(title, authorSurname, ageGroup, hardCover, language, illustrations, city)
+                .orElseThrow(() -> new BoobookNotFoundException("No book with title: " + title + ", authorSurname: " + authorSurname +
+                        ", ageGroup: " + ageGroup + ", hardCover: " + hardCover + ", language: " + language +
+                        ", illustrations: " + illustrations + ", city: " + city + " found"));
+
+        return foundBooks.stream()
+                .map(b -> mapper.bookToDto(b))
+                .collect(Collectors.toList());
+
+    }
+
+
     private Author getOrCreateAuthor(BookDto bookDto) {
         Author newBookAuthor;
         Optional<Author> existentAuthor = authorRepository
