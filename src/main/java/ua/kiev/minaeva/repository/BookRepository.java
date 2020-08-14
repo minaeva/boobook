@@ -1,5 +1,6 @@
 package ua.kiev.minaeva.repository;
 
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import ua.kiev.minaeva.entity.Author;
@@ -9,7 +10,7 @@ import ua.kiev.minaeva.entity.Reader;
 import java.util.List;
 import java.util.Optional;
 
-public interface BookRepository extends JpaRepository<Book, Long> {
+public interface BookRepository extends JpaRepository<Book, Long>, BookRepositoryCustom {
 
     Optional<List<Book>> findByTitle(String title);
 
@@ -17,12 +18,11 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     Optional<List<Book>> findByOwner(Reader reader);
 
-    @Query("select m from Book m where " +
-            "(?1 is null or upper(m.title) like concat('%', upper(?1), '%')) ")
-//    +
-//            "and (?3 is null or m.ageGroup == ?3) " +
-//            "and (?4 is null or upper(m.language) like <= ?3)")
-    Optional<List<Book>> getByQuery(String title, String authorSurname, Integer ageGroup, boolean hardCover,
-                                    String language, Integer illustrations, String city);
+    static Specification<Book> hasAgeGroup(int ageGroup) {
+        return (book, cq, cb) -> cb.equal(book.get("ageGroup"), ageGroup);
+    }
 
+    static Specification<Book> titleContains(String title) {
+        return (book, cq, cb) -> cb.like(book.get("title"), "%" + title + "%");
+    }
 }

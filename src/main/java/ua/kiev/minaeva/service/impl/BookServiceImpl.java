@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static ua.kiev.minaeva.repository.BookRepository.hasAgeGroup;
+import static ua.kiev.minaeva.repository.BookRepository.titleContains;
 import static ua.kiev.minaeva.service.helper.BookValidator.validateBook;
 
 @Service
@@ -156,10 +158,12 @@ public class BookServiceImpl implements BookService {
     public List<BookDto> getByQuery(String title, String authorSurname, Integer ageGroup, boolean hardCover,
                                     String language, Integer illustrations, String city) throws BoobookNotFoundException {
 
-        List<Book> foundBooks = bookRepository.getByQuery(title, authorSurname, ageGroup, hardCover, language, illustrations, city)
-                .orElseThrow(() -> new BoobookNotFoundException("No book with title: " + title + ", authorSurname: " + authorSurname +
-                        ", ageGroup: " + ageGroup + ", hardCover: " + hardCover + ", language: " + language +
-                        ", illustrations: " + illustrations + ", city: " + city + " found"));
+        List<Book> foundBooks = bookRepository.getByQuery(title, authorSurname, ageGroup, hardCover, language, illustrations, city);
+//                .orElseThrow(() -> new BoobookNotFoundException("No book with title: " + title + ", authorSurname: " + authorSurname +
+//                        ", ageGroup: " + ageGroup + ", hardCover: " + hardCover + ", language: " + language +
+//                        ", illustrations: " + illustrations + ", city: " + city + " found"));
+
+//        List<Book> books = bookRepository.findAll(where(hasAgeGroup(ageGroup)).and(titleContains(title)));
 
         return foundBooks.stream()
                 .map(b -> mapper.bookToDto(b))
