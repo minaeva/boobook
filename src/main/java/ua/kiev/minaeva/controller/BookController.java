@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.web.bind.annotation.*;
 import ua.kiev.minaeva.dto.BookDto;
+import ua.kiev.minaeva.dto.SearchBookDto;
 import ua.kiev.minaeva.exception.BoobookNotFoundException;
 import ua.kiev.minaeva.exception.BoobookValidationException;
 import ua.kiev.minaeva.service.BookService;
@@ -79,19 +80,13 @@ public class BookController {
         return bookService.setActive(bookId);
     }
 
-    @GetMapping("/search")
-    public List<BookDto> getByQuery(
-            @RequestParam(value = "title", required = false) String title,
-            @RequestParam(value = "authorSurname", required = false) String authorSurname,
-            @RequestParam(value = "ageGroup", required = false) Integer ageGroup,
-            @RequestParam(value = "hardCover", required = false) boolean hardCover,
-            @RequestParam(value = "language", required = false) String language,
-            @RequestParam(value = "illustrations", required = false) Integer illustrations,
-            @RequestParam(value = "city", required = false) String city
-    ) throws BoobookNotFoundException {
-        log.info("handling SEARCH BOOK request, title: " + title + ", authorSurname: " + authorSurname +
-                ", ageGroup: " + ageGroup + ", hardCover: " + hardCover + ", language: " + language +
-                ", illustrations: " + illustrations + ", city: " + city);
-        return bookService.getByQuery(title, authorSurname, ageGroup, hardCover, language, illustrations, city);
+    @PostMapping("/search")
+    public List<BookDto> getByQuery(@RequestBody SearchBookDto searchBookDto) throws BoobookNotFoundException {
+        log.info("handling SEARCH BOOK request, title: " + searchBookDto.getTitle() + ", authorSurname: " + searchBookDto.getAuthorSurname() +
+                ", ageGroupFrom: " + searchBookDto.getAgeGroupFrom() + ", ageGroupTo: " + searchBookDto.getAgeGroupTo() +
+                ", yearFrom: " + searchBookDto.getYearFrom() + ", yearTo: " + searchBookDto.getYearTo() +
+                ", language: " + searchBookDto.getLanguage() + ", illustrations: " + searchBookDto.getIllustrations() +
+                ", city: " + searchBookDto.getCity());
+        return bookService.getByQuery(searchBookDto);
     }
 }

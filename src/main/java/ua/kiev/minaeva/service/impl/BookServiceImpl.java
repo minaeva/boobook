@@ -3,7 +3,11 @@ package ua.kiev.minaeva.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import ua.kiev.minaeva.dto.BookDto;
+import ua.kiev.minaeva.dto.SearchBookDto;
+import ua.kiev.minaeva.dto.SearchCriteria;
+import ua.kiev.minaeva.dto.SearchOperation;
 import ua.kiev.minaeva.entity.Author;
 import ua.kiev.minaeva.entity.Book;
 import ua.kiev.minaeva.entity.Reader;
@@ -12,6 +16,7 @@ import ua.kiev.minaeva.exception.BoobookValidationException;
 import ua.kiev.minaeva.mapper.BookMapper;
 import ua.kiev.minaeva.repository.AuthorRepository;
 import ua.kiev.minaeva.repository.BookRepository;
+import ua.kiev.minaeva.repository.BookSpecification;
 import ua.kiev.minaeva.repository.ReaderRepository;
 import ua.kiev.minaeva.service.BookService;
 
@@ -19,8 +24,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static ua.kiev.minaeva.repository.BookRepository.hasAgeGroup;
-import static ua.kiev.minaeva.repository.BookRepository.titleContains;
 import static ua.kiev.minaeva.service.helper.BookValidator.validateBook;
 
 @Service
@@ -155,16 +158,35 @@ public class BookServiceImpl implements BookService {
         return mapper.bookToDto(bookRepository.save(book));
     }
 
-    public List<BookDto> getByQuery(String title, String authorSurname, Integer ageGroup, boolean hardCover,
-                                    String language, Integer illustrations, String city) throws BoobookNotFoundException {
+    public List<BookDto> getByQuery(SearchBookDto searchBookDto) throws BoobookNotFoundException {
+        List<Book> foundBooks;
 
-        List<Book> foundBooks = bookRepository.getByQuery(title, authorSurname, ageGroup, hardCover, language, illustrations, city);
-//                .orElseThrow(() -> new BoobookNotFoundException("No book with title: " + title + ", authorSurname: " + authorSurname +
-//                        ", ageGroup: " + ageGroup + ", hardCover: " + hardCover + ", language: " + language +
-//                        ", illustrations: " + illustrations + ", city: " + city + " found"));
+        BookSpecification specification = new BookSpecification();
 
-//        List<Book> books = bookRepository.findAll(where(hasAgeGroup(ageGroup)).and(titleContains(title)));
+        if (StringUtils.hasText(searchBookDto.getTitle())) {
+            specification.add(new SearchCriteria("title", searchBookDto.getTitle(), SearchOperation.MATCH));
+        }
 
+        if (StringUtils.hasText(searchBookDto.getLanguage())) {
+            specification.add(new SearchCriteria("language", searchBookDto.getLanguage(), SearchOperation.EQUAL));
+        }
+
+        if (searchBookDto.getAgeGroupFrom() != null && searchBookDto.getAgeGroupTo() != null) {
+            specification.add(new SearchCriteria("ageGroup", searchBookDto.getAgeGroupFrom(), SearchOperation.GREATER_THAN_EQUAL));
+            specification.add(new SearchCriteria("ageGroup", searchBookDto.getAgeGroupTo(), SearchOperation.LESS_THAN_EQUAL));
+        }
+
+        if (StringUtils.hasText(searchBookDto.getAuthorSurname())) {
+            specification.add(new SearchCriteria(("authorSurname"), searchBookDto.getAuthorSurname(), SearchOperation.MATCH));
+        }
+
+/*
+        if (StringUtils.hasText(searchBookDto.getCity())) {
+            specification.add(new SearchCriteria(()));
+        }
+
+*/
+        foundBooks = bookRepository.findAll(specification);
         return foundBooks.stream()
                 .map(b -> mapper.bookToDto(b))
                 .collect(Collectors.toList());

@@ -1,8 +1,7 @@
 package ua.kiev.minaeva.repository;
 
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import ua.kiev.minaeva.entity.Author;
 import ua.kiev.minaeva.entity.Book;
 import ua.kiev.minaeva.entity.Reader;
@@ -10,7 +9,7 @@ import ua.kiev.minaeva.entity.Reader;
 import java.util.List;
 import java.util.Optional;
 
-public interface BookRepository extends JpaRepository<Book, Long>, BookRepositoryCustom {
+public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificationExecutor<Book> {
 
     Optional<List<Book>> findByTitle(String title);
 
@@ -18,6 +17,7 @@ public interface BookRepository extends JpaRepository<Book, Long>, BookRepositor
 
     Optional<List<Book>> findByOwner(Reader reader);
 
+/*
     static Specification<Book> hasAgeGroup(int ageGroup) {
         return (book, cq, cb) -> cb.equal(book.get("ageGroup"), ageGroup);
     }
@@ -25,4 +25,5 @@ public interface BookRepository extends JpaRepository<Book, Long>, BookRepositor
     static Specification<Book> titleContains(String title) {
         return (book, cq, cb) -> cb.like(book.get("title"), "%" + title + "%");
     }
+*/
 }
