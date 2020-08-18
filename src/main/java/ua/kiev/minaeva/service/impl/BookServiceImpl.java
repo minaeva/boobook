@@ -171,13 +171,16 @@ public class BookServiceImpl implements BookService {
             specification.add(new SearchCriteria("language", searchBookDto.getLanguage(), SearchOperation.EQUAL));
         }
 
-        if (searchBookDto.getAgeGroupFrom() != null && searchBookDto.getAgeGroupTo() != null) {
+        if (searchBookDto.getAgeGroupFrom() != null) {
             specification.add(new SearchCriteria("ageGroup", searchBookDto.getAgeGroupFrom(), SearchOperation.GREATER_THAN_EQUAL));
-            specification.add(new SearchCriteria("ageGroup", searchBookDto.getAgeGroupTo(), SearchOperation.LESS_THAN_EQUAL));
+        }
+
+        if (searchBookDto.getAgeGroupTo() != null) {
+        specification.add(new SearchCriteria("ageGroup", searchBookDto.getAgeGroupTo(), SearchOperation.LESS_THAN_EQUAL));
         }
 
         if (StringUtils.hasText(searchBookDto.getAuthorSurname())) {
-            specification.add(new SearchCriteria(("authorSurname"), searchBookDto.getAuthorSurname(), SearchOperation.MATCH));
+            specification.add(new SearchCriteria(("authorSurname"), searchBookDto.getAuthorSurname(), SearchOperation.AUTHOR_JOIN));
         }
 
 /*

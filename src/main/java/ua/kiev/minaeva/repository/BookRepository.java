@@ -17,13 +17,4 @@ public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificat
 
     Optional<List<Book>> findByOwner(Reader reader);
 
-/*
-    static Specification<Book> hasAgeGroup(int ageGroup) {
-        return (book, cq, cb) -> cb.equal(book.get("ageGroup"), ageGroup);
-    }
-
-    static Specification<Book> titleContains(String title) {
-        return (book, cq, cb) -> cb.like(book.get("title"), "%" + title + "%");
-    }
-*/
 }

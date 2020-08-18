@@ -3,17 +3,17 @@ package ua.kiev.minaeva.repository;
 import org.springframework.data.jpa.domain.Specification;
 import ua.kiev.minaeva.dto.SearchCriteria;
 import ua.kiev.minaeva.dto.SearchOperation;
+import ua.kiev.minaeva.entity.Author;
 import ua.kiev.minaeva.entity.Book;
+import ua.kiev.minaeva.entity.Book_;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BookSpecification implements Specification<Book> {
 
+    public static final String PERCENT = "%";
     private List<SearchCriteria> list;
 
     public BookSpecification() {
@@ -27,10 +27,8 @@ public class BookSpecification implements Specification<Book> {
     @Override
     public Predicate toPredicate(Root<Book> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
 
-        //create a new predicate list
         List<Predicate> predicates = new ArrayList<>();
 
-        //add add criteria to predicates
         for (SearchCriteria criteria : list) {
             if (criteria.getOperation().equals(SearchOperation.GREATER_THAN)) {
                 predicates.add(builder.greaterThan(
@@ -53,33 +51,27 @@ public class BookSpecification implements Specification<Book> {
             } else if (criteria.getOperation().equals(SearchOperation.MATCH)) {
                 predicates.add(builder.like(
                         builder.lower(root.get(criteria.getKey())),
-                        "%" + criteria.getValue().toString().toLowerCase() + "%"));
+                        PERCENT + criteria.getValue().toString().toLowerCase() + PERCENT));
             } else if (criteria.getOperation().equals(SearchOperation.MATCH_END)) {
                 predicates.add(builder.like(
                         builder.lower(root.get(criteria.getKey())),
-                        criteria.getValue().toString().toLowerCase() + "%"));
+                        criteria.getValue().toString().toLowerCase() + PERCENT));
             } else if (criteria.getOperation().equals(SearchOperation.MATCH_START)) {
                 predicates.add(builder.like(
                         builder.lower(root.get(criteria.getKey())),
-                        "%" + criteria.getValue().toString().toLowerCase()));
+                        PERCENT + criteria.getValue().toString().toLowerCase()));
             } else if (criteria.getOperation().equals(SearchOperation.IN)) {
                 predicates.add(builder.in(root.get(criteria.getKey())).value(criteria.getValue()));
             } else if (criteria.getOperation().equals(SearchOperation.NOT_IN)) {
                 predicates.add(builder.not(root.get(criteria.getKey())).in(criteria.getValue()));
-            }
-//            else if (criteria.getOperation().equals(SearchOperation.JOIN_MATCH)) {
-//                ListJoin<Author, Book> authorBookListJoin = root.join(Author_.booksWritten);
-
-//                Join<Author, Book> authorBookJoin = root.join("author");
-//                Join<Book,Author> bookAuthorJoin = authorBookJoin.join("booksWritten");
-//
+            } else if (criteria.getOperation().equals(SearchOperation.AUTHOR_JOIN)) {
+                Join<Book, Author> bookAuthorJoin = root.join(Book_.author);
 //                Predicate equalPredicate = criteriaBuilder.equal(phoneJoin.get(Phone_.type), phoneType);
-//                query.distinct(true);
-//                return equalPredicate;
-//
-//                predicates.add(builder.lower(builder.like(root.join("author")).),
-//                        "%" + criteria.getValue().toString().toLowerCase() + "%");
-//            }
+
+//                root.fetch("author", JoinType.LEFT);
+                predicates.add(builder.like(builder.lower(bookAuthorJoin.get(criteria.getKey())),
+                        PERCENT + criteria.getValue().toString().toLowerCase() + PERCENT));
+            }
         }
 
         return builder.and(predicates.toArray(new Predicate[0]));

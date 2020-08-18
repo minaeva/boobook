@@ -1,5 +1,6 @@
 package ua.kiev.minaeva.controller;
 
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.web.bind.annotation.*;
@@ -81,7 +82,11 @@ public class BookController {
     }
 
     @PostMapping("/search")
-    public List<BookDto> getByQuery(@RequestBody SearchBookDto searchBookDto) throws BoobookNotFoundException {
+    public List<BookDto> getByQuery(@RequestBody SearchBookDto searchBookDto)
+            throws BoobookValidationException, BoobookNotFoundException {
+        if (searchBookDto == null) {
+            throw new BoobookValidationException("At least one search criteria should be specified");
+        }
         log.info("handling SEARCH BOOK request, title: " + searchBookDto.getTitle() + ", authorSurname: " + searchBookDto.getAuthorSurname() +
                 ", ageGroupFrom: " + searchBookDto.getAgeGroupFrom() + ", ageGroupTo: " + searchBookDto.getAgeGroupTo() +
                 ", yearFrom: " + searchBookDto.getYearFrom() + ", yearTo: " + searchBookDto.getYearTo() +

@@ -13,5 +13,6 @@ public enum SearchOperation {
     MATCH_END,
     IN,
     NOT_IN,
-    JOIN_MATCH
+    AUTHOR_JOIN,
+    CITY_JOIN
 }
