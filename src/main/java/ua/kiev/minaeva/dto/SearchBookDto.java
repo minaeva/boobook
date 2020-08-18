@@ -6,7 +6,7 @@ import lombok.Data;
 public class SearchBookDto {
 
     private String title;
-    //    private String authorName;
+    private String authorName;
     private String authorSurname;
     private String city;
 

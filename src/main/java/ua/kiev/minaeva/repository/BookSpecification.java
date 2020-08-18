@@ -66,9 +66,6 @@ public class BookSpecification implements Specification<Book> {
                 predicates.add(builder.not(root.get(criteria.getKey())).in(criteria.getValue()));
             } else if (criteria.getOperation().equals(SearchOperation.AUTHOR_JOIN)) {
                 Join<Book, Author> bookAuthorJoin = root.join(Book_.author);
-//                Predicate equalPredicate = criteriaBuilder.equal(phoneJoin.get(Phone_.type), phoneType);
-
-//                root.fetch("author", JoinType.LEFT);
                 predicates.add(builder.like(builder.lower(bookAuthorJoin.get(criteria.getKey())),
                         PERCENT + criteria.getValue().toString().toLowerCase() + PERCENT));
             }
