@@ -2,6 +2,7 @@ DROP TABLE IF EXISTS friendship;
 DROP TABLE IF EXISTS book;
 DROP TABLE IF EXISTS author;
 DROP TABLE IF EXISTS reader;
+DROP TABLE IF EXISTS book_image;
 
 -- ***
 
@@ -60,6 +61,14 @@ CREATE TABLE IF NOT EXISTS friendship
 );
 create unique index friendship_friend1_id_friend2_id_index
     on friendship (friend1_id, friend2_id);
+
+
+CREATE TABLE IF NOT EXISTS book_image
+(
+	id SERIAL PRIMARY KEY,
+	image bytea,
+    book_id SERIAL REFERENCES book (id)
+);
 
 
 ---****
