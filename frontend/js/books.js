@@ -494,3 +494,45 @@ function validateImages() {
     return true;
 }
 
+function getImages(bookId) {
+    let token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiZXp6dWJpayIsImV4cCI6MTU5OTY4NTIwMH0.NSBKfBt6Wsh0YWHuIo1CvJqdRMVsme14spPr3np13MLHHF1SsnXuCcojruL0zsJNYPSVOiAxVTGmj9Zxpg412Q';
+    // localStorage.setItem('tokenData', token);
+
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            // console.log(this.response, typeof this.response);
+
+            var uInt8Array = new Uint8Array(this.response);
+            var i = uInt8Array.length;
+            var binaryString = new Array(i);
+            while (i--) {
+                binaryString[i] = String.fromCharCode(uInt8Array[i]);
+            }
+            var data = binaryString.join('');
+
+            var base64 = window.btoa(data);
+
+            document.getElementById("img").src = "data:image/png;base64," + base64;
+
+            // var img = document.getElementById('img');
+            // var url = window.URL || window.webkitURL;
+            // img.src = url.createObjectURL(this.response);
+        }
+    }
+    let url = HOME_PAGE + "/images/" + bookId;
+    xhr.open('GET', url);
+    // xhr.responseType = 'blob';
+    // xhr.send();
+    //
+    // xhttp.open("GET", requestUrl);
+    // xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    // addAuthorization(xhr);
+    xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+    xhr.setRequestHeader('Accept', 'application/json');
+    xhr.send();
+
+    return false;
+
+}
+

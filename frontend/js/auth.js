@@ -27,7 +27,7 @@ function authenticateAReader(email, password) {
                     return false;
                 }
                 if (this.status == 200) {
-                    var token = JSON.parse(this.responseText);
+                    let token = JSON.parse(this.responseText);
                     localStorage.setItem('tokenData', JSON.stringify(token));
                     window.location.href = 'cabinet.html';
                 }
