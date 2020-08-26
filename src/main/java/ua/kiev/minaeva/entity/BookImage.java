@@ -2,6 +2,7 @@ package ua.kiev.minaeva.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 
@@ -10,8 +11,10 @@ import javax.persistence.*;
 @Table(name = "book_image")
 public class BookImage extends MapId {
 
+    @Lob
     @Column(name = "image")
-    private String image;
+    @Type(type = "org.hibernate.type.BinaryType")
+    private byte[] image;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference

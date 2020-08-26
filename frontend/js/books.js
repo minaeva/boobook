@@ -1,3 +1,6 @@
+const validImageTypes = ['image/gif', 'image/jpeg', 'image/jpg', 'image/png', 'image/bmp'];
+const validFileExtensions = [".jpg", ".jpeg", ".bmp", ".gif", ".png"];
+
 function validateBook(book_title, author_name, author_surname, year) {
     return validateField(book_title, "Title cannot be blank") &&
         validateField(author_name, "Author Name cannot be blank") &&
@@ -6,84 +9,100 @@ function validateBook(book_title, author_name, author_surname, year) {
 }
 
 function saveBook() {
-    var book_title = document.getElementById("book_title").value;
-    var author_name = document.getElementById("author_name").value;
-    var author_surname = document.getElementById("author_surname").value;
-    var publisher = document.getElementById("publisher").value;
-    var cover = stringToBoolean(document.getElementById("cover").value);
-    var illustrations = document.getElementById("illustrations").value;
-    var age_group = document.getElementById("age_group").value;
-    var year = document.getElementById("year").value;
-    var language = document.getElementById("language").value;
-    var pages_quantity = document.getElementById("pages_quantity").value;
-    var description = document.getElementById("description").value;
+    let book_title = document.getElementById("book_title").value;
+    let author_name = document.getElementById("author_name").value;
+    let author_surname = document.getElementById("author_surname").value;
+    let publisher = document.getElementById("publisher").value;
+    let cover = stringToBoolean(document.getElementById("cover").value);
+    let illustrations = document.getElementById("illustrations").value;
+    let age_group = document.getElementById("age_group").value;
+    let year = document.getElementById("year").value;
+    let language = document.getElementById("language").value;
+    let pages_quantity = document.getElementById("pages_quantity").value;
+    let description = document.getElementById("description").value;
 
-    var res = validateBook(book_title, author_name, author_surname, year);
-
-    if (res) {
-        closeAddBookModal();
-
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function () {
-            if (this.readyState === 4) {
-                if (this.status === 500) {
-                    showWarningModal("Book " + book_title + " cannot be added");
-                    return false;
-                } else if (this.status === 200) {
-                    showSuccessModal("Book " + book_title + " was successfully added");
-                    showOwnersBooks();
-                }
-            }
-        };
-
-        var requestUrl = HOME_PAGE + "/books";
-        var currentUserId = getCurrentUserId();
-
-        const requestBody = {
-            "title": book_title,
-            "authorName": author_name,
-            "authorSurname": author_surname,
-            "ownerId": currentUserId,
-            "year": year,
-            "publisher": publisher,
-            "ageGroup": age_group,
-            "hardCover": cover,
-            "language": language,
-            "illustrations": illustrations,
-            "pagesQuantity": pages_quantity,
-            "description": description,
-        };
-        console.log(requestBody);
-
-        xhr.open("POST", requestUrl);
-        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        addAuthorization(xhr);
-        xhr.send(JSON.stringify(requestBody));
-
+    if (!validateBook(book_title, author_name, author_surname, year)) {
         return false;
     }
+
+    if (!validateImages()) {
+        return false;
+    }
+
+    let filesToUpload = document.getElementById("file_to_upload");
+    let allFiles = [];
+    let length = filesToUpload.files.length;
+    for (let i = 0; i < length; i++) {
+        allFiles[i] = filesToUpload.files[i];
+    }
+    console.log(allFiles);
+
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            if (this.status === 500) {
+                closeAddBookModal();
+                showWarningModal("Book " + book_title + " cannot be added");
+                return false;
+            } else if (this.status === 200) {
+                let response = JSON.parse(this.responseText);
+                let bookId = response.id;
+                console.log(allFiles);
+                uploadImages(allFiles, bookId);
+                closeAddBookModal();
+                showSuccessModal("Book " + book_title + " was successfully added");
+                showOwnersBooks();
+            }
+        }
+    };
+
+    let requestUrl = HOME_PAGE + "/books";
+    let currentUserId = getCurrentUserId();
+
+    const requestBody = {
+        "title": book_title,
+        "authorName": author_name,
+        "authorSurname": author_surname,
+        "ownerId": currentUserId,
+        "year": year,
+        "publisher": publisher,
+        "ageGroup": age_group,
+        "hardCover": cover,
+        "language": language,
+        "illustrations": illustrations,
+        "pagesQuantity": pages_quantity,
+        "description": description,
+    };
+    console.log(requestBody);
+
+    xhr.open("POST", requestUrl);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    addAuthorization(xhr);
+    xhr.send(JSON.stringify(requestBody));
+
+    return false;
 }
 
 function editBook() {
-    var book_id = document.getElementById("edit_book_id").value;
-    var book_title = document.getElementById("edit_book_title").value;
-    var author_name = document.getElementById("edit_author_name").value;
-    var author_surname = document.getElementById("edit_author_surname").value;
-    var publisher = document.getElementById("edit_publisher").value;
-    var cover = stringToBoolean(document.getElementById("edit_cover").value);
-    var illustrations = document.getElementById("edit_illustrations").value;
-    var age_group = document.getElementById("edit_age_group").value;
-    var year = document.getElementById("edit_year").value;
-    var language = document.getElementById("edit_language").value;
-    var pages_quantity = document.getElementById("edit_pages_quantity").value;
-    var description = document.getElementById("edit_description").value;
+    let book_id = document.getElementById("edit_book_id").value;
+    let book_title = document.getElementById("edit_book_title").value;
+    let author_name = document.getElementById("edit_author_name").value;
+    let author_surname = document.getElementById("edit_author_surname").value;
+    let publisher = document.getElementById("edit_publisher").value;
+    let cover = stringToBoolean(document.getElementById("edit_cover").value);
+    let illustrations = document.getElementById("edit_illustrations").value;
+    let age_group = document.getElementById("edit_age_group").value;
+    let year = document.getElementById("edit_year").value;
+    let language = document.getElementById("edit_language").value;
+    let pages_quantity = document.getElementById("edit_pages_quantity").value;
+    let description = document.getElementById("edit_description").value;
 
-    var res = validateBook(book_title, author_name, author_surname, year);
+    let res = validateBook(book_title, author_name, author_surname, year);
 
     if (res) {
         closeEditBookModal();
 
-        var xhr = new XMLHttpRequest();
+        let xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function () {
             if (this.readyState === 4) {
                 if (this.status === 500) {
@@ -96,8 +115,8 @@ function editBook() {
             }
         };
 
-        var requestUrl = HOME_PAGE + "/books";
-        var currentUserId = getCurrentUserId();
+        let requestUrl = HOME_PAGE + "/books";
+        let currentUserId = getCurrentUserId();
 
         const requestBody = {
             "id": book_id,
@@ -126,7 +145,7 @@ function editBook() {
 }
 
 function setInactive(bookId) {
-    var xhttp = new XMLHttpRequest();
+    let xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
 
         if (this.readyState === 4) {
@@ -137,7 +156,7 @@ function setInactive(bookId) {
             }
         }
     }
-    var setInactiveUrl = HOME_PAGE + "/books/setInactive/" + bookId;
+    let setInactiveUrl = HOME_PAGE + "/books/setInactive/" + bookId;
     xhttp.open("POST", setInactiveUrl, true);
     addAuthorization(xhttp);
     xhttp.send();
@@ -146,7 +165,7 @@ function setInactive(bookId) {
 }
 
 function setActive(bookId) {
-    var xhttp = new XMLHttpRequest();
+    let xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
 
         if (this.readyState === 4) {
@@ -157,7 +176,7 @@ function setActive(bookId) {
             }
         }
     }
-    var setActiveUrl = HOME_PAGE + "/books/setActive/" + bookId;
+    let setActiveUrl = HOME_PAGE + "/books/setActive/" + bookId;
     xhttp.open("POST", setActiveUrl, true);
     addAuthorization(xhttp);
     xhttp.send();
@@ -174,6 +193,7 @@ function closeAddBookModal() {
     document.getElementById("year").value = '';
     document.getElementById("pages_quantity").value = '';
     document.getElementById("description").value = '';
+    document.getElementById("file_to_upload").value = '';
     return false;
 }
 
@@ -209,12 +229,12 @@ function closeEditBookModal() {
 }
 
 function showAllBooks() {
-    var xhttp = new XMLHttpRequest();
+    let xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
 
         if (this.readyState === 4) {
             if (this.status === 404) {
-                var html =
+                let html =
                     '    <br/><h4 class="panel-title">\n' +
                     '    So far, there is not any book in db. Fortunately you can be the first one!' +
                     '    </h4>\n' +
@@ -226,10 +246,10 @@ function showAllBooks() {
                     '    </div>\n';
                 setPageTitle(html);
             } else if (this.status === 200) {
-                var books = JSON.parse(this.responseText);
-                var html = '';
-                for (var i = 0; i < books.length; i++) {
-                    var book = books[i];
+                let books = JSON.parse(this.responseText);
+                let html = '';
+                for (let i = 0; i < books.length; i++) {
+                    let book = books[i];
                     console.log(book);
                     html +=
                         '<div class="panel panel-default">\n' +
@@ -251,7 +271,7 @@ function showAllBooks() {
         }
     }
 
-    var getAllBooksUrl = HOME_PAGE + "/books";
+    let getAllBooksUrl = HOME_PAGE + "/books";
     xhttp.open("GET", getAllBooksUrl, true);
     addAuthorization(xhttp);
     xhttp.send();
@@ -263,21 +283,21 @@ function showOwnersBooks() {
     setPageTitle('My Books');
     setPageSubtitle('');
 
-    var xhttp = new XMLHttpRequest();
+    let xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
 
         if (this.readyState === 4) {
             if (this.status === 404) {
-                var subHeader =
+                let subHeader =
                     '<br/><h4 class="panel-title">So far you do not have any book added </h4>\n' +
                     '     <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addBookModal">Add book</button>\n';
                 setPageSubtitle(subHeader);
 
             } else if (this.status === 200) {
-                var books = JSON.parse(this.responseText);
-                var html = '';
-                for (var i = 0; i < books.length; i++) {
-                    var book = books[i];
+                let books = JSON.parse(this.responseText);
+                let html = '';
+                for (let i = 0; i < books.length; i++) {
+                    let book = books[i];
                     console.log(book);
                     html = html +
                         '<div class="panel panel-default">\n' +
@@ -299,7 +319,7 @@ function showOwnersBooks() {
         }
     }
 
-    var getOwnBooksUrl = HOME_PAGE + "/books/owner/" + getCurrentUserId();
+    let getOwnBooksUrl = HOME_PAGE + "/books/owner/" + getCurrentUserId();
     xhttp.open("GET", getOwnBooksUrl, true);
     addAuthorization(xhttp);
     xhttp.send();
@@ -309,20 +329,20 @@ function showOwnersBooks() {
 
 // BOOK DETAILS
 function showBookDetails(bookId, ownerId) {
-    var xhttp = new XMLHttpRequest();
+    let xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState === 4) {
             if (this.status === 200) {
-                var bookDetails = JSON.parse(this.responseText);
+                let bookDetails = JSON.parse(this.responseText);
                 console.log(bookDetails);
-                var html = '';
+                let html = '';
                 if (bookDetails.active) {
                     html += '<div class="panel-body">\n';
                 } else {
                     html += '<div class="panel-body inactive">\n' +
-                    '<h5 class="text-muted strong">INACTIVE</h5>';
+                        '<h5 class="text-muted strong">INACTIVE</h5>';
                 }
-                var coverValue = parseHardCover(bookDetails.hardCover);
+                let coverValue = parseHardCover(bookDetails.hardCover);
                 html +=
                     '<h5><span class="text-muted">Publisher: </span>' + notNull(bookDetails.publisher) + '</h5>' +
 
@@ -359,15 +379,16 @@ function showBookDetails(bookId, ownerId) {
                         html +=
                             '<button type="button" class="btn btn-default" onclick="setActive(' + bookId + '); showOwnersBooks(); return false; ">Set active</button></div>';
                     }
+
                 }
                 html += '  </div>\n';
             }
-            var collapsed = document.getElementById("collapse" + bookId);
+            let collapsed = document.getElementById("collapse" + bookId);
             collapsed.innerHTML = html;
         }
     }
 
-    var requestUrl = HOME_PAGE + "/books/" + bookId;
+    let requestUrl = HOME_PAGE + "/books/" + bookId;
     xhttp.open("GET", requestUrl);
     xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     addAuthorization(xhttp);
@@ -420,7 +441,56 @@ function stringToBoolean(val) {
     } else {
         return false;
     }
-
 }
 
+function uploadImages(filesToUpload, bookId) {
+    let formData = new FormData();
+    for (let i = 0; i < filesToUpload.length; i++) {
+        formData.append('files', filesToUpload[i]);// $('file_to_upload').prop('files')[0]);
+    }
+    formData.append('bookId', bookId);
+    console.log(formData);
+
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4) {
+            if (this.status == 500) {
+                showWarningModal("When adding the image, there is a server error");
+                return false;
+            } else if (this.status == 403) {
+                showWarningModal("When adding the image, there is a problem with authentication");
+                return false;
+            }/* else if (this.status == 200) {
+                showSuccessModal("Added!");
+            }*/
+        }
+    };
+
+    let requestUrl = HOME_PAGE + "/images/upload";
+    console.log(requestUrl);
+
+    xhr.open("POST", requestUrl);
+    addAuthorization(xhr);
+    xhr.send(formData);
+}
+
+function validateImages() {
+    let filesToUpload = document.getElementById("file_to_upload");
+    if (filesToUpload === '') {
+        return true;
+    }
+    if (parseInt(filesToUpload.files.length) > 5) {
+        showWarningModal("Please select not more that 5 files");
+        return false;
+    }
+
+    for (let i = 0; i < filesToUpload.files.length; i++) {
+        let oneFile = filesToUpload.files[i];
+        if (!validImageTypes.includes(oneFile.type)) {
+            showWarningModal("Sorry, file type " + oneFile.type + " is invalid, allowed extensions are: " + validFileExtensions.join(", "));
+            return false;
+        }
+    }
+    return true;
+}
 
