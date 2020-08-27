@@ -330,12 +330,13 @@ function showOwnersBooks() {
 // BOOK DETAILS
 function showBookDetails(bookId, ownerId) {
     let xhttp = new XMLHttpRequest();
+    let html = '';
+
     xhttp.onreadystatechange = function () {
         if (this.readyState === 4) {
             if (this.status === 200) {
                 let bookDetails = JSON.parse(this.responseText);
                 console.log(bookDetails);
-                let html = '';
                 if (bookDetails.active) {
                     html += '<div class="panel-body">\n';
                 } else {
@@ -460,9 +461,9 @@ function uploadImages(filesToUpload, bookId) {
             } else if (this.status == 403) {
                 showWarningModal("When adding the image, there is a problem with authentication");
                 return false;
-            }/* else if (this.status == 200) {
-                showSuccessModal("Added!");
-            }*/
+            } else if (this.status == 200) {
+                console.log("Image added!");
+            }
         }
     };
 
@@ -495,7 +496,8 @@ function validateImages() {
 }
 
 function getImages(bookId) {
-    let token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiZXp6dWJpayIsImV4cCI6MTU5OTY4NTIwMH0.NSBKfBt6Wsh0YWHuIo1CvJqdRMVsme14spPr3np13MLHHF1SsnXuCcojruL0zsJNYPSVOiAxVTGmj9Zxpg412Q';
+    let token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiZXp6dWJpayIsImV4cCI6MTU5OTc3MTYwMH0.NILKARO7l0PMHsanylAJH6GJJI0yEfsm39Xw6-RspmW0owCOX6vvdtoMdeEn2YYGsYRc8-1CukSHOmq1s9KVKA';
+        // 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiZXp6dWJpayIsImV4cCI6MTU5OTY4NTIwMH0.NSBKfBt6Wsh0YWHuIo1CvJqdRMVsme14spPr3np13MLHHF1SsnXuCcojruL0zsJNYPSVOiAxVTGmj9Zxpg412Q';
     // localStorage.setItem('tokenData', token);
 
     let xhr = new XMLHttpRequest();
@@ -503,21 +505,21 @@ function getImages(bookId) {
         if (this.readyState == 4 && this.status == 200) {
             // console.log(this.response, typeof this.response);
 
-            var uInt8Array = new Uint8Array(this.response);
+/*            var uInt8Array = new Uint8Array(this.response);
             var i = uInt8Array.length;
             var binaryString = new Array(i);
             while (i--) {
                 binaryString[i] = String.fromCharCode(uInt8Array[i]);
             }
-            var data = binaryString.join('');
+            var data = binaryString.join('');*/
 
-            var base64 = window.btoa(data);
+            var base64 = window.btoa(this.response);
 
             document.getElementById("img").src = "data:image/png;base64," + base64;
 
             // var img = document.getElementById('img');
-            // var url = window.URL || window.webkitURL;
-            // img.src = url.createObjectURL(this.response);
+            var url = window.URL || window.webkitURL;
+            img.src = url.createObjectURL(this.response);
         }
     }
     let url = HOME_PAGE + "/images/" + bookId;
