@@ -30,45 +30,25 @@ public class BookImageController {
         log.info("handling GET IMAGES BY BOOK ID request: " + bookId);
         return bookImageService.getByBookId(bookId).stream()
                 .map(bookImage -> bookImage.getImage())
-                .map(image -> decodeFromByte64(image))
+                .map(image -> Base64.getDecoder().decode(image))
                 .collect(Collectors.toList());
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<ResponseMessage> uploadFiles(@RequestParam("files") MultipartFile[] files,
-                                                       @RequestParam("bookId") final Long bookId) {
+    public ResponseEntity<ResponseMessage> uploadFiles(@RequestParam("files") MultipartFile[] files, @RequestParam(
+            "bookId") final Long bookId) throws IOException, BoobookNotFoundException {
         if (files.length == 0) {
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage("length = 0"));
+            throw new BoobookNotFoundException("Not any file was provided");
         }
-        String message = "";
-        try {
-            List<String> fileNames = new ArrayList<>();
 
-            Arrays.asList(files).stream()
-                    .forEach(file -> {
-                        byte[] decodedByteArray;// = new byte[0];
-                        try {
-                            decodedByteArray = encodeToBase64(file.getBytes());
-                            bookImageService.save(decodedByteArray, bookId);
-                        } catch (IOException | BoobookNotFoundException e) {
-                            e.printStackTrace();
-                        }
-                        fileNames.add(file.getOriginalFilename());
-                    });
-
-            message = "Uploaded the files successfully: " + fileNames;
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
-        } catch (Exception e) {
-            message = "Fail to upload files";
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
+        List<String> fileNames = new ArrayList<>();
+        for (MultipartFile file : Arrays.asList(files)) {
+            byte[] encodedByteArray = Base64.getEncoder().encode(file.getBytes());
+            bookImageService.save(encodedByteArray, bookId);
+            fileNames.add(file.getOriginalFilename());
         }
+
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage("Uploaded successfully: " + fileNames));
     }
 
-    private byte[] encodeToBase64(byte[] input) {
-        return Base64.getEncoder().encode(input);
-    }
-
-    private byte[] decodeFromByte64(byte[] input) {
-        return Base64.getDecoder().decode(input);
-    }
 }

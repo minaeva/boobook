@@ -11,6 +11,7 @@ import ua.kiev.minaeva.exception.BoobookNotFoundException;
 import ua.kiev.minaeva.exception.BoobookUnauthorizedException;
 import ua.kiev.minaeva.exception.BoobookValidationException;
 
+import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -39,6 +40,14 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleValidationException(BoobookValidationException ex, WebRequest request) {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put(MESSAGE, "Validation error");
+
+        return handleExceptionInternal(ex, body, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler(IOException.class)
+    public ResponseEntity<Object> handleValidationException(IOException ex, WebRequest request) {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put(MESSAGE, "Accessing a file error");
 
         return handleExceptionInternal(ex, body, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }

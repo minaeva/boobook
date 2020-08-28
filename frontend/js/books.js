@@ -447,10 +447,9 @@ function stringToBoolean(val) {
 function uploadImages(filesToUpload, bookId) {
     let formData = new FormData();
     for (let i = 0; i < filesToUpload.length; i++) {
-        formData.append('files', filesToUpload[i]);// $('file_to_upload').prop('files')[0]);
+        formData.append('files', filesToUpload[i]);
     }
     formData.append('bookId', bookId);
-    console.log(formData);
 
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
@@ -497,44 +496,28 @@ function validateImages() {
 
 function getImages(bookId) {
     let token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiZXp6dWJpayIsImV4cCI6MTU5OTc3MTYwMH0.NILKARO7l0PMHsanylAJH6GJJI0yEfsm39Xw6-RspmW0owCOX6vvdtoMdeEn2YYGsYRc8-1CukSHOmq1s9KVKA';
-        // 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiZXp6dWJpayIsImV4cCI6MTU5OTY4NTIwMH0.NSBKfBt6Wsh0YWHuIo1CvJqdRMVsme14spPr3np13MLHHF1SsnXuCcojruL0zsJNYPSVOiAxVTGmj9Zxpg412Q';
-    // localStorage.setItem('tokenData', token);
-
     let xhr = new XMLHttpRequest();
+
     xhr.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            // console.log(this.response, typeof this.response);
+            let list = JSON.parse(this.response);
+            let size = list.length;
 
-/*            var uInt8Array = new Uint8Array(this.response);
-            var i = uInt8Array.length;
-            var binaryString = new Array(i);
-            while (i--) {
-                binaryString[i] = String.fromCharCode(uInt8Array[i]);
+            for (let i = 0; i < size; i++) {
+                let base64 = list[i];
+                let id = 'img' + i;
+                let img = document.getElementById(id);
+                img.src = "data:image/png;base64," + base64;
+
             }
-            var data = binaryString.join('');*/
-
-            var base64 = window.btoa(this.response);
-
-            document.getElementById("img").src = "data:image/png;base64," + base64;
-
-            // var img = document.getElementById('img');
-            var url = window.URL || window.webkitURL;
-            img.src = url.createObjectURL(this.response);
         }
     }
     let url = HOME_PAGE + "/images/" + bookId;
     xhr.open('GET', url);
-    // xhr.responseType = 'blob';
-    // xhr.send();
-    //
-    // xhttp.open("GET", requestUrl);
-    // xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    // addAuthorization(xhr);
     xhr.setRequestHeader('Authorization', 'Bearer ' + token);
     xhr.setRequestHeader('Accept', 'application/json');
     xhr.send();
 
     return false;
-
 }
 
