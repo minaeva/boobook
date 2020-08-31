@@ -97,11 +97,19 @@
             let file64 = document.getElementById('target' + 0).src;
             if (!file64.includes(NO_IMAGE)) {
 
-                console.log('file64', file64.slice(5))
-                const ii = file64.indexOf('base64,')
-                const buffer = ArrayBuffer.from(file64.slice(ii + 7), 'base64') // error here
-                const name = `${Math.random().toString(36).slice(-5)}.png`
-                const file = new File({buffer, name, type: 'image/png'})
+                console.log('file64', file64.slice(5));
+                const ii = file64.indexOf('base64,');
+                let base64data = file64.slice(ii + 7);
+                let base64dataLength = base64data.length;
+                let arrayBuffer = new ArrayBuffer(base64dataLength);
+                for (var c = 0; c < base64dataLength; c++) {
+                    arrayBuffer[c] = base64data.charCodeAt(c);
+                }
+
+                console.log(arrayBuffer);
+                const name = `${Math.random().toString(36).slice(-5)}.png`;
+                //start here
+                const file = new File({arrayBuffer, name, type: 'image/png'})
                 console.log('file', file)
                 dbx.filesUpload({path: '/' + file.name, contents: file.buffer})
                     .then(function (response) {
