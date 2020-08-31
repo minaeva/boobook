@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Display Selected Images</title>
+    <link href="display.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-1.8.3.min.js"></script>
+
+    <!--    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">-->
+    <link href="assets/plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="assets/plugins/icomoon/style.css" rel="stylesheet">
+    <!--    <link href="assets/plugins/uniform/css/default.css" rel="stylesheet"/>-->
+    <!--    <link href="assets/plugins/switchery/switchery.min.css" rel="stylesheet"/>-->
+
+</head>
+<body>
+
+<h1>Select multiple</h1>
+
+<input type="file" id="fileInput" multiple accept="image/*" style="display:none" onchange="handleFiles(this.files)">
+<button id="fileButton">Select files</button>
+
+<h1>Select one by one</h1>
+
+<label for="src0"><img id="target0" src="images/book-placeholder.png" class="thumbnail"/></label>
+<input id="src0" type="file"/>
+<a class="remove" href="#" onclick="removeImage(0)"><i class="icon-close"></i></a>
+
+<label for="src1"><img id="target1" src="images/book-placeholder.png" class="thumbnail"/></label>
+<input id="src1" type="file"/>
+<a class="remove" href="#" onclick="removeImage(1)"><i class="icon-close"></i></a>
+
+<label for="src2"><img id="target2" src="images/book-placeholder.png" class="thumbnail"/></label>
+<input id="src2" type="file"/>
+<a class="remove" href="#" onclick="removeImage(2)"><i class="icon-close"></i></a>
+
+<label for="src3"><img id="target3" src="images/book-placeholder.png" class="thumbnail"/></label>
+<input id="src3" type="file"/>
+<a class="remove" href="#" onclick="removeImage(3)"><i class="icon-close"></i></a>
+
+<label for="src4"><img id="target4" src="images/book-placeholder.png" class="thumbnail"/></label>
+<input id="src4" type="file"/>
+<a class="remove" href="#" onclick="removeImage(4)"><i class="icon-close"></i></a>
+
+<button onclick="return uploadAll();">Upload all
+</button>
+<script>
+    const NO_IMAGE = 'images/book-placeholder.png';
+    let fileButton = document.getElementById("fileButton"),
+        fileInput = document.getElementById("fileInput");
+
+    fileButton.addEventListener("click", function (e) {
+        if (fileInput) {
+            fileInput.click();
+        }
+        e.preventDefault();
+    }, false);
+
+    function handleFiles(files) {
+        let max = files.length < 5 ? files.length : 5;
+
+        for (let i = 0; i < max; i++) {
+            handleFile(i, files[i])
+        }
+    }
+
+    function handleFile(i, file) {
+        let fr = new FileReader();
+        fr.onload = function (e) {
+            target.src = this.result;
+        };
+
+        fr.readAsDataURL(file);
+        let target = document.getElementById("target" + i);
+    }
+
+    function showImage(src, target) {
+        let fr = new FileReader();
+        fr.onload = function (e) {
+            target.src = this.result;
+        };
+        src.addEventListener("change", function () {
+            fr.readAsDataURL(src.files[0]);
+        });
+    }
+
+    function removeImage(i) {
+        let className = 'target' + i;
+        let element = document.getElementById(className);
+        element.src = NO_IMAGE;
+    }
+
+    function uploadAll() {
+        var filesArray = [];
+        for (let i = 0; i < 5; i++) {
+            let file64 = document.getElementById('target' + 0).src;
+            if (!file64.includes(NO_IMAGE)) {
+
+                console.log('file64', file64.slice(5))
+                const ii = file64.indexOf('base64,')
+                const buffer = ArrayBuffer.from(file64.slice(ii + 7), 'base64') // error here
+                const name = `${Math.random().toString(36).slice(-5)}.png`
+                const file = new File({buffer, name, type: 'image/png'})
+                console.log('file', file)
+                dbx.filesUpload({path: '/' + file.name, contents: file.buffer})
+                    .then(function (response) {
+                        console.log(response)
+                    })
+                    .catch(function (error) {
+                        console.error('dropbox error', error)
+                    })
+                return false;
+
+
+                // const buffer = ArrayBuffer.from(file64.slice(i + 7), 'base64');
+                // const file = new File({buffer: buffer, name, type: 'image/png'});
+
+                // let bs = window.atob(base64data);
+                // let ba = new Uint8Array(buffer);
+                // for (let j = 0; j < bs.length; j++) {
+                //     ba[j] = bs.charCodeAt(j);
+                // }
+                // let file = new Blob([ba], { type: "image/png" });
+
+                filesArray.push(file);
+            }
+        }
+        alert(filesArray);
+    }
+
+    var src0 = document.getElementById("src0");
+    var target0 = document.getElementById("target0");
+    showImage(src0, target0);
+
+    var src1 = document.getElementById("src1");
+    var target1 = document.getElementById("target1");
+    showImage(src1, target1);
+
+    var src2 = document.getElementById("src2");
+    var target2 = document.getElementById("target2");
+    showImage(src2, target2);
+
+    var src3 = document.getElementById("src3");
+    var target3 = document.getElementById("target3");
+    showImage(src3, target3);
+
+    var src4 = document.getElementById("src4");
+    var target4 = document.getElementById("target4");
+    showImage(src4, target4);
+
+
+</script>
+
+
+</body>
+</html>
