@@ -92,49 +92,61 @@
     }
 
     function uploadAll() {
-        var filesArray = [];
+        let filesArray = [];
         for (let i = 0; i < 5; i++) {
-            let file64 = document.getElementById('target' + 0).src;
+            let file64 = document.getElementById('target' + i).src;
             if (!file64.includes(NO_IMAGE)) {
 
-                console.log('file64', file64.slice(5));
-                const ii = file64.indexOf('base64,');
-                let base64data = file64.slice(ii + 7);
+                let source2parts = file64.split(','),
+                    mime = source2parts[0].match(/:(.*?);/)[1],
+                    base64data = atob(source2parts[1]);
+
                 let base64dataLength = base64data.length;
-                let arrayBuffer = new ArrayBuffer(base64dataLength);
-                for (var c = 0; c < base64dataLength; c++) {
-                    arrayBuffer[c] = base64data.charCodeAt(c);
+                let int8array = new Uint8Array(base64dataLength);
+                for (let c = 0; c < base64dataLength; c++) {
+                    int8array[c] = base64data.charCodeAt(c);
                 }
 
-                console.log(arrayBuffer);
-                const name = `${Math.random().toString(36).slice(-5)}.png`;
-                //start here
-                const file = new File({arrayBuffer, name, type: 'image/png'})
-                console.log('file', file)
-                dbx.filesUpload({path: '/' + file.name, contents: file.buffer})
-                    .then(function (response) {
-                        console.log(response)
-                    })
-                    .catch(function (error) {
-                        console.error('dropbox error', error)
-                    })
-                return false;
-
-
-                // const buffer = ArrayBuffer.from(file64.slice(i + 7), 'base64');
-                // const file = new File({buffer: buffer, name, type: 'image/png'});
-
-                // let bs = window.atob(base64data);
-                // let ba = new Uint8Array(buffer);
-                // for (let j = 0; j < bs.length; j++) {
-                //     ba[j] = bs.charCodeAt(j);
-                // }
-                // let file = new Blob([ba], { type: "image/png" });
-
+                console.log(int8array);
+                const name = `${Math.random().toString(36).slice(-5)}.jpg`;
+                const file = new File([int8array], name, {type: mime});
+                console.log('file', file);
                 filesArray.push(file);
             }
         }
-        alert(filesArray);
+        if (filesArray != null) {
+            upload(filesArray, 5);
+        }
+    }
+
+    function upload(filesToUpload, bookId) {
+        let formData = new FormData();
+        for (let i = 0; i < filesToUpload.length; i++) {
+            formData.append('files', filesToUpload[i]);
+        }
+        formData.append('bookId', bookId);
+
+        let xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (this.readyState == 4) {
+                if (this.status == 500) {
+                    showWarningModal("When adding the image, there is a server error");
+                    return false;
+                } else if (this.status == 403) {
+                    showWarningModal("When adding the image, there is a problem with authentication");
+                    return false;
+                } else if (this.status == 200) {
+                    console.log("Image added!");
+                }
+            }
+        };
+
+        let requestUrl = HOME_PAGE + "/images/upload";
+        console.log(requestUrl);
+
+        xhr.open("POST", requestUrl);
+        addAuthorization(xhr);
+        xhr.send(formData);
     }
 
     var src0 = document.getElementById("src0");
