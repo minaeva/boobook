@@ -1,5 +1,6 @@
 const validImageTypes = ['image/gif', 'image/jpeg', 'image/jpg', 'image/png', 'image/bmp'];
 const validFileExtensions = [".jpg", ".jpeg", ".bmp", ".gif", ".png"];
+const NO_IMAGE = 'images/book-placeholder.png';
 
 function validateBook(book_title, author_name, author_surname, year) {
     return validateField(book_title, "Title cannot be blank") &&
@@ -180,6 +181,42 @@ function setActive(bookId) {
     xhttp.open("POST", setActiveUrl, true);
     addAuthorization(xhttp);
     xhttp.send();
+
+    return false;
+}
+
+function openAddBookModal() {
+    $('#addBookModal').modal('show');
+
+    let fileButton = document.getElementById("fileButton"),
+        fileInput = document.getElementById("fileInput");
+
+    fileButton.addEventListener("click", function (e) {
+        if (fileInput) {
+            fileInput.click();
+        }
+        e.preventDefault();
+    }, false);
+
+    let src0 = document.getElementById("src0");
+    let target0 = document.getElementById("target0");
+    showImage(src0, target0);
+
+    let src1 = document.getElementById("src1");
+    let target1 = document.getElementById("target1");
+    showImage(src1, target1);
+
+    let src2 = document.getElementById("src2");
+    let target2 = document.getElementById("target2");
+    showImage(src2, target2);
+
+    let src3 = document.getElementById("src3");
+    let target3 = document.getElementById("target3");
+    showImage(src3, target3);
+
+    let src4 = document.getElementById("src4");
+    let target4 = document.getElementById("target4");
+    showImage(src4, target4);
 
     return false;
 }
@@ -444,6 +481,16 @@ function stringToBoolean(val) {
     }
 }
 
+function showImage(src, target) {
+    let fr = new FileReader();
+    fr.onload = function (e) {
+        target.src = this.result;
+    };
+    src.addEventListener("change", function () {
+        fr.readAsDataURL(src.files[0]);
+    });
+}
+
 function uploadImages(filesToUpload, bookId) {
     let formData = new FormData();
     for (let i = 0; i < filesToUpload.length; i++) {
@@ -495,7 +542,7 @@ function validateImages() {
 }
 
 function getImages(bookId) {
-    let token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiZXp6dWJpayIsImV4cCI6MTU5OTc3MTYwMH0.NILKARO7l0PMHsanylAJH6GJJI0yEfsm39Xw6-RspmW0owCOX6vvdtoMdeEn2YYGsYRc8-1CukSHOmq1s9KVKA';
+    let token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiZXp6dWJpayIsImV4cCI6MTYwMDExNzIwMH0.FP9JTOJ_Pu5tWpJVca2kfvTN3IIPJIfc-I58gxaMBx9orzztBnPTjGUBSAC2xmmr5yszLPu4irA_UzJiB8Z26w';
     let xhr = new XMLHttpRequest();
 
     xhr.onreadystatechange = function () {

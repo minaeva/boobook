@@ -143,34 +143,39 @@
 
         let requestUrl = HOME_PAGE + "/images/upload";
         console.log(requestUrl);
+        let token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiZXp6dWJpayIsImV4cCI6MTYwMDExNzIwMH0.FP9JTOJ_Pu5tWpJVca2kfvTN3IIPJIfc-I58gxaMBx9orzztBnPTjGUBSAC2xmmr5yszLPu4irA_UzJiB8Z26w';
 
         xhr.open("POST", requestUrl);
-        addAuthorization(xhr);
+        xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+        // xhr.setRequestHeader('Accept', 'application/json');
+        // addAuthorization(xhr);
         xhr.send(formData);
     }
 
-    var src0 = document.getElementById("src0");
-    var target0 = document.getElementById("target0");
+    let src0 = document.getElementById("src0");
+    let target0 = document.getElementById("target0");
     showImage(src0, target0);
 
-    var src1 = document.getElementById("src1");
-    var target1 = document.getElementById("target1");
+    let src1 = document.getElementById("src1");
+    let target1 = document.getElementById("target1");
     showImage(src1, target1);
 
-    var src2 = document.getElementById("src2");
-    var target2 = document.getElementById("target2");
+    let src2 = document.getElementById("src2");
+    let target2 = document.getElementById("target2");
     showImage(src2, target2);
 
-    var src3 = document.getElementById("src3");
-    var target3 = document.getElementById("target3");
+    let src3 = document.getElementById("src3");
+    let target3 = document.getElementById("target3");
     showImage(src3, target3);
 
-    var src4 = document.getElementById("src4");
-    var target4 = document.getElementById("target4");
+    let src4 = document.getElementById("src4");
+    let target4 = document.getElementById("target4");
     showImage(src4, target4);
 
 
 </script>
+
+<script src="js/main.js"></script>
 
 
 </body>

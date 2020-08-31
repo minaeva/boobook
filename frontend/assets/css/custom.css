@@ -9,3 +9,33 @@
     overflow-x: hidden;
     overflow-y: auto;
 }
+
+.thumbnail {
+    height: 80px;
+    /*max-height: 200px;*/
+    border: 1px solid grey;
+    border-radius: 5px;
+    margin: 5px;
+    padding: 0px;
+}
+
+#src0, #src1, #src2, #src3, #src4 {
+    display: none;
+}
+
+.remove {
+    vertical-align: top;
+    color: #4F5862;
+    opacity: 0.6;
+    padding-right: 2px;
+    height: 255px;
+}
+
+.select-images {
+    width: 130px;
+    margin: 10px;
+    align-self: center;
+    alignment: center;
+    horiz-align: center;
+
+}
