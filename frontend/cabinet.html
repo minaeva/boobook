@@ -55,7 +55,7 @@
                 <ul class="accordion-menu">
                     <li>
                         <a onclick="openAddBookModal(); return false" data-toggle="modal">
-                            <!--                            data-target="#addBookModal">-->
+<!--                            data-target="#addBookModal">-->
                             <i class="menu-icon fa fa-book"></i><span>Add book</span>
                         </a>
                     </li>
@@ -298,7 +298,7 @@
                         </div>
                         <div class="row">
                             <input type="file" id="fileInput" multiple accept="image/*" style="display:none"
-                                   onchange="handleFiles(this.files)">
+                                   onchange="sendFilesToPreviews(this.files)">
                             <button class="btn btn-default select-images" id="fileButton">Select images</button>
                         </div>
 

@@ -6,13 +6,11 @@
     <link href="display.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-1.8.3.min.js"></script>
 
-    <!--    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">-->
     <link href="assets/plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <link href="assets/plugins/icomoon/style.css" rel="stylesheet">
     <!--    <link href="assets/plugins/uniform/css/default.css" rel="stylesheet"/>-->
     <!--    <link href="assets/plugins/switchery/switchery.min.css" rel="stylesheet"/>-->
-
 </head>
 <body>
 
@@ -45,7 +43,70 @@
 
 <button onclick="return uploadAll();">Upload all
 </button>
+<br>
+<br>
+
+<a onclick="showModal(); return false" data-toggle="modal" data-target="#addBookModal">
+    <span>Add book</span>
+</a>
+
+<!--<button onclick="showModal(); return false" data-toggle="modal">open modal</button>-->
+<div class="modal" id="addBookModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Add book</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group required">
+                    <label for="book_title" class="control-label">Title </label>
+                    <input type="text" class="form-control" id="book_title" placeholder="">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"
+                        onclick="showTooltip(); return false">
+                    Close
+                </button>
+                <button type="button" class="btn btn-info" onclick="saveBook(); return false">
+                    Add book
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--
+<div id="popupBottom" class="popover">
+    <div class="arrow"></div>
+    <h3 class="popover-title">Bottom</h3>
+    <div class="popover-content">
+        <p>Sed posuere consectetur est at lobortis. Aenean eu leo quam.
+            Pellentesque ornare sem lacinia quam venenatis vestibulum.
+            <a href="#" class="btn btn-default helloWorld">Click me</a>
+        </p>
+    </div>
+</div>
+-->
+
 <script>
+
+    function showModal() {
+        let modal = document.getElementById("addBookModal").modal;
+        modal.style.display = "block";
+
+        // $('#addBookModal').modal('show');
+    }
+
+    function showTooltip() {
+        alert('show');
+        $('#addBookModal').modalPopover(options);
+    }
+
     const NO_IMAGE = 'images/book-placeholder.png';
     let fileButton = document.getElementById("fileButton"),
         fileInput = document.getElementById("fileInput");

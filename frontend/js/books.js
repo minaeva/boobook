@@ -26,17 +26,10 @@ function saveBook() {
         return false;
     }
 
-    if (!validateImages()) {
+    let allFiles = retrieveImages();
+    if (!allFiles) {
         return false;
     }
-
-    let filesToUpload = document.getElementById("file_to_upload");
-    let allFiles = [];
-    let length = filesToUpload.files.length;
-    for (let i = 0; i < length; i++) {
-        allFiles[i] = filesToUpload.files[i];
-    }
-    console.log(allFiles);
 
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
@@ -48,7 +41,7 @@ function saveBook() {
             } else if (this.status === 200) {
                 let response = JSON.parse(this.responseText);
                 let bookId = response.id;
-                console.log(allFiles);
+                // console.log(allFiles);
                 uploadImages(allFiles, bookId);
                 closeAddBookModal();
                 showSuccessModal("Book " + book_title + " was successfully added");
@@ -188,6 +181,9 @@ function setActive(bookId) {
 function openAddBookModal() {
     $('#addBookModal').modal('show');
 
+    $('#addBookModal').on('shown.bs.modal', function () {
+        $('#book_title').focus();
+    })
     let fileButton = document.getElementById("fileButton"),
         fileInput = document.getElementById("fileInput");
 
@@ -230,12 +226,19 @@ function closeAddBookModal() {
     document.getElementById("year").value = '';
     document.getElementById("pages_quantity").value = '';
     document.getElementById("description").value = '';
-    document.getElementById("file_to_upload").value = '';
+    // document.getElementById("file_to_upload").value = '';
+    for (let i = 0; i < 5; i++) {
+        removeImage(i);
+    }
     return false;
 }
 
 function openEditModal(book_id, title, authorName, authorSurname, publisher, language, year, cover, illustrations, ageGroup, pagesQuantity, description) {
     $('#editBookModal').modal('show');
+    $('#editBookModal').on('shown.bs.modal', function () {
+        $('#edit_book_title').focus();
+    })
+
     console.log(title, publisher, language, year, cover, illustrations, ageGroup, pagesQuantity, description);
     document.getElementById("edit_book_id").value = book_id;
     document.getElementById("edit_book_title").value = title;
@@ -366,10 +369,10 @@ function showOwnersBooks() {
 
 // BOOK DETAILS
 function showBookDetails(bookId, ownerId) {
-    let xhttp = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     let html = '';
 
-    xhttp.onreadystatechange = function () {
+    xhr.onreadystatechange = function () {
         if (this.readyState === 4) {
             if (this.status === 200) {
                 let bookDetails = JSON.parse(this.responseText);
@@ -427,10 +430,10 @@ function showBookDetails(bookId, ownerId) {
     }
 
     let requestUrl = HOME_PAGE + "/books/" + bookId;
-    xhttp.open("GET", requestUrl);
-    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    addAuthorization(xhttp);
-    xhttp.send();
+    xhr.open("GET", requestUrl);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    addAuthorization(xhr);
+    xhr.send();
 
     return false;
 }
@@ -491,6 +494,69 @@ function showImage(src, target) {
     });
 }
 
+function removeImage(i) {
+    let className = 'target' + i;
+    let element = document.getElementById(className);
+    element.src = NO_IMAGE;
+}
+
+function sendFilesToPreviews(files) {
+    let max = files.length < 5 ? files.length : 5;
+
+    for (let i = 0; i < max; i++) {
+        let fr = new FileReader();
+        fr.onload = function (e) {
+            target.src = this.result;
+        };
+
+        fr.readAsDataURL(files[i]);
+        let target = document.getElementById("target" + i);
+        // handleFile(i, files[i])
+    }
+}
+
+/*
+function handleFile(i, file) {
+    let fr = new FileReader();
+    fr.onload = function (e) {
+        target.src = this.result;
+    };
+
+    fr.readAsDataURL(file);
+    let target = document.getElementById("target" + i);
+}
+*/
+
+function retrieveImages() {
+    let filesArray = [];
+    for (let i = 0; i < 5; i++) {
+        let file64 = document.getElementById('target' + i).src;
+        if (!file64.includes(NO_IMAGE)) {
+
+            let source2parts = file64.split(',');
+            let mime = source2parts[0].match(/:(.*?);/)[1];
+            if (!validImageTypes.includes(mime)) {
+                showWarningModal("Sorry, file type " + mime + " is invalid, allowed extensions are: " + validFileExtensions.join(", "));
+                return false;
+            }
+            let base64data = atob(source2parts[1]);
+
+            let base64dataLength = base64data.length;
+            let int8array = new Uint8Array(base64dataLength);
+            for (let c = 0; c < base64dataLength; c++) {
+                int8array[c] = base64data.charCodeAt(c);
+            }
+
+            // console.log(int8array);
+            const name = `${Math.random().toString(36).slice(-5)}.jpg`;
+            const file = new File([int8array], name, {type: mime});
+            console.log('file', file);
+            filesArray.push(file);
+        }
+    }
+    return filesArray;
+}
+
 function uploadImages(filesToUpload, bookId) {
     let formData = new FormData();
     for (let i = 0; i < filesToUpload.length; i++) {
@@ -521,25 +587,6 @@ function uploadImages(filesToUpload, bookId) {
     xhr.send(formData);
 }
 
-function validateImages() {
-    let filesToUpload = document.getElementById("file_to_upload");
-    if (filesToUpload === '') {
-        return true;
-    }
-    if (parseInt(filesToUpload.files.length) > 5) {
-        showWarningModal("Please select not more that 5 files");
-        return false;
-    }
-
-    for (let i = 0; i < filesToUpload.files.length; i++) {
-        let oneFile = filesToUpload.files[i];
-        if (!validImageTypes.includes(oneFile.type)) {
-            showWarningModal("Sorry, file type " + oneFile.type + " is invalid, allowed extensions are: " + validFileExtensions.join(", "));
-            return false;
-        }
-    }
-    return true;
-}
 
 function getImages(bookId) {
     let token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiZXp6dWJpayIsImV4cCI6MTYwMDExNzIwMH0.FP9JTOJ_Pu5tWpJVca2kfvTN3IIPJIfc-I58gxaMBx9orzztBnPTjGUBSAC2xmmr5yszLPu4irA_UzJiB8Z26w';
