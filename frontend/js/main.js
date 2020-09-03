@@ -54,25 +54,41 @@ function showSuccessModal(text) {
     $('#smallModal').modal('show');
 }
 
-function validateField(field, warningText) {
+function validateField(field, fieldId, warningText) {
+    let element = document.getElementById(fieldId);
+
     if (field == null || field == "") {
-        showWarningModal(warningText);
+        element.classList.add('has-error');
+        // setError(warningText);
         return false;
+    }
+    if (element.classList.contains('has-error')) {
+        element.classList.remove('has-error');
     }
     return true;
 }
 
 function validateYear(year, warningText) {
+    let element = document.getElementById('year_group');
+
     if (year == null || year == "") {
+        if (element.classList.contains('has-error')) {
+            element.classList.remove('has-error');
+        }
         return true;
     }
     if (isNaN(year)) {
-        showWarningModal('Year should be a number');
+        element.classList.add('has-error');
+        // showWarningModal('Year should be a number');
         return false;
     }
     if (year < 1800 || year > new Date().getFullYear()) {
-        showWarningModal(warningText);
+        element.classList.add('has-error');
+        // showWarningModal(warningText);
         return false;
+    }
+    if (element.classList.contains('has-error')) {
+        element.classList.remove('has-error');
     }
     return true;
 }

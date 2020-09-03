@@ -3,9 +3,9 @@ const validFileExtensions = [".jpg", ".jpeg", ".bmp", ".gif", ".png"];
 const NO_IMAGE = 'images/book-placeholder.png';
 
 function validateBook(book_title, author_name, author_surname, year) {
-    return validateField(book_title, "Title cannot be blank") &&
-        validateField(author_name, "Author Name cannot be blank") &&
-        validateField(author_surname, "Author Surname cannot be blank") &&
+    return validateField(book_title, 'book_title_group', "Title cannot be blank") &
+        validateField(author_name, 'author_name_group', "Author Name cannot be blank") &
+        validateField(author_surname, 'author_surname_group', "Author Surname cannot be blank") &
         validateYear(year, "Year should be a number greater than 1800 and less than current year");
 }
 

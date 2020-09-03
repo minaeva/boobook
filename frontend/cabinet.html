@@ -55,7 +55,7 @@
                 <ul class="accordion-menu">
                     <li>
                         <a onclick="openAddBookModal(); return false" data-toggle="modal">
-<!--                            data-target="#addBookModal">-->
+                            <!--                            data-target="#addBookModal">-->
                             <i class="menu-icon fa fa-book"></i><span>Add book</span>
                         </a>
                     </li>
@@ -206,17 +206,17 @@
                         <h4 class="modal-title" id="myModalLabel">Add book</h4>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group required">
+                        <div class="form-group required" id="book_title_group">
                             <label for="book_title" class="control-label">Title </label>
                             <input type="text" class="form-control" id="book_title" placeholder="">
                         </div>
 
                         <div class="row">
-                            <div class="form-group col-sm-6 required">
+                            <div class="form-group col-sm-6 required" id="author_name_group">
                                 <label for="author_name" class="control-label">Author Name </label>
                                 <input type="text" class="form-control" id="author_name" placeholder="">
                             </div>
-                            <div class="form-group col-sm-6 required">
+                            <div class="form-group col-sm-6 required" id="author_surname_group">
                                 <label for="author_surname" class="control-label">Author Surname </label>
                                 <input type="text" class="form-control" id="author_surname" placeholder="">
                             </div>
@@ -227,7 +227,7 @@
                                 <label for="publisher" class="control-label">Publisher</label>
                                 <input type="text" class="form-control" id="publisher" placeholder="">
                             </div>
-                            <div class="form-group col-sm-4">
+                            <div class="form-group col-sm-4" id="year_group">
                                 <label for="year" class="control-label">Year</label>
                                 <input type="text" class="form-control" id="year" placeholder=">1799">
                             </div>
@@ -302,7 +302,7 @@
                             <button class="btn btn-default select-images" id="fileButton">Select images</button>
                         </div>
 
-                        <div class="row">
+                        <div class="row col-sm-12">
                             <label for="src0"><img id="target0" src="images/book-placeholder.png"
                                                    class="thumbnail"/></label>
                             <input id="src0" type="file"/>
@@ -327,19 +327,8 @@
                                                    class="thumbnail"/></label>
                             <input id="src4" type="file"/>
                             <a class="remove" href="#" onclick="removeImage(4)"><i class="icon-close"></i></a>
-
-                            <!--                                <button onclick="return uploadAll();">Upload all-->
-                            <!--                                </button>-->
                         </div>
                     </div>
-                    <!--                </div>-->
-
-                    <!--                            <label for="file_to_upload">Select file</label>-->
-                    <!--                            <input type="file" class="form-control-file" id="file_to_upload" multiple>-->
-                    <!--            </div>-->
-
-
-                    <!--        </div>-->
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal"
                                 onclick="closeAddBookModal(); return false">

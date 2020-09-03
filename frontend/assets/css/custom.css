@@ -11,11 +11,11 @@
 }
 
 .thumbnail {
-    height: 80px;
+    height: 76px;
     /*max-height: 200px;*/
     border: 1px solid grey;
     border-radius: 5px;
-    margin: 5px;
+    margin: 10px 0px 15px 0px;
     padding: 0px;
 }
 
@@ -27,7 +27,8 @@
     vertical-align: top;
     color: #4F5862;
     opacity: 0.6;
-    padding-right: 2px;
+    margin: 0px 6px 0px 0px;
+    /*padding-right: 6px;*/
     height: 255px;
 }
 
