@@ -54,21 +54,39 @@ function showSuccessModal(text) {
     $('#smallModal').modal('show');
 }
 
-function validateField(field, fieldId, warningText) {
-    let element = document.getElementById(fieldId);
-
+function validateFieldWithModalResponse(field, warningText) {
     if (field == null || field == "") {
-        element.classList.add('has-error');
-        // setError(warningText);
+        showWarningModal(warningText);
         return false;
-    }
-    if (element.classList.contains('has-error')) {
-        element.classList.remove('has-error');
     }
     return true;
 }
 
-function validateYear(year, warningText) {
+function validateField(field, groupControlId) {
+    let group = document.getElementById(groupControlId);
+    if (field == null || field == "") {
+        group.classList.add('has-error');
+        return false;
+    }
+    if (group.classList.contains('has-error')) {
+        group.classList.remove('has-error');
+    }
+    return true;
+}
+
+function validateImage(field, groupControlId) {
+    let group = document.getElementById(groupControlId);
+    if (field == null || field == "") {
+        group.classList.add('has-error');
+        return false;
+    }
+    if (group.classList.contains('has-error')) {
+        group.classList.remove('has-error');
+    }
+    return true;
+}
+
+function validateYear(year) {
     let element = document.getElementById('year_group');
 
     if (year == null || year == "") {
@@ -79,12 +97,10 @@ function validateYear(year, warningText) {
     }
     if (isNaN(year)) {
         element.classList.add('has-error');
-        // showWarningModal('Year should be a number');
         return false;
     }
     if (year < 1800 || year > new Date().getFullYear()) {
         element.classList.add('has-error');
-        // showWarningModal(warningText);
         return false;
     }
     if (element.classList.contains('has-error')) {

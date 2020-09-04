@@ -1,11 +1,11 @@
 function validateReader(name, email, password) {
-    return validateField(name, "Name cannot be blank") &&
+    return validateFieldWithModalResponse(name, "Name cannot be blank") &&
         validateEmailPassword(email, password);
 }
 
 function validateEmailPassword(email, password) {
-    return validateField(email, "Email cannot be blank") &&
-        validateField(password, "Password cannot be blank");
+    return validateFieldWithModalResponse(email, "Email cannot be blank") &&
+        validateFieldWithModalResponse(password, "Password cannot be blank");
 }
 
 function authenticateAReader(email, password) {
