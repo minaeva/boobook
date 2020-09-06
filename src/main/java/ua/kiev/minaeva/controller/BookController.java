@@ -21,7 +21,7 @@ public class BookController {
 
     @GetMapping
     public List<BookDto> getAllBooks() {
-        log.info("handling GET ALL books request");
+        log.info("handling GET ALL BOOKS request");
         return bookService.getAll();
     }
 

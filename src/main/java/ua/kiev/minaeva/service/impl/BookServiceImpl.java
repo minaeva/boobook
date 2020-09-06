@@ -113,13 +113,12 @@ public class BookServiceImpl implements BookService {
                 .orElseThrow(() ->
                         new BoobookNotFoundException("Reader with id " + readerId + " cannot be found"));
 
-        List<Book> readerBooks = bookRepository.findByOwner(reader)
+        List<Book> readerBooks = bookRepository.findByOwnerOrderByIdDesc(reader)
                 .orElseThrow(() ->
                         new BoobookNotFoundException("The reader " + reader.getId() + " "
                                 + reader.getEmail() + " " + reader.getName() + " does not have any book"));
 
         return readerBooks.stream()
-                .filter(book -> book.isActive())
                 .map(b -> mapper.bookToDto(b))
                 .collect(Collectors.toList());
     }

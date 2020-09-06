@@ -285,8 +285,7 @@
 
                         <div class="row">
                             <div class="form-group">
-                                <label class="col-sm-2 control-label"
-                                       for="description">Description</label>
+                                <label class="col-sm-2 control-label" for="description">Description</label>
                                 <div class="col-sm-10">
                                     <textarea class="form-control" id="description" rows="2"></textarea>
                                 </div>
@@ -297,36 +296,54 @@
                             &nbsp;
                         </div>
                         <div class="row">
-                            <input type="file" id="fileInput" multiple accept="image/*" style="display:none"
-                                   onchange="sendFilesToPreviews(this.files)">
-                            <button class="btn btn-default select-images" id="fileButton">Select images</button>
+                            <div class="col-sm-9 help-inline">
+                                Images are recommended to include: cover, back cover, one with text, one with
+                                illustration, and one you like.
+                            </div>
+                            <input type="file" id="fileInput" multiple accept="image/*"
+                                   onchange="showMultiplePreviews(this.files)">
+                            <button class="btn btn-info" id="fileButton">Select images</button>
+                        </div>
+                        <div class="row">
+                            &nbsp;
                         </div>
 
                         <div class="row col-sm-12">
-                            <label for="src0"><img id="target0" src="images/book-placeholder.png"
-                                                   class="thumbnail"/></label>
-                            <input id="src0" type="file"/>
-                            <a class="remove" href="#" onclick="removeImage(0)"><i class="icon-close"></i></a>
+                                <span class="nowrap">
+                                <label for="src0"><img id="target0" src="images/book-placeholder.png"
+                                                       class="thumbnail"/></label>
+                                <input id="src0" type="file"/>
+                                <a class="remove" href="#" onclick="removePreview(0)"><i class="icon-close"></i></a>
+                                </span>
 
-                            <label for="src1"><img id="target1" src="images/book-placeholder.png"
-                                                   class="thumbnail"/></label>
-                            <input id="src1" type="file"/>
-                            <a class="remove" href="#" onclick="removeImage(1)"><i class="icon-close"></i></a>
+                            <span class="nowrap">
+                                <label for="src1"><img id="target1" src="images/book-placeholder.png"
+                                                       class="thumbnail"/></label>
+                                <input id="src1" type="file"/>
+                                <a class="remove" href="#" onclick="removePreview(1)"><i class="icon-close"></i></a>
+                                </span>
 
-                            <label for="src2"><img id="target2" src="images/book-placeholder.png"
-                                                   class="thumbnail"/></label>
-                            <input id="src2" type="file"/>
-                            <a class="remove" href="#" onclick="removeImage(2)"><i class="icon-close"></i></a>
+                            <span class="nowrap">
+                                <label for="src2"><img id="target2" src="images/book-placeholder.png"
+                                                       class="thumbnail"/></label>
+                                <input id="src2" type="file"/>
+                                <a class="remove" href="#" onclick="removePreview(2)"><i class="icon-close"></i></a>
+                                </span>
 
-                            <label for="src3"><img id="target3" src="images/book-placeholder.png"
-                                                   class="thumbnail"/></label>
-                            <input id="src3" type="file"/>
-                            <a class="remove" href="#" onclick="removeImage(3)"><i class="icon-close"></i></a>
+                            <span class="nowrap">
+                                <label for="src3"><img id="target3" src="images/book-placeholder.png"
+                                                       class="thumbnail"/></label>
+                                <input id="src3" type="file"/>
+                                <a class="remove" href="#" onclick="removePreview(3)"><i class="icon-close"></i></a>
+                                </span>
 
-                            <label for="src4"><img id="target4" src="images/book-placeholder.png"
-                                                   class="thumbnail"/></label>
-                            <input id="src4" type="file"/>
-                            <a class="remove" href="#" onclick="removeImage(4)"><i class="icon-close"></i></a>
+                            <span class="nowrap">
+                                <label for="src4"><img id="target4" src="images/book-placeholder.png"
+                                                       class="thumbnail"/></label>
+                                <input id="src4" type="file"/>
+                                <a class="remove" href="#" onclick="removePreview(4)"><i class="icon-close"></i></a>
+                                </span>
+
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -551,7 +568,7 @@
         <div class="page-inner" id="page-inner-cabinet">
             <div id="main-wrapper">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-9">
                         <div class="panel panel-white">
                             <div class="panel-body">
                                 <div class="panel-group">

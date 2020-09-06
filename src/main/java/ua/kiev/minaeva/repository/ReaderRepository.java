@@ -12,5 +12,7 @@ public interface ReaderRepository extends JpaRepository<Reader, Long> {
 
     Optional<Reader> findById(Long id);
 
+    Optional<Reader> findByIdOrderByIdDesc(Long id);
+
     List<Reader> findByName(String name);
 }

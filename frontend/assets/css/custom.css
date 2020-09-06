@@ -12,14 +12,21 @@
 
 .thumbnail {
     height: 76px;
-    /*max-height: 200px;*/
-    border: 1px solid grey;
+    border: 0px;
     border-radius: 5px;
     margin: 10px 0px 15px 0px;
     padding: 0px;
 }
 
-#src0, #src1, #src2, #src3, #src4 {
+.book-detail-thumbnail {
+    height: 80px;
+    border: 0px;
+    border-radius: 2px;
+    margin: 4px;
+    padding: 0px;
+}
+
+#src0, #src1, #src2, #src3, #src4, #src5, #fileInput {
     display: none;
 }
 
@@ -28,15 +35,27 @@
     color: #4F5862;
     opacity: 0.6;
     margin: 0px 6px 0px 0px;
-    /*padding-right: 6px;*/
     height: 255px;
 }
 
 .select-images {
-    /*width: 130px;*/
-    margin: 10px;
+    display: inline-block;
     align-self: center;
-    alignment: center;
-    horiz-align: center;
+}
 
+.edit-btn {
+    margin-top: 10px;
+}
+
+.center-btn {
+    padding: 10px;
+    margin: 10px;
+    position: absolute;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.nowrap {
+    white-space: nowrap;
 }

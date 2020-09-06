@@ -16,4 +16,6 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     Optional<List<Book>> findByOwner(Reader reader);
 
+    Optional<List<Book>> findByOwnerOrderByIdDesc(Reader reader);
+
 }
