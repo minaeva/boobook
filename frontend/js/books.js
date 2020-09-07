@@ -1,12 +1,23 @@
 const validImageTypes = ['image/gif', 'image/jpeg', 'image/jpg', 'image/png', 'image/bmp'];
 const PREVIEWS_QUANTITY = 5;
 const NO_IMAGE = 'images/book-placeholder.png';
+let IMAGE_EDITED;
+const IMAGE_TO_SAVE = 'target';
+const IMAGE_TO_EDIT = 'edit_target';
+
 
 function validateBook(book_title, author_name, author_surname, year) {
-    return validateField(book_title, 'book_title_group', "Title cannot be blank") &
-        validateField(author_name, 'author_name_group', "Author Name cannot be blank") &
-        validateField(author_surname, 'author_surname_group', "Author Surname cannot be blank") &
-        validateYear(year, "Year should be a number greater than 1800 and less than current year");
+    return validateField(book_title, 'book_title_group') &
+        validateField(author_name, 'author_name_group') &
+        validateField(author_surname, 'author_surname_group') &
+        validateYear(year, 'year_group');
+}
+
+function validateEditBook(book_title, author_name, author_surname, year) {
+    return validateField(book_title, 'edit_book_title_group') &
+        validateField(author_name, 'edit_author_name_group') &
+        validateField(author_surname, 'edit_author_surname_group') &
+        validateYear(year, 'edit_year_group');
 }
 
 function saveBook() {
@@ -26,7 +37,7 @@ function saveBook() {
         return false;
     }
 
-    let allFiles = retrieveImagesFromPreviews();
+    let allFiles = retrieveImagesFromPreviews(IMAGE_TO_SAVE);
     if (!allFiles) {
         return false;
     }
@@ -91,51 +102,60 @@ function editBook() {
     let pages_quantity = document.getElementById("edit_pages_quantity").value;
     let description = document.getElementById("edit_description").value;
 
-    let res = validateBook(book_title, author_name, author_surname, year);
-
-    if (res) {
-        closeEditBookModal();
-
-        let xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function () {
-            if (this.readyState === 4) {
-                if (this.status === 500) {
-                    showWarningModal("Book " + book_title + " cannot be edited");
-                    return false;
-                } else if (this.status === 200) {
-                    showSuccessModal("Book " + book_title + " was successfully edited");
-                    showOwnersBooks();
-                }
-            }
-        };
-
-        let requestUrl = HOME_PAGE + "/books";
-        let currentUserId = getCurrentUserId();
-
-        const requestBody = {
-            "id": book_id,
-            "title": book_title,
-            "authorName": author_name,
-            "authorSurname": author_surname,
-            "ownerId": currentUserId,
-            "year": year,
-            "publisher": publisher,
-            "ageGroup": age_group,
-            "hardCover": cover,
-            "language": language,
-            "illustrations": illustrations,
-            "pagesQuantity": pages_quantity,
-            "description": description,
-        };
-        console.log(requestBody);
-
-        xhr.open("PUT", requestUrl);
-        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        addAuthorization(xhr);
-        xhr.send(JSON.stringify(requestBody));
-
+    if (!validateEditBook(book_title, author_name, author_surname, year)) {
         return false;
     }
+
+    let allFiles = retrieveImagesFromPreviews(IMAGE_TO_EDIT);
+    if (!allFiles) {
+        return false;
+    }
+
+    closeEditBookModal();
+
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            if (this.status === 500) {
+                showWarningModal("Book " + book_title + " cannot be edited");
+                return false;
+            } else if (this.status === 200) {
+                showSuccessModal("Book " + book_title + " was successfully edited");
+                if (IMAGE_EDITED) {
+                    updateBooks(allFiles, book_id);
+                }
+                showOwnersBooks();
+            }
+        }
+    };
+
+    let requestUrl = HOME_PAGE + "/books";
+    let currentUserId = getCurrentUserId();
+
+    const requestBody = {
+        "id": book_id,
+        "title": book_title,
+        "authorName": author_name,
+        "authorSurname": author_surname,
+        "ownerId": currentUserId,
+        "year": year,
+        "publisher": publisher,
+        "ageGroup": age_group,
+        "hardCover": cover,
+        "language": language,
+        "illustrations": illustrations,
+        "pagesQuantity": pages_quantity,
+        "description": description,
+    };
+    console.log(requestBody);
+
+    xhr.open("PUT", requestUrl);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    addAuthorization(xhr);
+    xhr.send(JSON.stringify(requestBody));
+
+    return false;
+
 }
 
 function setInactive(bookId) {
@@ -229,9 +249,7 @@ function closeAddBookModal() {
     document.getElementById("year").value = '';
     document.getElementById("pages_quantity").value = '';
     document.getElementById("description").value = '';
-    for (let i = 0; i < PREVIEWS_QUANTITY; i++) {
-        removePreview(i);
-    }
+    cleanPreviewsOnModalClose('target');
     return false;
 }
 
@@ -240,6 +258,7 @@ function openEditModal(book_id, title, authorName, authorSurname, publisher, lan
     $('#editBookModal').on('shown.bs.modal', function () {
         $('#edit_book_title').focus();
     })
+    IMAGE_EDITED = false;
 
     let fileButton = document.getElementById("edit_fileButton"),
         fileInput = document.getElementById("edit_fileInput");
@@ -247,6 +266,7 @@ function openEditModal(book_id, title, authorName, authorSurname, publisher, lan
     fileButton.addEventListener("click", function (e) {
         if (fileInput) {
             fileInput.click();
+            IMAGE_EDITED = true;
         }
         e.preventDefault();
     }, false);
@@ -284,7 +304,7 @@ function openEditModal(book_id, title, authorName, authorSurname, publisher, lan
     document.getElementById("edit_age_group").value = ageGroup;
     document.getElementById("edit_pages_quantity").value = pagesQuantity;
     document.getElementById("edit_description").value = description;
-
+    getEditBookImages(book_id);
     return false;
 }
 
@@ -297,7 +317,16 @@ function closeEditBookModal() {
     document.getElementById("edit_year").value = '';
     document.getElementById("edit_pages_quantity").value = '';
     document.getElementById("edit_description").value = '';
+    cleanPreviewsOnModalClose('edit_target');
     return false;
+}
+
+function cleanPreviewsOnModalClose(classNameBase) {
+    for (let i = 0; i < PREVIEWS_QUANTITY; i++) {
+        let className = classNameBase + i;
+        let element = document.getElementById(className);
+        element.src = NO_IMAGE;
+    }
 }
 
 function showAllBooks() {
@@ -446,22 +475,22 @@ function showBookDetails(bookId, ownerId) {
                         + notNull(bookDetails.ownerName) + '</a></div>\n';
                 } else {
                     html +=
-                        '<div class="btn-group edit-btn" style="float: right"> ' +
-                        '<button type="button" class="btn btn-default" data-toggle="modal"' +
+                        // '<div class="btn-group edit-btn" style="float: right"> ' +
+                        '<button type="button" class="btn btn-info margin-left-5px" style="float: right" data-toggle="modal"' +
                         'onclick="openEditModal(' + bookId + ',\'' + bookDetails.title + '\',\'' + bookDetails.authorName + '\',\'' + bookDetails.authorSurname +
                         '\',\'' + bookDetails.publisher + '\',\'' + bookDetails.language + '\',\'' + bookDetails.year +
                         '\',' + bookDetails.hardCover + ',' + bookDetails.illustrations + ',\'' + bookDetails.ageGroup +
                         '\',\'' + bookDetails.pagesQuantity + '\',\'' + bookDetails.description + '\'); ' +
-                        'return false;">Edit</button>';
+                        'return false;">Edit</button>&nbsp;';
                     if (bookDetails.active) {
                         html +=
-                            '<button type="button" class="btn btn-default" onclick="setInactive(' + bookId + '); return false; ">Set inactive</button></div>';
+                            '<button type="button" class="btn btn-default margin-left-5px" style="float: right" onclick="setInactive(' + bookId + '); return false; ">Set inactive</button></div>';
                     } else {
                         html +=
-                            '<button type="button" class="btn btn-default" onclick="setActive(' + bookId + '); return false; ">Set active</button></div>';
+                            '<button type="button" class="btn btn-default margin-left-5px" style="float: right" onclick="setActive(' + bookId + '); return false; ">Set active</button></div>';
                     }
                 }
-                html += '  </div>\n';
+                // html += '  </div>\n';
             }
             let collapsed = document.getElementById("collapse" + bookId);
             collapsed.innerHTML = html;
@@ -535,18 +564,19 @@ function isImage(input) {
     return true;
 }
 
-function showMultiplePreviews(files) {
+function showMultiplePreviews(classNameBase, files) {
     let max = files.length < PREVIEWS_QUANTITY ? files.length : PREVIEWS_QUANTITY;
 
     for (let i = 0; i < max; i++) {
         let fr = new FileReader();
         fr.onload = function (e) {
+            IMAGE_EDITED = true;
             if (isImage(this.result)) {
                 target.src = this.result;
             }
         };
         fr.readAsDataURL(files[i]);
-        let target = document.getElementById("target" + i);
+        let target = document.getElementById(classNameBase + i);
     }
 }
 
@@ -554,6 +584,7 @@ function showOnePreview(src, target) {
     let fr = new FileReader();
     fr.onload = function (e) {
         if (isImage(this.result)) {
+            IMAGE_EDITED = true;
             target.src = this.result;
         }
     };
@@ -562,16 +593,15 @@ function showOnePreview(src, target) {
     });
 }
 
-function removePreview(i) {
-    let className = 'target' + i;
-    let element = document.getElementById(className);
-    element.src = NO_IMAGE;
+function removePreview(className) {
+    IMAGE_EDITED = true;
+    document.getElementById(className).src = NO_IMAGE;
 }
 
-function retrieveImagesFromPreviews() {
+function retrieveImagesFromPreviews(elementIdBase) {
     let filesArray = [];
     for (let i = 0; i < PREVIEWS_QUANTITY; i++) {
-        let file64 = document.getElementById('target' + i).src;
+        let file64 = document.getElementById(elementIdBase + i).src;
         if (!file64.includes(NO_IMAGE)) {
             if (!isImage(file64)) {
                 continue;
@@ -654,20 +684,17 @@ function getBookImages(bookId) {
 
 function getEditBookImages(bookId) {
     let xhr = new XMLHttpRequest();
-    let byte64FilesArray = [];
 
     xhr.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             let list = JSON.parse(this.response);
             let size = list.length;
+            let max = size < PREVIEWS_QUANTITY ? size : PREVIEWS_QUANTITY;
 
-            let html = '';
-            for (let i = 0; i < size; i++) {
-                byte64FilesArray[i] = "data:image/png;base64," + list[i];
-                html += '<img class="book-detail-thumbnail" src="' + byte64FilesArray[i] + '"/>';
+            for (let i = 0; i < max; i++) {
+                document.getElementById("edit_target" + i).src =
+                    "data:image/png;base64," + list[i];
             }
-
-            document.getElementById('book-detail-thumbnails').innerHTML = html;
             return false;
         } else if (this.readyState == 4 && this.status == 404) {
             console.log('not any image connected to book with id ' + bookId);
@@ -680,3 +707,6 @@ function getEditBookImages(bookId) {
     xhr.send();
 }
 
+function updateBooks(filesToUpload, book_id) {
+    alert('UPDATE IS NEEDED')
+}
