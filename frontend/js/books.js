@@ -138,12 +138,6 @@ function editBook() {
     }
 }
 
-function showOwnersBooksWithOneSelected(bookId) {
-    showOwnersBooks();
-    document.getElementById("collapse" + bookId).classList.add('in');
-    document.getElementById("heading" + bookId).scrollIntoView(true);
-}
-
 function setInactive(bookId) {
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
@@ -154,7 +148,6 @@ function setInactive(bookId) {
             } else if (this.status === 200) {
                 showSuccessModal('Book has been set inactive');
                 showOwnersBooks();
-                // showOwnersBooksWithOneSelected(bookId);
             }
         }
     }
@@ -176,7 +169,6 @@ function setActive(bookId) {
             } else if (this.status === 200) {
                 showSuccessModal('Book has been set active');
                 showOwnersBooks();
-                // showOwnersBooksWithOneSelected(bookId);
             }
         }
     }
@@ -194,6 +186,7 @@ function openAddBookModal() {
     $('#addBookModal').on('shown.bs.modal', function () {
         $('#book_title').focus();
     })
+
     let fileButton = document.getElementById("fileButton"),
         fileInput = document.getElementById("fileInput");
 
@@ -247,6 +240,36 @@ function openEditModal(book_id, title, authorName, authorSurname, publisher, lan
     $('#editBookModal').on('shown.bs.modal', function () {
         $('#edit_book_title').focus();
     })
+
+    let fileButton = document.getElementById("edit_fileButton"),
+        fileInput = document.getElementById("edit_fileInput");
+
+    fileButton.addEventListener("click", function (e) {
+        if (fileInput) {
+            fileInput.click();
+        }
+        e.preventDefault();
+    }, false);
+
+    let src0 = document.getElementById("edit_src0");
+    let target0 = document.getElementById("edit_target0");
+    showOnePreview(src0, target0);
+
+    let src1 = document.getElementById("edit_src1");
+    let target1 = document.getElementById("edit_target1");
+    showOnePreview(src1, target1);
+
+    let src2 = document.getElementById("edit_src2");
+    let target2 = document.getElementById("edit_target2");
+    showOnePreview(src2, target2);
+
+    let src3 = document.getElementById("edit_src3");
+    let target3 = document.getElementById("edit_target3");
+    showOnePreview(src3, target3);
+
+    let src4 = document.getElementById("edit_src4");
+    let target4 = document.getElementById("edit_target4");
+    showOnePreview(src4, target4);
 
     console.log(title, publisher, language, year, cover, illustrations, ageGroup, pagesQuantity, description);
     document.getElementById("edit_book_id").value = book_id;
@@ -437,7 +460,6 @@ function showBookDetails(bookId, ownerId) {
                         html +=
                             '<button type="button" class="btn btn-default" onclick="setActive(' + bookId + '); return false; ">Set active</button></div>';
                     }
-
                 }
                 html += '  </div>\n';
             }
@@ -603,6 +625,34 @@ function uploadImages(filesToUpload, bookId) {
 }
 
 function getBookImages(bookId) {
+    let xhr = new XMLHttpRequest();
+    let byte64FilesArray = [];
+
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            let list = JSON.parse(this.response);
+            let size = list.length;
+
+            let html = '';
+            for (let i = 0; i < size; i++) {
+                byte64FilesArray[i] = "data:image/png;base64," + list[i];
+                html += '<img class="book-detail-thumbnail" src="' + byte64FilesArray[i] + '"/>';
+            }
+
+            document.getElementById('book-detail-thumbnails').innerHTML = html;
+            return false;
+        } else if (this.readyState == 4 && this.status == 404) {
+            console.log('not any image connected to book with id ' + bookId);
+            return false;
+        }
+    }
+    let url = HOME_PAGE + "/images/" + bookId;
+    xhr.open('GET', url);
+    addAuthorization(xhr);
+    xhr.send();
+}
+
+function getEditBookImages(bookId) {
     let xhr = new XMLHttpRequest();
     let byte64FilesArray = [];
 

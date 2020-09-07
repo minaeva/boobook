@@ -26,7 +26,9 @@
     padding: 0px;
 }
 
-#src0, #src1, #src2, #src3, #src4, #src5, #fileInput {
+#src0, #src1, #src2, #src3, #src4,
+#edit_src0, #edit_src1, #edit_src2, #edit_src3, #edit_src4,
+#fileInput, #edit_fileInput {
     display: none;
 }
 
