@@ -16,7 +16,7 @@ public interface BookService {
 
     BookDto setActive(Long bookId) throws BoobookNotFoundException;
 
-    void deleteBook(BookDto bookDto);
+    void deleteBook(Long bookId) throws BoobookNotFoundException;
 
     List<BookDto> getAll();
 

@@ -64,8 +64,11 @@ public class BookServiceImpl implements BookService {
         return mapper.bookToDto(bookRepository.save(bookToUpdate));
     }
 
-    public void deleteBook(BookDto bookDto) {
-        bookRepository.delete(mapper.dtoToBook(bookDto));
+    public void deleteBook(Long bookId) throws BoobookNotFoundException {
+        Book existentBook = bookRepository.findById(bookId)
+                .orElseThrow(() -> new BoobookNotFoundException(NO_BOOK_FOUND_WITH_ID + bookId));
+
+        bookRepository.delete(existentBook);
     }
 
     public List<BookDto> getAll() {

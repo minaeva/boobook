@@ -2,6 +2,8 @@ package ua.kiev.minaeva.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.kiev.minaeva.dto.BookDto;
 import ua.kiev.minaeva.exception.BoobookNotFoundException;
@@ -62,9 +64,17 @@ public class BookController {
     }
 
     @PutMapping
-    public BookDto updateBook(@RequestBody BookDto bookDto) throws BoobookValidationException, BoobookNotFoundException {
+    public BookDto updateBook(@RequestBody BookDto bookDto) throws BoobookValidationException,
+            BoobookNotFoundException {
         log.info("handling UPDATE BOOK request: " + bookDto);
         return bookService.updateBook(bookDto);
+    }
+
+    @DeleteMapping("/{bookId}")
+    public ResponseEntity<ResponseMessage> deleteBook(@PathVariable final Long bookId) throws BoobookNotFoundException {
+        log.info("handling DELETE BOOK request: " + bookId);
+        bookService.deleteBook(bookId);
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage("Deleted successfully: " + bookId));
     }
 
     @PostMapping("/setInactive/{bookId}")

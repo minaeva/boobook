@@ -34,9 +34,11 @@ public class BookImageController {
                 .collect(Collectors.toList());
     }
 
-    @PostMapping("/upload")
-    public ResponseEntity<ResponseMessage> uploadFiles(@RequestParam("files") MultipartFile[] files, @RequestParam(
-            "bookId") final Long bookId) throws IOException, BoobookNotFoundException {
+    @PostMapping
+    public ResponseEntity<ResponseMessage> saveFiles(@RequestParam("files") MultipartFile[] files,
+                                                     @RequestParam("bookId") final Long bookId)
+            throws IOException, BoobookNotFoundException {
+        log.info("handling SAVE IMAGES BY BOOK ID request: " + bookId);
         if (files.length == 0) {
             throw new BoobookNotFoundException("Not any file was provided");
         }
@@ -51,11 +53,11 @@ public class BookImageController {
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage("Uploaded successfully: " + fileNames));
     }
 
-    @PutMapping("/{bookId}")
-    public ResponseEntity<ResponseMessage> updateFiles(@PathVariable final Long bookId, @RequestParam("files") MultipartFile[] files) throws IOException, BoobookNotFoundException {
-        if (files.length == 0) {
-            throw new BoobookNotFoundException("Not any file was provided");
-        }
+    @PutMapping
+    public ResponseEntity<ResponseMessage> updateFiles(@RequestParam("files") MultipartFile[] files,
+                                                       @RequestParam("bookId") final Long bookId)
+            throws IOException, BoobookNotFoundException {
+        log.info("handling UPDATE IMAGES BY BOOK ID request: " + bookId);
 
         List<String> fileNames = new ArrayList<>();
         List<byte[]> encodedFiles = new ArrayList<>();

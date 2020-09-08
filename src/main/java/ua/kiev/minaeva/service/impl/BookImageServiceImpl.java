@@ -11,6 +11,7 @@ import ua.kiev.minaeva.service.BookImageService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -43,14 +44,16 @@ public class BookImageServiceImpl implements BookImageService {
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new BoobookNotFoundException("Book with id " + bookId + " cannot be found"));
 
-        List<BookImage> existentBooks = getByBookId(bookId);
-        for (BookImage bookImage: existentBooks) {
-            bookImageRepository.delete(bookImage);
+        Optional<List<BookImage>> existentBooks = bookImageRepository.findAllByBook_Id(bookId);
+        if (existentBooks.isPresent()) {
+            for (BookImage bookImage : existentBooks.get()) {
+                bookImageRepository.delete(bookImage);
+            }
         }
 
         List<BookImage> savedImages = new ArrayList<>();
 
-        for (byte[] image: images) {
+        for (byte[] image : images) {
             BookImage bookImage = new BookImage();
             bookImage.setBook(book);
             bookImage.setImage(image);

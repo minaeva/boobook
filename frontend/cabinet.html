@@ -500,8 +500,8 @@
                                 </span>
 
                             <span class="nowrap">
-                                <label for="src3"><img id="edit_target3" src="images/book-placeholder.png"
-                                                       class="thumbnail"/></label>
+                                <label for="edit_src3"><img id="edit_target3" src="images/book-placeholder.png"
+                                                            class="thumbnail"/></label>
                                 <input id="edit_src3" type="file"/>
                                 <a class="remove" href="#" onclick="removePreview('edit_target3')"><i class="icon-close"></i></a>
                                 </span>
@@ -542,6 +542,33 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-info" data-dismiss="modal">
                             Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  MESSAGE - modal - end-->
+
+        <!--  DELETE BOOK - modal - start-->
+        <div class="modal fade bs-example-modal-sm border" tabindex="-1" role="dialog"
+             aria-labelledby="deleteBookModalLabel" aria-hidden="true" id="deleteBookModal">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"
+                                aria-label="Close"><span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="deleteBookModalTitle">Delete book</h4>
+                    </div>
+                    <div class="modal-body" id="deleteBookModalBody">
+                        Are you sure you want to proceed?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            Close
+                        </button>
+                        <button type="button" class="btn btn-danger" id="delete-button">
+                            Delete
                         </button>
                     </div>
                 </div>

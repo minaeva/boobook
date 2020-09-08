@@ -52,8 +52,7 @@ function saveBook() {
             } else if (this.status === 200) {
                 let response = JSON.parse(this.responseText);
                 let bookId = response.id;
-                // console.log(allFiles);
-                uploadImages(allFiles, bookId);
+                saveImages(allFiles, bookId);
                 closeAddBookModal();
                 showSuccessModal("Book " + book_title + " was successfully added");
                 showOwnersBooks();
@@ -158,7 +157,6 @@ function editBook() {
     xhr.send(JSON.stringify(requestBody));
 
     return false;
-
 }
 
 function setInactive(bookId) {
@@ -478,7 +476,7 @@ function showBookDetails(bookId, ownerId) {
                         + notNull(bookDetails.ownerName) + '</a></div>\n';
                 } else {
                     html +=
-                        // '<div class="btn-group edit-btn" style="float: right"> ' +
+                        '<div class="content">\n' +
                         '<button type="button" class="btn btn-info margin-left-5px" style="float: right" data-toggle="modal"' +
                         'onclick="openEditModal(' + bookId + ',\'' + bookDetails.title + '\',\'' + bookDetails.authorName + '\',\'' + bookDetails.authorSurname +
                         '\',\'' + bookDetails.publisher + '\',\'' + bookDetails.language + '\',\'' + bookDetails.year +
@@ -487,13 +485,19 @@ function showBookDetails(bookId, ownerId) {
                         'return false;">Edit</button>&nbsp;';
                     if (bookDetails.active) {
                         html +=
-                            '<button type="button" class="btn btn-default margin-left-5px" style="float: right" onclick="setInactive(' + bookId + '); return false; ">Set inactive</button></div>';
+                            '<button type="button" class="btn btn-warning margin-left-5px" style="float: right" ' +
+                            'onclick="setInactive(' + bookId + '); return false; ">Set inactive</button>';
                     } else {
                         html +=
-                            '<button type="button" class="btn btn-default margin-left-5px" style="float: right" onclick="setActive(' + bookId + '); return false; ">Set active</button></div>';
+                            '<button type="button" class="btn btn-success margin-left-5px" style="float: right" ' +
+                            'onclick="setActive(' + bookId + '); return false; ">Set active</button>';
                     }
+                    html +=
+                        '<button type="button" class="btn btn-danger margin-left-5px" style="float: right" ' +
+                        'onclick="openDeleteBookModal(' + bookId + ', \'' + bookDetails.title + '\'); return false;">Delete</button>' +
+                        '</div>';
+
                 }
-                // html += '  </div>\n';
             }
             let collapsed = document.getElementById("collapse" + bookId);
             collapsed.innerHTML = html;
@@ -627,36 +631,6 @@ function retrieveImagesFromPreviews(elementIdBase) {
     return filesArray;
 }
 
-function uploadImages(filesToUpload, bookId) {
-    let formData = new FormData();
-    for (let i = 0; i < filesToUpload.length; i++) {
-        formData.append('files', filesToUpload[i]);
-    }
-    formData.append('bookId', bookId);
-
-    let xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () {
-        if (this.readyState == 4) {
-            if (this.status == 500) {
-                showWarningModal("When adding the image, there is a server error");
-                return false;
-            } else if (this.status == 403) {
-                showWarningModal("When adding the image, there is a problem with authentication");
-                return false;
-            } else if (this.status == 200) {
-                console.log("Image added!");
-            }
-        }
-    };
-
-    let requestUrl = HOME_PAGE + "/images/upload";
-    console.log(requestUrl);
-
-    xhr.open("POST", requestUrl);
-    addAuthorization(xhr);
-    xhr.send(formData);
-}
-
 function getBookImages(bookId) {
     let xhr = new XMLHttpRequest();
     let byte64FilesArray = [];
@@ -710,8 +684,35 @@ function getEditBookImages(bookId) {
     xhr.send();
 }
 
+function saveImages(filesToUpload, bookId) {
+    let formData = new FormData();
+    for (let i = 0; i < filesToUpload.length; i++) {
+        formData.append('files', filesToUpload[i]);
+    }
+    formData.append('bookId', bookId);
+
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4) {
+            if (this.status == 500) {
+                showWarningModal("When adding the image, there is a server error");
+                return false;
+            } else if (this.status == 403) {
+                showWarningModal("When adding the image, there is a problem with authentication");
+                return false;
+            } else if (this.status == 200) {
+                console.log("Image added!");
+            }
+        }
+    };
+
+    let requestUrl = HOME_PAGE + "/images";
+    xhr.open("POST", requestUrl);
+    addAuthorization(xhr);
+    xhr.send(formData);
+}
+
 function updateImages(filesToUpload, bookId) {
-    alert('UPDATE IS NEEDED');
     let formData = new FormData();
     for (let i = 0; i < filesToUpload.length; i++) {
         formData.append('files', filesToUpload[i]);
@@ -733,10 +734,41 @@ function updateImages(filesToUpload, bookId) {
         }
     };
 
-    let requestUrl = HOME_PAGE + "/images/" + bookId;
-    console.log(requestUrl);
-
+    let requestUrl = HOME_PAGE + "/images";
     xhr.open("PUT", requestUrl);
     addAuthorization(xhr);
     xhr.send(formData);
+}
+
+function openDeleteBookModal(bookId, title) {
+    $('#deleteBookModal').modal('show');
+    document.getElementById("deleteBookModalTitle").innerHTML = ' <img class="img-responsive" style="margin:0 auto;" src="' +
+        getRandomWarningImage() + '" alt="">\n';
+    document.getElementById("deleteBookModalBody").innerHTML = 'Set the book inactive in order others couldn\'t see it.' +
+        ' Do you still want to delete book ' + title + '?';
+
+    $('#deleteBookModal').modal('show');
+    $('#delete-button').text('TEXT');
+    $('#delete-button').addEventListener('click', deleteBook(bookId, title));
+
+}
+
+function deleteBook(bookId, title) {
+    alert(bookId + ' ' + title);
+    $('#deleteBookModal').modal('hide');
+
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            showWarningModal('Book ' + title + ' has been deleted');
+            showOwnersBooks();
+        }
+    };
+
+    let requestUrl = HOME_PAGE + "/books/" + bookId;
+    xhr.open("DELETE", requestUrl);
+    addAuthorization(xhr);
+    xhr.send();
+
+    return false;
 }
