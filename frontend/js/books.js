@@ -101,14 +101,17 @@ function editBook() {
     let language = document.getElementById("edit_language").value;
     let pages_quantity = document.getElementById("edit_pages_quantity").value;
     let description = document.getElementById("edit_description").value;
+    let allFiles;
 
     if (!validateEditBook(book_title, author_name, author_surname, year)) {
         return false;
     }
 
-    let allFiles = retrieveImagesFromPreviews(IMAGE_TO_EDIT);
-    if (!allFiles) {
-        return false;
+    if (IMAGE_EDITED) {
+        allFiles = retrieveImagesFromPreviews(IMAGE_TO_EDIT);
+        if (!allFiles) {
+            return false;
+        }
     }
 
     closeEditBookModal();
@@ -122,7 +125,7 @@ function editBook() {
             } else if (this.status === 200) {
                 showSuccessModal("Book " + book_title + " was successfully edited");
                 if (IMAGE_EDITED) {
-                    updateBooks(allFiles, book_id);
+                    updateImages(allFiles, book_id);
                 }
                 showOwnersBooks();
             }
@@ -616,7 +619,7 @@ function retrieveImagesFromPreviews(elementIdBase) {
             }
 
             const name = `${Math.random().toString(36).slice(-5)}.jpg`;
-            const file = new File([int8array], name, {type: mime});
+            const file = new File([int8array], name, {type: "mime"});
             console.log('file', file);
             filesArray.push(file);
         }
@@ -707,6 +710,33 @@ function getEditBookImages(bookId) {
     xhr.send();
 }
 
-function updateBooks(filesToUpload, book_id) {
-    alert('UPDATE IS NEEDED')
+function updateImages(filesToUpload, bookId) {
+    alert('UPDATE IS NEEDED');
+    let formData = new FormData();
+    for (let i = 0; i < filesToUpload.length; i++) {
+        formData.append('files', filesToUpload[i]);
+    }
+    formData.append('bookId', bookId);
+
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4) {
+            if (this.status == 500) {
+                showWarningModal("When updating the images, there was a server error");
+                return false;
+            } else if (this.status == 403) {
+                showWarningModal("When updating the images, there was a problem with authentication");
+                return false;
+            } else if (this.status == 200) {
+                console.log("Images updated");
+            }
+        }
+    };
+
+    let requestUrl = HOME_PAGE + "/images/" + bookId;
+    console.log(requestUrl);
+
+    xhr.open("PUT", requestUrl);
+    addAuthorization(xhr);
+    xhr.send(formData);
 }

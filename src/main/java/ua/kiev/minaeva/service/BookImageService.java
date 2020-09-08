@@ -10,4 +10,6 @@ public interface BookImageService {
     List<BookImage> getByBookId(Long id) throws BoobookNotFoundException;
 
     BookImage save(byte[] image, Long bookId) throws BoobookNotFoundException;
+
+    List<BookImage> update(List<byte[]> images, Long bookId) throws BoobookNotFoundException;
 }

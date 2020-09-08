@@ -86,8 +86,8 @@ function validateImage(field, groupControlId) {
     return true;
 }
 
-function validateYear(year) {
-    let element = document.getElementById('year_group');
+function validateYear(year, groupId) {
+    let element = document.getElementById(groupId);
 
     if (year == null || year == "") {
         if (element.classList.contains('has-error')) {

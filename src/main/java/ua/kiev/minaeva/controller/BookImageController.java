@@ -51,4 +51,23 @@ public class BookImageController {
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage("Uploaded successfully: " + fileNames));
     }
 
+    @PutMapping("/{bookId}")
+    public ResponseEntity<ResponseMessage> updateFiles(@PathVariable final Long bookId, @RequestParam("files") MultipartFile[] files) throws IOException, BoobookNotFoundException {
+        if (files.length == 0) {
+            throw new BoobookNotFoundException("Not any file was provided");
+        }
+
+        List<String> fileNames = new ArrayList<>();
+        List<byte[]> encodedFiles = new ArrayList<>();
+
+        for (MultipartFile file : Arrays.asList(files)) {
+            byte[] encodedByteArray = Base64.getEncoder().encode(file.getBytes());
+            encodedFiles.add(encodedByteArray);
+            fileNames.add(file.getOriginalFilename());
+        }
+        bookImageService.update(encodedFiles, bookId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage("Uploaded successfully: " + fileNames));
+    }
+
 }

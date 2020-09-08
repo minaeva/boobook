@@ -9,6 +9,7 @@ import ua.kiev.minaeva.repository.BookImageRepository;
 import ua.kiev.minaeva.repository.BookRepository;
 import ua.kiev.minaeva.service.BookImageService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -35,5 +36,27 @@ public class BookImageServiceImpl implements BookImageService {
         bookImage.setBook(book);
         bookImage.setImage(image);
         return bookImageRepository.save(bookImage);
+    }
+
+    @Override
+    public List<BookImage> update(List<byte[]> images, Long bookId) throws BoobookNotFoundException {
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new BoobookNotFoundException("Book with id " + bookId + " cannot be found"));
+
+        List<BookImage> existentBooks = getByBookId(bookId);
+        for (BookImage bookImage: existentBooks) {
+            bookImageRepository.delete(bookImage);
+        }
+
+        List<BookImage> savedImages = new ArrayList<>();
+
+        for (byte[] image: images) {
+            BookImage bookImage = new BookImage();
+            bookImage.setBook(book);
+            bookImage.setImage(image);
+            savedImages.add(bookImageRepository.save(bookImage));
+        }
+
+        return savedImages;
     }
 }

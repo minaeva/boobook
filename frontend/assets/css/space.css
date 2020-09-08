@@ -1782,7 +1782,7 @@ div:not(.tabs-right):not(.tabs-left) > .nav-tabs > li:not(.active) > a:hover {
 
 .panel-default > .panel-heading {
     color: #333;
-    background-color: #F7F9FA;
+    background-color: #d6e9c6;
     border-color: #E6E8EB;
 }
 

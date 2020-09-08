@@ -61,3 +61,11 @@
 .nowrap {
     white-space: nowrap;
 }
+
+.margin-left-5px {
+    margin-left: 5px;
+}
+
+.panel-default {
+    border-color: #75ce66;
+}
