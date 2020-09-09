@@ -21,6 +21,7 @@ function validateEditBook(book_title, author_name, author_surname, year) {
 }
 
 function saveBook() {
+
     let book_title = document.getElementById("book_title").value;
     let author_name = document.getElementById("author_name").value;
     let author_surname = document.getElementById("author_surname").value;
@@ -37,10 +38,14 @@ function saveBook() {
         return false;
     }
 
-    let allFiles = retrieveImagesFromPreviews(IMAGE_TO_SAVE);
-    if (!allFiles) {
-        return false;
+    let allFiles;
+    if (IMAGE_EDITED) {
+        allFiles = retrieveImagesFromPreviews(IMAGE_TO_SAVE);
+        if (!allFiles) {
+            return false;
+        }
     }
+    closeAddBookModal();
 
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
@@ -52,9 +57,10 @@ function saveBook() {
             } else if (this.status === 200) {
                 let response = JSON.parse(this.responseText);
                 let bookId = response.id;
-                saveImages(allFiles, bookId);
-                closeAddBookModal();
                 showSuccessModal("Book " + book_title + " was successfully added");
+                if (IMAGE_EDITED) {
+                    saveImages(allFiles, bookId);
+                }
                 showOwnersBooks();
             }
         }
@@ -207,6 +213,8 @@ function openAddBookModal() {
     $('#addBookModal').on('shown.bs.modal', function () {
         $('#book_title').focus();
     })
+
+    IMAGE_EDITED = false;
 
     let fileButton = document.getElementById("fileButton"),
         fileInput = document.getElementById("fileInput");
@@ -477,7 +485,7 @@ function showBookDetails(bookId, ownerId) {
                 } else {
                     html +=
                         '<div class="content">\n' +
-                        '<button type="button" class="btn btn-info margin-left-5px" style="float: right" data-toggle="modal"' +
+                        '<button type="button" class="btn btn-default margin-left-5px" style="float: right" data-toggle="modal"' +
                         'onclick="openEditModal(' + bookId + ',\'' + bookDetails.title + '\',\'' + bookDetails.authorName + '\',\'' + bookDetails.authorSurname +
                         '\',\'' + bookDetails.publisher + '\',\'' + bookDetails.language + '\',\'' + bookDetails.year +
                         '\',' + bookDetails.hardCover + ',' + bookDetails.illustrations + ',\'' + bookDetails.ageGroup +
@@ -485,15 +493,15 @@ function showBookDetails(bookId, ownerId) {
                         'return false;">Edit</button>&nbsp;';
                     if (bookDetails.active) {
                         html +=
-                            '<button type="button" class="btn btn-warning margin-left-5px" style="float: right" ' +
+                            '<button type="button" class="btn btn-default margin-left-5px" style="float: right" ' +
                             'onclick="setInactive(' + bookId + '); return false; ">Set inactive</button>';
                     } else {
                         html +=
-                            '<button type="button" class="btn btn-success margin-left-5px" style="float: right" ' +
+                            '<button type="button" class="btn btn-default margin-left-5px" style="float: right" ' +
                             'onclick="setActive(' + bookId + '); return false; ">Set active</button>';
                     }
                     html +=
-                        '<button type="button" class="btn btn-danger margin-left-5px" style="float: right" ' +
+                        '<button type="button" class="btn btn-default margin-left-5px" style="float: right" ' +
                         'onclick="openDeleteBookModal(' + bookId + ', \'' + bookDetails.title + '\'); return false;">Delete</button>' +
                         '</div>';
 
@@ -744,17 +752,19 @@ function openDeleteBookModal(bookId, title) {
     $('#deleteBookModal').modal('show');
     document.getElementById("deleteBookModalTitle").innerHTML = ' <img class="img-responsive" style="margin:0 auto;" src="' +
         getRandomWarningImage() + '" alt="">\n';
-    document.getElementById("deleteBookModalBody").innerHTML = 'Set the book inactive in order others couldn\'t see it.' +
+    document.getElementById("deleteBookModalBody").innerHTML = 'If you do not want others to see this book, you can make it Inactive' +
         ' Do you still want to delete book ' + title + '?';
 
     $('#deleteBookModal').modal('show');
-    $('#delete-button').text('TEXT');
-    $('#delete-button').addEventListener('click', deleteBook(bookId, title));
+    // $('#delete-button').text('TEXT');
+    $('#delete-button').click(function() {
+        deleteBook(bookId, title);
+    });
 
 }
 
 function deleteBook(bookId, title) {
-    alert(bookId + ' ' + title);
+    // alert('INSIDE delete book' + bookId + ' ' + title);
     $('#deleteBookModal').modal('hide');
 
     let xhr = new XMLHttpRequest();

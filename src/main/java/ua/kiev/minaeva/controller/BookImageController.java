@@ -40,7 +40,7 @@ public class BookImageController {
             throws IOException, BoobookNotFoundException {
         log.info("handling SAVE IMAGES BY BOOK ID request: " + bookId);
         if (files.length == 0) {
-            throw new BoobookNotFoundException("Not any file was provided");
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage("None file was selected for save"));
         }
 
         List<String> fileNames = new ArrayList<>();
