@@ -20,7 +20,7 @@ public class Book extends MapId {
     @JoinColumn(name = "author_id", nullable = false)
     private Author author;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reader_id", referencedColumnName = "id")
     private Reader owner;
 
