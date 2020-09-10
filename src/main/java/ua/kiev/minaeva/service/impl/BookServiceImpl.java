@@ -6,13 +6,16 @@ import org.springframework.stereotype.Service;
 import ua.kiev.minaeva.dto.BookDto;
 import ua.kiev.minaeva.entity.Author;
 import ua.kiev.minaeva.entity.Book;
+import ua.kiev.minaeva.entity.BookImage;
 import ua.kiev.minaeva.entity.Reader;
 import ua.kiev.minaeva.exception.BoobookNotFoundException;
 import ua.kiev.minaeva.exception.BoobookValidationException;
 import ua.kiev.minaeva.mapper.BookMapper;
 import ua.kiev.minaeva.repository.AuthorRepository;
+import ua.kiev.minaeva.repository.BookImageRepository;
 import ua.kiev.minaeva.repository.BookRepository;
 import ua.kiev.minaeva.repository.ReaderRepository;
+import ua.kiev.minaeva.service.BookImageService;
 import ua.kiev.minaeva.service.BookService;
 
 import java.util.List;
@@ -29,6 +32,7 @@ public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
     private final ReaderRepository readerRepository;
+    private final BookImageRepository bookImageRepository;
 
     private BookMapper mapper = Mappers.getMapper(BookMapper.class);
 
@@ -68,6 +72,12 @@ public class BookServiceImpl implements BookService {
         Book existentBook = bookRepository.findById(bookId)
                 .orElseThrow(() -> new BoobookNotFoundException(NO_BOOK_FOUND_WITH_ID + bookId));
 
+        Optional<List<BookImage>> existentImages = bookImageRepository.findAllByBook_Id(bookId);
+        if (existentImages.isPresent()) {
+            for (BookImage image: existentImages.get()) {
+                bookImageRepository.delete(image);
+            }
+        }
         bookRepository.delete(existentBook);
     }
 

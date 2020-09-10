@@ -57,7 +57,7 @@ function saveBook() {
             } else if (this.status === 200) {
                 let response = JSON.parse(this.responseText);
                 let bookId = response.id;
-                showSuccessModal("Book " + book_title + " was successfully added");
+                showSuccessModal("Book \'" + book_title + "\' has been successfully added");
                 if (IMAGE_EDITED) {
                     saveImages(allFiles, bookId);
                 }
@@ -102,7 +102,7 @@ function editBook() {
     let cover = stringToBoolean(document.getElementById("edit_cover").value);
     let illustrations = document.getElementById("edit_illustrations").value;
     let age_group = document.getElementById("edit_age_group").value;
-    let year = document.getElementById("edit_year").value;
+    let year = notNull(document.getElementById("edit_year").value);
     let language = document.getElementById("edit_language").value;
     let pages_quantity = document.getElementById("edit_pages_quantity").value;
     let description = document.getElementById("edit_description").value;
@@ -128,7 +128,7 @@ function editBook() {
                 showWarningModal("Book " + book_title + " cannot be edited");
                 return false;
             } else if (this.status === 200) {
-                showSuccessModal("Book " + book_title + " was successfully edited");
+                showSuccessModal("Book \'" + book_title + "\' has been successfully edited");
                 if (IMAGE_EDITED) {
                     updateImages(allFiles, book_id);
                 }
@@ -165,7 +165,7 @@ function editBook() {
     return false;
 }
 
-function setInactive(bookId) {
+function setInactive(bookId, title) {
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
 
@@ -173,7 +173,7 @@ function setInactive(bookId) {
             if (this.status === 404) {
                 showWarningModal('cannot find ' + bookId);
             } else if (this.status === 200) {
-                showSuccessModal('Book has been set inactive');
+                showSuccessModal('Book \'' + title + '\' has been set inactive');
                 showOwnersBooks();
             }
         }
@@ -186,7 +186,7 @@ function setInactive(bookId) {
     return false;
 }
 
-function setActive(bookId) {
+function setActive(bookId, title) {
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
 
@@ -194,7 +194,7 @@ function setActive(bookId) {
             if (this.status === 404) {
                 showWarningModal('cannot find ' + bookId);
             } else if (this.status === 200) {
-                showSuccessModal('Book has been set active');
+                showSuccessModal('Book \'' + title + '\' has been set active');
                 showOwnersBooks();
             }
         }
@@ -263,8 +263,7 @@ function closeAddBookModal() {
 }
 
 function openEditModal(book_id, title, authorName, authorSurname, publisher, language, year, cover, illustrations, ageGroup, pagesQuantity, description) {
-    $('#editBookModal').modal('show');
-    $('#editBookModal').on('shown.bs.modal', function () {
+    $('#editBookModal').modal('show').on('shown.bs.modal', function () {
         $('#edit_book_title').focus();
     })
     IMAGE_EDITED = false;
@@ -494,11 +493,11 @@ function showBookDetails(bookId, ownerId) {
                     if (bookDetails.active) {
                         html +=
                             '<button type="button" class="btn btn-default margin-left-5px" style="float: right" ' +
-                            'onclick="setInactive(' + bookId + '); return false; ">Set inactive</button>';
+                            'onclick="setInactive(' + bookId + ', \'' + bookDetails.title + '\'); return false; ">Set inactive</button>';
                     } else {
                         html +=
                             '<button type="button" class="btn btn-default margin-left-5px" style="float: right" ' +
-                            'onclick="setActive(' + bookId + '); return false; ">Set active</button>';
+                            'onclick="setActive(' + bookId + ', \'' + bookDetails.title + '\'); return false; ">Set active</button>';
                     }
                     html +=
                         '<button type="button" class="btn btn-default margin-left-5px" style="float: right" ' +
@@ -526,15 +525,15 @@ function showBookDetails(bookId, ownerId) {
 
 function parseAgeGroup(age_group) {
     switch (age_group) {
-        case 0:
-            return "baby";
         case 1:
-            return "preschool";
+            return "baby";
         case 2:
-            return "junior school";
+            return "preschool";
         case 3:
-            return "middle school";
+            return "junior school";
         case 4:
+            return "middle school";
+        case 5:
             return "adult";
         default:
             return "non specified";
@@ -543,14 +542,14 @@ function parseAgeGroup(age_group) {
 
 function parseIllustrations(illustrations) {
     switch (illustrations) {
-        case 0:
-            return "absent";
         case 1:
-            return "black and white";
+            return "absent";
         case 2:
+            return "black and white";
+        case 3:
             return "color";
         default:
-            "non specified";
+            return "non specified";
     }
 }
 
@@ -752,8 +751,8 @@ function openDeleteBookModal(bookId, title) {
     $('#deleteBookModal').modal('show');
     document.getElementById("deleteBookModalTitle").innerHTML = ' <img class="img-responsive" style="margin:0 auto;" src="' +
         getRandomWarningImage() + '" alt="">\n';
-    document.getElementById("deleteBookModalBody").innerHTML = 'If you do not want others to see this book, you can make it Inactive' +
-        ' Do you still want to delete book ' + title + '?';
+    document.getElementById("deleteBookModalBody").innerHTML = 'If you do not want others to see this book, you can make it Inactive. <br><br>' +
+        ' Do you still want to delete book \'' + title + '\'?';
 
     $('#deleteBookModal').modal('show');
     // $('#delete-button').text('TEXT');
@@ -770,7 +769,7 @@ function deleteBook(bookId, title) {
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            showWarningModal('Book ' + title + ' has been deleted');
+            showWarningModal('Book \'' + title + '\' has been deleted');
             showOwnersBooks();
         }
     };

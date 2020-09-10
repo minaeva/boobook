@@ -1,6 +1,7 @@
 package ua.kiev.minaeva.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import org.hibernate.annotations.Type;
 
@@ -16,6 +17,9 @@ public class BookImage extends MapId {
     @Type(type = "org.hibernate.type.BinaryType")
     private byte[] image;
 
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JsonManagedReference
+//    @JoinColumn(name = "book_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
     @JoinColumn(name = "book_id", nullable = false)

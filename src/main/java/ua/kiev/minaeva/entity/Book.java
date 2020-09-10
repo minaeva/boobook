@@ -1,10 +1,12 @@
 package ua.kiev.minaeva.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @ToString(exclude = {"author", "owner"})
@@ -23,6 +25,13 @@ public class Book extends MapId {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reader_id", referencedColumnName = "id")
     private Reader owner;
+
+//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JsonBackReference
+//    @JoinColumn(name = "book_id")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "book")
+    @JsonManagedReference
+    private List<BookImage> images;
 
     @Column(name = "year")
     private int year;

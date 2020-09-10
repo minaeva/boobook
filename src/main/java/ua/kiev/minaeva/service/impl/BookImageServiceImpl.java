@@ -22,10 +22,8 @@ public class BookImageServiceImpl implements BookImageService {
 
     @Override
     public List<BookImage> getByBookId(Long id) throws BoobookNotFoundException {
-        List<BookImage> bookImages = bookImageRepository.findAllByBook_Id(id)
+        return bookImageRepository.findAllByBook_Id(id)
                 .orElseThrow(() -> new BoobookNotFoundException("No image found"));
-
-        return bookImages;
     }
 
     @Override
