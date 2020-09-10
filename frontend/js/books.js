@@ -536,7 +536,7 @@ function parseAgeGroup(age_group) {
         case 5:
             return "adult";
         default:
-            return "non specified";
+            return "";
     }
 }
 
@@ -549,23 +549,27 @@ function parseIllustrations(illustrations) {
         case 3:
             return "color";
         default:
-            return "non specified";
+            return "";
     }
 }
 
 function parseHardCover(hard_cover) {
     if (hard_cover === true) {
         return "hard";
-    } else {
+    } else if (hard_cover === false) {
         return "soft";
+    } else {
+        return "";
     }
 }
 
 function stringToBoolean(val) {
     if (val === 'true') {
         return true;
-    } else {
+    } else if (val === 'false') {
         return false;
+    } else {
+        return '';
     }
 }
 
