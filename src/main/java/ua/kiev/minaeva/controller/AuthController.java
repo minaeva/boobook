@@ -39,11 +39,11 @@ public class AuthController {
         ReaderDto readerDto = mapper.requestToReaderDto(request);
         readerService.createReader(readerDto);
 
-        if (RegistrationType.FB.equals(request.getRegistrationType())) {
+//        if (RegistrationType.FB.equals(request.getRegistrationType())) {
             String jwt = jwtProvider.generateToken(readerDto.getEmail());
             return new RegistrationResponse(jwt, readerDto.getEmail());
-        }
-        return new RegistrationResponse();
+//        }
+//        return new RegistrationResponse();
     }
 
     @PostMapping("/users/auth")

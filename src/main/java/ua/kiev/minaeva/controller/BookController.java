@@ -1,11 +1,13 @@
 package ua.kiev.minaeva.controller;
 
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.kiev.minaeva.dto.BookDto;
+import ua.kiev.minaeva.dto.SearchBookDto;
 import ua.kiev.minaeva.exception.BoobookNotFoundException;
 import ua.kiev.minaeva.exception.BoobookValidationException;
 import ua.kiev.minaeva.service.BookService;
@@ -87,5 +89,19 @@ public class BookController {
     public BookDto setActive(@PathVariable final Long bookId) throws BoobookNotFoundException {
         log.info("handling SET BOOK ACTIVE request: " + bookId);
         return bookService.setActive(bookId);
+    }
+
+    @PostMapping("/search")
+    public List<BookDto> getByQuery(@RequestBody SearchBookDto searchBookDto)
+            throws BoobookValidationException, BoobookNotFoundException {
+        if (searchBookDto == null) {
+            throw new BoobookValidationException("At least one search criteria should be specified");
+        }
+        log.info("handling SEARCH BOOK request, title: " + searchBookDto.getTitle() + ", authorSurname: " + searchBookDto.getAuthorSurname() +
+                ", ageGroupFrom: " + searchBookDto.getAgeGroupFrom() + ", ageGroupTo: " + searchBookDto.getAgeGroupTo() +
+                ", yearFrom: " + searchBookDto.getYearFrom() + ", yearTo: " + searchBookDto.getYearTo() +
+                ", language: " + searchBookDto.getLanguage() + ", illustrations: " + searchBookDto.getIllustrations() +
+                ", city: " + searchBookDto.getCity());
+        return bookService.getByQuery(searchBookDto);
     }
 }

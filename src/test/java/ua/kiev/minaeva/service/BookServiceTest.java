@@ -64,7 +64,7 @@ public class BookServiceTest {
         aBook.setTitle("Harry Potter");
         aBook.setOwner(aReader);
         aBook.setAuthor(anAuthor);
-        aBook.setActive(false);
+        aBook.setActive(true);
         aBook.setLanguage("eng");
         aBook.setDescription("text");
         aBook.setHardCover(true);

@@ -1,6 +1,7 @@
 package ua.kiev.minaeva.service;
 
 import ua.kiev.minaeva.dto.BookDto;
+import ua.kiev.minaeva.dto.SearchBookDto;
 import ua.kiev.minaeva.exception.BoobookNotFoundException;
 import ua.kiev.minaeva.exception.BoobookValidationException;
 
@@ -29,4 +30,6 @@ public interface BookService {
     List<BookDto> getByOwner(Long readerId) throws BoobookNotFoundException;
 
     List<BookDto> getByOwnerActive(Long readerId) throws BoobookNotFoundException;
+
+    List<BookDto> getByQuery(SearchBookDto searchBookDto) throws BoobookNotFoundException;
 }

@@ -3,7 +3,11 @@ package ua.kiev.minaeva.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import ua.kiev.minaeva.dto.BookDto;
+import ua.kiev.minaeva.dto.SearchBookDto;
+import ua.kiev.minaeva.dto.SearchCriteria;
+import ua.kiev.minaeva.dto.SearchOperation;
 import ua.kiev.minaeva.entity.Author;
 import ua.kiev.minaeva.entity.Book;
 import ua.kiev.minaeva.entity.BookImage;
@@ -14,6 +18,7 @@ import ua.kiev.minaeva.mapper.BookMapper;
 import ua.kiev.minaeva.repository.AuthorRepository;
 import ua.kiev.minaeva.repository.BookImageRepository;
 import ua.kiev.minaeva.repository.BookRepository;
+import ua.kiev.minaeva.repository.BookSpecification;
 import ua.kiev.minaeva.repository.ReaderRepository;
 import ua.kiev.minaeva.service.BookImageService;
 import ua.kiev.minaeva.service.BookService;
@@ -164,6 +169,57 @@ public class BookServiceImpl implements BookService {
 
         return mapper.bookToDto(bookRepository.save(book));
     }
+
+    public List<BookDto> getByQuery(SearchBookDto searchBookDto) throws BoobookNotFoundException {
+        List<Book> foundBooks;
+
+        BookSpecification specification = new BookSpecification();
+
+        if (StringUtils.hasText(searchBookDto.getTitle())) {
+            specification.add(new SearchCriteria("title", searchBookDto.getTitle(), SearchOperation.MATCH));
+        }
+
+        if (StringUtils.hasText(searchBookDto.getLanguage())) {
+            specification.add(new SearchCriteria("language", searchBookDto.getLanguage(), SearchOperation.EQUAL));
+        }
+
+        if (searchBookDto.getAgeGroupFrom() != null) {
+            specification.add(new SearchCriteria("ageGroup", searchBookDto.getAgeGroupFrom(), SearchOperation.GREATER_THAN_EQUAL));
+        }
+
+        if (searchBookDto.getAgeGroupTo() != null) {
+            specification.add(new SearchCriteria("ageGroup", searchBookDto.getAgeGroupTo(), SearchOperation.LESS_THAN_EQUAL));
+        }
+
+        if (StringUtils.hasText(searchBookDto.getAuthorName())) {
+            specification.add(new SearchCriteria(("name"), searchBookDto.getAuthorName(), SearchOperation.AUTHOR_JOIN));
+        }
+
+        if (StringUtils.hasText(searchBookDto.getAuthorSurname())) {
+            specification.add(new SearchCriteria(("surname"), searchBookDto.getAuthorSurname(), SearchOperation.AUTHOR_JOIN));
+        }
+
+/*
+        if (StringUtils.hasText(searchBookDto.getCity())) {
+            specification.add(new SearchCriteria(()));
+        }
+
+    private Integer yearFrom;
+    private Integer yearTo;
+
+    private Boolean hardCover;
+    private String language;
+    private Integer illustrations;
+
+
+*/
+        foundBooks = bookRepository.findAll(specification);
+        return foundBooks.stream()
+                .map(b -> mapper.bookToDto(b))
+                .collect(Collectors.toList());
+
+    }
+
 
     private Author getOrCreateAuthor(BookDto bookDto) {
         Author newBookAuthor;
