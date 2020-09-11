@@ -97,7 +97,7 @@ VALUES ('bezzubik', '$2a$10$DLuA1ctakrYXILWVHyqOfey3dc5V4ezD3kpOnXKUF53Z7aEKgZy/
         'https://www.facebook.com/SvitlanaBezsmertna', 'CUSTOM')
 ON CONFLICT DO NOTHING;
 
-INSERT INTO book (title, author_id, reader_id, year, publisher, age_group, description, is_hard_cover, language,
+INSERT INTO book (title, author_id, reader_id, year, publisher, age_group, description, cover, language,
                   illustrations, pages_quantity)
 VALUES ('Sapiens', 3, 2, 2019, 'Vivat', 5, '', true, 'ukr', 0, 313),
        ('Capital', 4, 5, 1967, 'SSSR', 5, 'a book everyone needs to read', true, 'rus', 1, 456),

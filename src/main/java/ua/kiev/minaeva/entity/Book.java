@@ -45,11 +45,11 @@ public class Book extends MapId {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "is_hard_cover")
-    private boolean hardCover;
+    @Column(name = "cover")
+    private int cover;
 
     @Column(name = "language")
-    private String language;
+    private int language;
 
     @Column(name = "illustrations")
     private int illustrations;

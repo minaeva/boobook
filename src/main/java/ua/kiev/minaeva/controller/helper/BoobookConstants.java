@@ -13,4 +13,6 @@ public class BoobookConstants {
     public static int AGE_GROUP_MIDDLE = 3;
     public static int AGE_GROUP_TEENAGER = 4;
     public static int AGE_GROUP_ADULT = 5;
+    public static int COVER_HARD = 0;
+    public static int COVER_SOFT = 1;
 }

@@ -65,9 +65,9 @@ public class BookServiceTest {
         aBook.setOwner(aReader);
         aBook.setAuthor(anAuthor);
         aBook.setActive(true);
-        aBook.setLanguage("eng");
+        aBook.setLanguage(3);
         aBook.setDescription("text");
-        aBook.setHardCover(true);
+        aBook.setCover(2);
         aBook.setPagesQuantity(111);
         aBook.setAgeGroup(2);
         aBook.setIllustrations(1);
@@ -118,7 +118,7 @@ public class BookServiceTest {
         assertThat(updatedBook.isActive()).isEqualTo(aBook.isActive());
         assertThat(updatedBook.getLanguage()).isEqualTo(aBook.getLanguage());
         assertThat(updatedBook.getDescription()).isEqualTo(aBook.getDescription());
-        assertThat(updatedBook.isHardCover()).isEqualTo(aBook.isHardCover());
+        assertThat(updatedBook.getCover()).isEqualTo(aBook.getCover());
         assertThat(updatedBook.getPagesQuantity()).isEqualTo(aBook.getPagesQuantity());
         assertThat(updatedBook.getAgeGroup()).isEqualTo(aBook.getAgeGroup());
         assertThat(updatedBook.getIllustrations()).isEqualTo(aBook.getIllustrations());
@@ -295,7 +295,7 @@ public class BookServiceTest {
     @Test
     void getByOwner() throws BoobookNotFoundException {
         when(readerRepository.findById(anyLong())).thenReturn(Optional.of(aReader));
-        when(bookRepository.findByOwner(any(Reader.class))).thenReturn(Optional.of(Collections.singletonList(aBook)));
+        when(bookRepository.findByOwnerOrderByIdDesc(any(Reader.class))).thenReturn(Optional.of(Collections.singletonList(aBook)));
 
         List<BookDto> books = bookService.getByOwner(1L);
 
@@ -323,7 +323,7 @@ public class BookServiceTest {
     void getByOwnerActive_findActive() throws BoobookNotFoundException {
         aBook.setActive(true);
         when(readerRepository.findById(anyLong())).thenReturn(Optional.of(aReader));
-        when(bookRepository.findByOwner(any(Reader.class))).thenReturn(Optional.of(Collections.singletonList(aBook)));
+        when(bookRepository.findByOwnerOrderByIdDesc(any(Reader.class))).thenReturn(Optional.of(Collections.singletonList(aBook)));
 
         List<BookDto> books = bookService.getByOwnerActive(1L);
 
@@ -334,7 +334,7 @@ public class BookServiceTest {
     void getByOwnerActive_findsNothing() throws BoobookNotFoundException {
         aBook.setActive(false);
         when(readerRepository.findById(anyLong())).thenReturn(Optional.of(aReader));
-        when(bookRepository.findByOwner(any(Reader.class))).thenReturn(Optional.of(Collections.singletonList(aBook)));
+        when(bookRepository.findByOwnerOrderByIdDesc(any(Reader.class))).thenReturn(Optional.of(Collections.singletonList(aBook)));
 
         List<BookDto> books = bookService.getByOwnerActive(1L);
 

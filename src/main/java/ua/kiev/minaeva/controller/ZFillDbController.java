@@ -50,8 +50,8 @@ public class ZFillDbController {
                 .withPublisher(VIVAT)
                 .withAgeGroup(AGE_GROUP_ADULT)
                 .withDescription("to the ones who love counting")
-                .withLanguage("ukr")
-                .withHardCover(true)
+                .withLanguage(2)
+                .withHardCover(COVER_SOFT)
                 .withIllustrations(ILLUSTRATION_BW)
                 .withPagesQuantity(322)
                 .build();
@@ -64,8 +64,8 @@ public class ZFillDbController {
                 .withPublisher(VIVAT)
                 .withAgeGroup(AGE_GROUP_MIDDLE)
                 .withDescription("chronicles are my love")
-                .withLanguage("rus")
-                .withHardCover(true)
+                .withLanguage(1)
+                .withHardCover(COVER_SOFT)
                 .withIllustrations(ILLUSTRATION_COLOR)
                 .withPagesQuantity(302)
                 .build();
@@ -78,8 +78,8 @@ public class ZFillDbController {
                 .withPublisher("New Book")
                 .withAgeGroup(AGE_GROUP_ADULT)
                 .withDescription("man is man")
-                .withLanguage("eng")
-                .withHardCover(true)
+                .withLanguage(3)
+                .withHardCover(COVER_HARD)
                 .withIllustrations(ILLUSTRATION_ABSENT)
                 .withPagesQuantity(200)
                 .build();

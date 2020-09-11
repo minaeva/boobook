@@ -15,12 +15,7 @@ import ua.kiev.minaeva.entity.Reader;
 import ua.kiev.minaeva.exception.BoobookNotFoundException;
 import ua.kiev.minaeva.exception.BoobookValidationException;
 import ua.kiev.minaeva.mapper.BookMapper;
-import ua.kiev.minaeva.repository.AuthorRepository;
-import ua.kiev.minaeva.repository.BookImageRepository;
-import ua.kiev.minaeva.repository.BookRepository;
-import ua.kiev.minaeva.repository.BookSpecification;
-import ua.kiev.minaeva.repository.ReaderRepository;
-import ua.kiev.minaeva.service.BookImageService;
+import ua.kiev.minaeva.repository.*;
 import ua.kiev.minaeva.service.BookService;
 
 import java.util.List;
@@ -179,7 +174,7 @@ public class BookServiceImpl implements BookService {
             specification.add(new SearchCriteria("title", searchBookDto.getTitle(), SearchOperation.MATCH));
         }
 
-        if (StringUtils.hasText(searchBookDto.getLanguage())) {
+        if (searchBookDto.getLanguage() != null) {
             specification.add(new SearchCriteria("language", searchBookDto.getLanguage(), SearchOperation.EQUAL));
         }
 

@@ -41,11 +41,11 @@ CREATE TABLE IF NOT EXISTS book
     reader_id SERIAL REFERENCES reader (id),
     year int,
     publisher VARCHAR(30),
-    age_group int,--     0-baby, 1-preschool, 2-junior, 3-middle, 4-teenager, 5-adult
+    age_group int,-- 1-baby, 2-preschool, 3-junior, 4-middle, 5-teenager, 6-adult
     description varchar(600),
-    is_hard_cover boolean,
-    language varchar(20),
-    illustrations int, --0-no, 1-bw, 2-color
+    cover int, -- 1-hard, 2-soft
+    language int, -- 1-rus, 2-ukr, 3-eng, 4-other
+    illustrations int, -- 1-no, 2-bw, 3-color
     pages_quantity int,
     active boolean default true
 );
@@ -91,11 +91,11 @@ VALUES ('bezzubik', '$2a$10$GedyCB5ig1PiQ/fVRQUGc.27Yqvt9RazEL2WVO2rjtrgLW32YIP7
        ('minaeva', '$2a$10$GedyCB5ig1PiQ/fVRQUGc.27Yqvt9RazEL2WVO2rjtrgLW32YIP7O', 'Sveta', 'Minaeva', 'Kiev', 'https://www.facebook.com/sveta.minaeva.yes', 'CUSTOM'),
        ('sveta', '$2a$10$GedyCB5ig1PiQ/fVRQUGc.27Yqvt9RazEL2WVO2rjtrgLW32YIP7O', 'Svitlana', 'Bezsmertna', 'Berlin', 'https://www.facebook.com/SvitlanaBezsmertna', 'CUSTOM');
 
-INSERT INTO book (title, author_id, reader_id, year, publisher, age_group, description, is_hard_cover, language, illustrations, pages_quantity)
-VALUES ('Sapiens', 3, 2, 2019, 'Vivat', 5, '', true, 'ukr', 0, 313),
-       ('Capital', 4, 5, 1967, 'SSSR', 5, 'a book everyone needs to read', true, 'rus', 1, 456),
-       ('Onegin', 1, 2, 1980, 'SSSR', 5, 'ja pomnyu', false, 'rus', 2, 120),
-       ('Toreadory z Vasyukivky', 2, 1, 2004, 'Ababahalamaha', 3, '', true, 'ukr', 0, 321),
-       ('Captains Daughter', 1, 4, 1980, 'SSSR', 5, 'my favorite book', false, 'rus', 1, 105),
-       ('Homo Deus', 3, 5, 2019, 'Vivat', 5, '', true, 'ukr', 2, 313),
-       ('Homo Deus', 3, 1, 2019, 'Vivat', 5, '', true, 'ukr', 0, 313)
+INSERT INTO book (title, author_id, reader_id, year, publisher, age_group, description, cover, language, illustrations, pages_quantity)
+VALUES ('Sapiens', 3, 2, 2019, 'Vivat', 6, '', 2, 2, 0, 313),
+       ('Capital', 4, 5, 1967, 'SSSR', 5, 'a book everyone needs to read', 2, 1, 1, 456),
+       ('Onegin', 1, 2, 1980, 'SSSR', 6, 'ja pomnyu', 1, 1, 2, 120),
+       ('Toreadory z Vasyukivky', 2, 1, 2004, 'Ababahalamaha', 3, '', 2, 2, 0, 321),
+       ('Captains Daughter', 1, 4, 1980, 'SSSR', 5, 'my favorite book', 1, 3, 1, 105),
+       ('Homo Deus', 3, 5, 2019, 'Vivat', 6, '', 2, 2, 2, 313),
+       ('Homo Deus', 3, 1, 2019, 'Vivat', 6, '', 0, 2, 0, 313)

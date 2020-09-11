@@ -16,8 +16,8 @@ public class SearchBookDto {
     private Integer ageGroupFrom;
     private Integer ageGroupTo;
 
-    private Boolean hardCover;
-    private String language;
+    private Integer cover;
+    private Integer language;
     private Integer illustrations;
 
 }

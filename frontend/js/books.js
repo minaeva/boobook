@@ -26,7 +26,7 @@ function saveBook() {
     let author_name = document.getElementById("author_name").value;
     let author_surname = document.getElementById("author_surname").value;
     let publisher = document.getElementById("publisher").value;
-    let cover = stringToBoolean(document.getElementById("cover").value);
+    let cover = document.getElementById("cover").value;
     let illustrations = document.getElementById("illustrations").value;
     let age_group = document.getElementById("age_group").value;
     let year = document.getElementById("year").value;
@@ -77,7 +77,7 @@ function saveBook() {
         "year": year,
         "publisher": publisher,
         "ageGroup": age_group,
-        "hardCover": cover,
+        "cover": cover,
         "language": language,
         "illustrations": illustrations,
         "pagesQuantity": pages_quantity,
@@ -99,13 +99,14 @@ function editBook() {
     let author_name = document.getElementById("edit_author_name").value;
     let author_surname = document.getElementById("edit_author_surname").value;
     let publisher = document.getElementById("edit_publisher").value;
-    let cover = stringToBoolean(document.getElementById("edit_cover").value);
+    let cover = document.getElementById("edit_cover").value;
     let illustrations = document.getElementById("edit_illustrations").value;
     let age_group = document.getElementById("edit_age_group").value;
     let year = notNull(document.getElementById("edit_year").value);
     let language = document.getElementById("edit_language").value;
     let pages_quantity = document.getElementById("edit_pages_quantity").value;
     let description = document.getElementById("edit_description").value;
+    let active = document.getElementById("edit_book_active").value;
     let allFiles;
 
     if (!validateEditBook(book_title, author_name, author_surname, year)) {
@@ -149,11 +150,12 @@ function editBook() {
         "year": year,
         "publisher": publisher,
         "ageGroup": age_group,
-        "hardCover": cover,
+        "cover": cover,
         "language": language,
         "illustrations": illustrations,
         "pagesQuantity": pages_quantity,
         "description": description,
+        "active": active
     };
     console.log(requestBody);
 
@@ -258,12 +260,17 @@ function closeAddBookModal() {
     document.getElementById("year").value = '';
     document.getElementById("pages_quantity").value = '';
     document.getElementById("description").value = '';
+    document.getElementById("language").value = 0;
+    document.getElementById("cover").value = 0;
+    document.getElementById("illustrations").value = 0;
+    document.getElementById("age_group").value = 0;
     cleanPreviewsOnModalClose('target');
     return false;
 }
 
-function openEditModal(book_id, title, authorName, authorSurname, publisher, language, year, cover, illustrations, ageGroup, pagesQuantity, description) {
-    $('#editBookModal').modal('show').on('shown.bs.modal', function () {
+function openEditModal(book_id, title, authorName, authorSurname, publisher, language, year, cover, illustrations, ageGroup, pagesQuantity, description, active) {
+    $('#editBookModal').modal('show');
+    $('#editBookModal').on('shown.bs.modal', function () {
         $('#edit_book_title').focus();
     })
     IMAGE_EDITED = false;
@@ -299,7 +306,7 @@ function openEditModal(book_id, title, authorName, authorSurname, publisher, lan
     let target4 = document.getElementById("edit_target4");
     showOnePreview(src4, target4);
 
-    console.log(title, publisher, language, year, cover, illustrations, ageGroup, pagesQuantity, description);
+    console.log(title, publisher, language, year, cover, illustrations, ageGroup, pagesQuantity, description, active);
     document.getElementById("edit_book_id").value = book_id;
     document.getElementById("edit_book_title").value = title;
     document.getElementById("edit_author_name").value = authorName;
@@ -312,6 +319,7 @@ function openEditModal(book_id, title, authorName, authorSurname, publisher, lan
     document.getElementById("edit_age_group").value = ageGroup;
     document.getElementById("edit_pages_quantity").value = pagesQuantity;
     document.getElementById("edit_description").value = description;
+    document.getElementById("edit_book_active").value = active;
     getEditBookImages(book_id);
     return false;
 }
@@ -338,6 +346,14 @@ function cleanPreviewsOnModalClose(classNameBase) {
 }
 
 function showAllBooks() {
+    let header = '<div>Search</div>';
+    $('#accordion_header').html(header);
+
+    let searchForm = '<div>Search FORM</div>';
+    $('#accordion').html(searchForm);
+}
+
+function showAllOfTheBooks() {
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
 
@@ -451,26 +467,36 @@ function showBookDetails(bookId, ownerId) {
             if (this.status === 200) {
                 let bookDetails = JSON.parse(this.responseText);
                 console.log(bookDetails);
+
+                let parsedOwnerName = notNull(bookDetails.ownerName);
+                let parsedPublisher = notNull(bookDetails.publisher);
+                let parsedLanguage = parseLanguage(bookDetails.language);
+                let parsedYear = notNull(bookDetails.year);
+                let parsedCover = parseCover(bookDetails.cover);
+                let parsedIllustrations = parseIllustrations(bookDetails.illustrations);
+                let parsedAgeGroup = parseAgeGroup(bookDetails.ageGroup);
+                let parsedPages = notNull(bookDetails.pagesQuantity);
+                let parsedDescription = notNull(bookDetails.description);
+
                 if (bookDetails.active) {
                     html += '<div class="panel-body">\n';
                 } else {
                     html += '<div class="panel-body inactive">\n' +
                         '<h5 class="text-muted strong">INACTIVE</h5>';
                 }
-                let coverValue = parseHardCover(bookDetails.hardCover);
                 html +=
-                    '<h5><span class="text-muted">Publisher: </span>' + notNull(bookDetails.publisher) + '</h5>' +
+                    '<h5><span class="text-muted">Publisher: </span>' + parsedPublisher + '</h5>' +
 
-                    '<h5><span class="text-muted">Language: </span>' + bookDetails.language + '</h5>' +
-                    '<h5><span class="text-muted">Year: </span>' + notNull(bookDetails.year) + '</h5>' +
+                    '<h5><span class="text-muted">Language: </span>' + parsedLanguage + '</h5>' +
+                    '<h5><span class="text-muted">Year: </span>' + parsedYear + '</h5>' +
 
-                    '<h5><span class="text-muted">Cover: </span>' + coverValue + '</h5>' +
-                    '<h5><span class="text-muted">Illustrations: </span>' + parseIllustrations(bookDetails.illustrations) + '</h5>' +
+                    '<h5><span class="text-muted">Cover: </span>' + parsedCover + '</h5>' +
+                    '<h5><span class="text-muted">Illustrations: </span>' + parsedIllustrations + '</h5>' +
 
-                    '<h5><span class="text-muted">Age group: </span>' + parseAgeGroup(bookDetails.ageGroup) + '</h5>' +
-                    '<h5><span class="text-muted">Pages: </span>' + notNull(bookDetails.pagesQuantity) + '</h5>' +
+                    '<h5><span class="text-muted">Age group: </span>' + parsedAgeGroup + '</h5>' +
+                    '<h5><span class="text-muted">Pages: </span>' + parsedPages + '</h5>' +
 
-                    '<h5><span class="text-muted">Description: </span>' + notNull(bookDetails.description) + '</h5>' +
+                    '<h5><span class="text-muted">Description: </span>' + parsedDescription + '</h5>' +
                     '<hr>';
 
                 html += '<div id="book-detail-thumbnails">' +
@@ -480,15 +506,16 @@ function showBookDetails(bookId, ownerId) {
                     html +=
                         '<div class="content">\n owner: ' +
                         '<a class="underlined" id="book-details-owner" onclick="clickReader(' + ownerId + '); return false;">'
-                        + notNull(bookDetails.ownerName) + '</a></div>\n';
+                        + parsedOwnerName + '</a></div>\n';
                 } else {
                     html +=
                         '<div class="content">\n' +
                         '<button type="button" class="btn btn-default margin-left-5px" style="float: right" data-toggle="modal"' +
-                        'onclick="openEditModal(' + bookId + ',\'' + bookDetails.title + '\',\'' + bookDetails.authorName + '\',\'' + bookDetails.authorSurname +
-                        '\',\'' + bookDetails.publisher + '\',\'' + bookDetails.language + '\',\'' + bookDetails.year +
-                        '\',' + bookDetails.hardCover + ',' + bookDetails.illustrations + ',\'' + bookDetails.ageGroup +
-                        '\',\'' + bookDetails.pagesQuantity + '\',\'' + bookDetails.description + '\'); ' +
+                        'onclick="openEditModal(' + bookId + ',\'' + bookDetails.title +
+                        '\',\'' + bookDetails.authorName + '\',\'' + bookDetails.authorSurname +
+                        '\',\'' + bookDetails.publisher + '\',\'' + bookDetails.language + '\',\'' + parsedYear +
+                        '\',\'' + bookDetails.cover + '\',\'' + bookDetails.illustrations + '\',\'' + bookDetails.ageGroup +
+                        '\',\'' + parsedPages + '\',\'' + parsedDescription + '\',\'' + bookDetails.active + '\'); ' +
                         'return false;">Edit</button>&nbsp;';
                     if (bookDetails.active) {
                         html +=
@@ -536,7 +563,7 @@ function parseAgeGroup(age_group) {
         case 5:
             return "adult";
         default:
-            return "";
+            return '';
     }
 }
 
@@ -549,17 +576,33 @@ function parseIllustrations(illustrations) {
         case 3:
             return "color";
         default:
-            return "";
+            return '';
     }
 }
 
-function parseHardCover(hard_cover) {
-    if (hard_cover === true) {
-        return "hard";
-    } else if (hard_cover === false) {
-        return "soft";
-    } else {
-        return "";
+function parseCover(cover) {
+    switch (cover) {
+        case 1:
+            return "hard";
+        case 2:
+            return "soft";
+        default:
+            return '';
+    }
+}
+
+function parseLanguage(language) {
+    switch (language) {
+        case 1:
+            return "russian";
+        case 2:
+            return "ukrainian";
+        case 3:
+            return "english";
+        case 4:
+            return "other";
+        default:
+            return '';
     }
 }
 

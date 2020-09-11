@@ -59,6 +59,9 @@ function validateFieldWithModalResponse(field, warningText) {
         showWarningModal(warningText);
         return false;
     }
+    if (element.classList.contains('has-error')) {
+        element.classList.remove('has-error');
+    }
     return true;
 }
 
@@ -170,7 +173,7 @@ function changeElementClass(elementId, classToRemove, classToAdd) {
 }
 
 function notNull(str) {
-    if (str === null || str === "0") {
+    if (str === null || str === "0" || str === '' || str === 0) {
         return '';
     }
     return str;
