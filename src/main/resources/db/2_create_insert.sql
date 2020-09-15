@@ -5,22 +5,30 @@ DROP TABLE IF EXISTS reader;
 DROP TABLE IF EXISTS book_image;
 
 -- ***
+CREATE TYPE gender_enum AS ENUM ('F', 'M');
 
 CREATE TABLE IF NOT EXISTS reader
 (
-    id       SERIAL PRIMARY KEY,
-    email    VARCHAR(30)  NOT NULL,
-    password VARCHAR(100),
-    name     VARCHAR(20)  NOT NULL,
-    surname  VARCHAR(30),
-    city    VARCHAR(15),
-    fb_page    VARCHAR(80),
-    registration_type VARCHAR(10),
-    telegram varchar(20),
-    viber varchar(20),
-    book_to_the_moon varchar(200),
-    skype varchar(20)
+    id                SERIAL PRIMARY KEY,
+    email             VARCHAR(30) NOT NULL,
+    password          VARCHAR(100),
+    name              VARCHAR(20) NOT NULL,
+    surname           VARCHAR(30),
+    city              VARCHAR(15),
+    fb_page           VARCHAR(80),
+    telegram          varchar(20),
+    viber             varchar(20),
+    year_of_birth     int,
+    gender            gender_enum,
+    book_to_the_moon  varchar(200),
+    book_of_the_year  varchar(200),
+    hobby             varchar(100),
+    hero              varchar(40),
+    super_power       varchar(40),
+    image             bytea,
+    registration_type VARCHAR(10)
 );
+
 CREATE UNIQUE INDEX reader_email_uindex
     on reader (email);
 

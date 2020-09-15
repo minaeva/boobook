@@ -79,7 +79,13 @@ function openReaderPage(readerId) {
         }
     }
 
-    let getOwnBooksUrl = HOME_PAGE + "/books/owner/" + readerId;
+    let getOwnBooksUrl = HOME_PAGE;
+    if (readerId != getCurrentUserId()) {
+        getOwnBooksUrl += "/books/owner/active/" + readerId;
+    } else {
+        getOwnBooksUrl += "/books/owner/" + readerId;
+    }
+
     xhr.open("GET", getOwnBooksUrl, true);
     addAuthorization(xhr);
     xhr.send();
