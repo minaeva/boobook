@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS reader
     registration_type VARCHAR(10),
     telegram varchar(20),
     viber varchar(20),
-    whatsapp varchar(20),
+    book_to_the_moon varchar(200),
     skype varchar(20)
 );
 CREATE UNIQUE INDEX reader_email_uindex
