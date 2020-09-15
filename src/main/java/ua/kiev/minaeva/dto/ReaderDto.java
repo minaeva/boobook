@@ -17,8 +17,8 @@ public class ReaderDto {
     private String fbPage;
     private String telegram;
     private String viber;
-    private String whatsapp;
-    private String skype;
+    private String bookToTheMoon;
+    private String bookOfTheYear;
     private RegistrationType registrationType;
     private boolean isFriend;
 

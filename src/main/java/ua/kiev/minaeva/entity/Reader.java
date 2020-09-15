@@ -37,11 +37,11 @@ public class Reader extends MapId {
     @Column(name = "viber")
     private String viber;
 
-    @Column(name = "whatsapp")
-    private String whatsapp;
+    @Column(name = "book_to_the_moon")
+    private String bookToTheMoon;
 
-    @Column(name = "skype")
-    private String skype;
+    @Column(name = "book_of_the_year")
+    private String bookOfTheYear;
 
     @Column(name = "registration_type")
     @Enumerated(EnumType.STRING)
