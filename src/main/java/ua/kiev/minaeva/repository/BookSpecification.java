@@ -6,6 +6,7 @@ import ua.kiev.minaeva.dto.SearchOperation;
 import ua.kiev.minaeva.entity.Author;
 import ua.kiev.minaeva.entity.Book;
 import ua.kiev.minaeva.entity.Book_;
+import ua.kiev.minaeva.entity.Reader;
 
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
@@ -67,6 +68,10 @@ public class BookSpecification implements Specification<Book> {
             } else if (criteria.getOperation().equals(SearchOperation.AUTHOR_JOIN)) {
                 Join<Book, Author> bookAuthorJoin = root.join(Book_.author);
                 predicates.add(builder.like(builder.lower(bookAuthorJoin.get(criteria.getKey())),
+                        PERCENT + criteria.getValue().toString().toLowerCase() + PERCENT));
+            } else if (criteria.getOperation().equals(SearchOperation.CITY_JOIN)) {
+                Join<Book, Reader> bookReaderJoin = root.join(Book_.owner);
+                predicates.add(builder.like(builder.lower(bookReaderJoin.get(criteria.getKey())),
                         PERCENT + criteria.getValue().toString().toLowerCase() + PERCENT));
             }
         }

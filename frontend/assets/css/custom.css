@@ -69,3 +69,7 @@
 .panel-default {
     border-color: #75ce66;
 }
+
+.right {
+    float: right;
+}

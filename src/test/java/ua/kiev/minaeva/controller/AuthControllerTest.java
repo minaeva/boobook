@@ -44,13 +44,14 @@ public class AuthControllerTest {
     @Test
     void registerReader_success() throws Exception {
         when(readerService.createReader(any(ReaderDto.class))).thenReturn(aReaderDto());
+        when(jwtProvider.generateToken(anyString())).thenReturn("test_request_token");
 
         mockMvc.perform(post("/users/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(aRequest())))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(objectMapper.writeValueAsString(new RegistrationResponse())));
+                .andExpect(content().json(objectMapper.writeValueAsString(aResponse())));
     }
 
     @Test

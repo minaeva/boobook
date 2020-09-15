@@ -74,7 +74,7 @@ public class BookServiceImpl implements BookService {
 
         Optional<List<BookImage>> existentImages = bookImageRepository.findAllByBook_Id(bookId);
         if (existentImages.isPresent()) {
-            for (BookImage image: existentImages.get()) {
+            for (BookImage image : existentImages.get()) {
                 bookImageRepository.delete(image);
             }
         }
@@ -174,40 +174,52 @@ public class BookServiceImpl implements BookService {
             specification.add(new SearchCriteria("title", searchBookDto.getTitle(), SearchOperation.MATCH));
         }
 
-        if (searchBookDto.getLanguage() != null) {
-            specification.add(new SearchCriteria("language", searchBookDto.getLanguage(), SearchOperation.EQUAL));
-        }
-
-        if (searchBookDto.getAgeGroupFrom() != null) {
-            specification.add(new SearchCriteria("ageGroup", searchBookDto.getAgeGroupFrom(), SearchOperation.GREATER_THAN_EQUAL));
-        }
-
-        if (searchBookDto.getAgeGroupTo() != null) {
-            specification.add(new SearchCriteria("ageGroup", searchBookDto.getAgeGroupTo(), SearchOperation.LESS_THAN_EQUAL));
-        }
-
         if (StringUtils.hasText(searchBookDto.getAuthorName())) {
             specification.add(new SearchCriteria(("name"), searchBookDto.getAuthorName(), SearchOperation.AUTHOR_JOIN));
         }
 
         if (StringUtils.hasText(searchBookDto.getAuthorSurname())) {
-            specification.add(new SearchCriteria(("surname"), searchBookDto.getAuthorSurname(), SearchOperation.AUTHOR_JOIN));
+            specification.add(new SearchCriteria(("surname"), searchBookDto.getAuthorSurname(),
+                    SearchOperation.AUTHOR_JOIN));
         }
 
-/*
+        if (searchBookDto.getLanguage() != null && searchBookDto.getLanguage() != 0) {
+            specification.add(new SearchCriteria("language", searchBookDto.getLanguage(), SearchOperation.EQUAL));
+        }
+
+        if (searchBookDto.getIllustrations() != null && searchBookDto.getIllustrations() != 0) {
+            specification.add(new SearchCriteria("illustrations", searchBookDto.getIllustrations(),
+                    SearchOperation.EQUAL));
+        }
+
+        if (searchBookDto.getAgeGroupFrom() != null && searchBookDto.getAgeGroupFrom() != 0) {
+            specification.add(new SearchCriteria("ageGroup", searchBookDto.getAgeGroupFrom(),
+                    SearchOperation.GREATER_THAN_EQUAL));
+        }
+
+        if (searchBookDto.getAgeGroupTo() != null && searchBookDto.getAgeGroupTo() != 0) {
+            specification.add(new SearchCriteria("ageGroup", searchBookDto.getAgeGroupTo(),
+                    SearchOperation.LESS_THAN_EQUAL));
+        }
+
+        if (searchBookDto.getYearFrom() != null) {
+            specification.add((new SearchCriteria(("year"), searchBookDto.getYearFrom(),
+                    SearchOperation.GREATER_THAN_EQUAL)));
+        }
+
+        if (searchBookDto.getYearTo() != null) {
+            specification.add((new SearchCriteria(("year"), searchBookDto.getYearTo(),
+                    SearchOperation.LESS_THAN_EQUAL)));
+        }
+
+        if (searchBookDto.getCover() != null && searchBookDto.getCover() != 0) {
+            specification.add((new SearchCriteria(("cover"), searchBookDto.getCover(), SearchOperation.EQUAL)));
+        }
+
         if (StringUtils.hasText(searchBookDto.getCity())) {
-            specification.add(new SearchCriteria(()));
+            specification.add(new SearchCriteria(("city"), searchBookDto.getCity(), SearchOperation.CITY_JOIN));
         }
 
-    private Integer yearFrom;
-    private Integer yearTo;
-
-    private Boolean hardCover;
-    private String language;
-    private Integer illustrations;
-
-
-*/
         foundBooks = bookRepository.findAll(specification);
         return foundBooks.stream()
                 .map(b -> mapper.bookToDto(b))

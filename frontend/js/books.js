@@ -268,7 +268,7 @@ function closeAddBookModal() {
     return false;
 }
 
-function openEditModal(book_id, title, authorName, authorSurname, publisher, language, year, cover, illustrations, ageGroup, pagesQuantity, description, active) {
+function openEditBookModal(book_id, title, authorName, authorSurname, publisher, language, year, cover, illustrations, ageGroup, pagesQuantity, description, active) {
     $('#editBookModal').modal('show');
     $('#editBookModal').on('shown.bs.modal', function () {
         $('#edit_book_title').focus();
@@ -320,7 +320,7 @@ function openEditModal(book_id, title, authorName, authorSurname, publisher, lan
     document.getElementById("edit_pages_quantity").value = pagesQuantity;
     document.getElementById("edit_description").value = description;
     document.getElementById("edit_book_active").value = active;
-    getEditBookImages(book_id);
+    showEditBookImages(book_id);
     return false;
 }
 
@@ -345,62 +345,127 @@ function cleanPreviewsOnModalClose(classNameBase) {
     }
 }
 
-function showAllBooks() {
-    let header = '<div>Search</div>';
-    $('#accordion_header').html(header);
+function showSearchBooksHeader() {
 
-    let searchForm = '<div>Search FORM</div>';
-    $('#accordion').html(searchForm);
+    // let header = '<div>Search</div>';
+    // $('#accordion_header').html(header);
+    let searchForm =
+        // '<div>Search</div>' +
+        // '<form class="col-md-12">\n' +
+        '  <div class="row">' +
+        '    <div class="form-group col-md-12">\n' +
+        '      <input type="text" class="form-control" id="search_title" placeholder="Title">\n' +
+        '    </div>\n' +
+        '  </div>\n' +
+        '  <div class="row">' +
+        '    <div class="form-group col-md-6">\n' +
+        '      <input type="text" class="form-control" id="search_author_name" placeholder="Author name">\n' +
+        '    </div>\n' +
+        '    <div class="form-group col-md-6">\n' +
+        '      <input type="text" class="form-control" id="search_author_surname" placeholder="Author surname">\n' +
+        '    </div>\n' +
+        '  </div>\n' +
+        '  <div class="row">' +
+        '    <div class="form-group col-sm-12">\n' +
+        '      <input type="text" class="form-control" id="search_city" placeholder="City">\n' +
+        '    </div>\n' +
+        '  </div>\n' +
+        '  <div class="row">' +
+        '    <div class="form-group col-sm-6">\n' +
+        '        <div class="">\n' +
+        '            <select class="form-control" id="search_age_from">\n' +
+        '                <option value="0">Age group from</option>\n' +
+        '                <option value="1">baby</option>\n' +
+        '                <option value="2">preschool</option>\n' +
+        '                <option value="3">junior-school</option>\n' +
+        '                <option value="4">mid-school</option>\n' +
+        '                <option value="5">adult</option>\n' +
+        '            </select>\n' +
+        '        </div>\n' +
+        '    </div>\n' +
+        '    <div class="form-group col-sm-6">\n' +
+        '        <div class="">\n' +
+        '            <select class="form-control" id="search_age_to">\n' +
+        '                <option value="0">Age group to</option>\n' +
+        '                <option value="1">baby</option>\n' +
+        '                <option value="2">preschool</option>\n' +
+        '                <option value="3">junior-school</option>\n' +
+        '                <option value="4">mid-school</option>\n' +
+        '                <option value="5">adult</option>\n' +
+        '            </select>\n' +
+        '        </div>\n' +
+        '    </div>\n' +
+        '  </div>\n' +
+        '  <div class="row">' +
+        '    <div class="form-group col-sm-4">\n' +
+        '        <div class="">\n' +
+        '            <select style="margin-bottom:15px;" class="form-control" id="search_language">\n' +
+        '                <option value="0">Language</option>\n' +
+        '                <option value="1">rus</option>\n' +
+        '                <option value="2">ukr</option>\n' +
+        '                <option value="3">eng</option>\n' +
+        '                <option value="4">other</option>\n' +
+        '            </select>\n' +
+        '        </div>\n' +
+        '    </div>\n' +
+        '    <div class="form-group col-sm-4">\n' +
+        '        <div class="">\n' +
+        '            <select class="form-control" id="search_cover">\n' +
+        '                <option value="0">Cover</option>\n' +
+        '                <option value="1">hard</option>\n' +
+        '                <option value="2">soft</option>\n' +
+        '            </select>\n' +
+        '        </div>\n' +
+        '    </div>\n' +
+        '    <div class="form-group col-sm-4">\n' +
+        '        <div class="">\n' +
+        '            <select class="form-control" id="search_illustrations">\n' +
+        '                <option value="0">Illustrations</option>\n' +
+        '                <option value="1">no</option>\n' +
+        '                <option value="2">bw</option>\n' +
+        '                <option value="3">color</option>\n' +
+        '            </select>\n' +
+        '        </div>\n' +
+        '    </div>' +
+        '  </div>\n' +
+        '  <div class="row">' +
+        '    <div class="form-group col-sm-3" id="year_from_group">\n' +
+        '      <input type="text" class="form-control" id="search_year_from" placeholder="Year from">\n' +
+        '    </div>\n' +
+        '    <div class="form-group col-sm-3" id="year_to_group">\n' +
+        '      <input type="text" class="form-control" id="search_year_to" placeholder="Year to">\n' +
+        '    </div>\n' +
+        '    <div class="form-group col-sm-offset-3 col-sm-3">\n' +
+        '      <button type="submit" class="btn btn-default right" onclick="searchByCriteria(); return false">Search</button>\n' +
+        '    </div>\n' +
+        '  </div>\n';
+    // +
+    //     '</form>\n';
+    setPageSubtitle(searchForm);
 }
 
-function showAllOfTheBooks() {
-    let xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () {
-
-        if (this.readyState === 4) {
-            if (this.status === 404) {
-                let html =
-                    '    <br/><h4 class="panel-title">\n' +
-                    '    So far, there is not any book in db. Fortunately you can be the first one!' +
-                    '    </h4>\n' +
-                    '  <div class="panel panel-white">\n' +
-                    '        <div class="panel-body">\n' +
-                    '            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addBookModal">' +
-                    '               Add your first book</button>\n' +
-                    '        </div>\n' +
-                    '    </div>\n';
-                setPageTitle(html);
-            } else if (this.status === 200) {
-                let books = JSON.parse(this.responseText);
-                let html = '';
-                for (let i = 0; i < books.length; i++) {
-                    let book = books[i];
-                    console.log(book);
-                    html +=
-                        '<div class="panel panel-default">\n' +
-                        '    <div class="panel-heading" role="tab" id="heading' + book.id + '">\n' +
-                        '        <h4 class="panel-title">\n' +
-                        '            <a data-toggle="collapse" onclick="showBookDetails(' + book.id + ', ' + book.ownerId + '); return false;" data-parent="#accordion" href="#collapse' + book.id + '"\n' +
-                        '               aria-expanded="true" aria-controls="collapse' + book.id + '">\n' + book.title +
-                        '            <h5 class="text-muted"> by ' + book.authorName + ' ' + book.authorSurname + '</h5>\n' +
-                        '            </a>\n' +
-                        '        </h4>\n' +
-                        '    </div>\n' +
-                        '    <div id="collapse' + book.id + '" class="panel-collapse collapse" role="tabpanel"\n' +
-                        '         aria-labelledby="heading' + book.id + '">\n' +
-                        '    </div>\n' +
-                        '</div>'
-                }
-                document.getElementById("accordion").innerHTML = html;
-            }
-        }
+function displayFoundBooks(response) {
+    let books = JSON.parse(response);
+    let html = '';
+    for (let i = 0; i < books.length; i++) {
+        let book = books[i];
+        console.log(book);
+        html +=
+            '<div class="panel panel-default">\n' +
+            '    <div class="panel-heading" role="tab" id="heading' + book.id + '">\n' +
+            '        <h4 class="panel-title">\n' +
+            '            <a data-toggle="collapse" onclick="showBookDetails(' + book.id + ', ' + book.ownerId + '); return false;" data-parent="#accordion" href="#collapse' + book.id + '"\n' +
+            '               aria-expanded="true" aria-controls="collapse' + book.id + '">\n' + book.title +
+            '            <h5 class="text-muted"> by ' + book.authorName + ' ' + book.authorSurname + '</h5>\n' +
+            '            </a>\n' +
+            '        </h4>\n' +
+            '    </div>\n' +
+            '    <div id="collapse' + book.id + '" class="panel-collapse collapse" role="tabpanel"\n' +
+            '         aria-labelledby="heading' + book.id + '">\n' +
+            '    </div>\n' +
+            '</div>'
     }
-
-    let getAllBooksUrl = HOME_PAGE + "/books";
-    xhr.open("GET", getAllBooksUrl, true);
-    addAuthorization(xhr);
-    xhr.send();
-
+    document.getElementById("accordion").innerHTML = html;
     return false;
 }
 
@@ -414,7 +479,7 @@ function showOwnersBooks() {
         if (this.readyState === 4) {
             if (this.status === 404) {
                 let subHeader =
-                    '<br/><h4 class="panel-title">So far you do not have any book added </h4>\n' +
+                    '<br/><h4 class="panel-title">Today is a good day to start adding books </h4>\n' +
                     '     <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addBookModal">Add book</button>\n';
                 setPageSubtitle(subHeader);
 
@@ -511,7 +576,7 @@ function showBookDetails(bookId, ownerId) {
                     html +=
                         '<div class="content">\n' +
                         '<button type="button" class="btn btn-default margin-left-5px" style="float: right" data-toggle="modal"' +
-                        'onclick="openEditModal(' + bookId + ',\'' + bookDetails.title +
+                        'onclick="openEditBookModal(' + bookId + ',\'' + bookDetails.title +
                         '\',\'' + bookDetails.authorName + '\',\'' + bookDetails.authorSurname +
                         '\',\'' + bookDetails.publisher + '\',\'' + bookDetails.language + '\',\'' + parsedYear +
                         '\',\'' + bookDetails.cover + '\',\'' + bookDetails.illustrations + '\',\'' + bookDetails.ageGroup +
@@ -537,7 +602,7 @@ function showBookDetails(bookId, ownerId) {
             collapsed.innerHTML = html;
             collapsed.focus();
             collapsed.scrollIntoView(true);
-            getBookImages(bookId);
+            showBookImages(bookId);
         }
     }
 
@@ -685,7 +750,7 @@ function retrieveImagesFromPreviews(elementIdBase) {
     return filesArray;
 }
 
-function getBookImages(bookId) {
+function showBookImages(bookId) {
     let xhr = new XMLHttpRequest();
     let byte64FilesArray = [];
 
@@ -699,7 +764,6 @@ function getBookImages(bookId) {
                 byte64FilesArray[i] = "data:image/png;base64," + list[i];
                 html += '<img class="book-detail-thumbnail" src="' + byte64FilesArray[i] + '"/>';
             }
-
             document.getElementById('book-detail-thumbnails').innerHTML = html;
             return false;
         } else if (this.readyState == 4 && this.status == 404) {
@@ -713,7 +777,7 @@ function getBookImages(bookId) {
     xhr.send();
 }
 
-function getEditBookImages(bookId) {
+function showEditBookImages(bookId) {
     let xhr = new XMLHttpRequest();
 
     xhr.onreadystatechange = function () {
@@ -729,6 +793,9 @@ function getEditBookImages(bookId) {
             return false;
         } else if (this.readyState == 4 && this.status == 404) {
             console.log('not any image connected to book with id ' + bookId);
+            for (let i = 0; i < 5; i++) {
+                document.getElementById("edit_target" + i).src = NO_IMAGE;
+            }
             return false;
         }
     }
@@ -755,7 +822,7 @@ function saveImages(filesToUpload, bookId) {
                 showWarningModal("When adding the image, there is a problem with authentication");
                 return false;
             } else if (this.status == 200) {
-                console.log("Image added!");
+                console.log("Images added!");
             }
         }
     };
@@ -802,15 +869,13 @@ function openDeleteBookModal(bookId, title) {
         ' Do you still want to delete book \'' + title + '\'?';
 
     $('#deleteBookModal').modal('show');
-    // $('#delete-button').text('TEXT');
-    $('#delete-button').click(function() {
+    $('#delete-button').click(function () {
         deleteBook(bookId, title);
     });
 
 }
 
 function deleteBook(bookId, title) {
-    // alert('INSIDE delete book' + bookId + ' ' + title);
     $('#deleteBookModal').modal('hide');
 
     let xhr = new XMLHttpRequest();
@@ -826,5 +891,68 @@ function deleteBook(bookId, title) {
     addAuthorization(xhr);
     xhr.send();
 
+    return false;
+}
+
+function searchByCriteria() {
+    let search_title = document.getElementById('search_title').value;
+    let search_author_name = document.getElementById('search_author_name').value;
+    let search_author_surname = document.getElementById('search_author_surname').value;
+    let search_city = document.getElementById('search_city').value;
+    let search_age_from = document.getElementById('search_age_from').value;
+    let search_age_to = document.getElementById('search_age_to').value;
+    let search_language = document.getElementById('search_language').value;
+    let search_cover = document.getElementById('search_cover').value;
+    let search_illustrations = document.getElementById('search_illustrations').value;
+    let search_year_from = document.getElementById('search_year_from').value;
+    let search_year_to = document.getElementById('search_year_to').value;
+
+    if (!validateSearch(search_year_from, search_year_to)) {
+        return false;
+    }
+
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status == 200) {
+            // showSuccessModal('Search is done');
+            let list = JSON.parse(this.response);
+            let size = list.length;
+            let result = '';
+            for (let i = 0; i < size; i++) {
+                result += list[i].title + ' ';
+            }
+            alert(this.responseText);
+            displayFoundBooks(this.responseText);
+        }
+    };
+
+    const requestBody = {
+        "title": search_title,
+        "authorName": search_author_name,
+        "authorSurname": search_author_surname,
+        "city": search_city,
+        "yearFrom": search_year_from,
+        "yearTo": search_year_to,
+        "language": search_language,
+        "cover": search_cover,
+        "illustrations": search_illustrations,
+        "ageGroupFrom": search_age_from,
+        "ageGroupTo": search_age_to
+    };
+    console.log(requestBody);
+    let requestUrl = HOME_PAGE + "/books/search";
+    xhr.open("POST", requestUrl);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    addAuthorization(xhr);
+    xhr.send(JSON.stringify(requestBody));
+
+    return false;
+}
+
+function validateSearch(search_year_from, search_year_to) {
+    if (validateYear(search_year_from, 'year_from_group') &
+        validateYear(search_year_to, 'year_to_group')) {
+        return true;
+    }
     return false;
 }

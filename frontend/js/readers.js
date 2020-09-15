@@ -1,17 +1,17 @@
 function showReaderDetails(readerId) {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
 
         if (this.readyState === 4) {
             if (this.status === 404) {
                 showWarningModal("Reader details for reader with id " + readerId + " cannot be found");
                 return false;
             } else if (this.status === 200) {
-                var detail = JSON.parse(this.responseText);
+                let detail = JSON.parse(this.responseText);
                 console.log(detail);
-                var nameSurname = notNull(detail.name) + ' ' + notNull(detail.surname);
-                var heartId = 'heart' + detail.id;
-                var nameSurnameHeart = nameSurname + '<i href="#" style="float: right" id="' + heartId + '" ';
+                let nameSurname = notNull(detail.name) + ' ' + notNull(detail.surname);
+                let heartId = 'heart' + detail.id;
+                let nameSurnameHeart = nameSurname + '<i href="#" style="float: right" id="' + heartId + '" ';
 
                 if (detail.friend) {
                     nameSurnameHeart += 'class="fa fa-heart underlined" onclick="removeFriend(' +
@@ -25,7 +25,7 @@ function showReaderDetails(readerId) {
 
                 setPageTitle(nameSurnameHeart);
 
-                var html = '<span class="text-muted">City: ' + notNull(detail.city) + '</span><br/>\n';
+                let html = '<span class="text-muted">City: ' + notNull(detail.city) + '</span><br/>\n';
                 if (detail.fbPage != null) {
                     html +=
                         '<span class="text-muted">Facebook: </span>' +
@@ -40,24 +40,24 @@ function showReaderDetails(readerId) {
         }
     }
 
-    var getReaderByIdUrl = HOME_PAGE + "/users/" + readerId + "/" + getCurrentUserId();
-    xhttp.open("GET", getReaderByIdUrl, true);
-    addAuthorization(xhttp);
-    xhttp.send();
+    let getReaderByIdUrl = HOME_PAGE + "/users/" + readerId + "/" + getCurrentUserId();
+    xhr.open("GET", getReaderByIdUrl, true);
+    addAuthorization(xhr);
+    xhr.send();
 
     return false;
 }
 
 function openReaderPage(readerId) {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
 
         if (this.readyState === 4) {
             if (this.status === 200) {
-                var books = JSON.parse(this.responseText);
-                var html = ' ';
-                for (var i = 0; i < books.length; i++) {
-                    var book = books[i];
+                let books = JSON.parse(this.responseText);
+                let html = ' ';
+                for (let i = 0; i < books.length; i++) {
+                    let book = books[i];
                     console.log(book);
                     html +=
                         '<div class="panel panel-default">\n' +
@@ -79,24 +79,24 @@ function openReaderPage(readerId) {
         }
     }
 
-    var getOwnBooksUrl = HOME_PAGE + "/books/owner/" + readerId;
-    xhttp.open("GET", getOwnBooksUrl, true);
-    addAuthorization(xhttp);
-    xhttp.send();
+    let getOwnBooksUrl = HOME_PAGE + "/books/owner/" + readerId;
+    xhr.open("GET", getOwnBooksUrl, true);
+    addAuthorization(xhr);
+    xhr.send();
 
     return false;
 }
 
 function showAllReaders() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
 
         if (this.readyState === 4) {
             if (this.status === 200) {
-                var readers = JSON.parse(this.responseText);
-                var html = '';
-                for (var i = 0; i < readers.length; i++) {
-                    var reader = readers[i];
+                let readers = JSON.parse(this.responseText);
+                let html = '';
+                for (let i = 0; i < readers.length; i++) {
+                    let reader = readers[i];
                     console.log(reader);
                     html +=
                         '<div class="panel panel-default">\n' +
@@ -104,8 +104,8 @@ function showAllReaders() {
                         '        <h4 class="panel-title">\n' +
                         '            <a data-toggle="collapse" onclick="clickReader(' + reader.id + '); return false;" data-parent="#accordion" ' +
                         'href="#collapse' + reader.id + '"\n aria-expanded="true" aria-controls="collapse' + reader.id + '">\n';
-                    var heartId = 'heart' + reader.id;
-                    var nameSurname = notNull(reader.name) + ' ' + notNull(reader.surname);
+                    let heartId = 'heart' + reader.id;
+                    let nameSurname = notNull(reader.name) + ' ' + notNull(reader.surname);
                     html += nameSurname;
                     if (reader.friend) {
                         html += '<i class="fa fa-heart" id ="' + heartId + '" style="float: right"></i>';
@@ -126,28 +126,28 @@ function showAllReaders() {
         }
     }
 
-    var getAllReadersUrl = HOME_PAGE + "/users/allWithIsFriend/" + getCurrentUserId();
-    xhttp.open("GET", getAllReadersUrl, true);
-    addAuthorization(xhttp);
-    xhttp.send();
+    let getAllReadersUrl = HOME_PAGE + "/users/allWithIsFriend/" + getCurrentUserId();
+    xhr.open("GET", getAllReadersUrl, true);
+    addAuthorization(xhr);
+    xhr.send();
 
     return false;
 }
 
 function showFavoriteReaders() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
 
         if (this.readyState === 4) {
             if (404 === this.status) {
                 showWarningModal('Not any friend added yet. Click on <i class="fa fa-heart-o"></i> icon next to any reader')
             } else if (200 === this.status) {
-                var readers = JSON.parse(this.responseText);
-                var html = '';
-                for (var i = 0; i < readers.length; i++) {
-                    var reader = readers[i];
+                let readers = JSON.parse(this.responseText);
+                let html = '';
+                for (let i = 0; i < readers.length; i++) {
+                    let reader = readers[i];
                     console.log(reader);
-                    var heartId = 'heart' + reader.id;
+                    let heartId = 'heart' + reader.id;
 
                     html +=
                         '<div class="panel panel-default">\n' +
@@ -156,7 +156,7 @@ function showFavoriteReaders() {
                         '            <a data-toggle="collapse" onclick="clickReader(' + reader.id +
                         '); return false;" data-parent="#accordion" href="#collapse' + reader.id + '"\n' +
                         '               aria-expanded="true" aria-controls="collapse' + reader.id + '">\n';
-                    var nameSurname = notNull(reader.name) + ' ' + notNull(reader.surname);
+                    let nameSurname = notNull(reader.name) + ' ' + notNull(reader.surname);
                     html += nameSurname +
                         ' <i class="fa fa-heart" id = \'' + heartId + '\' style="float: right"></i>' +
                         ' <h5><span class="text-muted"> City: </span> ' + notNull(reader.city) + '</h5>\n';
@@ -177,19 +177,19 @@ function showFavoriteReaders() {
         }
     }
 
-    var getFriendsUrl = HOME_PAGE + "/users/friends/" + getCurrentUserId();
+    let getFriendsUrl = HOME_PAGE + "/users/friends/" + getCurrentUserId();
     console.log(getFriendsUrl);
-    xhttp.open("GET", getFriendsUrl, true);
-    addAuthorization(xhttp);
-    xhttp.send();
+    xhr.open("GET", getFriendsUrl, true);
+    addAuthorization(xhr);
+    xhr.send();
 
     return false;
 }
 
 function addFriend(friend1, friend2, friend2NameSurname, heartId) {
     changeElementClass(heartId, 'fa-heart-o', 'fa-heart');
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
 
         if (this.readyState === 4) {
             if (this.status === 404) {
@@ -203,10 +203,10 @@ function addFriend(friend1, friend2, friend2NameSurname, heartId) {
         }
     }
 
-    var addFriendUrl = HOME_PAGE + "/users/friends/" + friend1 + "/" + friend2;
-    xhttp.open("POST", addFriendUrl, true);
-    addAuthorization(xhttp);
-    xhttp.send();
+    let addFriendUrl = HOME_PAGE + "/users/friends/" + friend1 + "/" + friend2;
+    xhr.open("POST", addFriendUrl, true);
+    addAuthorization(xhr);
+    xhr.send();
 
     return false;
 }
@@ -214,8 +214,8 @@ function addFriend(friend1, friend2, friend2NameSurname, heartId) {
 function removeFriend(friend1, friend2, friend2NameSurname, heartId) {
     changeElementClass(heartId, 'fa-heart', 'fa-heart-o');
 
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
 
         if (this.readyState === 4) {
             if (this.status === 404) {
@@ -229,10 +229,10 @@ function removeFriend(friend1, friend2, friend2NameSurname, heartId) {
         }
     }
 
-    var deleteFriendUrl = HOME_PAGE + "/users/friends/" + friend1 + "/" + friend2;
-    xhttp.open("DELETE", deleteFriendUrl, true);
-    addAuthorization(xhttp);
-    xhttp.send();
+    let deleteFriendUrl = HOME_PAGE + "/users/friends/" + friend1 + "/" + friend2;
+    xhr.open("DELETE", deleteFriendUrl, true);
+    addAuthorization(xhr);
+    xhr.send();
 
     return false;
 }
