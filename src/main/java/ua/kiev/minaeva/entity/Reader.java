@@ -39,7 +39,7 @@ public class Reader extends MapId {
     private String viber;
 
     @Column(name = "year_of_birth")
-    private int yearOfBirth;
+    private Integer yearOfBirth;
 
     @Column(name = "gender")
     @Enumerated(EnumType.STRING)

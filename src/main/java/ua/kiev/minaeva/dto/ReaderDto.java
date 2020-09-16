@@ -20,7 +20,7 @@ public class ReaderDto {
     private String telegram;
     private String viber;
 
-    private int yearOfBirth;
+    private Integer yearOfBirth;
     private Gender gender;
 
     private String bookToTheMoon;
