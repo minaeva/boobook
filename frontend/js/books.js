@@ -1,6 +1,7 @@
 const validImageTypes = ['image/gif', 'image/jpeg', 'image/jpg', 'image/png', 'image/bmp'];
 const PREVIEWS_QUANTITY = 5;
 const NO_IMAGE = 'images/book-placeholder.png';
+const NO_READER_IMAGE = 'reader-girl.png';
 let IMAGE_EDITED;
 const IMAGE_TO_SAVE = 'target';
 const IMAGE_TO_EDIT = 'edit_target';
@@ -719,9 +720,9 @@ function showOnePreview(src, target) {
     });
 }
 
-function removePreview(className) {
+function removeReaderPreview(className) {
     IMAGE_EDITED = true;
-    document.getElementById(className).src = NO_IMAGE;
+    document.getElementById(className).src = NO_READER_IMAGE;
 }
 
 function retrieveImagesFromPreviews(elementIdBase) {

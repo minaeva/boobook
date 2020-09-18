@@ -28,7 +28,7 @@
 
 #src0, #src1, #src2, #src3, #src4,
 #edit_src0, #edit_src1, #edit_src2, #edit_src3, #edit_src4,
-#fileInput, #edit_fileInput {
+#fileInput, #edit_fileInput, #edit_reader_src, #edit_reader_image {
     display: none;
 }
 
@@ -56,6 +56,11 @@
     left: 50%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
+}
+
+.center-img {
+    position: absolute;
+    left: 50%;
 }
 
 .nowrap {

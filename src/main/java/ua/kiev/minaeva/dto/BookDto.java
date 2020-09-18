@@ -10,16 +10,19 @@ public class BookDto {
     private Long authorId;
     private String authorName;
     private String authorSurname;
+
     private Long ownerId;
     private String ownerName;
-    private int year;
+
     private String publisher;
+    private int year;
+
     private int ageGroup;
-    private String description;
     private int cover;
     private int language;
     private int illustrations;
     private int pagesQuantity;
+    private String description;
     private boolean isActive = true;
 
     public static class Builder {
