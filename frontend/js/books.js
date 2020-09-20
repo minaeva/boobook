@@ -528,18 +528,6 @@ function showBookDetails(bookId, ownerId) {
     let xhr = new XMLHttpRequest();
     let html = '';
 
-    let imageSources = [];
-    imageSources = getBookImageSources(bookId);
-    let imagesHtml = '';
-    if (imageSources != null) {
-        for (let i = 0; i < imageSources.size; i++) {
-            // byte64FilesArray[i] = "data:image/png;base64," + list[i];
-            imagesHtml += '<img class="book-detail-thumbnail" src="' + imageSources[i] + '"/>';
-        }
-        let imageDiv = document.getElementById('book-detail-thumbnails');
-        document.getElementById('book-detail-thumbnails').innerHTML = html;
-    }
-
     xhr.onreadystatechange = function () {
         if (this.readyState === 4) {
             if (this.status === 200) {
@@ -575,8 +563,10 @@ function showBookDetails(bookId, ownerId) {
                     '<h5><span class="text-muted">Pages: </span>' + parsedPages + '</h5>' +
 
                     '<h5><span class="text-muted">Description: </span>' + parsedDescription + '</h5>' +
-                    '<hr>' +
-                    '<div id="book-detail-thumbnails">' +
+                    '<hr>';
+                let bookDiv = "book-detail-thumbnails" + bookId;
+                html +=
+                    '<div id="' + bookDiv + '">HERE' +
                     '</div>';
 
                 if (bookDetails.ownerId != getCurrentUserId()) {
@@ -612,8 +602,6 @@ function showBookDetails(bookId, ownerId) {
             }
             let collapsed = document.getElementById("collapse" + bookId);
             collapsed.innerHTML = html;
-            collapsed.focus();
-            collapsed.scrollIntoView(true);
             showBookImages(bookId);
         }
     }
@@ -781,8 +769,7 @@ function showBookImages(bookId) {
                 byte64FilesArray[i] = "data:image/png;base64," + list[i];
                 html += '<img class="book-detail-thumbnail" src="' + byte64FilesArray[i] + '"/>';
             }
-            let imageDiv = document.getElementById('book-detail-thumbnails');
-            document.getElementById('book-detail-thumbnails').innerHTML = html;
+            document.getElementById('book-detail-thumbnails' + bookId).innerHTML = html;
             return false;
         } else if (this.readyState == 4 && this.status == 404) {
             console.log('not any image connected to book with id ' + bookId);
