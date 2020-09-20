@@ -1,11 +1,10 @@
 DROP TABLE IF EXISTS friendship;
+DROP TABLE IF EXISTS book_image;
 DROP TABLE IF EXISTS book;
 DROP TABLE IF EXISTS author;
 DROP TABLE IF EXISTS reader;
-DROP TABLE IF EXISTS book_image;
 
 -- ***
-CREATE TYPE gender_enum AS ENUM ('F', 'M');
 
 CREATE TABLE IF NOT EXISTS reader
 (
@@ -19,7 +18,7 @@ CREATE TABLE IF NOT EXISTS reader
     telegram          varchar(20),
     viber             varchar(20),
     year_of_birth     int,
-    gender            gender_enum,
+    gender            char,
     book_to_the_moon  varchar(200),
     book_of_the_year  varchar(200),
     hobby             varchar(100),
