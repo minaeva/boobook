@@ -599,118 +599,119 @@
         <!--  MESSAGE - modal - end-->
 
         <!--  EDIT PROFILE - modal - start-->
-        <div class="modal fade border" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-             aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="edit_profile_title">Edit profile</h4>
-                    </div>
-                    <div class="modal-body">
-
-                        <div class="row">
-                            <div class="form-group col-sm-4 required">
-                                <label for="edit_profile_name" class="control-label">Name </label>
-                                <input type="text" class="form-control" id="edit_profile_name" placeholder="">
+        <!--
+                <div class="modal fade border" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="edit_profile_title">Edit profile</h4>
                             </div>
-                            <div class="form-group col-sm-5">
-                                <label for="edit_profile_surname" class="control-label">Surname</label>
-                                <input type="text" class="form-control" id="edit_profile_surname" placeholder="">
-                            </div>
-                            <div class="form-group col-sm-3">
-                            <span class="center">
-                                <label for="edit_reader_src"><img id="edit_reader_target" src="images/reader-girl.png"
-                                                                  class="thumbnail"/></label>
-                                <input id="edit_reader_src" type="file"/>
-                                <a class="remove" href="#" onclick="removeReaderPreview('edit_reader_target')"><i
-                                        class="icon-close"></i></a>
-                                </span>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="form-group col-sm-6">
-                                <label class="control-label" for="edit_book_to_the_moon">Book you'd take with you to the
-                                    moon</label>
-                                <input type="text" class="form-control" id="edit_book_to_the_moon" placeholder="">
-                            </div>
-                            <div class="form-group col-sm-6">
-                                <label class="control-label" for="edit_book_of_the_year">Impressing book of the last
-                                    year</label>
-                                <input type="text" class="form-control" id="edit_book_of_the_year" placeholder="">
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="form-group col-sm-6">
-                                <label for="edit_profile_city" class="control-label">City</label>
-                                <input type="text" class="form-control" id="edit_profile_city" placeholder="">
-                            </div>
-                            <div class="form-group col-sm-6">
-                                <label class="control-label" for="edit_profile_telegram">Telegram</label>
-                                <input type="text" class="form-control" id="edit_profile_telegram" placeholder="">
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="form-group col-sm-4">
-                                <label for="edit_year_of_birth" class="control-label">Year of birth</label>
-                                <input type="text" class="form-control" id="edit_year_of_birth" placeholder="">
-                            </div>
-                            <div class="form-group col-sm-4">
-                                <label class="control-label" for="edit_gender">Gender</label>
-                                <div class="">
-                                    <select style="margin-bottom:15px;" class="form-control" id="edit_gender">
-                                        <option value="0">select</option>
-                                        <option value="1">male</option>
-                                        <option value="2">female</option>
-                                    </select>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="form-group col-sm-4 required">
+                                        <label for="edit_profile_name" class="control-label">Name </label>
+                                        <input type="text" class="form-control" id="edit_profile_name" placeholder="">
+                                    </div>
+                                    <div class="form-group col-sm-5">
+                                        <label for="edit_profile_surname" class="control-label">Surname</label>
+                                        <input type="text" class="form-control" id="edit_profile_surname" placeholder="">
+                                    </div>
+                                    <div class="form-group col-sm-3">
+                                    <span class="center">
+                                        <label for="edit_reader_src"><img id="edit_reader_target" src="images/reader-girl.png"
+                                                                          class="thumbnail"/></label>
+                                        <input id="edit_reader_src" type="file"/>
+                                        <a class="remove" href="#" onclick="removeReaderPreview('edit_reader_target')"><i
+                                                class="icon-close"></i></a>
+                                        </span>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="form-group col-sm-4">
-                                <label class="control-label" for="edit_super_power">Super-power</label>
-                                <input type="text" class="form-control" id="edit_super_power" placeholder="">
+                                <div class="row">
+                                    <div class="form-group col-sm-6">
+                                        <label class="control-label" for="edit_book_to_the_moon">Book you'd take with you to the
+                                            moon</label>
+                                        <input type="text" class="form-control" id="edit_book_to_the_moon" placeholder="">
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label class="control-label" for="edit_book_of_the_year">Impressing book of the last
+                                            year</label>
+                                        <input type="text" class="form-control" id="edit_book_of_the_year" placeholder="">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group col-sm-6">
+                                        <label for="edit_profile_city" class="control-label">City</label>
+                                        <input type="text" class="form-control" id="edit_profile_city" placeholder="">
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label class="control-label" for="edit_profile_telegram">Telegram</label>
+                                        <input type="text" class="form-control" id="edit_profile_telegram" placeholder="">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group col-sm-4">
+                                        <label for="edit_year_of_birth" class="control-label">Year of birth</label>
+                                        <input type="text" class="form-control" id="edit_year_of_birth" placeholder="">
+                                    </div>
+                                    <div class="form-group col-sm-4">
+                                        <label class="control-label" for="edit_gender">Gender</label>
+                                        <div class="">
+                                            <select style="margin-bottom:15px;" class="form-control" id="edit_gender">
+                                                <option value="0">select</option>
+                                                <option value="1">male</option>
+                                                <option value="2">female</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-sm-4">
+                                        <label class="control-label" for="edit_super_power">Super-power</label>
+                                        <input type="text" class="form-control" id="edit_super_power" placeholder="">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group col-sm-6">
+                                        <label class="control-label" for="edit_hero">Hero similar to you</label>
+                                        <input type="text" class="form-control" id="edit_hero" placeholder="">
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label class="control-label" for="edit_hobby">When there's nothing to
+                                            read, you...</label>
+                                        <input type="text" class="form-control" id="edit_hobby" placeholder="">
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="form-group col-sm-8">
+                                        <label class="control-label" for="edit_profile_fb">Facebook</label>
+                                        <input type="text" class="form-control" id="edit_profile_fb" placeholder="">
+                                    </div>
+                                    <div class="form-group col-sm-4">
+                                        <label class="control-label" for="edit_profile_viber">Viber</label>
+                                        <input type="text" class="form-control" id="edit_profile_viber" placeholder="">
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close
+                                </button>
+                                <button type="button" class="btn btn-info" onclick="saveProfile(); return false">
+                                    Save
+                                </button>
                             </div>
                         </div>
-
-                        <div class="row">
-                            <div class="form-group col-sm-6">
-                                <label class="control-label" for="edit_hero">Hero similar to you</label>
-                                <input type="text" class="form-control" id="edit_hero" placeholder="">
-                            </div>
-                            <div class="form-group col-sm-6">
-                                <label class="control-label" for="edit_hobby">When there's nothing to
-                                    read, you...</label>
-                                <input type="text" class="form-control" id="edit_hobby" placeholder="">
-                            </div>
-                        </div>
-
-
-                        <div class="row">
-                            <div class="form-group col-sm-8">
-                                <label class="control-label" for="edit_profile_fb">Facebook</label>
-                                <input type="text" class="form-control" id="edit_profile_fb" placeholder="">
-                            </div>
-                            <div class="form-group col-sm-4">
-                                <label class="control-label" for="edit_profile_viber">Viber</label>
-                                <input type="text" class="form-control" id="edit_profile_viber" placeholder="">
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close
-                        </button>
-                        <button type="button" class="btn btn-info" onclick="saveProfile(); return false">
-                            Save
-                        </button>
                     </div>
                 </div>
-            </div>
-        </div>
+        -->
         <!--  EDIT PROFILE - modal - end-->
 
         <!-- Page Inner Cabinet -->
@@ -718,6 +719,7 @@
             <div id="main-wrapper">
                 <div class="row">
                     <div class="col-md-9">
+
                         <div class="panel panel-white">
                             <div class="panel-body">
                                 <div class="panel-group">
@@ -730,11 +732,123 @@
                                 </div>
                             </div>
 
-                            <div class="panel-body">
+                            <!--BOOKS READERS-->
+                            <div class="panel-body" id="books_readers_body">
                                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                                 </div>
                             </div>
+
+                            <!--PROFILE-->
+                            <div id="profile_body" class="hidden">
+                                <div class="row">
+                                    <div class="form-group col-sm-4 required">
+                                        <label for="edit_profile_name" class="control-label">Name </label>
+                                        <input type="text" class="form-control" id="edit_profile_name" placeholder="">
+                                    </div>
+                                    <div class="form-group col-sm-5">
+                                        <label for="edit_profile_surname" class="control-label">Surname</label>
+                                        <input type="text" class="form-control" id="edit_profile_surname"
+                                               placeholder="">
+                                    </div>
+                                    <div class="form-group col-sm-3">
+                                        <span class="nowrap">
+                                            <label for="edit_reader_src">
+                                                <img id="edit_reader_target" src="images/reader-girl.png"
+                                                     class="thumbnail"/>
+                                            </label>
+                                            <input id="edit_reader_src" type="file"/>
+                                            <a class="remove" href="#"
+                                               onclick="removeReaderPreview('edit_reader_target')"><i
+                                                    class="icon-close"></i></a>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group col-sm-6">
+                                        <label class="control-label" for="edit_book_to_the_moon">Book you'd take to the
+                                            Mars</label>
+                                        <input type="text" class="form-control" id="edit_book_to_the_moon"
+                                               placeholder="">
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label class="control-label" for="edit_hero">Hero you are similar to</label>
+                                        <input type="text" class="form-control" id="edit_hero" placeholder="">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group col-sm-4">
+                                        <label for="edit_year_of_birth" class="control-label">Year of birth</label>
+                                        <input type="text" class="form-control" id="edit_year_of_birth" placeholder="">
+                                    </div>
+                                    <div class="form-group col-sm-4">
+                                        <label class="control-label" for="edit_gender">Gender</label>
+                                        <div class="">
+                                            <select style="margin-bottom:15px;" class="form-control" id="edit_gender">
+                                                <option value="0">select</option>
+                                                <option value="M">male</option>
+                                                <option value="F">female</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-sm-4">
+                                        <label class="control-label" for="edit_super_power">Super-power</label>
+                                        <input type="text" class="form-control" id="edit_super_power" placeholder="">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group col-sm-6">
+                                        <label class="control-label" for="edit_book_of_the_year">Most remembered book of
+                                            the
+                                            previous
+                                            year</label>
+                                        <input type="text" class="form-control" id="edit_book_of_the_year"
+                                               placeholder="">
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label class="control-label" for="edit_hobby">What do you do when there's
+                                            nothing to
+                                            read</label>
+                                        <input type="text" class="form-control" id="edit_hobby" placeholder="">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group col-sm-6">
+                                        <label for="edit_profile_city" class="control-label">City</label>
+                                        <input type="text" class="form-control" id="edit_profile_city"
+                                               placeholder="please fill it">
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label class="control-label" for="edit_profile_telegram">Telegram</label>
+                                        <input type="text" class="form-control" id="edit_profile_telegram"
+                                               placeholder="">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group col-sm-8">
+                                        <label class="control-label" for="edit_profile_fb">Facebook</label>
+                                        <input type="text" class="form-control" id="edit_profile_fb" placeholder="">
+                                    </div>
+                                    <div class="form-group col-sm-4">
+                                        <label class="control-label" for="edit_profile_viber">Viber</label>
+                                        <input type="text" class="form-control" id="edit_profile_viber" placeholder="">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group col-sm-offset-8 col-sm-4">
+                                        <button class="btn btn-default disabled">Update</button>
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
+
                     </div>
                 </div><!-- Row -->
             </div><!-- Main Wrapper -->
@@ -744,27 +858,29 @@
         </div><!-- Page Inner Cabinet -->
 
         <!-- Page Inner Profile-->
-        <div class="page-inner no-page-title hidden" id="page-inner-profile">
-            <div id="main-wrapper-profile">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="panel panel-white">
-                            <div class="panel-heading clearfix">
-                                <h4 class="panel-title" id="profile_title">User Profile</h4>
+        <!--
+                <div class="page-inner no-page-title hidden" id="page-inner-profile">
+                    <div id="main-wrapper-profile">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="panel panel-white">
+                                    <div class="panel-heading clearfix">
+                                        <h4 class="panel-title" id="profile_title">User Profile</h4>
+                                    </div>
+                                    <div class="panel-body user-profile-panel">
+                                        <div id="edit_profile_button"></div>
+                                        <img src="images/reader-girl.png" class="user-profile-image img-circle" alt="">
+                                        <h4 class="text-center m-t-lg" id="name_surname"></h4>
+                                        <hr>
+                                        <ul class="list-unstyled text-center" id="info">
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="panel-body user-profile-panel">
-                                <div id="edit_profile_button"></div>
-                                <img src="images/reader-girl.png" class="user-profile-image img-circle" alt="">
-                                <h4 class="text-center m-t-lg" id="name_surname"></h4>
-                                <hr>
-                                <ul class="list-unstyled text-center" id="info">
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- Row -->
-            </div><!-- Main Wrapper -->
-        </div><!-- /Page Inner Profile -->
+                        </div>&lt;!&ndash; Row &ndash;&gt;
+                    </div>&lt;!&ndash; Main Wrapper &ndash;&gt;
+                </div>&lt;!&ndash; /Page Inner Profile &ndash;&gt;
+        -->
 
         <div class="page-right-sidebar" id="main-right-sidebar">
             <div class="page-right-sidebar-inner">

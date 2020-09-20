@@ -138,7 +138,6 @@
                             <processors>
                                 <processor>org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor</processor>
                             </processors>
-<!--                            <outputDirectory>target/generated-sources/annotations</outputDirectory>-->
                         </configuration>
                     </execution>
                 </executions>

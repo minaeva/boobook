@@ -242,7 +242,7 @@ $(document).ready(function() {
         $('#search-button').on('click', function(){
             body.toggleClass('search-open')
             if(body.hasClass('search-open')) {
-                // $('.search-form input').focus();
+                $('.search-form input').focus();
                 $('.search-form input').val('To be implemented soon');
             }
         });

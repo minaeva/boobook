@@ -528,6 +528,18 @@ function showBookDetails(bookId, ownerId) {
     let xhr = new XMLHttpRequest();
     let html = '';
 
+    let imageSources = [];
+    imageSources = getBookImageSources(bookId);
+    let imagesHtml = '';
+    if (imageSources != null) {
+        for (let i = 0; i < imageSources.size; i++) {
+            // byte64FilesArray[i] = "data:image/png;base64," + list[i];
+            imagesHtml += '<img class="book-detail-thumbnail" src="' + imageSources[i] + '"/>';
+        }
+        let imageDiv = document.getElementById('book-detail-thumbnails');
+        document.getElementById('book-detail-thumbnails').innerHTML = html;
+    }
+
     xhr.onreadystatechange = function () {
         if (this.readyState === 4) {
             if (this.status === 200) {
@@ -563,9 +575,8 @@ function showBookDetails(bookId, ownerId) {
                     '<h5><span class="text-muted">Pages: </span>' + parsedPages + '</h5>' +
 
                     '<h5><span class="text-muted">Description: </span>' + parsedDescription + '</h5>' +
-                    '<hr>';
-
-                html += '<div id="book-detail-thumbnails">' +
+                    '<hr>' +
+                    '<div id="book-detail-thumbnails">' +
                     '</div>';
 
                 if (bookDetails.ownerId != getCurrentUserId()) {
@@ -725,6 +736,11 @@ function removeReaderPreview(className) {
     document.getElementById(className).src = NO_READER_IMAGE;
 }
 
+function removePreview(className) {
+    IMAGE_EDITED = true;
+    document.getElementById(className).src = NO_IMAGE;
+}
+
 function retrieveImagesFromPreviews(elementIdBase) {
     let filesArray = [];
     for (let i = 0; i < PREVIEWS_QUANTITY; i++) {
@@ -765,11 +781,36 @@ function showBookImages(bookId) {
                 byte64FilesArray[i] = "data:image/png;base64," + list[i];
                 html += '<img class="book-detail-thumbnail" src="' + byte64FilesArray[i] + '"/>';
             }
+            let imageDiv = document.getElementById('book-detail-thumbnails');
             document.getElementById('book-detail-thumbnails').innerHTML = html;
             return false;
         } else if (this.readyState == 4 && this.status == 404) {
             console.log('not any image connected to book with id ' + bookId);
             return false;
+        }
+    }
+    let url = HOME_PAGE + "/images/" + bookId;
+    xhr.open('GET', url);
+    addAuthorization(xhr);
+    xhr.send();
+}
+
+function getBookImageSources(bookId) {
+    let xhr = new XMLHttpRequest();
+    let imageSources = [];
+
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            let list = JSON.parse(this.response);
+            let size = list.length;
+
+            for (let i = 0; i < size; i++) {
+                imageSources[i] = "data:image/png;base64," + list[i];
+            }
+            return imageSources;
+        } else if (this.readyState == 4 && this.status == 404) {
+            console.log('not any image connected to book with id ' + bookId);
+            return null;
         }
     }
     let url = HOME_PAGE + "/images/" + bookId;
@@ -922,7 +963,6 @@ function searchByCriteria() {
             for (let i = 0; i < size; i++) {
                 result += list[i].title + ' ';
             }
-            alert(this.responseText);
             displayFoundBooks(this.responseText);
         }
     };
