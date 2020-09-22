@@ -36,10 +36,12 @@ function showProfile() {
                     let source = "data:image/png;base64," + img;
                     let image = document.getElementById('edit_reader_target');
                     let srcExist = image.src;
-                    alert(srcExist);
+                    // alert(srcExist);
                     image.src = source;
                     // $("#edit_reader_target").attr("src",source);
                 }
+
+                addProfileUpdateListeners();
                 /*
                 let buttonHtml = '<button class="btn btn-default" onclick="openEditProfileModal(\'' +
                     readerDetails.name + '\',\'' + readerDetails.surname + '\',\'' + notNull(readerDetails.city) +
@@ -62,6 +64,24 @@ function showProfile() {
     xhr.send();
 
     return false;
+}
+
+function enableOnChange(event) {
+    let elem = document.getElementById('update_profile_btn');
+    if (elem.classList.contains('disabled')) {
+        elem.classList.remove('disabled');
+    }
+}
+
+function addProfileUpdateListeners() {
+    document.querySelectorAll('input').forEach((elem) => {
+        elem.addEventListener('change', enableOnChange);
+    });
+    document.querySelectorAll('textarea').forEach((elem) => {
+        elem.addEventListener('change', enableOnChange);
+    });
+    document.getElementById('edit_gender')
+        .addEventListener('change', enableOnChange);
 }
 
 function openEditProfileModal(name, surname, city, telegram, fb, viber, skype, whatsapp) {

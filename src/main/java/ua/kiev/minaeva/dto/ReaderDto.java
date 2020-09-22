@@ -17,7 +17,9 @@ public class ReaderDto {
     private String name;
     private String surname;
 
+    private String country;
     private String city;
+    private String district;
     private String fbPage;
     private String telegram;
     private String viber;

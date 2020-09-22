@@ -794,49 +794,62 @@
                                             </select>
                                         </div>
                                     </div>
-
                                     <div class="form-group col-sm-4">
                                         <label class="control-label" for="edit_super_power">Super-power</label>
-                                        <input type="text" class="form-control" id="edit_super_power" placeholder="">
+                                            <textarea class="form-control" id="edit_super_power" rows="1"></textarea>
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="form-group col-sm-6">
-                                        <label class="control-label" for="edit_book_of_the_year">Most remembered book of
+                                        <label class="control-label" for="edit_book_of_the_year">Most remembered books
+                                            of
                                             the
                                             previous
                                             year</label>
-                                        <input type="text" class="form-control" id="edit_book_of_the_year"
-                                               placeholder="">
+                                        <textarea rows="1" class="form-control" id="edit_book_of_the_year"
+                                                  placeholder=""></textarea>
                                     </div>
                                     <div class="form-group col-sm-6">
                                         <label class="control-label" for="edit_hobby">What do you do when there's
                                             nothing to
                                             read</label>
-                                        <input type="text" class="form-control" id="edit_hobby" placeholder="">
+                                        <textarea rows="1" class="form-control" id="edit_hobby"
+                                                  placeholder=""></textarea>
                                     </div>
                                 </div>
 
                                 <div class="row">
+                                    <!--                                    TO DO-->
+                                    <!--                                    <div class="form-group col-sm-6">-->
+                                    <!--                                        <label for="edit_profile_city" class="control-label">City</label>-->
+                                    <!--                                        <input type="text" class="form-control" id="edit_profile_city"-->
+                                    <!--                                               placeholder="please fill it">-->
+                                    <!--                                    </div>-->
                                     <div class="form-group col-sm-6">
                                         <label for="edit_profile_city" class="control-label">City</label>
                                         <input type="text" class="form-control" id="edit_profile_city"
                                                placeholder="please fill it">
                                     </div>
                                     <div class="form-group col-sm-6">
-                                        <label class="control-label" for="edit_profile_telegram">Telegram</label>
-                                        <input type="text" class="form-control" id="edit_profile_telegram"
+                                        <label class="control-label" for="edit_profile_district">District</label>
+                                        <input type="text" class="form-control" id="edit_profile_district"
                                                placeholder="">
                                     </div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="form-group col-sm-8">
+                                    <div class="form-group col-sm-6">
                                         <label class="control-label" for="edit_profile_fb">Facebook</label>
-                                        <input type="text" class="form-control" id="edit_profile_fb" placeholder="">
+                                        <textarea rows="1" type="text" class="form-control" id="edit_profile_fb"
+                                                  placeholder=""></textarea>
                                     </div>
-                                    <div class="form-group col-sm-4">
+                                    <div class="form-group col-sm-3">
+                                        <label class="control-label" for="edit_profile_telegram">Telegram</label>
+                                        <input type="text" class="form-control" id="edit_profile_telegram"
+                                               placeholder="">
+                                    </div>
+                                    <div class="form-group col-sm-3">
                                         <label class="control-label" for="edit_profile_viber">Viber</label>
                                         <input type="text" class="form-control" id="edit_profile_viber" placeholder="">
                                     </div>
@@ -844,7 +857,7 @@
 
                                 <div class="row">
                                     <div class="form-group col-sm-offset-8 col-sm-4">
-                                        <button class="btn btn-default disabled">Update</button>
+                                        <button class="btn btn-default disabled" id="update_profile_btn">Update</button>
                                     </div>
                                 </div>
 
