@@ -1,5 +1,6 @@
 -- add district (50)
-
+alter table reader
+    add district varchar(30);
 
 alter table reader
     alter column email type varchar(50) using email::varchar(50);
