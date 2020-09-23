@@ -566,8 +566,7 @@ function showBookDetails(bookId, ownerId) {
                     '<hr>';
                 let bookDiv = "book-detail-thumbnails" + bookId;
                 html +=
-                    '<div id="' + bookDiv + '">HERE' +
-                    '</div>';
+                    '<div id="' + bookDiv + '"></div>';
 
                 if (bookDetails.ownerId != getCurrentUserId()) {
                     html +=

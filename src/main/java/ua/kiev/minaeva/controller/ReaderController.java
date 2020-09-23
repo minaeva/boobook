@@ -2,6 +2,7 @@ package ua.kiev.minaeva.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,13 +33,24 @@ public class ReaderController {
     }
 
     @PutMapping
-    public ReaderDto updateReader(@RequestParam("readerDto") ReaderDto readerDto,
-                                  @RequestParam("file") MultipartFile file) throws BoobookNotFoundException,
-            BoobookValidationException, IOException {
+    public ReaderDto updateReader(@RequestBody ReaderDto readerDto) throws BoobookNotFoundException,
+            BoobookValidationException {
         log.info("handling UPDATE READER request: " + readerDto);
-        byte[] encodedByteArray = Base64.getEncoder().encode(file.getBytes());
-        readerDto.setImage(encodedByteArray);
         return readerService.updateReader(readerDto);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ResponseMessage> saveReaderImage(@RequestParam("file") MultipartFile file,
+                                                           @PathVariable final Long readerId) throws IOException, BoobookNotFoundException {
+        log.info("handling UPDATE READER IMAGE request: " + readerId);
+        if (file.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage("None file was selected for save"));
+        }
+
+        byte[] encodedByteArray = Base64.getEncoder().encode(file.getBytes());
+        readerService.updateImage(encodedByteArray, readerId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage("Uploaded successfully: " + file.getOriginalFilename()));
     }
 
     @GetMapping("/email")

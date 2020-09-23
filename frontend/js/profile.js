@@ -69,10 +69,58 @@ function showProfile() {
 
 function updateProfile(name, surname, bookToTheMoon, hero, yearOfBirth, gender, superPower, bookOfTheYear, hobby,
                        country, city, district, fb, telegram, viber, image) {
-    alert('UPD ' + name + ' ' + surname + ' ' + bookToTheMoon + ' ' + hero + ' ' + yearOfBirth + ' ' +
-        gender + ' ' + superPower + ' ' + bookOfTheYear + ' ' + hobby + ' ' + country + ' ' + city + ' ' + district + ' ' + fb +
-        ' ' + telegram + ' ' + viber);
-    alert(image);
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4) {
+            if (this.status == 500) {
+                showWarningModal("When updating the reader info, there was a server error");
+                return false;
+            } else if (this.status == 403) {
+                showWarningModal("When updating the reader info, there was a problem with authentication");
+                return false;
+            } else if (this.status == 200) {
+                console.log("User info updated!");
+            }
+        }
+    };
+
+    const requestBody = {
+        "name": name,
+        "surname": surname,
+        "bookToTheMoon": bookToTheMoon
+    };
+    console.log(requestBody);
+
+    let requestUrl = HOME_PAGE + "/users";
+    xhr.open("PUT", requestUrl);
+    xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+    addAuthorization(xhr);
+    xhr.send(JSON.stringify(requestBody));
+}
+
+function saveProfileImage(readerId, image){
+    let formData = new FormData();
+    formData.append('file', image);
+    formData.append('readerId', readerId);
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4) {
+            if (this.status == 500) {
+                showWarningModal("When updating the images, there was a server error");
+                return false;
+            } else if (this.status == 403) {
+                showWarningModal("When updating the images, there was a problem with authentication");
+                return false;
+            } else if (this.status == 200) {
+                console.log("Images updated");
+            }
+        }
+    };
+
+    let requestUrl = HOME_PAGE + "/users";
+    xhr.open("PUT", requestUrl);
+    addAuthorization(xhr);
+    xhr.send(formData);
 }
 
 function enableOnChange(event) {

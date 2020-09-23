@@ -59,6 +59,15 @@ public class ReaderServiceImpl implements ReaderService {
         return mapper.readerToDto(readerRepository.save(readerToUpdate));
     }
 
+
+    public ReaderDto updateImage(byte[] image, Long readerId) throws BoobookNotFoundException {
+        Reader reader = readerRepository.findById(readerId)
+                .orElseThrow(() -> new BoobookNotFoundException(NO_READER_FOUND_WITH_ID + readerId));
+        reader.setImage(image);
+
+        return mapper.readerToDto(readerRepository.save(reader));
+    }
+
     public void deleteReader(Reader reader) {
         readerRepository.delete(reader);
     }
