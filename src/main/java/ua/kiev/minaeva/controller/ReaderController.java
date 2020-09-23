@@ -4,12 +4,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ua.kiev.minaeva.dto.ReaderDto;
 import ua.kiev.minaeva.exception.BoobookNotFoundException;
 import ua.kiev.minaeva.exception.BoobookValidationException;
 import ua.kiev.minaeva.service.FriendshipService;
 import ua.kiev.minaeva.service.ReaderService;
 
+import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 
 @RestController
@@ -29,8 +32,12 @@ public class ReaderController {
     }
 
     @PutMapping
-    public ReaderDto updateReader(@RequestBody ReaderDto readerDto) throws BoobookNotFoundException, BoobookValidationException {
+    public ReaderDto updateReader(@RequestParam("readerDto") ReaderDto readerDto,
+                                  @RequestParam("file") MultipartFile file) throws BoobookNotFoundException,
+            BoobookValidationException, IOException {
         log.info("handling UPDATE READER request: " + readerDto);
+        byte[] encodedByteArray = Base64.getEncoder().encode(file.getBytes());
+        readerDto.setImage(encodedByteArray);
         return readerService.updateReader(readerDto);
     }
 
@@ -61,7 +68,12 @@ public class ReaderController {
     @GetMapping("/{id}")
     public ReaderDto getById(@PathVariable final Long id) throws BoobookNotFoundException {
         log.info("handling get READER by ID request: " + id);
-        return readerService.getById(id);
+        ReaderDto foundReader = readerService.getById(id);
+        if (foundReader.getImage() != null) {
+            foundReader.setImage(Base64.getDecoder().decode(foundReader.getImage()));
+        }
+        return foundReader;
+//        return readerService.getById(id);
     }
 
     @GetMapping("/{id}/{friendOfId}")
