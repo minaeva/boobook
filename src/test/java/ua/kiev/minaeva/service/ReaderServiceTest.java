@@ -99,7 +99,7 @@ public class ReaderServiceTest {
     }
 
     @Test
-    void updateReader_failsOnNotExistentReader() throws BoobookNotFoundException, BoobookValidationException {
+    void updateReader_failsOnNotExistentReader() {
         ReaderDto readerDto = aReaderDto();
         readerDto.setId(11L);
         when(readerRepository.findById(anyLong())).thenReturn(Optional.empty());
@@ -109,7 +109,7 @@ public class ReaderServiceTest {
     }
 
     @Test
-    void updateReader_failsOnNotEmptyEmail() throws BoobookNotFoundException, BoobookValidationException {
+    void updateReader_failsOnNotEmptyEmail() {
         ReaderDto readerDto = aReaderDto();
         readerDto.setId(11L);
         readerDto.setEmail("");
@@ -120,7 +120,7 @@ public class ReaderServiceTest {
     }
 
     @Test
-    void updateReader_failsOnNotEmptyName() throws BoobookNotFoundException, BoobookValidationException {
+    void updateReader_failsOnNotEmptyName() {
         ReaderDto readerDto = aReaderDto();
         readerDto.setId(11L);
         readerDto.setName("");
@@ -131,7 +131,7 @@ public class ReaderServiceTest {
     }
 
     @Test
-    void updateReader_failsOnNotFbEmptyPassword() throws BoobookNotFoundException, BoobookValidationException {
+    void updateReader_failsOnNotFbEmptyPassword() {
         ReaderDto readerDto = aReaderDto();
         readerDto.setId(11L);
         readerDto.setRegistrationType(RegistrationType.CUSTOM);
@@ -292,5 +292,15 @@ public class ReaderServiceTest {
                 () -> readerService.getByName("not existent"),
                 "No reader with name not existent found");
     }
+
+    @Test
+    void updateReader_idNull_fail() {
+        ReaderDto readerToUpdate = aReaderDto();
+        readerToUpdate.setId(null);
+
+        assertThrows(BoobookNotFoundException.class,
+                () -> readerService.updateReader(readerToUpdate));
+    }
+
 
 }

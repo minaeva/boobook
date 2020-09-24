@@ -49,6 +49,9 @@ public class ReaderServiceImpl implements ReaderService {
     }
 
     public ReaderDto updateReader(ReaderDto readerDto) throws BoobookValidationException, BoobookNotFoundException {
+        if (readerDto.getId() == null) {
+            throw new BoobookNotFoundException("Reader Id cannot be null");
+        }
         validateReader(readerDto);
 
         readerRepository.findById(readerDto.getId())
