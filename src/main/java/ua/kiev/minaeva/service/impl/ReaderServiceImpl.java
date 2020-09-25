@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static ua.kiev.minaeva.service.helper.ReaderValidator.validateReader;
+import static ua.kiev.minaeva.service.helper.ReaderValidator.validateReaderToUpdate;
 
 @Service
 @RequiredArgsConstructor
@@ -52,12 +53,15 @@ public class ReaderServiceImpl implements ReaderService {
         if (readerDto.getId() == null) {
             throw new BoobookNotFoundException("Reader Id cannot be null");
         }
-        validateReader(readerDto);
+        validateReaderToUpdate(readerDto);
 
-        readerRepository.findById(readerDto.getId())
+        Reader existentReader = readerRepository.findById(readerDto.getId())
                 .orElseThrow(() -> new BoobookNotFoundException(NO_READER_FOUND_WITH_ID + readerDto.getId()));
 
         Reader readerToUpdate = mapper.dtoToReader(readerDto);
+        readerToUpdate.setEmail(existentReader.getEmail());
+        readerToUpdate.setPassword(existentReader.getPassword());
+        readerToUpdate.setRegistrationType(existentReader.getRegistrationType());
 
         return mapper.readerToDto(readerRepository.save(readerToUpdate));
     }

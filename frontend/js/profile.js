@@ -16,6 +16,10 @@ function showProfile() {
                 setPageTitle(nameSurname);
                 setPageSubtitle('');
 
+                if (readerDetails.image != null) {
+                    showProfileImage(readerDetails.image);
+                }
+
                 $("#edit_profile_name").val(readerDetails.name);
                 $("#edit_profile_surname").val(readerDetails.surname);
                 $("#edit_profile_book_to_the_moon").val(readerDetails.bookToTheMoon);
@@ -34,25 +38,32 @@ function showProfile() {
                 addProfileUpdateListeners();
 
                 $("#update_profile_btn").click(function () {
-                    let changedImage = retrieveProfileImage();
+                        let changedImage = retrieveProfileImage();
 
-                    updateProfile($("#edit_profile_name").val(),
-                        $("#edit_profile_surname").val(),
-                        $("#edit_profile_book_to_the_moon").val(),
-                        $("#edit_profile_hero").val(),
-                        $("#edit_profile_year_of_birth").val(),
-                        $("#edit_profile_gender").val(),
-                        $("#edit_profile_super_power").val(),
-                        $("#edit_profile_book_of_the_year").val(),
-                        $("#edit_profile_hobby").val(),
-                        $("#edit_profile_country").val(),
-                        $("#edit_profile_city").val(),
-                        $("#edit_profile_district").val(),
-                        $("#edit_profile_fb").val(),
-                        $("#edit_profile_telegram").val(),
-                        $("#edit_profile_viber").val()),
-                        changedImage
-                });
+                        updateProfile(readerDetails.id,
+                            $("#edit_profile_name").val(),
+                            $("#edit_profile_surname").val(),
+                            $("#edit_profile_book_to_the_moon").val(),
+                            $("#edit_profile_hero").val(),
+                            $("#edit_profile_year_of_birth").val(),
+                            $("#edit_profile_gender").val(),
+                            $("#edit_profile_super_power").val(),
+                            $("#edit_profile_book_of_the_year").val(),
+                            $("#edit_profile_hobby").val(),
+                            $("#edit_profile_country").val(),
+                            $("#edit_profile_city").val(),
+                            $("#edit_profile_district").val(),
+                            $("#edit_profile_fb").val(),
+                            $("#edit_profile_telegram").val(),
+                            $("#edit_profile_viber").val())
+
+                        if (changedImage != null) {
+                            saveProfileImage(readerDetails.id, changedImage)
+                        }
+                        showSuccessModal('Profile data has been updated');
+                        clickProfile();
+                    }
+                );
             }
         }
     }
@@ -67,8 +78,8 @@ function showProfile() {
     return false;
 }
 
-function updateProfile(name, surname, bookToTheMoon, hero, yearOfBirth, gender, superPower, bookOfTheYear, hobby,
-                       country, city, district, fb, telegram, viber, image) {
+function updateProfile(id, name, surname, bookToTheMoon, hero, yearOfBirth, gender, superPower, bookOfTheYear, hobby,
+                       country, city, district, fb, telegram, viber) {
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (this.readyState == 4) {
@@ -85,9 +96,22 @@ function updateProfile(name, surname, bookToTheMoon, hero, yearOfBirth, gender, 
     };
 
     const requestBody = {
+        "id": id,
         "name": name,
         "surname": surname,
-        "bookToTheMoon": bookToTheMoon
+        "bookToTheMoon": bookToTheMoon,
+        "hero": hero,
+        "yearOfBirth": yearOfBirth,
+        "gender": gender,
+        "superPower": superPower,
+        "bookOfTheYear": bookOfTheYear,
+        "hobby": hobby,
+        "country": country,
+        "city": city,
+        "district": district,
+        "fb": fb,
+        "telegram": telegram,
+        "viber": viber
     };
     console.log(requestBody);
 
@@ -101,7 +125,6 @@ function updateProfile(name, surname, bookToTheMoon, hero, yearOfBirth, gender, 
 function saveProfileImage(readerId, image){
     let formData = new FormData();
     formData.append('file', image);
-    formData.append('readerId', readerId);
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (this.readyState == 4) {
@@ -117,7 +140,7 @@ function saveProfileImage(readerId, image){
         }
     };
 
-    let requestUrl = HOME_PAGE + "/users";
+    let requestUrl = HOME_PAGE + "/users/" + readerId;
     xhr.open("PUT", requestUrl);
     addAuthorization(xhr);
     xhr.send(formData);

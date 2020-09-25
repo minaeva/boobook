@@ -39,7 +39,7 @@ public class ReaderController {
         return readerService.updateReader(readerDto);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{readerId}")
     public ResponseEntity<ResponseMessage> saveReaderImage(@RequestParam("file") MultipartFile file,
                                                            @PathVariable final Long readerId) throws IOException, BoobookNotFoundException {
         log.info("handling UPDATE READER IMAGE request: " + readerId);

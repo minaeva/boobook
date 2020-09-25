@@ -91,6 +91,26 @@ function retrieveProfileImage() {
         console.log('profile image: ', file);
         return file;
     }
+    return null;
+}
+
+function showProfileImage(image) {
+    let imageSource = "data:image/png;base64," + image;
+    //TO DO
+    /*<div class="form-group col-sm-3">
+            <span class="nowrap">
+            <label for="edit_reader_src">
+            <img id="edit_reader_target" src="images/reader-girl.png"
+    class="thumbnail"/>
+            </label>
+            <input id="edit_reader_src" type="file"/>
+            <a class="remove" href="#"
+        onclick="removeReaderPreview('edit_reader_target')"><i
+    class="icon-close"></i></a>
+        </span>
+        </div>*/
+    let html = '<img class="book-detail-thumbnail" src="' + imageSource + '"/>';
+    document.getElementById('edit_reader_target').innerHTML = html;
 }
 
 function showBookImages(bookId) {
