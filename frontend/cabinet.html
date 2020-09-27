@@ -743,11 +743,11 @@
                             <!--PROFILE-->
                             <div id="profile_body" class="hidden">
                                 <div class="row">
-                                    <div class="form-group col-sm-4 required">
+                                    <div class="form-group col-sm-4 required" id="profile_name_group">
                                         <label for="edit_profile_name" class="control-label">Name </label>
                                         <input type="text" class="form-control" id="edit_profile_name" placeholder="">
                                     </div>
-                                    <div class="form-group col-sm-5">
+                                    <div class="form-group col-sm-5" id="profile_surname_group">
                                         <label for="edit_profile_surname" class="control-label">Surname</label>
                                         <input type="text" class="form-control" id="edit_profile_surname"
                                                placeholder="">
@@ -767,21 +767,24 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="form-group col-sm-6">
-                                        <label class="control-label" for="edit_profile_book_to_the_moon">Book you'd take to the
+                                    <div class="form-group col-sm-6" id="profile_book_to_the_moon_group">
+                                        <label class="control-label" for="edit_profile_book_to_the_moon">Book you'd take
+                                            to the
                                             Mars</label>
                                         <input type="text" class="form-control" id="edit_profile_book_to_the_moon"
                                                placeholder="">
                                     </div>
-                                    <div class="form-group col-sm-6">
-                                        <label class="control-label" for="edit_profile_hero">Hero you are similar to</label>
+                                    <div class="form-group col-sm-6" id="profile_hero_group">
+                                        <label class="control-label" for="edit_profile_hero">Hero you are similar
+                                            to</label>
                                         <input type="text" class="form-control" id="edit_profile_hero" placeholder="">
                                     </div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="form-group col-sm-4">
-                                        <label for="edit_profile_year_of_birth" class="control-label">Year of birth</label>
+                                    <div class="form-group col-sm-4" id="profile_year_of_birth_group">
+                                        <label for="edit_profile_year_of_birth" class="control-label">Year of
+                                            birth</label>
                                         <input type="text" class="form-control" id="edit_profile_year_of_birth"
                                                placeholder="">
                                     </div>
@@ -795,15 +798,17 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="form-group col-sm-4">
+                                    <div class="form-group col-sm-4" id="profile_super_power_group">
                                         <label class="control-label" for="edit_profile_super_power">Super-power</label>
-                                        <textarea class="form-control" id="edit_profile_super_power" rows="1"></textarea>
+                                        <textarea class="form-control" id="edit_profile_super_power"
+                                                  rows="1"></textarea>
                                     </div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="form-group col-sm-6">
-                                        <label class="control-label" for="edit_profile_book_of_the_year">Most remembered books
+                                    <div class="form-group col-sm-6" id="profile_book_of_the_year_group">
+                                        <label class="control-label" for="edit_profile_book_of_the_year">Most remembered
+                                            books
                                             of
                                             the
                                             previous
@@ -811,8 +816,9 @@
                                         <textarea rows="1" class="form-control" id="edit_profile_book_of_the_year"
                                                   placeholder=""></textarea>
                                     </div>
-                                    <div class="form-group col-sm-6">
-                                        <label class="control-label" for="edit_profile_hobby">What do you do when there's
+                                    <div class="form-group col-sm-6" id="profile_hobby_group">
+                                        <label class="control-label" for="edit_profile_hobby">What do you do when
+                                            there's
                                             nothing to
                                             read</label>
                                         <textarea rows="1" class="form-control" id="edit_profile_hobby"
@@ -821,17 +827,17 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="form-group col-sm-4">
+                                    <div class="form-group col-sm-4" id="profile_country_group">
                                         <label for="edit_profile_country" class="control-label">Country</label>
                                         <input type="text" class="form-control" id="edit_profile_country"
                                                placeholder="">
                                     </div>
-                                    <div class="form-group col-sm-4">
+                                    <div class="form-group col-sm-4" id="profile_city_group">
                                         <label for="edit_profile_city" class="control-label">City</label>
                                         <input type="text" class="form-control" id="edit_profile_city"
                                                placeholder="please fill it">
                                     </div>
-                                    <div class="form-group col-sm-4">
+                                    <div class="form-group col-sm-4" id="profile_district_group">
                                         <label class="control-label" for="edit_profile_district">District</label>
                                         <input type="text" class="form-control" id="edit_profile_district"
                                                placeholder="">
@@ -839,19 +845,19 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="form-group col-sm-12">
+                                    <div class="form-group col-sm-12" id="profile_facebook_group">
                                         <label class="control-label" for="edit_profile_fb">Facebook</label>
                                         <textarea rows="1" type="text" class="form-control" id="edit_profile_fb"
                                                   placeholder=""></textarea>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="form-group col-sm-6">
+                                    <div class="form-group col-sm-6" id="profile_telegram_group">
                                         <label class="control-label" for="edit_profile_telegram">Telegram</label>
                                         <input type="text" class="form-control" id="edit_profile_telegram"
                                                placeholder="">
                                     </div>
-                                    <div class="form-group col-sm-6">
+                                    <div class="form-group col-sm-6" id="profile_viber_group">
                                         <label class="control-label" for="edit_profile_viber">Viber</label>
                                         <input type="text" class="form-control" id="edit_profile_viber" placeholder="">
                                     </div>
@@ -949,6 +955,7 @@
 <script src="js/images.js"></script>
 <script src="js/profile.js"></script>
 <script src="js/readers.js"></script>
+<script src="js/validate.js"></script>
 
 <script>showOwnersBooks();</script>
 <script>connectToChat();</script>

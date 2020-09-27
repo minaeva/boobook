@@ -11,8 +11,8 @@ public class RegistrationRequest {
     private String email;
     private String password;
     private String name;
-    private String surname;
-    private String city;
+    //    private String surname;
+//    private String city;
     private String fbPage;
     private RegistrationType registrationType;
 

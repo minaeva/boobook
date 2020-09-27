@@ -11,7 +11,7 @@ function validateEmailPassword(email, password) {
 function authenticateAReader(email, password) {
 
     if (validateEmailPassword(email, password)) {
-        var xhr = new XMLHttpRequest();
+        let xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function () {
 
             if (this.readyState == 4) {
@@ -34,7 +34,7 @@ function authenticateAReader(email, password) {
             }
         };
 
-        var requestUrl = HOME_PAGE + "/users/auth";
+        let requestUrl = HOME_PAGE + "/users/auth";
         const requestBody = {
             "email": email,
             "password": password
@@ -50,13 +50,12 @@ function authenticateAReader(email, password) {
 
 function registerAReader() {
 
-    var new_email = document.getElementById("new_email").value;
-    var new_password = document.getElementById("new_password").value;
-    var new_name = document.getElementById("new_name").value;
-    var new_surname = document.getElementById("new_surname").value;
+    let new_email = document.getElementById("new_email").value;
+    let new_password = document.getElementById("new_password").value;
+    let new_name = document.getElementById("new_name").value;
 
-    if (validateReader(new_name, new_email, new_password,)) {
-        var xhr = new XMLHttpRequest();
+    if (validateReader(new_name, new_email, new_password)) {
+        let xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function () {
 
             if (this.readyState == 4) {
@@ -65,7 +64,6 @@ function registerAReader() {
                     document.getElementById("new_email").value = '';
                     document.getElementById("new_password").value = '';
                     document.getElementById("new_name").value = '';
-                    document.getElementById("new_surname").value = '';
                     return false;
                 } else if (this.status == 200) {
                     showSuccessModal("User with email " + new_email + " was created");
@@ -74,12 +72,11 @@ function registerAReader() {
             }
         };
 
-        var requestUrl = HOME_PAGE + "/users/register";
+        let requestUrl = HOME_PAGE + "/users/register";
         const requestBody = {
             "email": new_email,
             "password": new_password,
             "name": new_name,
-            "surname": new_surname,
             "registrationType": 'CUSTOM'
         };
         xhr.open("POST", requestUrl);
@@ -91,7 +88,7 @@ function registerAReader() {
 }
 
 function registerAFbReader(fullName, email, id) {
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
 
         if (this.readyState == 4) {
@@ -99,13 +96,13 @@ function registerAFbReader(fullName, email, id) {
                 showWarningModal("Something is wrong with logging " + fullName);
                 return false;
             } else if (this.status == 200) {
-                var token = JSON.parse(this.responseText);
+                let token = JSON.parse(this.responseText);
                 localStorage.setItem('tokenData', JSON.stringify(token));
             }
         }
     };
 
-    var requestUrl = HOME_PAGE + "/users/register";
+    let requestUrl = HOME_PAGE + "/users/register";
     const nameParts = fullName.split(' ');
     const requestBody = {
         "email": id,

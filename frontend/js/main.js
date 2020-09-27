@@ -54,61 +54,6 @@ function showSuccessModal(text) {
     $('#smallModal').modal('show');
 }
 
-function validateNamePassword(field, warningText) {
-    if (field == null || field == "") {
-        showWarningModal(warningText);
-        return false;
-    }
-    return true;
-}
-
-function validateField(field, groupControlId) {
-    let group = document.getElementById(groupControlId);
-    if (field == null || field == "") {
-        group.classList.add('has-error');
-        return false;
-    }
-    if (group.classList.contains('has-error')) {
-        group.classList.remove('has-error');
-    }
-    return true;
-}
-
-function validateImage(field, groupControlId) {
-    let group = document.getElementById(groupControlId);
-    if (field == null || field == "") {
-        group.classList.add('has-error');
-        return false;
-    }
-    if (group.classList.contains('has-error')) {
-        group.classList.remove('has-error');
-    }
-    return true;
-}
-
-function validateYear(year, groupId) {
-    let element = document.getElementById(groupId);
-
-    if (year == null || year == "") {
-        if (element.classList.contains('has-error')) {
-            element.classList.remove('has-error');
-        }
-        return true;
-    }
-    if (isNaN(year)) {
-        element.classList.add('has-error');
-        return false;
-    }
-    if (year < 1800 || year > new Date().getFullYear()) {
-        element.classList.add('has-error');
-        return false;
-    }
-    if (element.classList.contains('has-error')) {
-        element.classList.remove('has-error');
-    }
-    return true;
-}
-
 function getTokenFromLocalStorage() {
     let localStorageInfo = localStorage.getItem('tokenData');
     let jsonInsideLocalStorage = JSON.parse(localStorageInfo);

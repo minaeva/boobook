@@ -49,6 +49,8 @@ public class BookServiceImpl implements BookService {
         newBookOwner = getOwner(bookDto);
         newBook.setOwner(newBookOwner);
 
+        specifyDefaultZeroFields(newBook);
+
         return mapper.bookToDto(bookRepository.save(newBook));
     }
 
@@ -227,7 +229,6 @@ public class BookServiceImpl implements BookService {
 
     }
 
-
     private Author getOrCreateAuthor(BookDto bookDto) {
         Author newBookAuthor;
         Optional<Author> existentAuthor = authorRepository
@@ -249,6 +250,23 @@ public class BookServiceImpl implements BookService {
             throw new BoobookNotFoundException("reader with id " + bookDto.getOwnerId() + " cannot be found");
         }
         return newBookOwner;
+    }
+
+    private void specifyDefaultZeroFields(Book book) {
+        if (book.getAgeGroup() == null) {
+            book.setAgeGroup(0);
+        }
+        if (book.getCover() == null) {
+            book.setCover(0);
+        }
+        if (book.getLanguage() == null) {
+            book.setLanguage(0);
+        }
+        if (book.getIllustrations() == null) {
+            book.setIllustrations(0);
+        }
+
+
     }
 
 }

@@ -41,6 +41,10 @@ public class ReaderServiceImpl implements ReaderService {
             reader.setPassword(passwordEncoder.encode(readerDto.getPassword()));
         }
 
+        if (reader.getGender() == null) {
+            reader.setGender(0);
+        }
+
         try {
             return mapper.readerToDto(readerRepository.save(reader));
         } catch (Exception e) {

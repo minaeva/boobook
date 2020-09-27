@@ -17,10 +17,10 @@ public class BookDto {
     private String publisher;
     private int year;
 
-    private int ageGroup;
-    private int cover;
-    private int language;
-    private int illustrations;
+    private Integer ageGroup;
+    private Integer cover;
+    private Integer language;
+    private Integer illustrations;
     private int pagesQuantity;
     private String description;
     private boolean isActive = true;

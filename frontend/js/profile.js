@@ -40,7 +40,7 @@ function showProfile() {
                 $("#update_profile_btn").click(function () {
                         let changedImage = retrieveProfileImage();
 
-                        updateProfile(readerDetails.id,
+                        if (!updateProfile(readerDetails.id,
                             $("#edit_profile_name").val(),
                             $("#edit_profile_surname").val(),
                             $("#edit_profile_book_to_the_moon").val(),
@@ -55,7 +55,9 @@ function showProfile() {
                             $("#edit_profile_district").val(),
                             $("#edit_profile_fb").val(),
                             $("#edit_profile_telegram").val(),
-                            $("#edit_profile_viber").val())
+                            $("#edit_profile_viber").val())) {
+                            return false;
+                        }
 
                         if (changedImage != null) {
                             saveProfileImage(readerDetails.id, changedImage)
@@ -80,6 +82,11 @@ function showProfile() {
 
 function updateProfile(id, name, surname, bookToTheMoon, hero, yearOfBirth, gender, superPower, bookOfTheYear, hobby,
                        country, city, district, fb, telegram, viber) {
+    if (!validateProfileInfo(name, surname, bookToTheMoon, hero, yearOfBirth, gender, superPower, bookOfTheYear, hobby,
+        country, city, district, fb, telegram, viber)) {
+        return false;
+    }
+
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (this.readyState == 4) {
@@ -122,7 +129,7 @@ function updateProfile(id, name, surname, bookToTheMoon, hero, yearOfBirth, gend
     xhr.send(JSON.stringify(requestBody));
 }
 
-function saveProfileImage(readerId, image){
+function saveProfileImage(readerId, image) {
     let formData = new FormData();
     formData.append('file', image);
     let xhr = new XMLHttpRequest();

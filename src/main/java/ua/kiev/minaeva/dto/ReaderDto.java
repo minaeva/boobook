@@ -2,7 +2,6 @@ package ua.kiev.minaeva.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import ua.kiev.minaeva.entity.Gender;
 import ua.kiev.minaeva.entity.RegistrationType;
 
 @Data
@@ -25,7 +24,7 @@ public class ReaderDto {
     private String viber;
 
     private Integer yearOfBirth;
-    private Gender gender;
+    private Integer gender;
 
     private String bookToTheMoon;
     private String bookOfTheYear;

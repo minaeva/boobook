@@ -20,13 +20,13 @@ CREATE TABLE IF NOT EXISTS reader
     telegram          VARCHAR(30),
     viber             VARCHAR(30),
     year_of_birth     INT,
-    gender            char,
+    gender            INT DEFAULT 0, -- 1-female, 2-male
     book_to_the_moon  VARCHAR(200),
     book_of_the_year  VARCHAR(200),
     hobby             VARCHAR(200),
     hero              VARCHAR(50),
     super_power       VARCHAR(200),
-    image             bytea,
+    image             BYTEA,
     registration_type VARCHAR(10)
 );
 
@@ -50,11 +50,11 @@ CREATE TABLE IF NOT EXISTS book
     reader_id      SERIAL REFERENCES reader (id),
     year           INT,
     publisher      VARCHAR(30),
-    age_group      INT,-- 1-baby, 2-preschool, 3-junior, 4-middle, 5-teenager, 6-adult
+    age_group      INT DEFAULT 0,-- 1-baby, 2-preschool, 3-junior, 4-middle, 5-teenager, 6-adult
     description    VARCHAR(600),
-    cover          INT, -- 1-hard, 2-soft
-    language       INT, -- 1-rus, 2-ukr, 3-eng, 4-other
-    illustrations  INT, -- 1-no, 2-bw, 3-color
+    cover          INT DEFAULT 0, -- 1-hard, 2-soft
+    language       INT DEFAULT 0, -- 1-rus, 2-ukr, 3-eng, 4-other
+    illustrations  INT DEFAULT 0, -- 1-no, 2-bw, 3-color
     pages_quantity INT,
     active         BOOLEAN DEFAULT true
 );
@@ -75,7 +75,7 @@ CREATE UNIQUE INDEX friendship_friend1_id_friend2_id_index
 CREATE TABLE IF NOT EXISTS book_image
 (
     id      SERIAL PRIMARY KEY,
-    image   bytea,
+    image   BYTEA,
     book_id SERIAL REFERENCES book (id)
 );
 

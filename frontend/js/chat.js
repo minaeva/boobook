@@ -38,7 +38,7 @@ function sendMessage(from, to) {
 }
 
 function formatDate() {
-    mlist = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    let mlist = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
     let d = new Date(),
         month = '' + mlist[d.getMonth()],
@@ -46,7 +46,6 @@ function formatDate() {
         year = d.getFullYear();
 
     if (day.length < 2) day = '0' + day;
-
     let time = d.toLocaleTimeString().replace(/([\d]+:[\d]{2})(:[\d]{2})(.*)/, "$1$3");
 
     return day + ' ' + month + ' ' + year + ', ' + time;

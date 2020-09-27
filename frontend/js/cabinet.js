@@ -62,15 +62,11 @@ function clickProfile() {
 }
 
 function activateCabinet() {
-    // addClassToElement("page-inner-profile", "hidden");
     addClassToElement("profile_body", "hidden");
-    // removeClassFromElement("page-inner-cabinet", "hidden");
     removeClassFromElement("books_readers_body", "hidden");
 }
 
 function activateProfile() {
-    // addClassToElement("page-inner-cabinet", "hidden");
     addClassToElement("books_readers_body", "hidden");
-    // removeClassFromElement("page-inner-profile", "hidden");
     removeClassFromElement("profile_body", "hidden");
 }

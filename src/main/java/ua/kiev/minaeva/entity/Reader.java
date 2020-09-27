@@ -48,8 +48,7 @@ public class Reader extends MapId {
     private Integer yearOfBirth;
 
     @Column(name = "gender")
-    @Enumerated(EnumType.STRING)
-    private Gender gender;
+    private Integer gender;
 
     @Column(name = "book_to_the_moon")
     private String bookToTheMoon;
