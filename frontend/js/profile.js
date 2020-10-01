@@ -1,9 +1,13 @@
+let PROFILE_IMAGE_EDITED;
+
 function showProfile() {
     let src = document.getElementById("edit_reader_src");
     let target = document.getElementById("edit_reader_target");
-    showOnePreview(src, target);
+    showProfilePreview(src, target);
 
     $('#edit_profile_name').focus();
+    $('#update_profile_btn').addClass('disabled');
+    PROFILE_IMAGE_EDITED = false;
 
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
@@ -40,7 +44,7 @@ function showProfile() {
                 $("#update_profile_btn").click(function () {
                         let changedImage = retrieveProfileImage();
 
-                        if (!updateProfile(readerDetails.id,
+                        updateProfile(readerDetails.id,
                             $("#edit_profile_name").val(),
                             $("#edit_profile_surname").val(),
                             $("#edit_profile_book_to_the_moon").val(),
@@ -55,15 +59,8 @@ function showProfile() {
                             $("#edit_profile_district").val(),
                             $("#edit_profile_fb").val(),
                             $("#edit_profile_telegram").val(),
-                            $("#edit_profile_viber").val())) {
-                            return false;
-                        }
-
-                        if (changedImage != null) {
-                            saveProfileImage(readerDetails.id, changedImage)
-                        }
-                        showSuccessModal('Profile data has been updated');
-                        clickProfile();
+                            $("#edit_profile_viber").val(),
+                            changedImage);
                     }
                 );
             }
@@ -81,7 +78,7 @@ function showProfile() {
 }
 
 function updateProfile(id, name, surname, bookToTheMoon, hero, yearOfBirth, gender, superPower, bookOfTheYear, hobby,
-                       country, city, district, fb, telegram, viber) {
+                       country, city, district, fb, telegram, viber, changedImage) {
     if (!validateProfileInfo(name, surname, bookToTheMoon, hero, yearOfBirth, gender, superPower, bookOfTheYear, hobby,
         country, city, district, fb, telegram, viber)) {
         return false;
@@ -98,6 +95,11 @@ function updateProfile(id, name, surname, bookToTheMoon, hero, yearOfBirth, gend
                 return false;
             } else if (this.status == 200) {
                 console.log("User info updated!");
+                if (PROFILE_IMAGE_EDITED == true && changedImage != null) {
+                    saveProfileImage(id, changedImage)
+                }
+                showSuccessModal('Profile data has been updated');
+                showProfile();
             }
         }
     };

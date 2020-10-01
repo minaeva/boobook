@@ -37,7 +37,6 @@ function getRandomImage(path, array) {
     let pathToRandomImage = '' + path + randomImage;
     console.log(pathToRandomImage);
     return pathToRandomImage;
-
 }
 
 function showWarningModal(text) {

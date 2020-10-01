@@ -19,6 +19,8 @@
     <link href="assets/plugins/icomoon/style.css" rel="stylesheet">
     <link href="assets/plugins/uniform/css/default.css" rel="stylesheet"/>
     <link href="assets/plugins/switchery/switchery.min.css" rel="stylesheet"/>
+    <link href="assets/plugins/bootstrap-datepicker/css/datepicker3.css" rel="stylesheet" type="text/css"/>
+
 
     <!-- Theme Styles -->
     <link href="assets/css/space.css" rel="stylesheet">
@@ -209,28 +211,32 @@
                     <div class="modal-body">
                         <div class="form-group required" id="book_title_group">
                             <label for="book_title" class="control-label">Title </label>
-                            <input type="text" class="form-control" id="book_title" placeholder="">
+                            <textarea rows="1" type="text" class="form-control" id="book_title" placeholder="" maxlength="200">
+                            </textarea>
                         </div>
 
                         <div class="row">
                             <div class="form-group col-sm-6 required" id="author_name_group">
                                 <label for="author_name" class="control-label">Author Name </label>
-                                <input type="text" class="form-control" id="author_name" placeholder="">
+                                <textarea rows="1" type="text" class="form-control" id="author_name" placeholder="" maxlength="50">
+                                </textarea>
                             </div>
                             <div class="form-group col-sm-6 required" id="author_surname_group">
                                 <label for="author_surname" class="control-label">Author Surname </label>
-                                <input type="text" class="form-control" id="author_surname" placeholder="">
+                                <textarea rows="1" type="text" class="form-control" id="author_surname" placeholder="" maxlength="50">
+                                </textarea>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="form-group col-sm-4">
                                 <label for="publisher" class="control-label">Publisher</label>
-                                <input type="text" class="form-control" id="publisher" placeholder="">
+                                <textarea rows="1" type="text" class="form-control" id="publisher" placeholder="" maxlength="50">
+                                </textarea>
                             </div>
                             <div class="form-group col-sm-4" id="year_group">
                                 <label for="year" class="control-label">Year</label>
-                                <input type="text" class="form-control" id="year" placeholder=">1799">
+                                <input type="text" class="form-control date-picker" id="year" placeholder=">1799">
                             </div>
                             <div class="form-group col-sm-4">
                                 <label for="pages_quantity" class="control-label">Pages quantity</label>
@@ -771,7 +777,7 @@
                                         <label class="control-label" for="edit_profile_book_to_the_moon">Book you'd take
                                             to the
                                             Mars</label>
-                                        <input type="text" class="form-control" id="edit_profile_book_to_the_moon"
+                                        <input type="text" class="form-control date-picker" id="edit_profile_book_to_the_moon"
                                                placeholder="">
                                     </div>
                                     <div class="form-group col-sm-6" id="profile_hero_group">
@@ -943,8 +949,17 @@
 <script src="assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <script src="assets/plugins/uniform/js/jquery.uniform.standalone.js"></script>
 <script src="assets/plugins/switchery/switchery.min.js"></script>
-<script src="assets/js/space.js"></script>
+<script src="assets/plugins/summernote-master/summernote.min.js"></script>
+<script src="assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+<script src="assets/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
+<script src="assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js"></script>
+<script src="assets/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
+<script src="assets/js/space.min.js"></script>
+<!--<script src="assets/js/space.js"></script>-->
 <script src="assets/js/pages/ui-modals.js"></script>
+<!--<script src="assets/js/pages/form-elements.js"></script>-->
+
+
 
 <!--<script src="js/bulma.js"></script>-->
 <script src="js/main.js"></script>

@@ -36,8 +36,8 @@ CREATE UNIQUE INDEX reader_email_uindex
 CREATE TABLE IF NOT EXISTS author
 (
     id      SERIAL PRIMARY KEY,
-    name    VARCHAR(20),
-    surname VARCHAR(30) NOT NULL
+    name    VARCHAR(50),
+    surname VARCHAR(50) NOT NULL
 );
 CREATE INDEX author_name_surname_index
     on author (name, surname);
@@ -45,11 +45,11 @@ CREATE INDEX author_name_surname_index
 CREATE TABLE IF NOT EXISTS book
 (
     id             SERIAL PRIMARY KEY,
-    title          VARCHAR(80),
+    title          VARCHAR(200),
     author_id      SERIAL REFERENCES author (id),
     reader_id      SERIAL REFERENCES reader (id),
     year           INT,
-    publisher      VARCHAR(30),
+    publisher      VARCHAR(50),
     age_group      INT DEFAULT 0,-- 1-baby, 2-preschool, 3-junior, 4-middle, 5-teenager, 6-adult
     description    VARCHAR(600),
     cover          INT DEFAULT 0, -- 1-hard, 2-soft

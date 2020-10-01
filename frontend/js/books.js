@@ -7,20 +7,6 @@ const IMAGE_TO_SAVE = 'target';
 const IMAGE_TO_EDIT = 'edit_target';
 
 
-function validateBook(book_title, author_name, author_surname, year) {
-    return validateField(book_title, 'book_title_group') &
-        validateField(author_name, 'author_name_group') &
-        validateField(author_surname, 'author_surname_group') &
-        validateYear(year, 'year_group');
-}
-
-function validateEditBook(book_title, author_name, author_surname, year) {
-    return validateField(book_title, 'edit_book_title_group') &
-        validateField(author_name, 'edit_author_name_group') &
-        validateField(author_surname, 'edit_author_surname_group') &
-        validateYear(year, 'edit_year_group');
-}
-
 function saveBook() {
 
     let book_title = document.getElementById("book_title").value;

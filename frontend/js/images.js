@@ -36,8 +36,21 @@ function showOnePreview(src, target) {
     });
 }
 
+function showProfilePreview(src, target) {
+    let fr = new FileReader();
+    fr.onload = function (e) {
+        if (isImage(this.result)) {
+            PROFILE_IMAGE_EDITED = true;
+            target.src = this.result;
+        }
+    };
+    src.addEventListener("change", function () {
+        fr.readAsDataURL(src.files[0]);
+    });
+}
+
 function removeReaderPreview(className) {
-    IMAGE_EDITED = true;
+    PROFILE_IMAGE_EDITED = true;
     document.getElementById(className).src = NO_READER_IMAGE;
 }
 
