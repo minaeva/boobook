@@ -45,21 +45,21 @@ function showProfile() {
                         let changedImage = retrieveProfileImage();
 
                         updateProfile(readerDetails.id,
-                            $("#edit_profile_name").val(),
-                            $("#edit_profile_surname").val(),
-                            $("#edit_profile_book_to_the_moon").val(),
-                            $("#edit_profile_hero").val(),
+                            $("#edit_profile_name").val().trim(),
+                            $("#edit_profile_surname").val().trim(),
+                            $("#edit_profile_book_to_the_moon").val().trim(),
+                            $("#edit_profile_hero").val().trim(),
                             $("#edit_profile_year_of_birth").val(),
                             $("#edit_profile_gender").val(),
-                            $("#edit_profile_super_power").val(),
-                            $("#edit_profile_book_of_the_year").val(),
-                            $("#edit_profile_hobby").val(),
-                            $("#edit_profile_country").val(),
-                            $("#edit_profile_city").val(),
-                            $("#edit_profile_district").val(),
-                            $("#edit_profile_fb").val(),
-                            $("#edit_profile_telegram").val(),
-                            $("#edit_profile_viber").val(),
+                            $("#edit_profile_super_power").val().trim(),
+                            $("#edit_profile_book_of_the_year").val().trim(),
+                            $("#edit_profile_hobby").val().trim(),
+                            $("#edit_profile_country").val().trim(),
+                            $("#edit_profile_city").val().trim(),
+                            $("#edit_profile_district").val().trim(),
+                            $("#edit_profile_fb").val().trim(),
+                            $("#edit_profile_telegram").val().trim(),
+                            $("#edit_profile_viber").val().trim(),
                             changedImage);
                     }
                 );
@@ -79,8 +79,7 @@ function showProfile() {
 
 function updateProfile(id, name, surname, bookToTheMoon, hero, yearOfBirth, gender, superPower, bookOfTheYear, hobby,
                        country, city, district, fb, telegram, viber, changedImage) {
-    if (!validateProfileInfo(name, surname, bookToTheMoon, hero, yearOfBirth, gender, superPower, bookOfTheYear, hobby,
-        country, city, district, fb, telegram, viber)) {
+    if (!validateProfileInfo(name, yearOfBirth)) {
         return false;
     }
 
@@ -118,7 +117,7 @@ function updateProfile(id, name, surname, bookToTheMoon, hero, yearOfBirth, gend
         "country": country,
         "city": city,
         "district": district,
-        "fb": fb,
+        "fb": f,
         "telegram": telegram,
         "viber": viber
     };

@@ -113,7 +113,26 @@ function validateNewReader(name, email, password) {
     return false;
 }
 
-function validateProfileInfo(name, surname, bookToTheMoon, hero, yearOfBirth, gender, superPower, bookOfTheYear, hobby,
+function validateProfileInfo(name, yearOfBirth) {
+    let isValidated = true;
+    let errorText = "";
+    if (!validateNotEmptyField(name, 'profile_name_group')) {
+        errorText += 'Name cannot be empty<br>';
+        isValidated = false;
+    }
+    if (!validateYearOfBirth(yearOfBirth)) {
+        errorText += 'It is supposed the year of birth is more than 1919 and less than the current one<br>';
+        isValidated = false;
+    }
+    if (isValidated) {
+        return true;
+    }
+
+    showWarningModal(errorText);
+    return false;
+}
+
+function validateProfileInfoWithLengths(name, surname, bookToTheMoon, hero, yearOfBirth, gender, superPower, bookOfTheYear, hobby,
                              country, city, district, fb, telegram, viber) {
     let isValidated = true;
     let errorText = "";
@@ -192,6 +211,39 @@ function validateProfileInfo(name, surname, bookToTheMoon, hero, yearOfBirth, ge
 function validateBook(book_title, author_name, author_surname, year) {
     let isValidated = true;
     let errorText = "";
+    if (!validateNotEmptyField(book_title, 'book_title_group')) {
+        errorText += 'Title cannot be empty<br>';
+        isValidated = false;
+    }
+    if (!validateNotEmptyField(author_name, 'author_name_group')) {
+        errorText += 'Author name cannot be empty<br>';
+        isValidated = false;
+    }
+    if (!validateNotEmptyField(author_surname, 'author_surname_group')) {
+        errorText += 'Author surname cannot be empty<br>';
+        isValidated = false;
+    }
+    if (!validateYear(year,'year_group')) {
+        isValidated = false;
+    } else if (year < 1454) {
+        errorText += "The Gutenberg Bible, also known as the 42-line Bible, is listed by the Guinness Book of World records as the world's oldest mechanically printed book – the first copies of which were printed in 1454-1455 AD<br>";
+        isValidated = false;
+    } else if (year > new Date().getFullYear()) {
+        errorText += 'We expect you not to share the books from the future<br>';
+        isValidated = false;
+    }
+
+    if (isValidated) {
+        return true;
+    }
+
+    showWarningModal(errorText);
+    return false;
+}
+
+function validateBookWithLengths(book_title, author_name, author_surname, year) {
+    let isValidated = true;
+    let errorText = "";
     let titleIsEmpty = false;
     let nameIsEmpty = false;
     let surnameIsEmpty = false;
@@ -244,10 +296,36 @@ function validateBook(book_title, author_name, author_surname, year) {
 }
 
 function validateEditBook(book_title, author_name, author_surname, year) {
-    return validateNotEmptyField(book_title, 'edit_book_title_group') &
-        validateNotEmptyField(author_name, 'edit_author_name_group') &
-        validateNotEmptyField(author_surname, 'edit_author_surname_group') &
-        validateYear(year, 'edit_year_group');
+    let isValidated = true;
+    let errorText = "";
+    if (!validateNotEmptyField(book_title, 'edit_book_title_group')) {
+        errorText += 'Title cannot be empty<br>';
+        isValidated = false;
+    }
+    if (!validateNotEmptyField(author_name, 'edit_author_name_group')) {
+        errorText += 'Author name cannot be empty<br>';
+        isValidated = false;
+    }
+    if (!validateNotEmptyField(author_surname, 'edit_author_surname_group')) {
+        errorText += 'Author surname cannot be empty<br>';
+        isValidated = false;
+    }
+    if (!validateYear(year,'edit_year_group')) {
+        isValidated = false;
+    } else if (year < 1454) {
+        errorText += "The Gutenberg Bible, also known as the 42-line Bible, is listed by the Guinness Book of World records as the world's oldest mechanically printed book – the first copies of which were printed in 1454-1455 AD<br>";
+        isValidated = false;
+    } else if (year > new Date().getFullYear()) {
+        errorText += 'We expect you not to share the books from the future<br>';
+        isValidated = false;
+    }
+
+    if (isValidated) {
+        return true;
+    }
+
+    showWarningModal(errorText);
+    return false;
 }
 
 function validateNotEmptyField(field, groupControlId) {
@@ -295,4 +373,55 @@ function validateYearOfBirth(year) {
         element.classList.remove('has-error');
     }
     return true;
+}
+
+function initYearPublished() {
+    $('.yearpicker').yearpicker({
+
+        // Initial Year
+        year: new Date().getFullYear(),
+
+        // Start Year
+        startYear: 1900,
+
+        // End Year
+        endYear: new Date().getFullYear(),
+
+        // Element tag
+        itemTag: 'li',
+
+        // Default CSS classes
+        selectedClass: 'selected',
+        disabledClass: 'disabled',
+        hideClass: 'hide',
+
+        // Custom template
+        template: `<div class="yearpicker-container">
+              <div class="yearpicker-header">
+                  <div class="yearpicker-prev" data-view="yearpicker-prev">&lsaquo;</div>
+                  <div class="yearpicker-current" data-view="yearpicker-current">SelectedYear</div>
+                  <div class="yearpicker-next" data-view="yearpicker-next">&rsaquo;</div>
+              </div>
+              <div class="yearpicker-body">
+                  <ul class="yearpicker-year" data-view="years">
+                  </ul>
+              </div>
+          </div>
+  `,
+    });
+
+    $('.yearpicker').yearpicker({
+        onShow: null,
+        onHide: null,
+        onChange: null
+    });
+
+    $('.yearpicker').keypress(function(e) {
+        e.preventDefault();
+    });
+
+// // to disable backspace & delete
+//     $('.yearpicker').keydown(function (event) {
+//             event.preventDefault();
+//     });
 }

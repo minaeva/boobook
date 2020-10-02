@@ -9,17 +9,17 @@ const IMAGE_TO_EDIT = 'edit_target';
 
 function saveBook() {
 
-    let book_title = document.getElementById("book_title").value;
-    let author_name = document.getElementById("author_name").value;
-    let author_surname = document.getElementById("author_surname").value;
-    let publisher = document.getElementById("publisher").value;
+    let book_title = document.getElementById("book_title").value.trim();
+    let author_name = document.getElementById("author_name").value.trim();
+    let author_surname = document.getElementById("author_surname").value.trim();
+    let publisher = document.getElementById("publisher").value.trim();
     let cover = document.getElementById("cover").value;
     let illustrations = document.getElementById("illustrations").value;
     let age_group = document.getElementById("age_group").value;
     let year = document.getElementById("year").value;
     let language = document.getElementById("language").value;
     let pages_quantity = document.getElementById("pages_quantity").value;
-    let description = document.getElementById("description").value;
+    let description = document.getElementById("description").value.trim();
 
     if (!validateBook(book_title, author_name, author_surname, year)) {
         return false;
@@ -82,17 +82,17 @@ function saveBook() {
 
 function editBook() {
     let book_id = document.getElementById("edit_book_id").value;
-    let book_title = document.getElementById("edit_book_title").value;
-    let author_name = document.getElementById("edit_author_name").value;
-    let author_surname = document.getElementById("edit_author_surname").value;
-    let publisher = document.getElementById("edit_publisher").value;
-    let cover = document.getElementById("edit_cover").value;
-    let illustrations = document.getElementById("edit_illustrations").value;
+    let book_title = document.getElementById("edit_book_title").value.trim();
+    let author_name = document.getElementById("edit_author_name").value.trim();
+    let author_surname = document.getElementById("edit_author_surname").value.trim();
+    let publisher = document.getElementById("edit_publisher").value.trim();
+    let cover = document.getElementById("edit_cover").value.trim();
+    let illustrations = document.getElementById("edit_illustrations").value.trim();
     let age_group = document.getElementById("edit_age_group").value;
     let year = notNull(document.getElementById("edit_year").value);
     let language = document.getElementById("edit_language").value;
     let pages_quantity = document.getElementById("edit_pages_quantity").value;
-    let description = document.getElementById("edit_description").value;
+    let description = document.getElementById("edit_description").value.trim();
     let active = document.getElementById("edit_book_active").value;
     let allFiles;
 
@@ -202,6 +202,8 @@ function openAddBookModal() {
     $('#addBookModal').on('shown.bs.modal', function () {
         $('#book_title').focus();
     })
+
+    initYearPublished();
 
     IMAGE_EDITED = false;
 

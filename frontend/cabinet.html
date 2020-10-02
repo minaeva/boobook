@@ -19,13 +19,12 @@
     <link href="assets/plugins/icomoon/style.css" rel="stylesheet">
     <link href="assets/plugins/uniform/css/default.css" rel="stylesheet"/>
     <link href="assets/plugins/switchery/switchery.min.css" rel="stylesheet"/>
-    <link href="assets/plugins/bootstrap-datepicker/css/datepicker3.css" rel="stylesheet" type="text/css"/>
-
 
     <!-- Theme Styles -->
     <link href="assets/css/space.css" rel="stylesheet">
     <link href="assets/css/themes/admin2.css" rel="stylesheet">
     <link href="assets/css/custom.css" rel="stylesheet">
+    <link href="assets/css/yearpicker.css" rel="stylesheet">
 
     <!--    libs for stomp and sockjs-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.js"></script>
@@ -236,11 +235,11 @@
                             </div>
                             <div class="form-group col-sm-4" id="year_group">
                                 <label for="year" class="control-label">Year</label>
-                                <input type="text" class="form-control date-picker" id="year" placeholder=">1799">
+                                <input type="text" class="form-control yearpicker" id="year" placeholder="YYYY">
                             </div>
                             <div class="form-group col-sm-4">
                                 <label for="pages_quantity" class="control-label">Pages quantity</label>
-                                <input type="text" class="form-control" id="pages_quantity" placeholder="">
+                                <input type="number" class="form-control" id="pages_quantity" placeholder="">
                             </div>
                         </div>
 
@@ -298,7 +297,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label" for="description">Description</label>
                                 <div class="col-sm-10">
-                                    <textarea class="form-control" id="description" rows="2"></textarea>
+                                    <textarea class="form-control" id="description" rows="2" maxlength="600"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -387,7 +386,7 @@
                         <div class="row">
                             <div class="form-group required col-sm-9" id="edit_book_title_group">
                                 <label for="edit_book_title" class="control-label">Title </label>
-                                <input type="text" class="form-control" id="edit_book_title" placeholder="">
+                                <input type="text" class="form-control" id="edit_book_title" placeholder="" maxlength="200">
                                 <input class="hidden" id="edit_book_id">
                             </div>
                             <div class="form-group col-sm-3">
@@ -403,26 +402,26 @@
                         <div class="row">
                             <div class="form-group col-sm-6 required" id="edit_author_name_group">
                                 <label for="edit_author_name" class="control-label">Author Name </label>
-                                <input type="text" class="form-control" id="edit_author_name" placeholder="">
+                                <input type="text" class="form-control" id="edit_author_name" placeholder="" maxlength="50">
                             </div>
                             <div class="form-group col-sm-6 required" id="edit_author_surname_group">
                                 <label for="edit_author_surname" class="control-label">Author Surname </label>
-                                <input type="text" class="form-control" id="edit_author_surname" placeholder="">
+                                <input type="text" class="form-control" id="edit_author_surname" placeholder="" maxlength="50">
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="form-group col-sm-4">
                                 <label for="edit_publisher" class="control-label">Publisher</label>
-                                <input type="text" class="form-control" id="edit_publisher" placeholder="">
+                                <input type="text" class="form-control" id="edit_publisher" placeholder="" maxlength="50">
                             </div>
                             <div class="form-group col-sm-4" id="edit_year_group">
                                 <label for="edit_year" class="control-label">Year</label>
-                                <input type="text" class="form-control" id="edit_year" placeholder=">1799">
+                                <input type="text" class="form-control yearpicker" id="edit_year" placeholder="YYYY">
                             </div>
                             <div class="form-group col-sm-4">
                                 <label for="edit_pages_quantity" class="control-label">Pages quantity</label>
-                                <input type="text" class="form-control" id="edit_pages_quantity" placeholder="">
+                                <input type="number" class="form-control" id="edit_pages_quantity" placeholder="">
                             </div>
                         </div>
 
@@ -479,7 +478,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label" for="edit_description">Description</label>
                                 <div class="col-sm-10">
-                                    <textarea class="form-control" id="edit_description" rows="2"></textarea>
+                                    <textarea class="form-control" id="edit_description" rows="2" maxlength="600"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -606,122 +605,6 @@
         </div>
         <!--  MESSAGE - modal - end-->
 
-        <!--  EDIT PROFILE - modal - start-->
-        <!--
-                <div class="modal fade border" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-                     aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title" id="edit_profile_title">Edit profile</h4>
-                            </div>
-                            <div class="modal-body">
-                                <div class="row">
-                                    <div class="form-group col-sm-4 required">
-                                        <label for="edit_profile_name" class="control-label">Name </label>
-                                        <input type="text" class="form-control" id="edit_profile_name" placeholder="">
-                                    </div>
-                                    <div class="form-group col-sm-5">
-                                        <label for="edit_profile_surname" class="control-label">Surname</label>
-                                        <input type="text" class="form-control" id="edit_profile_surname" placeholder="">
-                                    </div>
-                                    <div class="form-group col-sm-3">
-                                    <span class="center">
-                                        <label for="edit_reader_src"><img id="edit_reader_target" src="images/reader-girl.png"
-                                                                          class="thumbnail"/></label>
-                                        <input id="edit_reader_src" type="file"/>
-                                        <a class="remove" href="#" onclick="removeReaderPreview('edit_reader_target')"><i
-                                                class="icon-close"></i></a>
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="form-group col-sm-6">
-                                        <label class="control-label" for="edit_book_to_the_moon">Book you'd take with you to the
-                                            moon</label>
-                                        <input type="text" class="form-control" id="edit_book_to_the_moon" placeholder="">
-                                    </div>
-                                    <div class="form-group col-sm-6">
-                                        <label class="control-label" for="edit_book_of_the_year">Impressing book of the last
-                                            year</label>
-                                        <input type="text" class="form-control" id="edit_book_of_the_year" placeholder="">
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="form-group col-sm-6">
-                                        <label for="edit_profile_city" class="control-label">City</label>
-                                        <input type="text" class="form-control" id="edit_profile_city" placeholder="">
-                                    </div>
-                                    <div class="form-group col-sm-6">
-                                        <label class="control-label" for="edit_profile_telegram">Telegram</label>
-                                        <input type="text" class="form-control" id="edit_profile_telegram" placeholder="">
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="form-group col-sm-4">
-                                        <label for="edit_year_of_birth" class="control-label">Year of birth</label>
-                                        <input type="text" class="form-control" id="edit_year_of_birth" placeholder="">
-                                    </div>
-                                    <div class="form-group col-sm-4">
-                                        <label class="control-label" for="edit_gender">Gender</label>
-                                        <div class="">
-                                            <select style="margin-bottom:15px;" class="form-control" id="edit_gender">
-                                                <option value="0">select</option>
-                                                <option value="1">male</option>
-                                                <option value="2">female</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group col-sm-4">
-                                        <label class="control-label" for="edit_super_power">Super-power</label>
-                                        <input type="text" class="form-control" id="edit_super_power" placeholder="">
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="form-group col-sm-6">
-                                        <label class="control-label" for="edit_hero">Hero similar to you</label>
-                                        <input type="text" class="form-control" id="edit_hero" placeholder="">
-                                    </div>
-                                    <div class="form-group col-sm-6">
-                                        <label class="control-label" for="edit_hobby">When there's nothing to
-                                            read, you...</label>
-                                        <input type="text" class="form-control" id="edit_hobby" placeholder="">
-                                    </div>
-                                </div>
-
-
-                                <div class="row">
-                                    <div class="form-group col-sm-8">
-                                        <label class="control-label" for="edit_profile_fb">Facebook</label>
-                                        <input type="text" class="form-control" id="edit_profile_fb" placeholder="">
-                                    </div>
-                                    <div class="form-group col-sm-4">
-                                        <label class="control-label" for="edit_profile_viber">Viber</label>
-                                        <input type="text" class="form-control" id="edit_profile_viber" placeholder="">
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close
-                                </button>
-                                <button type="button" class="btn btn-info" onclick="saveProfile(); return false">
-                                    Save
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-        -->
-        <!--  EDIT PROFILE - modal - end-->
-
         <!-- Page Inner Cabinet -->
         <div class="page-inner" id="page-inner-cabinet">
             <div id="main-wrapper">
@@ -751,12 +634,12 @@
                                 <div class="row">
                                     <div class="form-group col-sm-4 required" id="profile_name_group">
                                         <label for="edit_profile_name" class="control-label">Name </label>
-                                        <input type="text" class="form-control" id="edit_profile_name" placeholder="">
+                                        <input type="text" class="form-control" id="edit_profile_name" placeholder="" maxlength="50">
                                     </div>
                                     <div class="form-group col-sm-5" id="profile_surname_group">
                                         <label for="edit_profile_surname" class="control-label">Surname</label>
                                         <input type="text" class="form-control" id="edit_profile_surname"
-                                               placeholder="">
+                                               placeholder="" maxlength="50">
                                     </div>
                                     <div class="form-group col-sm-3">
                                         <span class="nowrap">
@@ -777,13 +660,13 @@
                                         <label class="control-label" for="edit_profile_book_to_the_moon">Book you'd take
                                             to the
                                             Mars</label>
-                                        <input type="text" class="form-control date-picker" id="edit_profile_book_to_the_moon"
-                                               placeholder="">
+                                        <input type="text" class="form-control" id="edit_profile_book_to_the_moon"
+                                               placeholder="" maxlength="200">
                                     </div>
                                     <div class="form-group col-sm-6" id="profile_hero_group">
                                         <label class="control-label" for="edit_profile_hero">Hero you are similar
                                             to</label>
-                                        <input type="text" class="form-control" id="edit_profile_hero" placeholder="">
+                                        <input type="text" class="form-control" id="edit_profile_hero" placeholder="" maxlength="50">
                                     </div>
                                 </div>
 
@@ -791,8 +674,8 @@
                                     <div class="form-group col-sm-4" id="profile_year_of_birth_group">
                                         <label for="edit_profile_year_of_birth" class="control-label">Year of
                                             birth</label>
-                                        <input type="text" class="form-control" id="edit_profile_year_of_birth"
-                                               placeholder="">
+                                        <input type="text" class="form-control yearpicker" id="edit_profile_year_of_birth"
+                                               placeholder=">
                                     </div>
                                     <div class="form-group col-sm-4">
                                         <label class="control-label" for="edit_profile_gender">Gender</label>
@@ -807,7 +690,7 @@
                                     <div class="form-group col-sm-4" id="profile_super_power_group">
                                         <label class="control-label" for="edit_profile_super_power">Super-power</label>
                                         <textarea class="form-control" id="edit_profile_super_power"
-                                                  rows="1"></textarea>
+                                                  rows="1" maxlength="200"></textarea>
                                     </div>
                                 </div>
 
@@ -820,7 +703,7 @@
                                             previous
                                             year</label>
                                         <textarea rows="1" class="form-control" id="edit_profile_book_of_the_year"
-                                                  placeholder=""></textarea>
+                                                  placeholder="" maxlength="200"></textarea>
                                     </div>
                                     <div class="form-group col-sm-6" id="profile_hobby_group">
                                         <label class="control-label" for="edit_profile_hobby">What do you do when
@@ -828,7 +711,7 @@
                                             nothing to
                                             read</label>
                                         <textarea rows="1" class="form-control" id="edit_profile_hobby"
-                                                  placeholder=""></textarea>
+                                                  placeholder="" maxlength="200"></textarea>
                                     </div>
                                 </div>
 
@@ -836,17 +719,17 @@
                                     <div class="form-group col-sm-4" id="profile_country_group">
                                         <label for="edit_profile_country" class="control-label">Country</label>
                                         <input type="text" class="form-control" id="edit_profile_country"
-                                               placeholder="">
+                                               placeholder="" maxlength="30">
                                     </div>
                                     <div class="form-group col-sm-4" id="profile_city_group">
                                         <label for="edit_profile_city" class="control-label">City</label>
                                         <input type="text" class="form-control" id="edit_profile_city"
-                                               placeholder="please fill it">
+                                               placeholder="please fill it" maxlength="30">
                                     </div>
                                     <div class="form-group col-sm-4" id="profile_district_group">
                                         <label class="control-label" for="edit_profile_district">District</label>
                                         <input type="text" class="form-control" id="edit_profile_district"
-                                               placeholder="">
+                                               placeholder="" maxlength="30">
                                     </div>
                                 </div>
 
@@ -854,18 +737,18 @@
                                     <div class="form-group col-sm-12" id="profile_facebook_group">
                                         <label class="control-label" for="edit_profile_fb">Facebook</label>
                                         <textarea rows="1" type="text" class="form-control" id="edit_profile_fb"
-                                                  placeholder=""></textarea>
+                                                  placeholder="" maxlength="100"></textarea>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-sm-6" id="profile_telegram_group">
                                         <label class="control-label" for="edit_profile_telegram">Telegram</label>
                                         <input type="text" class="form-control" id="edit_profile_telegram"
-                                               placeholder="">
+                                               placeholder="" maxlength="30">
                                     </div>
                                     <div class="form-group col-sm-6" id="profile_viber_group">
                                         <label class="control-label" for="edit_profile_viber">Viber</label>
-                                        <input type="text" class="form-control" id="edit_profile_viber" placeholder="">
+                                        <input type="text" class="form-control" id="edit_profile_viber" placeholder="" maxlength="30">
                                     </div>
                                 </div>
 
@@ -950,14 +833,9 @@
 <script src="assets/plugins/uniform/js/jquery.uniform.standalone.js"></script>
 <script src="assets/plugins/switchery/switchery.min.js"></script>
 <script src="assets/plugins/summernote-master/summernote.min.js"></script>
-<script src="assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-<script src="assets/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
-<script src="assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js"></script>
-<script src="assets/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
-<script src="assets/js/space.min.js"></script>
-<!--<script src="assets/js/space.js"></script>-->
+<script src="assets/js/space.js"></script>
 <script src="assets/js/pages/ui-modals.js"></script>
-<!--<script src="assets/js/pages/form-elements.js"></script>-->
+<script src="assets/js/pages/yearpicker.js"></script>
 
 
 
