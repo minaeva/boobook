@@ -1,6 +1,7 @@
 package ua.kiev.minaeva.service;
 
 import ua.kiev.minaeva.dto.ReaderDto;
+import ua.kiev.minaeva.dto.SearchReaderDto;
 import ua.kiev.minaeva.entity.BookImage;
 import ua.kiev.minaeva.entity.Reader;
 import ua.kiev.minaeva.exception.BoobookNotFoundException;
@@ -31,4 +32,6 @@ public interface ReaderService {
     ReaderDto getById(Long id) throws BoobookNotFoundException;
 
     ReaderDto getByIdWithIsFriend(Long id, Long friendOfId) throws BoobookNotFoundException;
+
+    List<ReaderDto> getByQuery(SearchReaderDto searchReaderDto);
 }

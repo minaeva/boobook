@@ -2,6 +2,8 @@ package ua.kiev.minaeva.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ua.kiev.minaeva.dto.ReaderDto;
+import ua.kiev.minaeva.dto.SearchReaderDto;
 import ua.kiev.minaeva.entity.Book;
 import ua.kiev.minaeva.entity.BookImage;
 import ua.kiev.minaeva.exception.BoobookNotFoundException;
@@ -60,4 +62,5 @@ public class BookImageServiceImpl implements BookImageService {
 
         return savedImages;
     }
-}
+
+ }

@@ -6,7 +6,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ua.kiev.minaeva.dto.BookDto;
 import ua.kiev.minaeva.dto.ReaderDto;
+import ua.kiev.minaeva.dto.SearchBookDto;
+import ua.kiev.minaeva.dto.SearchReaderDto;
 import ua.kiev.minaeva.exception.BoobookNotFoundException;
 import ua.kiev.minaeva.exception.BoobookValidationException;
 import ua.kiev.minaeva.service.FriendshipService;
@@ -114,4 +117,15 @@ public class ReaderController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/search")
+    public List<ReaderDto> getByQuery(@RequestBody SearchReaderDto searchReaderDto)
+            throws BoobookValidationException, BoobookNotFoundException {
+        if (searchReaderDto == null) {
+            throw new BoobookValidationException("At least one search criteria should be specified");
+        }
+        log.info("handling SEARCH READER request, name: " + searchReaderDto.getName() + ", surname: " + searchReaderDto.getSurname() +
+                ", country: " + searchReaderDto.getCountry() + ", city: " + searchReaderDto.getCity() +
+                ", district: " + searchReaderDto.getDistrict() + ", gender: " + searchReaderDto.getGender());
+        return readerService.getByQuery(searchReaderDto);
+    }
 }

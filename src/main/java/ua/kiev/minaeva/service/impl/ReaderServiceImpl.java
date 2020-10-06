@@ -4,13 +4,18 @@ import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import ua.kiev.minaeva.dto.ReaderDto;
+import ua.kiev.minaeva.dto.SearchCriteria;
+import ua.kiev.minaeva.dto.SearchOperation;
+import ua.kiev.minaeva.dto.SearchReaderDto;
 import ua.kiev.minaeva.entity.Reader;
 import ua.kiev.minaeva.entity.RegistrationType;
 import ua.kiev.minaeva.exception.BoobookNotFoundException;
 import ua.kiev.minaeva.exception.BoobookValidationException;
 import ua.kiev.minaeva.mapper.ReaderMapper;
 import ua.kiev.minaeva.repository.ReaderRepository;
+import ua.kiev.minaeva.repository.ReaderSpecification;
 import ua.kiev.minaeva.service.FriendshipService;
 import ua.kiev.minaeva.service.ReaderService;
 
@@ -163,5 +168,46 @@ public class ReaderServiceImpl implements ReaderService {
                 .map(reader -> mapper.readerToDto(reader))
                 .collect(Collectors.toList());
     }
+
+    public List<ReaderDto> getByQuery(SearchReaderDto searchReaderDto) {
+        List<Reader> foundReaders;
+        ReaderSpecification specification = new ReaderSpecification();
+
+        if (StringUtils.hasText(searchReaderDto.getName())) {
+            specification.add(new SearchCriteria(("name"), searchReaderDto.getName(), SearchOperation.MATCH));
+        }
+
+        if (StringUtils.hasText(searchReaderDto.getSurname())) {
+            specification.add(new SearchCriteria(("surname"), searchReaderDto.getSurname(),
+                    SearchOperation.MATCH));
+        }
+
+        if (StringUtils.hasText(searchReaderDto.getCountry())) {
+            specification.add(new SearchCriteria(("country"), searchReaderDto.getCountry(),
+                    SearchOperation.MATCH));
+        }
+
+        if (StringUtils.hasText(searchReaderDto.getCity())) {
+            specification.add(new SearchCriteria(("city"), searchReaderDto.getCity(),
+                    SearchOperation.MATCH));
+        }
+
+        if (StringUtils.hasText(searchReaderDto.getDistrict())) {
+            specification.add(new SearchCriteria(("district"), searchReaderDto.getDistrict(),
+                    SearchOperation.MATCH));
+        }
+
+        if (searchReaderDto.getGender() != null) {
+            specification.add(new SearchCriteria(("gender"), searchReaderDto.getGender(),
+                    SearchOperation.EQUAL));
+        }
+
+        foundReaders = readerRepository.findAll(specification);
+        return foundReaders.stream()
+                .map(r -> mapper.readerToDto(r))
+                .collect(Collectors.toList());
+
+    }
+
 
 }
