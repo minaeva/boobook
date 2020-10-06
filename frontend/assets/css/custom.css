@@ -79,3 +79,9 @@
     float: right;
     text-align: right;
 }
+
+
+.image-arrow {
+    line-height: 500px;
+    vertical-align: middle;
+}

@@ -124,7 +124,8 @@ function showBookImages(bookId) {
             let html = '';
             for (let i = 0; i < size; i++) {
                 byte64FilesArray[i] = "data:image/png;base64," + list[i];
-                html += '<img class="book-detail-thumbnail" src="' + byte64FilesArray[i] + '"/>';
+                html += '<img class="book-detail-thumbnail" ' +
+                    'onclick="openImageModal(\'' + list + '\',' + i + '); return false" src="' + byte64FilesArray[i] + '"/>';
             }
             document.getElementById('book-detail-thumbnails' + bookId).innerHTML = html;
             return false;

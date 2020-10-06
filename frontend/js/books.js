@@ -257,6 +257,23 @@ function closeAddBookModal() {
     return false;
 }
 
+function openImageModal(list, i) {
+    $('#imageModal').modal('show');
+    let src = "data:image/png;base64," + list;
+    $('#imagepreview').attr("src", src);
+
+    /*
+    let size = list.length;
+    let html = '';
+    for (let i = 0; i < size; i++) {
+        byte64FilesArray[i] = "data:image/png;base64," + list[i];
+        html += '<img class="book-detail-thumbnail" ' +
+            'onclick="openImageModal(' + list + ',' + i +'); return false" src="' + byte64FilesArray[i] + '"/>';
+    }
+    document.getElementById('book-detail-thumbnails' + bookId).innerHTML = html;
+*/
+}
+
 function openEditBookModal(book_id, title, authorName, authorSurname, publisher, language, year, cover, illustrations, ageGroup, pagesQuantity, description, active) {
     $('#editBookModal').modal('show');
     $('#editBookModal').on('shown.bs.modal', function () {

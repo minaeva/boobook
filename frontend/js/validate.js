@@ -310,12 +310,12 @@ function validateEditBook(book_title, author_name, author_surname, year) {
         errorText += 'Author surname cannot be empty<br>';
         isValidated = false;
     }
-    if (!validateYear(year,'edit_year_group')) {
+    if (!validateYear(year, 'edit_year_group')) {
         isValidated = false;
-    } else if (year < 1454) {
+    } else if (year != '' && year < 1454) {
         errorText += "The Gutenberg Bible, also known as the 42-line Bible, is listed by the Guinness Book of World records as the world's oldest mechanically printed book – the first copies of which were printed in 1454-1455 AD<br>";
         isValidated = false;
-    } else if (year > new Date().getFullYear()) {
+    } else if (year != '' && year > new Date().getFullYear()) {
         errorText += 'We expect you not to share the books from the future<br>';
         isValidated = false;
     }
