@@ -375,11 +375,12 @@ function validateYearOfBirth(year) {
     return true;
 }
 
-function initYearPublished() {
+function initYearPicker() {
     $('.yearpicker').yearpicker({
 
         // Initial Year
-        year: new Date().getFullYear(),
+        year: null,
+        // new Date().getFullYear(),
 
         // Start Year
         startYear: 1900,

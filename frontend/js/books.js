@@ -203,7 +203,7 @@ function openAddBookModal() {
         $('#book_title').focus();
     })
 
-    initYearPublished();
+    initYearPicker();
 
     IMAGE_EDITED = false;
 
@@ -281,6 +281,8 @@ function openEditBookModal(book_id, title, authorName, authorSurname, publisher,
     })
     IMAGE_EDITED = false;
 
+    initYearPicker();
+
     let fileButton = document.getElementById("edit_fileButton"),
         fileInput = document.getElementById("edit_fileInput");
 
@@ -353,11 +355,7 @@ function cleanPreviewsOnModalClose(classNameBase) {
 
 function showSearchBooksHeader() {
 
-    // let header = '<div>Search</div>';
-    // $('#accordion_header').html(header);
     let searchForm =
-        // '<div>Search</div>' +
-        // '<form class="col-md-12">\n' +
         '  <div class="row">' +
         '    <div class="form-group col-md-12">\n' +
         '      <input type="text" class="form-control" id="search_title" placeholder="Title">\n' +
@@ -403,6 +401,15 @@ function showSearchBooksHeader() {
         '    </div>\n' +
         '  </div>\n' +
         '  <div class="row">' +
+        '    <div class="form-group col-sm-offset-2 col-sm-4" id="year_from_group">\n' +
+        '      <input type="text" class="form-control yearpicker" autocomplete="false" id="search_year_from" placeholder="Year from">\n' +
+        '    </div>\n' +
+        '    <div class="form-group col-sm-4" id="year_to_group">\n' +
+        '      <input type="text" class="form-control yearpicker" autocomplete="false" id="search_year_to" placeholder="Year to">\n' +
+        '    </div>\n' +
+        '  </div>\n' +
+
+        '  <div class="row">' +
         '    <div class="form-group col-sm-4">\n' +
         '        <div class="">\n' +
         '            <select style="margin-bottom:15px;" class="form-control" id="search_language">\n' +
@@ -435,19 +442,19 @@ function showSearchBooksHeader() {
         '    </div>' +
         '  </div>\n' +
         '  <div class="row">' +
-        '    <div class="form-group col-sm-3" id="year_from_group">\n' +
-        '      <input type="text" class="form-control" id="search_year_from" placeholder="Year from">\n' +
-        '    </div>\n' +
-        '    <div class="form-group col-sm-3" id="year_to_group">\n' +
-        '      <input type="text" class="form-control" id="search_year_to" placeholder="Year to">\n' +
-        '    </div>\n' +
-        '    <div class="form-group col-sm-offset-3 col-sm-3">\n' +
+        '    <div class="form-group col-sm-offset-9 col-sm-3">\n' +
         '      <button type="submit" class="btn btn-default right" onclick="searchByCriteria(); return false">Search</button>\n' +
         '    </div>\n' +
         '  </div>\n';
     // +
     //     '</form>\n';
+
+
     setPageSubtitle(searchForm);
+
+    initYearPicker();
+    $('#search_year_from').val('');
+    $('#search_year_to').val('');
 }
 
 function displayFoundBooks(response) {

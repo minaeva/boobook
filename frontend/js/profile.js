@@ -5,9 +5,11 @@ function showProfile() {
     let target = document.getElementById("edit_reader_target");
     showProfilePreview(src, target);
 
-    $('#edit_profile_name').focus();
+    // $('#edit_profile_name').focus();
     $('#update_profile_btn').addClass('disabled');
     PROFILE_IMAGE_EDITED = false;
+
+    initYearPicker();
 
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
