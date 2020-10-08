@@ -10,6 +10,8 @@ function showProfile() {
     PROFILE_IMAGE_EDITED = false;
 
     initYearPicker();
+    $('#search_year_from').val('edit_profile_year_of_birth');
+
 
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
@@ -119,7 +121,7 @@ function updateProfile(id, name, surname, bookToTheMoon, hero, yearOfBirth, gend
         "country": country,
         "city": city,
         "district": district,
-        "fb": f,
+        "fb": fb,
         "telegram": telegram,
         "viber": viber
     };

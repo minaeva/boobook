@@ -204,6 +204,7 @@ function openAddBookModal() {
     })
 
     initYearPicker();
+    $('#year').val('');
 
     IMAGE_EDITED = false;
 
@@ -402,10 +403,10 @@ function showSearchBooksHeader() {
         '  </div>\n' +
         '  <div class="row">' +
         '    <div class="form-group col-sm-offset-2 col-sm-4" id="year_from_group">\n' +
-        '      <input type="text" class="form-control yearpicker" autocomplete="false" id="search_year_from" placeholder="Year from">\n' +
+        '      <input type="text" class="form-control yearpicker" autocomplete="off" id="search_year_from" placeholder="Year from">\n' +
         '    </div>\n' +
         '    <div class="form-group col-sm-4" id="year_to_group">\n' +
-        '      <input type="text" class="form-control yearpicker" autocomplete="false" id="search_year_to" placeholder="Year to">\n' +
+        '      <input type="text" class="form-control yearpicker" autocomplete="off" id="search_year_to" placeholder="Year to">\n' +
         '    </div>\n' +
         '  </div>\n' +
 
