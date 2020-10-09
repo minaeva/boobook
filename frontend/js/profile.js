@@ -196,6 +196,3 @@ function openEditProfileModal(name, surname, city, telegram, fb, viber, skype, w
     return false;
 }
 
-function saveProfile() {
-    return false;
-}

@@ -444,7 +444,7 @@ function showSearchBooksHeader() {
         '  </div>\n' +
         '  <div class="row">' +
         '    <div class="form-group col-sm-offset-9 col-sm-3">\n' +
-        '      <button type="submit" class="btn btn-default right" onclick="searchByCriteria(); return false">Search</button>\n' +
+        '      <button type="submit" class="btn btn-default right" onclick="searchBooksByCriteria(); return false">Search</button>\n' +
         '    </div>\n' +
         '  </div>\n';
     // +
@@ -693,7 +693,6 @@ function stringToBoolean(val) {
     }
 }
 
-
 function openDeleteBookModal(bookId, title) {
     $('#deleteBookModal').modal('show');
     document.getElementById("deleteBookModalTitle").innerHTML = ' <img class="img-responsive" style="margin:0 auto;" src="' +
@@ -727,7 +726,7 @@ function deleteBook(bookId, title) {
     return false;
 }
 
-function searchByCriteria() {
+function searchBooksByCriteria() {
     let search_title = document.getElementById('search_title').value;
     let search_author_name = document.getElementById('search_author_name').value;
     let search_author_surname = document.getElementById('search_author_surname').value;
