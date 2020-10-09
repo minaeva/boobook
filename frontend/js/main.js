@@ -120,6 +120,16 @@ function notNull(str) {
     return str;
 }
 
+function genderToString(gender) {
+    if (gender == 1) {
+        return 'female';
+    }
+    if (gender == 2) {
+        return 'male';
+    }
+    return '';
+}
+
 function setPageTitle(text) {
     document.getElementById("accordion_header").innerHTML = text;
 }

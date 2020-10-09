@@ -13,7 +13,6 @@ function validateNamePassword(field, warningText) {
 }
 */
 
-/*
 function validateImage(field, groupControlId) {
     let group = document.getElementById(groupControlId);
     if (field == null || field == "") {
@@ -25,7 +24,14 @@ function validateImage(field, groupControlId) {
     }
     return true;
 }
-*/
+
+function validateBookSearch(search_year_from, search_year_to) {
+    if (validateYear(search_year_from, 'year_from_group') &
+        validateYear(search_year_to, 'year_to_group')) {
+        return true;
+    }
+    return false;
+}
 
 function validateYear(year, groupId) {
     let element = document.getElementById(groupId);

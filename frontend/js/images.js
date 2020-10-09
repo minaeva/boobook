@@ -112,6 +112,12 @@ function showProfileImage(image) {
     document.getElementById('edit_reader_target').setAttribute('src', imageSource);
 }
 
+function showReaderImage(image) {
+    let imageSource = "data:image/png;base64," + image;
+    let imgTag = $('#selected_reader_image');
+    document.getElementById('selected_reader_image').setAttribute('src', imageSource);
+}
+
 function showBookImages(bookId) {
     let xhr = new XMLHttpRequest();
     let byte64FilesArray = [];

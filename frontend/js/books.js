@@ -739,7 +739,7 @@ function searchBooksByCriteria() {
     let search_year_from = document.getElementById('search_year_from').value;
     let search_year_to = document.getElementById('search_year_to').value;
 
-    if (!validateSearch(search_year_from, search_year_to)) {
+    if (!validateBookSearch(search_year_from, search_year_to)) {
         return false;
     }
 
@@ -755,35 +755,33 @@ function searchBooksByCriteria() {
             }
             displayFoundBooks(this.responseText);
         }
-    };
-
-    const requestBody = {
-        "title": search_title,
-        "authorName": search_author_name,
-        "authorSurname": search_author_surname,
-        "city": search_city,
-        "yearFrom": search_year_from,
-        "yearTo": search_year_to,
-        "language": search_language,
-        "cover": search_cover,
-        "illustrations": search_illustrations,
-        "ageGroupFrom": search_age_from,
-        "ageGroupTo": search_age_to
-    };
-    console.log(requestBody);
-    let requestUrl = HOME_PAGE + "/books/search";
-    xhr.open("POST", requestUrl);
-    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    addAuthorization(xhr);
-    xhr.send(JSON.stringify(requestBody));
-
-    return false;
-}
-
-function validateSearch(search_year_from, search_year_to) {
-    if (validateYear(search_year_from, 'year_from_group') &
-        validateYear(search_year_to, 'year_to_group')) {
-        return true;
+        if (this.readyState === 4 && this.status == 404) {
+            showWarningModal('No book fitting your criteria was found. Try to soften the borders');
+        }
     }
-    return false;
-}
+    ;
+
+        const requestBody = {
+            "title": search_title,
+            "authorName": search_author_name,
+            "authorSurname": search_author_surname,
+            "city": search_city,
+            "yearFrom": search_year_from,
+            "yearTo": search_year_to,
+            "language": search_language,
+            "cover": search_cover,
+            "illustrations": search_illustrations,
+            "ageGroupFrom": search_age_from,
+            "ageGroupTo": search_age_to
+        };
+        console.log(requestBody);
+        let requestUrl = HOME_PAGE + "/books/search";
+        xhr.open("POST", requestUrl);
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        addAuthorization(xhr);
+        xhr.send(JSON.stringify(requestBody));
+
+        return false;
+    }
+
+

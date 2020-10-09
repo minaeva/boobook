@@ -25,17 +25,35 @@ function showReaderDetails(readerId) {
 
                 setPageTitle(nameSurnameHeart);
 
-                let html = '<span class="text-muted">City: ' + notNull(detail.city) + '</span><br/>\n';
+                let html =
+                    '<span class="text-muted">Country: ' + notNull(detail.country) + '</span><br/>\n' +
+                    '<span class="text-muted">City: ' + notNull(detail.city) + '</span><br/>\n' +
+                    '<span class="text-muted">District: ' + notNull(detail.district) + '</span><br/>\n' +
+                    '<span class="text-muted">Telegram: ' + notNull(detail.telegram) + '</span><br/>\n' +
+                    '<span class="text-muted">Viber: ' + notNull(detail.viber) + '</span><br/>\n' +
+                    '<span class="text-muted">Book one would take to Mars: ' + notNull(detail.bookToTheMoon) + '</span><br/>\n' +
+                    '<span class="text-muted">When there is nothing to read: ' + notNull(detail.hobby) + '</span><br/>\n' +
+                    '<span class="text-muted">Hero: ' + notNull(detail.hero) + '</span><br/>\n' +
+                    '<span class="text-muted">Year of birth: ' + detail.yearOfBirth + '</span><br/>\n' +
+                    '<span class="text-muted">Gender: ' + genderToString(detail.gender) + '</span><br/>\n' +
+                    '<span class="text-muted">Book of the year: ' + notNull(detail.bookOfTheYear) + '</span><br/>\n' +
+                    '<span class="text-muted">Superpower: ' + notNull(detail.superPower) + '</span><br/>\n';
+                html += '<img id="selected_reader_image" src="images/reader-girl.png" alt="" class="reader-image">';
+
                 if (detail.fbPage != null) {
                     html +=
                         '<span class="text-muted">Facebook: </span>' +
-                        '    <a href=' + detail.fbPage + ' target="_blank" class="underline">view</a></h5>\n';
+                        '    <a href=' + detail.fbPage + ' target="_blank" class="underline">open</a></h5>\n';
                 }
 
                 html += '<h5><a href="#" class="right-sidebar-toggle"\n' +
                     '    onclick="openConversation(' + detail.id + ',\'' + nameSurname + '\');"\n' +
                     '    data-sidebar-id="main-right-sidebar"><i class="fa fa-envelope"></i></a></h5>';
                 setPageSubtitle(html);
+
+                if (detail.image != null) {
+                    showReaderImage(detail.image);
+                }
             }
         }
     }
@@ -283,6 +301,77 @@ function showSearchReadersHeader() {
 
 //TODO
 function searchReadersByCriteria() {
+    let search_name = document.getElementById('search_reader_name').value;
+    let search_surname = document.getElementById('search_reader_surname').value;
+    let search_country = document.getElementById('search_reader_country').value;
+    let search_city = document.getElementById('search_reader_city').value;
+    let search_district = document.getElementById('search_reader_district').value;
+    let search_gender = document.getElementById('search_reader_gender').value;
 
+/*
+    if (!validateBookSearch(search_year_from, search_year_to)) {
+        return false;
+    }
+*/
+
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status == 200) {
+            // showSuccessModal('Search is done');
+/*
+            let list = JSON.parse(this.response);
+            let size = list.length;
+            let result = '';
+            for (let i = 0; i < size; i++) {
+                result += list[i].title + ' ';
+            }
+*/
+            displayFoundReaders(this.responseText);
+        }
+    };
+
+    const requestBody = {
+        "name": search_name,
+        "surname": search_surname,
+        "country": search_country,
+        "city": search_city,
+        "district": search_district,
+        "gender": search_gender
+    };
+    console.log(requestBody);
+    let requestUrl = HOME_PAGE + "/users/search";
+    xhr.open("POST", requestUrl);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    addAuthorization(xhr);
+    xhr.send(JSON.stringify(requestBody));
+
+    return false;
 }
 
+function displayFoundReaders(response) {
+    let readers = JSON.parse(response);
+    let html = '';
+    for (let i = 0; i < readers.length; i++) {
+        let reader = readers[i];
+        console.log(reader);
+        html +=
+            '<div class="panel panel-default">\n' +
+            '    <div class="panel-heading" role="tab" id="heading' + reader.id + '">\n' +
+            '        <h4 class="panel-title">\n' +
+            '            <a data-toggle="collapse" onclick="clickReader(' + reader.id + '); return false;" data-parent="#accordion" href="#collapse' + reader.id + '"\n' +
+            '               aria-expanded="true" aria-controls="collapse' + reader.id + '">\n' + reader.name + ' ' + reader.surname +
+            '            <h5 class="text-muted"> Country: ' + notNull(reader.country) + '</h5>\n' +
+            '            <h5 class="text-muted"> City: ' + notNull(reader.city) + '</h5>\n' +
+            '            <h5 class="text-muted"> District: ' + notNull(reader.district) + '</h5>\n' +
+            '            <h5 class="text-muted"> Gender: ' + genderToString(reader.gender) +'</h5>\n' +
+            '            </a>\n' +
+            '        </h4>\n' +
+            '    </div>\n' +
+            '    <div id="collapse' + reader.id + '" class="panel-collapse collapse" role="tabpanel"\n' +
+            '         aria-labelledby="heading' + reader.id + '">\n' +
+            '    </div>\n' +
+            '</div>'
+    }
+    document.getElementById("accordion").innerHTML = html;
+    return false;
+}

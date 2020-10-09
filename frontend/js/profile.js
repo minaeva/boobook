@@ -12,7 +12,6 @@ function showProfile() {
     initYearPicker();
     $('#search_year_from').val('edit_profile_year_of_birth');
 
-
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (this.readyState === 4) {

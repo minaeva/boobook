@@ -18,6 +18,14 @@
     padding: 0px;
 }
 
+.reader-image {
+    height: 200px;
+    border: 0px;
+    border-radius: 5px;
+    margin: 10px 0px 15px 0px;
+    padding: 0px;
+}
+
 .book-detail-thumbnail {
     height: 80px;
     border: 0px;
