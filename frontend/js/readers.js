@@ -26,19 +26,33 @@ function showReaderDetails(readerId) {
                 setPageTitle(nameSurnameHeart);
 
                 let html =
-                    '<span class="text-muted">Country: ' + notNull(detail.country) + '</span><br/>\n' +
-                    '<span class="text-muted">City: ' + notNull(detail.city) + '</span><br/>\n' +
-                    '<span class="text-muted">District: ' + notNull(detail.district) + '</span><br/>\n' +
-                    '<span class="text-muted">Telegram: ' + notNull(detail.telegram) + '</span><br/>\n' +
-                    '<span class="text-muted">Viber: ' + notNull(detail.viber) + '</span><br/>\n' +
+                    '<div class="row">\n' +
+                    '  <div class="form-group col-sm-6">\n' +
+                    '    <div class="text-muted">Country:</div>\n' +
+                    '    <div>' + notNull(detail.country) + '</div><br>\n' +
+                    '    <div class="text-muted">City:</div>\n' +
+                    '    <div>' + notNull(detail.city) + '</div><br>\n' +
+                    '    <div class="text-muted">District:</div>\n' +
+                    '    <div>' + notNull(detail.district) + '</div><br>\n' +
+                    '    <div class="text-muted">Telegram:</div>\n' +
+                    '    <div>' + notNull(detail.telegram) + '</div><br>\n' +
+                    '    <div class="text-muted">Viber:</div>\n' +
+                    '    <div>' + notNull(detail.viber) + '</div><br>\n' +
+                    '    <div class="text-muted">Year of birth:</div>\n' +
+                    '    <div>' + notNull(detail.yearOfBirth) + '</div><br>\n' +
+                    '    <div class="text-muted">Gender:</div>\n' +
+                    '    <div>' + genderToString(detail.gender) + '</div><br>\n' +
+                    '    <div class="text-muted">Superpower:</div>\n' +
+                    '    <div>' + genderToString(detail.superPower) + '</div><br>\n' +
+                    '  </div>\n' +
+                    '  <div class="form-group col-sm-6">\n' +
+                    '    <img id="selected_reader_image" src="images/reader-girl.png" class="reader-image">\n' +
+                    '  </div>\n' +
+                    '</div>\n' +
                     '<span class="text-muted">Book one would take to Mars: ' + notNull(detail.bookToTheMoon) + '</span><br/>\n' +
                     '<span class="text-muted">When there is nothing to read: ' + notNull(detail.hobby) + '</span><br/>\n' +
                     '<span class="text-muted">Hero: ' + notNull(detail.hero) + '</span><br/>\n' +
-                    '<span class="text-muted">Year of birth: ' + detail.yearOfBirth + '</span><br/>\n' +
-                    '<span class="text-muted">Gender: ' + genderToString(detail.gender) + '</span><br/>\n' +
-                    '<span class="text-muted">Book of the year: ' + notNull(detail.bookOfTheYear) + '</span><br/>\n' +
-                    '<span class="text-muted">Superpower: ' + notNull(detail.superPower) + '</span><br/>\n';
-                html += '<img id="selected_reader_image" src="images/reader-girl.png" alt="" class="reader-image">';
+                    '<span class="text-muted">Book of the year: ' + notNull(detail.bookOfTheYear) + '</span><br/>\n';
 
                 if (detail.fbPage != null) {
                     html +=
@@ -52,6 +66,7 @@ function showReaderDetails(readerId) {
                 setPageSubtitle(html);
 
                 if (detail.image != null) {
+                    console.log(detail.image);
                     showReaderImage(detail.image);
                 }
             }
@@ -299,7 +314,6 @@ function showSearchReadersHeader() {
     setPageSubtitle(searchForm);
 }
 
-//TODO
 function searchReadersByCriteria() {
     let search_name = document.getElementById('search_reader_name').value;
     let search_surname = document.getElementById('search_reader_surname').value;
@@ -308,26 +322,20 @@ function searchReadersByCriteria() {
     let search_district = document.getElementById('search_reader_district').value;
     let search_gender = document.getElementById('search_reader_gender').value;
 
-/*
-    if (!validateBookSearch(search_year_from, search_year_to)) {
-        return false;
-    }
-*/
-
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (this.readyState === 4 && this.status == 200) {
-            // showSuccessModal('Search is done');
-/*
             let list = JSON.parse(this.response);
             let size = list.length;
-            let result = '';
-            for (let i = 0; i < size; i++) {
-                result += list[i].title + ' ';
+            if (size == 0) {
+                showWarningModal('nothing found');
             }
-*/
             displayFoundReaders(this.responseText);
         }
+        if (this.readyState === 4 && this.status == 404) {
+            showWarningModal('No reader fitting your criteria was found. Try to soften the borders');
+        }
+
     };
 
     const requestBody = {

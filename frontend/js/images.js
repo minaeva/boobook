@@ -114,7 +114,6 @@ function showProfileImage(image) {
 
 function showReaderImage(image) {
     let imageSource = "data:image/png;base64," + image;
-    let imgTag = $('#selected_reader_image');
     document.getElementById('selected_reader_image').setAttribute('src', imageSource);
 }
 
@@ -125,13 +124,20 @@ function showBookImages(bookId) {
     xhr.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             let list = JSON.parse(this.response);
+            // alert(list);
             let size = list.length;
+            // alert(size);
+            let arr = [];
 
+            for (let i = 0; i < size; i++) {
+                arr.push(list[i]);
+            }
             let html = '';
             for (let i = 0; i < size; i++) {
                 byte64FilesArray[i] = "data:image/png;base64," + list[i];
                 html += '<img class="book-detail-thumbnail" ' +
-                    'onclick="openImageModal(\'' + list + '\',' + i + '); return false" src="' + byte64FilesArray[i] + '"/>';
+                    'onclick="openImageModal(' + i + ',' + size + ',' + arr + '); return false" src="' + byte64FilesArray[i] + '"/>';
+                // 'onclick="openImageModal(' + i + ',\'' + list[i] + '\'); return false" src="' + byte64FilesArray[i] + '"/>';
             }
             document.getElementById('book-detail-thumbnails' + bookId).innerHTML = html;
             return false;

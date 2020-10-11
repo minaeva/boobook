@@ -258,7 +258,8 @@ function closeAddBookModal() {
     return false;
 }
 
-function openImageModal(list, i) {
+function openImageModal(i, size, ...list) {
+    alert('size ' + size + 'list.length ' + list.length);
     $('#imageModal').modal('show');
     let src = "data:image/png;base64," + list;
     $('#imagepreview').attr("src", src);
@@ -746,13 +747,14 @@ function searchBooksByCriteria() {
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (this.readyState === 4 && this.status == 200) {
-            // showSuccessModal('Search is done');
-            let list = JSON.parse(this.response);
-            let size = list.length;
-            let result = '';
-            for (let i = 0; i < size; i++) {
-                result += list[i].title + ' ';
-            }
+            /*
+                        let list = JSON.parse(this.response);
+                        let size = list.length;
+                        let result = '';
+                        for (let i = 0; i < size; i++) {
+                            result += list[i].title + ' ';
+                        }
+            */
             displayFoundBooks(this.responseText);
         }
         if (this.readyState === 4 && this.status == 404) {

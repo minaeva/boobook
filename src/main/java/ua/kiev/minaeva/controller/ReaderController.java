@@ -6,9 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ua.kiev.minaeva.dto.BookDto;
 import ua.kiev.minaeva.dto.ReaderDto;
-import ua.kiev.minaeva.dto.SearchBookDto;
 import ua.kiev.minaeva.dto.SearchReaderDto;
 import ua.kiev.minaeva.exception.BoobookNotFoundException;
 import ua.kiev.minaeva.exception.BoobookValidationException;
@@ -88,13 +86,16 @@ public class ReaderController {
             foundReader.setImage(Base64.getDecoder().decode(foundReader.getImage()));
         }
         return foundReader;
-//        return readerService.getById(id);
     }
 
     @GetMapping("/{id}/{friendOfId}")
     public ReaderDto getByIdWithIsFriend(@PathVariable final Long id, @PathVariable final Long friendOfId) throws BoobookNotFoundException {
         log.info("handling get READER BY ID + IS FRIEND OF USER with id: " + id);
-        return readerService.getByIdWithIsFriend(id, friendOfId);
+        ReaderDto foundReader = readerService.getByIdWithIsFriend(id, friendOfId);
+        if (foundReader.getImage() != null) {
+            foundReader.setImage(Base64.getDecoder().decode(foundReader.getImage()));
+        }
+        return foundReader;
     }
 
     @GetMapping("/friends/{id}")

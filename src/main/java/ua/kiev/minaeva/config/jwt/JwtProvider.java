@@ -17,7 +17,7 @@ public class JwtProvider {
     private String jwtSecret;
 
     public String generateToken(String email) {
-        Date date = Date.from(LocalDate.now().plusDays(15).atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Date date = Date.from(LocalDate.now().plusDays(45).atStartOfDay(ZoneId.systemDefault()).toInstant());
 
         return Jwts.builder()
                 .setSubject(email)

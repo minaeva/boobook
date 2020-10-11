@@ -66,6 +66,7 @@ function showProfile() {
                             changedImage);
                     }
                 );
+
             }
         }
     }
