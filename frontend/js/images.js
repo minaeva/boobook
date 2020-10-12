@@ -1,3 +1,5 @@
+let imagesToShow = [];
+
 function isImage(input) {
     let source2parts = input.split(',');
     let mime = source2parts[0].match(/:(.*?);/)[1];
@@ -124,20 +126,17 @@ function showBookImages(bookId) {
     xhr.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             let list = JSON.parse(this.response);
-            // alert(list);
             let size = list.length;
-            // alert(size);
-            let arr = [];
 
+            imagesToShow = [];
             for (let i = 0; i < size; i++) {
-                arr.push(list[i]);
+                imagesToShow.push(list[i].toString());
             }
             let html = '';
             for (let i = 0; i < size; i++) {
                 byte64FilesArray[i] = "data:image/png;base64," + list[i];
                 html += '<img class="book-detail-thumbnail" ' +
-                    'onclick="openImageModal(' + i + ',' + size + ',' + arr + '); return false" src="' + byte64FilesArray[i] + '"/>';
-                // 'onclick="openImageModal(' + i + ',\'' + list[i] + '\'); return false" src="' + byte64FilesArray[i] + '"/>';
+                    'onclick="openImageModal(' + i + ',' + size + '); return false" src="' + byte64FilesArray[i] + '"/>';
             }
             document.getElementById('book-detail-thumbnails' + bookId).innerHTML = html;
             return false;

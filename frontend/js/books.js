@@ -203,6 +203,8 @@ function openAddBookModal() {
         $('#book_title').focus();
     })
 
+    clearAddBookModalFields();
+
     initYearPicker();
     $('#year').val('');
 
@@ -241,8 +243,7 @@ function openAddBookModal() {
     return false;
 }
 
-function closeAddBookModal() {
-    $('#addBookModal').modal('hide');
+function clearAddBookModalFields() {
     document.getElementById("book_title").value = '';
     document.getElementById("author_name").value = '';
     document.getElementById("author_surname").value = '';
@@ -255,25 +256,26 @@ function closeAddBookModal() {
     document.getElementById("illustrations").value = 0;
     document.getElementById("age_group").value = 0;
     cleanPreviewsOnModalClose('target');
+}
+
+function closeAddBookModal() {
+    $('#addBookModal').modal('hide');
     return false;
 }
 
-function openImageModal(i, size, ...list) {
-    alert('size ' + size + 'list.length ' + list.length);
+function openImageModal(iString, size) {
+    // alert('size = ' + size + ', i = ' + iString);
+    let i = Number.parseInt(iString, 10);
     $('#imageModal').modal('show');
-    let src = "data:image/png;base64," + list;
+    let src = "data:image/png;base64," + imagesToShow[i];
     $('#imagepreview').attr("src", src);
 
-    /*
-    let size = list.length;
-    let html = '';
-    for (let i = 0; i < size; i++) {
-        byte64FilesArray[i] = "data:image/png;base64," + list[i];
-        html += '<img class="book-detail-thumbnail" ' +
-            'onclick="openImageModal(' + list + ',' + i +'); return false" src="' + byte64FilesArray[i] + '"/>';
-    }
-    document.getElementById('book-detail-thumbnails' + bookId).innerHTML = html;
-*/
+
+    let previous = (i > 0) ? i - 1 : size;
+    let next = (i == size - 1) ? 0 : i + 1;
+    $("#left_arrow").attr("onclick","openImageModal('"+previous+"', '"+size+"')");
+    $("#right_arrow").attr("onclick","openImageModal('"+next+"', '"+size+"')");
+
 }
 
 function openEditBookModal(book_id, title, authorName, authorSurname, publisher, language, year, cover, illustrations, ageGroup, pagesQuantity, description, active) {
@@ -747,14 +749,6 @@ function searchBooksByCriteria() {
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (this.readyState === 4 && this.status == 200) {
-            /*
-                        let list = JSON.parse(this.response);
-                        let size = list.length;
-                        let result = '';
-                        for (let i = 0; i < size; i++) {
-                            result += list[i].title + ' ';
-                        }
-            */
             displayFoundBooks(this.responseText);
         }
         if (this.readyState === 4 && this.status == 404) {

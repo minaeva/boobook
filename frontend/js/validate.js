@@ -26,14 +26,21 @@ function validateImage(field, groupControlId) {
 }
 
 function validateBookSearch(search_year_from, search_year_to) {
-    if (validateYear(search_year_from, 'year_from_group') &
-        validateYear(search_year_to, 'year_to_group')) {
+    if (yearIsEmptyOrGoodNumber(search_year_from, 'year_from_group') &
+        yearIsEmptyOrGoodNumber(search_year_to, 'year_to_group')) {
         return true;
     }
     return false;
 }
 
-function validateYear(year, groupId) {
+function yearIsNonEmpty(year) {
+    if (year == null || year == "") {
+        return false;
+    }
+    return true;
+}
+
+function yearIsEmptyOrGoodNumber(year, groupId) {
     let element = document.getElementById(groupId);
 
     if (year == null || year == "") {
@@ -229,12 +236,12 @@ function validateBook(book_title, author_name, author_surname, year) {
         errorText += 'Author surname cannot be empty<br>';
         isValidated = false;
     }
-    if (!validateYear(year,'year_group')) {
+    if (!yearIsEmptyOrGoodNumber(year,'year_group')) {
         isValidated = false;
-    } else if (year < 1454) {
+    } else if (yearIsNonEmpty(year) && year < 1454) {
         errorText += "The Gutenberg Bible, also known as the 42-line Bible, is listed by the Guinness Book of World records as the world's oldest mechanically printed book – the first copies of which were printed in 1454-1455 AD<br>";
         isValidated = false;
-    } else if (year > new Date().getFullYear()) {
+    } else if (yearIsNonEmpty(year) && year > new Date().getFullYear()) {
         errorText += 'We expect you not to share the books from the future<br>';
         isValidated = false;
     }
@@ -283,7 +290,7 @@ function validateBookWithLengths(book_title, author_name, author_surname, year) 
         isValidated = false;
     }
 
-    if (!validateYear(year,'year_group')) {
+    if (!yearIsEmptyOrGoodNumber(year,'year_group')) {
         isValidated = false;
     } else if (year < 1454) {
         errorText += "The Gutenberg Bible, also known as the 42-line Bible, is listed by the Guinness Book of World records as the world's oldest mechanically printed book – the first copies of which were printed in 1454-1455 AD<br>";
@@ -316,7 +323,7 @@ function validateEditBook(book_title, author_name, author_surname, year) {
         errorText += 'Author surname cannot be empty<br>';
         isValidated = false;
     }
-    if (!validateYear(year, 'edit_year_group')) {
+    if (!yearIsEmptyOrGoodNumber(year, 'edit_year_group')) {
         isValidated = false;
     } else if (year != '' && year < 1454) {
         errorText += "The Gutenberg Bible, also known as the 42-line Bible, is listed by the Guinness Book of World records as the world's oldest mechanically printed book – the first copies of which were printed in 1454-1455 AD<br>";
