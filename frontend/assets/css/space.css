@@ -2298,7 +2298,7 @@ th {
 
 .dropdown-notifications {
     height: auto!important;
-    max-height: 250px;
+    max-height: 120px;
 }
 
 .dropdown-notifications .dropdown-oc li a {
@@ -2307,7 +2307,7 @@ th {
 }
 
 .dropdown-notifications .dropdown-oc li a span.notification-badge {
-    width: 30px;
+    width: 120px;
     height: 30px;
     display: block;
     line-height: 30px;
@@ -2323,7 +2323,7 @@ th {
 }
 
 .dropdown-notifications .dropdown-oc li a span.notification-info {
-    width: 204px;
+    width: 145px;
     display: block;
     padding: 5px 15px;
     display: inline-block;

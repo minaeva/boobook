@@ -271,7 +271,7 @@ function openImageModal(iString, size) {
     $('#imagepreview').attr("src", src);
 
 
-    let previous = (i > 0) ? i - 1 : size;
+    let previous = (i > 0) ? i - 1 : size - 1;
     let next = (i == size - 1) ? 0 : i + 1;
     $("#left_arrow").attr("onclick","openImageModal('"+previous+"', '"+size+"')");
     $("#right_arrow").attr("onclick","openImageModal('"+next+"', '"+size+"')");

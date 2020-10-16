@@ -142,5 +142,79 @@ function clearContent() {
     document.getElementById("accordion").innerHTML = '';
 }
 
+function getLanguage() {
+    (localStorage.getItem('language') == null) ? setLanguage('en') : false;
+    $.ajax({
+        url: '/language/' + localStorage.getItem('language') + '.json',
+        dataType: 'json', async: false, dataType: 'json',
+        success: function (lang) {
+            language = lang
+        }
+    });
+}
+
+function setRussianLanguage() {
+    localStorage.setItem('language', 'ru');
+    $('#selected_app_language').text('RU');
+    $('#app_language_1').text('UA');
+    $("#app_language_1").attr("onclick", "setUkrainianLanguage()");
+    $('#app_language_2').text('EN');
+    $("#app_language_2").attr("onclick", "setEnglishLanguage()");
+
+    resetLanguage();
+    return false;
+}
+
+function setUkrainianLanguage() {
+    localStorage.setItem('language', 'ua');
+    $('#selected_app_language').text('UA');
+    $('#app_language_1').text('EN');
+    $("#app_language_1").attr("onclick", "setEnglishLanguage()");
+    $('#app_language_2').text('RU');
+    $("#app_language_2").attr("onclick", "setRussianLanguage()");
+
+    resetLanguage();
+    return false;
+}
+
+function setEnglishLanguage() {
+    localStorage.setItem('language', 'en');
+    $('#selected_app_language').text('EN');
+    $('#app_language_1').text('RU');
+    $("#app_language_1").attr("onclick", "setRussianLanguage()");
+    $('#app_language_2').text('UA');
+    $("#app_language_2").attr("onclick", "setUkrainianLanguage()");
+
+    resetLanguage();
+    return false;
+}
+
+function resetLanguage() {
+    let language;
+
+    (localStorage.getItem('language') == null) ? setEnglishLanguage() : false;
+
+    // alert(localStorage.getItem('language'));
 
 
+/*    $.getJSON("../language/ru.json", function(data){
+        console.log(data.logo_title); // Prints: Harry
+        console.log(data.email); // Prints: 14
+    }).fail(function(){
+        console.log("An error has occurred.");
+    });*/
+
+
+    $.ajax({
+        url: '../language/' + localStorage.getItem('language') + '.json',
+        dataType: 'json', async: false, dataType: 'json',
+        success: function (lang) {
+            language = lang
+        }
+    });
+
+    alert(language.logo_title);
+    $('#logo_title').text(language.logo_title);
+
+
+}

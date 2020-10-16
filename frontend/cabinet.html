@@ -45,7 +45,7 @@
     <!-- Page Sidebar -->
     <div class="page-sidebar">
         <a class="logo-box" href="#">
-            <span>BooBook</span>
+            <span id="logo_title">BooBook</span>
             <i class="icon-radio_button_unchecked" id="fixed-sidebar-toggle-button"></i>
             <i class="icon-close" id="sidebar-toggle-button-close"></i>
         </a>
@@ -152,23 +152,28 @@
                             </li>
                             <!-- menu - messages - end -->
 
-                            <!-- menu - notifications - start -->
+                            <!-- menu - language - start -->
                             <li class="dropdown">
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="new_event_dropdown_id"
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="selected_app_language"
                                    role="button"
-                                   aria-haspopup="true" aria-expanded="false"><i class="fa fa-bell-o"></i>
+                                   aria-haspopup="true" aria-expanded="false">EN
                                 </a>
-                                <ul class="dropdown-menu dropdown-lg dropdown-content">
-                                    <li class="drop-title">Notifications<a href="#" class="drop-title-link">
-                                        <i class="fa fa-angle-right"></i></a>
-                                    </li>
+                                <ul class="dropdown-menu dropdown-content">
+
                                     <li class="slimscroll dropdown-notifications">
                                         <ul class="list-unstyled dropdown-oc">
                                             <li>
                                                 <a href="#" class="right-sidebar-toggle"
-                                                   onclick="notificationIsSeen();"
-                                                   data-sidebar-id="main-right-sidebar">
-                                                       <span class="notification-info">You have new message arrived
+                                                   onclick="setRussianLanguage();">
+                                                       <span class="notification-info" id="app_language_1">RU
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="right-sidebar-toggle"
+                                                   onclick="setUkrainianLanguage();">
+<!--                                                   data-sidebar-id="main-right-sidebar">-->
+                                                       <span class="notification-info" id="app_language_2">UA
                                                     </span>
                                                 </a>
                                             </li>

@@ -172,7 +172,7 @@ function receiveMessage(event) {
         appendNewMessage(jsonObject, jsonObject.from);
     } else {
         console.log('not inside the list')
-        document.getElementById("new_event_dropdown_id").style.color = 'red';
+        document.getElementById("right-sidebar-toggle").style.color = 'red';
     }
 }
 
@@ -197,6 +197,7 @@ function appendNewMessage(message, conversationalistId) {
 }
 
 function notificationIsSeen() {
-    document.getElementById("new_event_dropdown_id").style.color = 'black';
+    //todo check the icon
+    document.getElementById("right-sidebar-toggle").style.color = 'black';
     getUserConversationalists();
 }
