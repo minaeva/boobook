@@ -45,7 +45,7 @@
     <!-- Page Sidebar -->
     <div class="page-sidebar">
         <a class="logo-box" href="#">
-            <span id="logo_title">BooBook</span>
+            <span id="logo_title"></span>
             <i class="icon-radio_button_unchecked" id="fixed-sidebar-toggle-button"></i>
             <i class="icon-close" id="sidebar-toggle-button-close"></i>
         </a>
@@ -56,35 +56,35 @@
                 <ul class="accordion-menu">
                     <li>
                         <a onclick="openAddBookModal(); return false" data-toggle="modal">
-                            <!--                            data-target="#addBookModal">-->
-                            <i class="menu-icon fa fa-book"></i><span>Add book</span>
+                            <i class="menu-icon fa fa-book"></i><span id="menu_add_book_title"></span>
                         </a>
                     </li>
                     <li class="menu-divider"></li>
 
                     <li class="active-page" id="menu_home">
                         <a href="#" onclick="clickHome(); return false;">
-                            <i class="menu-icon icon-home4"></i><span>My Books</span>
+                            <i class="menu-icon icon-home4"></i><span id="menu_my_books_title"></span>
                         </a>
                     </li>
                     <li id="menu_books">
                         <a href="#" onclick="clickAllBooks(); return false">
-                            <i class="menu-icon icon-books"></i><span>Books</span>
+                            <i class="menu-icon icon-books"></i><span id="menu_books_title"></span>
                         </a>
                     </li>
                     <li id="menu_readers">
                         <a href="#" onclick="clickAllReaders(); return false">
-                            <i class="menu-icon icon-reader"></i><span>Readers</span>
+                            <i class="menu-icon icon-reader"></i><span id="menu_readers_title"></span>
                         </a>
                     </li>
                     <li id="menu-favorite">
                         <a href="javascript:void(0);">
-                            <i class="menu-icon fa fa-heart-o"></i><span>Favorite</span><i
+                            <i class="menu-icon fa fa-heart-o"></i><span id="menu_favorite_title"></span><i
                                 class="accordion-icon fa fa-angle-left"></i>
                         </a>
                         <ul class="sub-menu">
                             <!-- <li id="menu_favorite_books"><a href="#">Books</a></li>-->
-                            <li id="menu_favorite_readers"><a href="#" onclick="clickFavoriteReaders(); return false">Readers</a>
+                            <li id="menu_favorite_readers"><a href="#" onclick="clickFavoriteReaders(); return false"
+                                                              id="menu_favorite_readers_title"></a>
                             </li>
                         </ul>
                     </li>
@@ -164,16 +164,16 @@
                                         <ul class="list-unstyled dropdown-oc">
                                             <li>
                                                 <a href="#" class="right-sidebar-toggle"
-                                                   onclick="setRussianLanguage();">
-                                                       <span class="notification-info" id="app_language_1">RU
+                                                   onclick="setRussianLanguage();" id="app_language_link_1">
+                                                       <span class="notification-info" id="app_language_text_1">RU
                                                     </span>
                                                 </a>
                                             </li>
                                             <li>
                                                 <a href="#" class="right-sidebar-toggle"
-                                                   onclick="setUkrainianLanguage();">
-<!--                                                   data-sidebar-id="main-right-sidebar">-->
-                                                       <span class="notification-info" id="app_language_2">UA
+                                                   onclick="setUkrainianLanguage();" id="app_language_link_2">
+                                                    <!--                                                   data-sidebar-id="main-right-sidebar">-->
+                                                    <span class="notification-info" id="app_language_text_2">UA
                                                     </span>
                                                 </a>
                                             </li>
@@ -189,9 +189,9 @@
                                    aria-haspopup="true" aria-expanded="false">
                                     <img src="images/reader-girl.png" alt="" class="img-circle"></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="#" onclick="clickProfile(); return false;">Profile</a></li>
+                                    <li><a href="#" onclick="clickProfile(); return false;" id="profile_title"></a></li>
                                     <li role="separator" class="divider"></li>
-                                    <li onclick="return logout();"><a href="#">Log Out</a></li>
+                                    <li onclick="return logout();"><a href="#" id="logout_title"></a></li>
                                 </ul>
                             </li>
                             <!-- menu - profile - end -->
@@ -204,57 +204,61 @@
         <!-- /Page Header -->
 
         <!--  ADD BOOK - modal - start-->
-        <div class="modal fade border" id="addBookModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        <div class="modal fade border" id="addBookModal" tabindex="-1" role="dialog" aria-labelledby="add_book_title"
              aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Add book</h4>
+                        <h4 class="modal-title" id="add_book_title"></h4>
                     </div>
                     <div class="modal-body">
                         <div class="form-group required" id="book_title_group">
-                            <label for="book_title" class="control-label">Title </label>
-                            <textarea rows="1" type="text" class="form-control" id="book_title" placeholder="" maxlength="200">
+                            <label for="book_title" class="control-label" id="book_title_title"></label>
+                            <textarea rows="1" type="text" class="form-control" id="book_title" placeholder=""
+                                      maxlength="200">
                             </textarea>
                         </div>
 
                         <div class="row">
                             <div class="form-group col-sm-6 required" id="author_name_group">
-                                <label for="author_name" class="control-label">Author Name </label>
-                                <textarea rows="1" type="text" class="form-control" id="author_name" placeholder="" maxlength="50">
+                                <label for="author_name" class="control-label" id="author_name_title"></label>
+                                <textarea rows="1" type="text" class="form-control" id="author_name" placeholder=""
+                                          maxlength="50">
                                 </textarea>
                             </div>
                             <div class="form-group col-sm-6 required" id="author_surname_group">
-                                <label for="author_surname" class="control-label">Author Surname </label>
-                                <textarea rows="1" type="text" class="form-control" id="author_surname" placeholder="" maxlength="50">
+                                <label for="author_surname" class="control-label" id="author_surname_title"></label>
+                                <textarea rows="1" type="text" class="form-control" id="author_surname" placeholder=""
+                                          maxlength="50">
                                 </textarea>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="form-group col-sm-4">
-                                <label for="publisher" class="control-label">Publisher</label>
-                                <textarea rows="1" type="text" class="form-control" id="publisher" placeholder="" maxlength="50">
+                                <label for="publisher" class="control-label" id="publisher_title"></label>
+                                <textarea rows="1" type="text" class="form-control" id="publisher" placeholder=""
+                                          maxlength="50">
                                 </textarea>
                             </div>
                             <div class="form-group col-sm-4" id="year_group">
-                                <label for="year" class="control-label">Year</label>
+                                <label for="year" class="control-label" id="year_title"></label>
                                 <input type="text" class="form-control yearpicker" id="year" autocomplete="off">
                             </div>
                             <div class="form-group col-sm-4">
-                                <label for="pages_quantity" class="control-label">Pages quantity</label>
+                                <label for="pages_quantity" class="control-label" id="pages_quantity_title"></label>
                                 <input type="number" class="form-control" id="pages_quantity" placeholder="">
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="form-group col-sm-3">
-                                <label for="language" class="control-label">Language</label>
+                                <label for="language" class="control-label" id="language_title"></label>
                                 <div class="">
                                     <select style="margin-bottom:15px;" class="form-control" id="language">
-                                        <option value="0">select</option>
+                                        <option value="0" id="select_title"></option>
                                         <option value="1">rus</option>
                                         <option value="2">ukr</option>
                                         <option value="3">eng</option>
@@ -263,21 +267,21 @@
                                 </div>
                             </div>
                             <div class="form-group col-sm-3">
-                                <label class="control-label" for="cover">Cover</label>
+                                <label class="control-label" for="cover" id="cover_title"></label>
                                 <div class="">
                                     <select style="margin-bottom:15px;" class="form-control" id="cover">
-                                        <option value="0">select</option>
+                                        <option value="0" id="select_cover_title"></option>
                                         <option value="1">hard</option>
                                         <option value="2">soft</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="form-group col-sm-3">
-                                <label class="control-label" for="illustrations">Illustrations</label>
+                                <label class="control-label" for="illustrations" id="illustrations_title"></label>
                                 <div class="">
                                     <select style="margin-bottom:15px;" class="form-control"
                                             id="illustrations">
-                                        <option value="0">select</option>
+                                        <option value="0" id="select_illustrations_title"></option>
                                         <option value="1">no</option>
                                         <option value="2">bw</option>
                                         <option value="3">color</option>
@@ -285,10 +289,10 @@
                                 </div>
                             </div>
                             <div class="form-group col-sm-3">
-                                <label class="control-label" for="age_group">Age group</label>
+                                <label class="control-label" for="age_group" id="age_group_title"></label>
                                 <div class="">
                                     <select style="margin-bottom:15px;" class="form-control" id="age_group">
-                                        <option value="0">select</option>
+                                        <option value="0" id="select_age_title"></option>
                                         <option value="1">baby</option>
                                         <option value="2">preschool</option>
                                         <option value="3">junior-school</option>
@@ -392,7 +396,8 @@
                         <div class="row">
                             <div class="form-group required col-sm-9" id="edit_book_title_group">
                                 <label for="edit_book_title" class="control-label">Title </label>
-                                <input type="text" class="form-control" id="edit_book_title" placeholder="" maxlength="200">
+                                <input type="text" class="form-control" id="edit_book_title" placeholder=""
+                                       maxlength="200">
                                 <input class="hidden" id="edit_book_id">
                             </div>
                             <div class="form-group col-sm-3">
@@ -408,18 +413,21 @@
                         <div class="row">
                             <div class="form-group col-sm-6 required" id="edit_author_name_group">
                                 <label for="edit_author_name" class="control-label">Author Name </label>
-                                <input type="text" class="form-control" id="edit_author_name" placeholder="" maxlength="50">
+                                <input type="text" class="form-control" id="edit_author_name" placeholder=""
+                                       maxlength="50">
                             </div>
                             <div class="form-group col-sm-6 required" id="edit_author_surname_group">
                                 <label for="edit_author_surname" class="control-label">Author Surname </label>
-                                <input type="text" class="form-control" id="edit_author_surname" placeholder="" maxlength="50">
+                                <input type="text" class="form-control" id="edit_author_surname" placeholder=""
+                                       maxlength="50">
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="form-group col-sm-4">
                                 <label for="edit_publisher" class="control-label">Publisher</label>
-                                <input type="text" class="form-control" id="edit_publisher" placeholder="" maxlength="50">
+                                <input type="text" class="form-control" id="edit_publisher" placeholder=""
+                                       maxlength="50">
                             </div>
                             <div class="form-group col-sm-4" id="edit_year_group">
                                 <label for="edit_year" class="control-label">Year</label>
@@ -484,7 +492,8 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label" for="edit_description">Description</label>
                                 <div class="col-sm-10">
-                                    <textarea class="form-control" id="edit_description" rows="2" maxlength="600"></textarea>
+                                    <textarea class="form-control" id="edit_description" rows="2"
+                                              maxlength="600"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -582,9 +591,9 @@
                 </div>
             </div>
         </div>
-        <!--  MESSAGE - modal - end-->
+        <!-- MESSAGE - modal - end-->
 
-        <!--  DELETE BOOK - modal - start-->
+        <!-- DELETE BOOK - modal - start-->
         <div class="modal fade bs-example-modal-sm border" tabindex="-1" role="dialog"
              aria-labelledby="deleteBookModalLabel" aria-hidden="true" id="deleteBookModal">
             <div class="modal-dialog modal-sm">
@@ -609,9 +618,9 @@
                 </div>
             </div>
         </div>
-        <!--  MESSAGE - modal - end-->
+        <!-- MESSAGE - modal - end-->
 
-<!--        IMAGE PREVIEW - modal - start-->
+        <!-- IMAGE PREVIEW - modal - start-->
         <!-- Creates the bootstrap modal where the image will appear -->
         <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
              aria-hidden="true">
@@ -646,7 +655,7 @@
                 </div>
             </div>
         </div>
-        <!--        IMAGE PREVIEW - modal - end-->
+        <!-- IMAGE PREVIEW - modal - end-->
 
 
         <!-- Page Inner Cabinet -->
@@ -678,7 +687,8 @@
                                 <div class="row">
                                     <div class="form-group col-sm-4 required" id="profile_name_group">
                                         <label for="edit_profile_name" class="control-label">Name </label>
-                                        <input type="text" class="form-control" id="edit_profile_name" placeholder="" maxlength="50">
+                                        <input type="text" class="form-control" id="edit_profile_name" placeholder=""
+                                               maxlength="50">
                                     </div>
                                     <div class="form-group col-sm-5" id="profile_surname_group">
                                         <label for="edit_profile_surname" class="control-label">Surname</label>
@@ -710,7 +720,8 @@
                                     <div class="form-group col-sm-6" id="profile_hero_group">
                                         <label class="control-label" for="edit_profile_hero">Hero you are similar
                                             to</label>
-                                        <input type="text" class="form-control" id="edit_profile_hero" placeholder="" maxlength="50">
+                                        <input type="text" class="form-control" id="edit_profile_hero" placeholder=""
+                                               maxlength="50">
                                     </div>
                                 </div>
 
@@ -725,7 +736,8 @@
                                     <div class="form-group col-sm-4">
                                         <label class="control-label" for="edit_profile_gender">Gender</label>
                                         <div class="">
-                                            <select style="margin-bottom:15px;" class="form-control" id="edit_profile_gender">
+                                            <select style="margin-bottom:15px;" class="form-control"
+                                                    id="edit_profile_gender">
                                                 <option value="0">select</option>
                                                 <option value="2">male</option>
                                                 <option value="1">female</option>
@@ -793,13 +805,15 @@
                                     </div>
                                     <div class="form-group col-sm-6" id="profile_viber_group">
                                         <label class="control-label" for="edit_profile_viber">Viber</label>
-                                        <input type="text" class="form-control" id="edit_profile_viber" placeholder="" maxlength="30">
+                                        <input type="text" class="form-control" id="edit_profile_viber" placeholder=""
+                                               maxlength="30">
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="form-group col-sm-12">
-                                        <button class="btn btn-default disabled right" id="update_profile_btn">Update</button>
+                                        <button class="btn btn-default disabled right" id="update_profile_btn">Update
+                                        </button>
                                     </div>
                                 </div>
 
@@ -814,41 +828,15 @@
             </div>
         </div><!-- Page Inner Cabinet -->
 
-        <!-- Page Inner Profile-->
-        <!--
-                <div class="page-inner no-page-title hidden" id="page-inner-profile">
-                    <div id="main-wrapper-profile">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="panel panel-white">
-                                    <div class="panel-heading clearfix">
-                                        <h4 class="panel-title" id="profile_title">User Profile</h4>
-                                    </div>
-                                    <div class="panel-body user-profile-panel">
-                                        <div id="edit_profile_button"></div>
-                                        <img src="images/reader-girl.png" class="user-profile-image img-circle" alt="">
-                                        <h4 class="text-center m-t-lg" id="name_surname"></h4>
-                                        <hr>
-                                        <ul class="list-unstyled text-center" id="info">
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>&lt;!&ndash; Row &ndash;&gt;
-                    </div>&lt;!&ndash; Main Wrapper &ndash;&gt;
-                </div>&lt;!&ndash; /Page Inner Profile &ndash;&gt;
-        -->
-
         <div class="page-right-sidebar" id="main-right-sidebar">
             <div class="page-right-sidebar-inner">
                 <div class="right-sidebar-top">
                     <div class="right-sidebar-tabs">
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs" role="tablist">
-                            <li role="presentation" class="active" id="chat-tab"><a href="#chat"
-                                                                                    aria-controls="chat"
-                                                                                    role="tab"
-                                                                                    data-toggle="tab">chat</a></li>
+                            <li role="presentation" class="active" id="chat-tab">
+                                <a href="#chat" aria-controls="chat" role="tab" data-toggle="tab" id="chat_title"></a>
+                            </li>
                         </ul>
                     </div>
                     <a class="right-sidebar-toggle right-sidebar-close" href="#" onclick="closeDialogs()"
@@ -883,7 +871,6 @@
 <script src="assets/js/pages/yearpicker.js"></script>
 
 
-
 <!--<script src="js/bulma.js"></script>-->
 <script src="js/main.js"></script>
 <script src="js/auth.js"></script>
@@ -891,6 +878,7 @@
 <script src="js/cabinet.js"></script>
 <script src="js/chat.js"></script>
 <script src="js/images.js"></script>
+<script src="js/language.js"></script>
 <script src="js/profile.js"></script>
 <script src="js/readers.js"></script>
 <script src="js/validate.js"></script>

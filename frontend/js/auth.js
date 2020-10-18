@@ -1,7 +1,4 @@
-function authenticateAReader(email, password) {
-    if (!validateExistentReader(email, password)) {
-        return false;
-    }
+function authenticateNewlyCreatedReader(email, password) {
 
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
@@ -21,6 +18,7 @@ function authenticateAReader(email, password) {
             if (this.status == 200) {
                 let token = JSON.parse(this.responseText);
                 localStorage.setItem('tokenData', JSON.stringify(token));
+
                 window.location.href = 'cabinet.html';
             }
         }
@@ -37,6 +35,14 @@ function authenticateAReader(email, password) {
 
     return false;
 
+}
+
+function authenticateAReader(email, password) {
+    if (!validateExistentReader(email, password)) {
+        return false;
+    }
+
+    authenticateNewlyCreatedReader(email, password);
 }
 
 function registerAReader() {
@@ -60,7 +66,7 @@ function registerAReader() {
                 return false;
             } else if (this.status == 200) {
                 showSuccessModal("User with email " + new_email + " was created");
-                authenticateAReader(new_email, new_password);
+                authenticateNewlyCreatedReader(new_email, new_password);
             }
         }
     };

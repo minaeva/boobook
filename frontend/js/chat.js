@@ -80,9 +80,10 @@ function getUserConversationalists() {
         }
         let allUsersHtml =
             '    <div class="chat-list">\n' +
-            '       <span class="chat-title">Recent</span>\n' + userDataHtml +
+            '       <span class="chat-title" id="recent_title"></span>\n' + userDataHtml +
             '    </div>\n';
         $('#chat').html(allUsersHtml);
+        $('#recent_title').text(application_language.recent_title);
     });
 }
 

@@ -487,7 +487,16 @@ function displayFoundBooks(response) {
 }
 
 function showOwnersBooks() {
-    setPageTitle('My Books');
+
+    /*
+        if (application_language == null) {
+            application_language = en;
+        }
+    */
+
+    resetLanguage();
+
+    setPageTitle(application_language.menu_my_books_title);
     setPageSubtitle('');
 
     let xhr = new XMLHttpRequest();

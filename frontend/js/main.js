@@ -142,25 +142,16 @@ function clearContent() {
     document.getElementById("accordion").innerHTML = '';
 }
 
-function getLanguage() {
-    (localStorage.getItem('language') == null) ? setLanguage('en') : false;
-    $.ajax({
-        url: '/language/' + localStorage.getItem('language') + '.json',
-        dataType: 'json', async: false, dataType: 'json',
-        success: function (lang) {
-            language = lang
-        }
-    });
-}
-
 function setRussianLanguage() {
     localStorage.setItem('language', 'ru');
     $('#selected_app_language').text('RU');
-    $('#app_language_1').text('UA');
-    $("#app_language_1").attr("onclick", "setUkrainianLanguage()");
-    $('#app_language_2').text('EN');
-    $("#app_language_2").attr("onclick", "setEnglishLanguage()");
 
+    $('#app_language_text_1').text('UA');
+    $("#app_language_link_1").attr("onclick", "setUkrainianLanguage()");
+    $('#app_language_text_2').text('EN');
+    $("#app_language_link_2").attr("onclick", "setEnglishLanguage()");
+
+    application_language = ru;
     resetLanguage();
     return false;
 }
@@ -168,11 +159,13 @@ function setRussianLanguage() {
 function setUkrainianLanguage() {
     localStorage.setItem('language', 'ua');
     $('#selected_app_language').text('UA');
-    $('#app_language_1').text('EN');
-    $("#app_language_1").attr("onclick", "setEnglishLanguage()");
-    $('#app_language_2').text('RU');
-    $("#app_language_2").attr("onclick", "setRussianLanguage()");
 
+    $('#app_language_text_1').text('EN');
+    $("#app_language_link_1").attr("onclick", "setEnglishLanguage()");
+    $('#app_language_text_2').text('RU');
+    $("#app_language_link_2").attr("onclick", "setRussianLanguage()");
+
+    application_language = ua;
     resetLanguage();
     return false;
 }
@@ -180,41 +173,53 @@ function setUkrainianLanguage() {
 function setEnglishLanguage() {
     localStorage.setItem('language', 'en');
     $('#selected_app_language').text('EN');
-    $('#app_language_1').text('RU');
-    $("#app_language_1").attr("onclick", "setRussianLanguage()");
-    $('#app_language_2').text('UA');
-    $("#app_language_2").attr("onclick", "setUkrainianLanguage()");
+    $('#app_language_text_1').text('RU');
+    $("#app_language_link_1").attr("onclick", "setRussianLanguage()");
+    $('#app_language_text_2').text('UA');
+    $("#app_language_link_2").attr("onclick", "setUkrainianLanguage()");
 
+    application_language = en;
     resetLanguage();
     return false;
 }
 
 function resetLanguage() {
-    let language;
+    let savedLanguage = localStorage.getItem('language');
+    if (savedLanguage == null || savedLanguage == 'en') {
+        application_language = en;
+    } else if (savedLanguage == 'ru') {
+        application_language = ru;
+    } else if (savedLanguage == 'ua') {
+        application_language = ua;
+    }
 
-    (localStorage.getItem('language') == null) ? setEnglishLanguage() : false;
-
-    // alert(localStorage.getItem('language'));
-
-
-/*    $.getJSON("../language/ru.json", function(data){
-        console.log(data.logo_title); // Prints: Harry
-        console.log(data.email); // Prints: 14
-    }).fail(function(){
-        console.log("An error has occurred.");
-    });*/
-
-
-    $.ajax({
-        url: '../language/' + localStorage.getItem('language') + '.json',
-        dataType: 'json', async: false, dataType: 'json',
-        success: function (lang) {
-            language = lang
-        }
-    });
-
-    alert(language.logo_title);
-    $('#logo_title').text(language.logo_title);
-
+    $('#menu_add_book_title').text(application_language.menu_add_book_title);
+    $('#menu_my_books_title').text(application_language.menu_my_books_title);
+    $('#menu_books_title').text(application_language.menu_books_title);
+    $('#menu_readers_title').text(application_language.menu_readers_title);
+    $('#menu_favorite_title').text(application_language.menu_favorite_title);
+    $('#menu_favorite_readers_title').text(application_language.menu_favorite_readers_title);
+    $('#logo_title').text(application_language.logo_title);
+    $('#chat_title').text(application_language.chat_title);
+    $('#profile_title').text(application_language.profile_title);
+    $('#logout_title').text(application_language.logout_title);
+    $('#recent_title').text(application_language.recent_title);
+    $('#add_book_title').text(application_language.add_book_title);
+    $('#book_title_title').text(application_language.book_title_title);
+    $('#author_name_title').text(application_language.author_name_title);
+    $('#author_surname_title').text(application_language.author_surname_title);
+    $('#publisher_title').text(application_language.publisher_title);
+    $('#year_title').text(application_language.year_title);
+    $('#pages_quantity_title').text(application_language.pages_quantity_title);
+    $('#language_title').text(application_language.language_title);
+    $('#select_title').text(application_language.select_title);
+    $('#select_cover_title').text(application_language.select_cover_title);
+    $('#select_illustrations_title').text(application_language.select_illustrations_title);
+    $('#select_age_title').text(application_language.select_age_title);
+    $('#cover_title').text(application_language.cover_title);
+    $('#illustrations_title').text(application_language.illustrations_title);
+    $('#age_group_title').text(application_language.age_group_title);
 
 }
+
+
