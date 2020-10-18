@@ -104,7 +104,7 @@ let ua = {
   "logout_title": "Вийти",
   "add_book_title": "Додати книгу",
   "book_title_title": "Назва ",
-  "author_name_title": "Ім/'я автора ",
+  "author_name_title": "Ім'я автора ",
   "author_surname_title": "Прізвище автора ",
   "publisher_title": "Видавництво",
   "year_title": "Рік",
