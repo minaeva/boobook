@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Responsive Admin Dashboard Template">
     <meta name="keywords" content="admin,dashboard">
-    <meta name="author" content="stacks">
+    <meta name="author" content="sveta minaeva">
     <!-- The above 6 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Title -->
-    <title>BooBook - Register Page</title>
+    <title id="register_page_title"></title>
 
     <!-- Styles -->
     <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
@@ -45,13 +45,13 @@
         <div id="main-wrapper" class="container-fluid">
             <div class="row">
                 <div class="col-sm-6 col-md-3 login-box">
-                    <h4 class="login-title">Create an account</h4>
+                    <h4 class="login-title" id="register_form_title"></h4>
                     <form>
                         <div class="form-group" id="register_name_group">
-                            <label for="new_name">First name
+                            <label for="new_name" id="register_name_title">
                                 <span style="color:red;">*</span>
                             </label>
-                            <input type="email" class="form-control" id="new_name">
+                            <input type="text" class="form-control" id="new_name">
                         </div>
                         <!--
                                                 <div class="form-group">
@@ -60,19 +60,19 @@
                                                 </div>
                         -->
                         <div class="form-group" id="register_email_group">
-                            <label for="new_email">Email address
+                            <label for="new_email" id="register_email_title">
                                 <span style="color:red;">*</span>
                             </label>
                             <input type="email" class="form-control" id="new_email">
                         </div>
                         <div class="form-group" id="register_password_group">
-                            <label for="new_password">Password
+                            <label for="new_password" id="register_password_title">
                                 <span style="color:red;">*</span>
                             </label>
                             <input type="password" class="form-control" id="new_password">
                         </div>
-                        <a href="#" onclick="registerAReader(this); return false" class="btn btn-primary">Register</a>
-                        <a href="index.html" class="btn btn-default">Login</a><br>
+                        <a href="#" onclick="registerAReader(this); return false" class="btn btn-primary" id="register_register_button_title"></a>
+                        <a href="index.html" class="btn btn-default" id="register_login_button_title"></a><br>
                     </form>
 
                     <!-- <div class="social-login">
@@ -98,8 +98,7 @@
                             <div class="modal-body" id="smallModalBody">
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-info" data-dismiss="modal">
-                                    Close
+                                <button type="button" class="btn btn-info" data-dismiss="modal" id="register_close_title">
                                 </button>
                             </div>
                         </div>
@@ -126,6 +125,8 @@
 <script src="js/language.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="js/validate.js"></script>
+
+<script>resetLanguageOnRegister()</script>
 
 </body>
 </html>

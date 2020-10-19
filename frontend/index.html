@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="BooBook - book sharing helper">
     <meta name="keywords" content="book, library, share">
-    <meta name="author" content="Minaeva">
+    <meta name="author" content="sveta minaeva">
     <!-- The above 6 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Title -->
-    <title>BooBook - Login Page</title>
+    <title id="login_page_title"></title>
 
     <!-- Styles -->
     <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
@@ -45,25 +45,25 @@
         <div id="main-wrapper" class="container-fluid">
             <div class="row">
                 <div class="col-sm-6 col-md-3 login-box">
-                    <h4 class="login-title">Login</h4>
+                    <h4 class="login-title" id="login_login_form_title"></h4>
                     <form>
                         <div class="form-group" id="login_email_group">
-                            <label for="reader_email">Email address
+                            <label for="reader_email" id="login_email_title">
                                 <span style="color:red;">*</span>
                             </label>
                             <input type="email" class="form-control" id="reader_email" autocomplete="on">
                         </div>
                         <div class="form-group" id="login_password_group">
-                            <label for="reader_password">Password
+                            <label for="reader_password" id="login_password_title">
                                 <span style="color:red;">*</span>
                             </label>
                             <input type="password" class="form-control" id="reader_password" autocomplete="on">
                         </div>
-                        <a href="#" class="btn btn-primary"
+                        <a href="#" class="btn btn-primary" id="login_login_button_title"
                            onclick="authenticateAReader(document.getElementById('reader_email').value, document.getElementById('reader_password').value); return false">
-                            Login</a>
-                        <a href="register.html" class="btn btn-default">
-                            Register</a><br>
+                            </a>
+                        <a href="register.html" class="btn btn-default" id="login_register_button_title">
+                            </a><br>
                         <!--                                    <a href="index.html" class="forgot-link">Forgot password?</a>-->
                     </form>
 <!--
@@ -121,7 +121,7 @@
 <script src="js/validate.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-<script>clearRequestHeader()</script>
+<script>loadIndex()</script>
 
 </body>
 </html>
