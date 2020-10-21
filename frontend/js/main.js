@@ -254,6 +254,56 @@ function resetLanguage() {
     $('#select_age_midschool_title').text(application_language.select_age_midschool_title);
     $('#select_age_adult_title').text(application_language.select_age_adult_title);
 
+    $('#description_title').text(application_language.description_title);
+    $('#images_description_title').text(application_language.images_description_title);
+    $('#fileButton').text(application_language.fileButton);
+    $('#add_book_close_title').text(application_language.add_book_close_title);
+    $('#add_book_button_title').text(application_language.add_book_button_title);
+
+
+
+    $('#edit_book_modal_title').text(application_language.edit_book_modal_title);
+    $('#edit_book_title_title').text(application_language.edit_book_title_title);
+    $('#edit_book_active_title').text(application_language.edit_book_active_title);
+    $('#edit_book_active_yes').text(application_language.edit_book_active_yes);
+    $('#edit_book_active_no').text(application_language.edit_book_active_no);
+    $('#edit_book_author_name_title').text(application_language.edit_book_author_name_title);
+    $('#edit_book_author_surname_title').text(application_language.edit_book_author_surname_title);
+    $('#edit_book_publisher_title').text(application_language.edit_book_publisher_title);
+    $('#edit_book_year_title').text(application_language.edit_book_year_title);
+    $('#edit_book_pages_quantity_title').text(application_language.edit_book_pages_quantity_title);
+    $('#edit_book_language_title').text(application_language.edit_book_language_title);
+    $('#edit_book_language_select_title').text(application_language.edit_book_language_select_title);
+    $('#edit_book_language_rus_title').text(application_language.edit_book_language_rus_title);
+    $('#edit_book_language_ukr_title').text(application_language.edit_book_language_ukr_title);
+    $('#edit_book_language_eng_title').text(application_language.edit_book_language_eng_title);
+    $('#edit_book_language_oth_title').text(application_language.edit_book_language_oth_title);
+    $('#edit_book_cover_title').text(application_language.edit_book_cover_title);
+    $('#edit_book_select_cover_title').text(application_language.edit_book_select_cover_title);
+    $('#edit_book_select_hard_title').text(application_language.edit_book_select_hard_title);
+    $('#edit_book_select_soft_title').text(application_language.edit_book_select_soft_title);
+    $('#edit_book_illustrations_title').text(application_language.edit_book_illustrations_title);
+    $('#edit_book_select_illustrations_title').text(application_language.edit_book_select_illustrations_title);
+    $('#edit_book_select_illustrations_no_title').text(application_language.edit_book_select_illustrations_no_title);
+    $('#edit_book_select_illustrations_bw_title').text(application_language.edit_book_select_illustrations_bw_title);
+    $('#edit_book_select_illustrations_color_title').text(application_language.edit_book_select_illustrations_color_title);
+    $('#edit_book_age_group_title').text(application_language.edit_book_age_group_title);
+    $('#edit_book_select_age_title').text(application_language.edit_book_select_age_title);
+    $('#edit_book_select_age_baby_title').text(application_language.edit_book_select_age_baby_title);
+    $('#edit_book_select_age_preschool_title').text(application_language.edit_book_select_age_preschool_title);
+    $('#edit_book_select_age_junior_title').text(application_language.edit_book_select_age_junior_title);
+    $('#edit_book_select_age_midschool_title').text(application_language.edit_book_select_age_midschool_title);
+    $('#edit_book_select_age_adult_title').text(application_language.edit_book_select_age_adult_title);
+    $('#edit_book_description_title').text(application_language.edit_book_description_title);
+    $('#edit_book_images_description_title').text(application_language.edit_book_images_description_title);
+    $('#edit_fileButton').text(application_language.edit_fileButton);
+    $('#edit_book_close_title').text(application_language.edit_book_close_title);
+    $('#edit_book_button_title').text(application_language.edit_book_button_title);
+
+
+    // $('#').text(application_language.);
+
+
 }
 
 
@@ -281,4 +331,11 @@ function resetLanguageOnRegister() {
     $('#register_login_button_title').text(application_language.register_login_button_title);
     $('#register_close_title').text(application_language.register_close_title);
 
+}
+
+function showBookDetailsButtons(){
+    $('#details_edit_book_button_title').text(application_language.details_edit_book_button_title);
+    $('#details_set_inactive_button_title').text(application_language.details_set_inactive_button_title);
+    $('#details_set_active_button_title').text(application_language.details_set_active_button_title);
+    $('#details_delete_button_title').text(application_language.details_delete_button_title);
 }

@@ -601,25 +601,25 @@ function showBookDetails(bookId, ownerId) {
                 } else {
                     html +=
                         '<div class="content">\n' +
-                        '<button type="button" class="btn btn-default margin-left-5px" style="float: right" data-toggle="modal"' +
+                        '<button type="button" class="btn btn-default margin-left-5px" id="details_edit_book_button_title" style="float: right" data-toggle="modal"' +
                         'onclick="openEditBookModal(' + bookId + ',\'' + bookDetails.title +
                         '\',\'' + bookDetails.authorName + '\',\'' + bookDetails.authorSurname +
                         '\',\'' + bookDetails.publisher + '\',\'' + bookDetails.language + '\',\'' + parsedYear +
                         '\',\'' + bookDetails.cover + '\',\'' + bookDetails.illustrations + '\',\'' + bookDetails.ageGroup +
                         '\',\'' + parsedPages + '\',\'' + parsedDescription + '\',\'' + bookDetails.active + '\'); ' +
-                        'return false;">Edit</button>&nbsp;';
+                        'return false;"></button>&nbsp;';
                     if (bookDetails.active) {
                         html +=
-                            '<button type="button" class="btn btn-default margin-left-5px" style="float: right" ' +
-                            'onclick="setInactive(' + bookId + ', \'' + bookDetails.title + '\'); return false; ">Set inactive</button>';
+                            '<button type="button" class="btn btn-default margin-left-5px" id="details_set_inactive_button_title" style="float: right" ' +
+                            'onclick="setInactive(' + bookId + ', \'' + bookDetails.title + '\'); return false; "></button>';
                     } else {
                         html +=
-                            '<button type="button" class="btn btn-default margin-left-5px" style="float: right" ' +
-                            'onclick="setActive(' + bookId + ', \'' + bookDetails.title + '\'); return false; ">Set active</button>';
+                            '<button type="button" class="btn btn-default margin-left-5px" id="details_set_active_button_title" style="float: right" ' +
+                            'onclick="setActive(' + bookId + ', \'' + bookDetails.title + '\'); return false; "></button>';
                     }
                     html +=
-                        '<button type="button" class="btn btn-default margin-left-5px" style="float: right" ' +
-                        'onclick="openDeleteBookModal(' + bookId + ', \'' + bookDetails.title + '\'); return false;">Delete</button>' +
+                        '<button type="button" class="btn btn-default margin-left-5px" id="details_delete_button_title" style="float: right" ' +
+                        'onclick="openDeleteBookModal(' + bookId + ', \'' + bookDetails.title + '\'); return false;"></button>' +
                         '</div>';
 
                 }
@@ -627,6 +627,7 @@ function showBookDetails(bookId, ownerId) {
             let collapsed = document.getElementById("collapse" + bookId);
             collapsed.innerHTML = html;
             showBookImages(bookId);
+            showBookDetailsButtons();
         }
     }
 
