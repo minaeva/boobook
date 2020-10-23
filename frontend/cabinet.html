@@ -147,7 +147,7 @@
                             <!-- menu - messages - start -->
                             <li><a href="#" class="right-sidebar-toggle" onclick="getUserConversationalists();"
                                    data-sidebar-id="main-right-sidebar">
-                                <i class="fa fa-envelope"></i>
+                                <i class="fa fa-envelope" id="envelope"></i>
                             </a>
                             </li>
                             <!-- menu - messages - end -->
@@ -155,24 +155,22 @@
                             <!-- menu - language - start -->
                             <li class="dropdown">
                                 <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="selected_app_language"
-                                   role="button"
-                                   aria-haspopup="true" aria-expanded="false">EN
+                                   role="button" aria-haspopup="true" aria-expanded="false">EN
                                 </a>
                                 <ul class="dropdown-menu dropdown-content">
 
                                     <li class="slimscroll dropdown-notifications">
                                         <ul class="list-unstyled dropdown-oc">
                                             <li>
-                                                <a href="#" class="right-sidebar-toggle"
-                                                   onclick="setRussianLanguage();" id="app_language_link_1">
-                                                       <span class="notification-info" id="app_language_text_1">RU
+                                                <a href="#" class="right-sidebar-toggle" onclick="setRussianLanguage();"
+                                                   id="app_language_link_1">
+                                                    <span class="notification-info" id="app_language_text_1">RU
                                                     </span>
                                                 </a>
                                             </li>
                                             <li>
                                                 <a href="#" class="right-sidebar-toggle"
                                                    onclick="setUkrainianLanguage();" id="app_language_link_2">
-                                                    <!--                                                   data-sidebar-id="main-right-sidebar">-->
                                                     <span class="notification-info" id="app_language_text_2">UA
                                                     </span>
                                                 </a>
@@ -554,7 +552,8 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal" id="edit_book_close_title">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" id="edit_book_close_title"
+                                onclick="closeEditBookModal(); return false">
                         </button>
                         <button type="button" class="btn btn-info" onclick="editBook(); return false" id="edit_book_button_title">
                         </button>
@@ -877,7 +876,7 @@
 <script src="js/readers.js"></script>
 <script src="js/validate.js"></script>
 
-<script>showOwnersBooks();</script>
+<script>openCabinet();</script>
 <script>connectToChat();</script>
 </body>
 </html>

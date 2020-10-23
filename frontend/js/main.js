@@ -152,43 +152,50 @@ function clearContent() {
 
 function setRussianLanguage() {
     localStorage.setItem('language', 'ru');
-    $('#selected_app_language').text('RU');
-
-    $('#app_language_text_1').text('UA');
-    $("#app_language_link_1").attr("onclick", "setUkrainianLanguage()");
-    $('#app_language_text_2').text('EN');
-    $("#app_language_link_2").attr("onclick", "setEnglishLanguage()");
-
     application_language = ru;
+    setRuLanguageOnUI();
     resetLanguage();
     return false;
 }
 
 function setUkrainianLanguage() {
     localStorage.setItem('language', 'ua');
-    $('#selected_app_language').text('UA');
-
-    $('#app_language_text_1').text('EN');
-    $("#app_language_link_1").attr("onclick", "setEnglishLanguage()");
-    $('#app_language_text_2').text('RU');
-    $("#app_language_link_2").attr("onclick", "setRussianLanguage()");
-
     application_language = ua;
+    setUaLanguageOnUI();
     resetLanguage();
     return false;
 }
 
+function setUaLanguageOnUI() {
+    $('#selected_app_language').text('UA');
+    $('#app_language_text_1').text('EN');
+    $("#app_language_link_1").attr("onclick", "setEnglishLanguage()");
+    $('#app_language_text_2').text('RU');
+    $("#app_language_link_2").attr("onclick", "setRussianLanguage()");
+}
+
+function setRuLanguageOnUI() {
+    $('#selected_app_language').text('RU');
+    $('#app_language_text_1').text('UA');
+    $("#app_language_link_1").attr("onclick", "setUkrainianLanguage()");
+    $('#app_language_text_2').text('EN');
+    $("#app_language_link_2").attr("onclick", "setEnglishLanguage()");
+}
+
 function setEnglishLanguage() {
     localStorage.setItem('language', 'en');
+    application_language = en;
+    setEnLanguageOnUI();
+    resetLanguage();
+    return false;
+}
+
+function setEnLanguageOnUI() {
     $('#selected_app_language').text('EN');
     $('#app_language_text_1').text('RU');
     $("#app_language_link_1").attr("onclick", "setRussianLanguage()");
     $('#app_language_text_2').text('UA');
     $("#app_language_link_2").attr("onclick", "setUkrainianLanguage()");
-
-    application_language = en;
-    resetLanguage();
-    return false;
 }
 
 function getLanguageFromLocalStorage() {
@@ -303,6 +310,7 @@ function resetLanguage() {
 
     // $('#').text(application_language.);
 
+    setPageTitle(application_language.menu_my_books_title);
 
 }
 
@@ -333,9 +341,13 @@ function resetLanguageOnRegister() {
 
 }
 
-function showBookDetailsButtons(){
-    $('#details_edit_book_button_title').text(application_language.details_edit_book_button_title);
-    $('#details_set_inactive_button_title').text(application_language.details_set_inactive_button_title);
-    $('#details_set_active_button_title').text(application_language.details_set_active_button_title);
-    $('#details_delete_button_title').text(application_language.details_delete_button_title);
+function resetLanguageOnCabinet() {
+    getLanguageFromLocalStorage();
+
+    if (application_language == ua) {
+        setUaLanguageOnUI();
+    } else if (application_language == ru) {
+        setRuLanguageOnUI();
+    }
+
 }
