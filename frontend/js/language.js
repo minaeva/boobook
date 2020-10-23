@@ -133,7 +133,7 @@ let ru = {
   "search_book_author_surname_title": "Фамилия автора",
   "search_book_city_title": "Город",
   "search_book_age_from_title": "От возрастной группы",
-  "search_book_age_to_title": "До возрастной группы ",
+  "search_book_age_to_title": "До возрастной группы",
   "search_book_year_from_title": "От года",
   "search_book_year_to_title": "До года",
   "search_button_title": "Искать",

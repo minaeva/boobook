@@ -311,7 +311,7 @@ function resetLanguage() {
     // $('#').text(application_language.);
 
     setPageTitle(application_language.menu_my_books_title);
-
+    showSearchBooksHeader();
 }
 
 

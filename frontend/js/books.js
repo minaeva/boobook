@@ -433,7 +433,7 @@ function showSearchBooksHeader() {
         '    </div>\n' +
         '    <div class="form-group col-sm-4" id="year_to_group">\n' +
         '      <input type="text" class="form-control yearpicker" autocomplete="off" id="search_year_to" placeholder="' +
-        application_language.search_book_age_to_title + '">\n' +
+        application_language.search_book_year_to_title + '">\n' +
         '    </div>\n' +
         '  </div>\n' +
 
