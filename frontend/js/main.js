@@ -307,11 +307,22 @@ function resetLanguage() {
     $('#edit_book_close_title').text(application_language.edit_book_close_title);
     $('#edit_book_button_title').text(application_language.edit_book_button_title);
 
+    $('#profile_name_title').text(application_language.profile_name_title);
+    $('#profile_surname_title').text(application_language.profile_surname_title);
+    $('#profile_book_to_the_moon_title').text(application_language.profile_book_to_the_moon_title);
+    $('#profile_hero_title').text(application_language.profile_hero_title);
+    $('#profile_year_title').text(application_language.profile_year_title);
+    $('#profile_gender_title').text(application_language.profile_gender_title);
+    $('#profile_gender_select_title').text(application_language.profile_gender_select_title);
+    $('#profile_gender_female_title').text(application_language.profile_gender_female_title);
+    $('#profile_gender_male_title').text(application_language.profile_gender_male_title);
+    $('#profile_super_power_title').text(application_language.profile_super_power_title);
+//TODO
 
     // $('#').text(application_language.);
 
     setPageTitle(application_language.menu_my_books_title);
-    showSearchBooksHeader();
+    // showSearchBooksHeader();
 }
 
 
