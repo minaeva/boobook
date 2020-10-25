@@ -730,13 +730,13 @@ function stringToBoolean(val) {
 
 function openDeleteBookModal(bookId, title) {
     $('#deleteBookModal').modal('show');
-    document.getElementById("deleteBookModalTitle").innerHTML = ' <img class="img-responsive" style="margin:0 auto;" src="' +
+    document.getElementById("delete_book_modal_title_title").innerHTML = ' <img class="img-responsive" style="margin:0 auto;" src="' +
         getRandomWarningImage() + '" alt="">\n';
-    document.getElementById("deleteBookModalBody").innerHTML = application_language.doNotDelete_warning_title + '<br><br>' +
+    document.getElementById("delete_book_modal_body_title").innerHTML = application_language.doNotDelete_warning_title + '<br><br>' +
         application_language.doYouStillWantToDelete_title + ' \'' + title + '\'?';
 
     $('#deleteBookModal').modal('show');
-    $('#delete-button').click(function () {
+    $('#delete_book_delete_title').click(function () {
         deleteBook(bookId, title);
     });
 
