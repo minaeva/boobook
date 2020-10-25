@@ -4,7 +4,7 @@ function showReaderDetails(readerId) {
 
         if (this.readyState === 4) {
             if (this.status === 404) {
-                showWarningModal("Reader details for reader with id " + readerId + " cannot be found");
+                showWarningModal(application_language.readerDetailsWithId_title + readerId + application_language.cannotBeFound_title);
                 return false;
             } else if (this.status === 200) {
                 let detail = JSON.parse(this.responseText);
@@ -28,36 +28,36 @@ function showReaderDetails(readerId) {
                 let html =
                     '<div class="row">\n' +
                     '  <div class="form-group col-sm-6">\n' +
-                    '    <div class="text-muted">Country:</div>\n' +
+                    '    <div class="text-muted">' + application_language.profile_country_title + ':</div>\n' +
                     '    <div>' + notNull(detail.country) + '</div><br>\n' +
-                    '    <div class="text-muted">City:</div>\n' +
+                    '    <div class="text-muted">' + application_language.profile_city_title + ':</div>\n' +
                     '    <div>' + notNull(detail.city) + '</div><br>\n' +
-                    '    <div class="text-muted">District:</div>\n' +
+                    '    <div class="text-muted">' + application_language.profile_district_title + ':</div>\n' +
                     '    <div>' + notNull(detail.district) + '</div><br>\n' +
-                    '    <div class="text-muted">Telegram:</div>\n' +
+                    '    <div class="text-muted">' + application_language.profile_telegram_title + ':</div>\n' +
                     '    <div>' + notNull(detail.telegram) + '</div><br>\n' +
-                    '    <div class="text-muted">Viber:</div>\n' +
+                    '    <div class="text-muted">' + application_language.profile_viber_title + ':</div>\n' +
                     '    <div>' + notNull(detail.viber) + '</div><br>\n' +
-                    '    <div class="text-muted">Year of birth:</div>\n' +
+                    '    <div class="text-muted">' + application_language.profile_year_title + ':</div>\n' +
                     '    <div>' + notNull(detail.yearOfBirth) + '</div><br>\n' +
-                    '    <div class="text-muted">Gender:</div>\n' +
+                    '    <div class="text-muted">' + application_language.profile_gender_title + ':</div>\n' +
                     '    <div>' + genderToString(detail.gender) + '</div><br>\n' +
-                    '    <div class="text-muted">Superpower:</div>\n' +
+                    '    <div class="text-muted">' + application_language.profile_super_power_title + ':</div>\n' +
                     '    <div>' + genderToString(detail.superPower) + '</div><br>\n' +
                     '  </div>\n' +
                     '  <div class="form-group col-sm-6">\n' +
                     '    <img id="selected_reader_image" src="images/reader-girl.png" class="reader-image">\n' +
                     '  </div>\n' +
                     '</div>\n' +
-                    '<span class="text-muted">Book one would take to Mars: ' + notNull(detail.bookToTheMoon) + '</span><br/>\n' +
-                    '<span class="text-muted">When there is nothing to read: ' + notNull(detail.hobby) + '</span><br/>\n' +
-                    '<span class="text-muted">Hero: ' + notNull(detail.hero) + '</span><br/>\n' +
-                    '<span class="text-muted">Book of the year: ' + notNull(detail.bookOfTheYear) + '</span><br/>\n';
+                    '<span class="text-muted">' + application_language.profile_book_to_the_moon_title + ': ' + notNull(detail.bookToTheMoon) + '</span><br/>\n' +
+                    '<span class="text-muted">' + application_language.profile_hobby_title + ': ' + notNull(detail.hobby) + '</span><br/>\n' +
+                    '<span class="text-muted">' + application_language.profile_hero_title + ': ' + notNull(detail.hero) + '</span><br/>\n' +
+                    '<span class="text-muted">' + application_language.profile_book_of_the_year_title + ': ' + notNull(detail.bookOfTheYear) + '</span><br/>\n';
 
                 if (detail.fbPage != null) {
                     html +=
-                        '<span class="text-muted">Facebook: </span>' +
-                        '    <a href=' + detail.fbPage + ' target="_blank" class="underline">open</a></h5>\n';
+                        '<span class="text-muted">' + application_language.profile_fb_title + ': </span>' +
+                        '    <a href=' + detail.fbPage + ' target="_blank" class="underline">Facebook</a></h5>\n';
                 }
 
                 html += '<h5><a href="#" class="right-sidebar-toggle"\n' +
@@ -98,7 +98,7 @@ function openReaderPage(readerId) {
                         '        <h4 class="panel-title">\n' +
                         '            <a data-toggle="collapse" onclick="showBookDetails(' + book.id + ', ' + book.ownerId + '); return false;" data-parent="#accordion" href="#collapse' + book.id + '"\n' +
                         '               aria-expanded="true" aria-controls="collapse' + book.id + '">\n' + book.title +
-                        '            <h5 class="text-muted"> by ' + notNull(book.authorName) + ' ' + notNull(book.authorSurname) + '</h5>\n' +
+                        '            <h5 class="text-muted">' + notNull(book.authorName) + ' ' + notNull(book.authorSurname) + '</h5>\n' +
                         '            </a>\n' +
                         '        </h4>\n' +
                         '    </div>\n' +
@@ -179,7 +179,7 @@ function showFavoriteReaders() {
 
         if (this.readyState === 4) {
             if (404 === this.status) {
-                showWarningModal('Not any friend added yet. Click on <i class="fa fa-heart-o"></i> icon next to any reader')
+                showWarningModal(application_language.noneFriendYet_title + '<i class="fa fa-heart-o"></i>' + application_language.iconNextToReader_title)
             } else if (200 === this.status) {
                 let readers = JSON.parse(this.responseText);
                 let html = '';
@@ -198,12 +198,12 @@ function showFavoriteReaders() {
                     let nameSurname = notNull(reader.name) + ' ' + notNull(reader.surname);
                     html += nameSurname +
                         ' <i class="fa fa-heart" id = \'' + heartId + '\' style="float: right"></i>' +
-                        ' <h5><span class="text-muted"> City: </span> ' + notNull(reader.city) + '</h5>\n';
+                        ' <h5><span class="text-muted">' + application_language.profile_city_title + ': </span> ' + notNull(reader.city) + '</h5>\n';
 
                     if (reader.fbPage != null) {
                         html +=
-                            ' <h5><span class="text-muted"> Facebook page: </span> ' +
-                            '     <a href=' + reader.fbPage + ' target="_blank" class="underline">view</a></h5>\n';
+                            ' <h5><span class="text-muted">' + application_language.profile_fb_title + ': </span> ' +
+                            '     <a href=' + reader.fbPage + ' target="_blank" class="underline">Facebook</a></h5>\n';
                     }
                     html +=
                         '               </a>\n' +
@@ -232,11 +232,11 @@ function addFriend(friend1, friend2, friend2NameSurname, heartId) {
 
         if (this.readyState === 4) {
             if (this.status === 404) {
-                showWarningModal('not found')
+                showWarningModal(friend2 + application_language.notFound_title)
             } else if (this.status === 403) {
-                showWarningModal(friend2 + ' is already a friend of ' + friend1);
+                showWarningModal(friend2 + application_language.isAlreadyFriendOf_title + friend1);
             } else if (this.status === 200) {
-                showSuccessModal(friend2NameSurname + ' has been successfully added to friends');
+                showSuccessModal(friend2NameSurname + application_language.hasBeenAddedToFriends);
                 showReaderDetails(friend2);
             }
         }
@@ -258,11 +258,11 @@ function removeFriend(friend1, friend2, friend2NameSurname, heartId) {
 
         if (this.readyState === 4) {
             if (this.status === 404) {
-                showWarningModal('not found')
+                showWarningModal(friend2 + application_language.notFound_title)
             } else if (this.status === 403) {
-                showWarningModal(friend2 + ' is not a friend of ' + friend1);
+                showWarningModal(friend2 + application_language.isNotAFriendOf_title + friend1);
             } else if (this.status === 200) {
-                showSuccessModal(friend2NameSurname + ' has been successfully removed from friends');
+                showSuccessModal(friend2NameSurname + application_language.hasBeenRemovedFromFriends);
                 showReaderDetails(friend2);
             }
         }
@@ -280,35 +280,41 @@ function showSearchReadersHeader() {
     let searchForm =
         '  <div class="row">' +
         '    <div class="form-group col-md-6">\n' +
-        '      <input type="text" class="form-control" id="search_reader_name" placeholder="Name">\n' +
+        '      <input type="text" class="form-control" id="search_reader_name" placeholder="' +
+        application_language.profile_name_title + '">\n' +
         '    </div>\n' +
         '    <div class="form-group col-md-6">\n' +
-        '      <input type="text" class="form-control" id="search_reader_surname" placeholder="Surname">\n' +
+        '      <input type="text" class="form-control" id="search_reader_surname" placeholder="' +
+        application_language.profile_surname_title + '">\n' +
         '    </div>\n' +
         '  </div>\n' +
         '  <div class="row">' +
         '    <div class="form-group col-sm-4">\n' +
-        '      <input type="text" class="form-control" id="search_reader_country" placeholder="Country">\n' +
+        '      <input type="text" class="form-control" id="search_reader_country" placeholder="' +
+        application_language.profile_country_title + '">\n' +
         '    </div>\n' +
         '    <div class="form-group col-sm-4">\n' +
-        '      <input type="text" class="form-control" id="search_reader_city" placeholder="City">\n' +
+        '      <input type="text" class="form-control" id="search_reader_city" placeholder="' +
+        application_language.profile_city_title + '">\n' +
         '    </div>\n' +
         '    <div class="form-group col-sm-4">\n' +
-        '      <input type="text" class="form-control" id="search_reader_district" placeholder="District">\n' +
+        '      <input type="text" class="form-control" id="search_reader_district" placeholder="' +
+        application_language.profile_district_title + '">\n' +
         '    </div>\n' +
         '  </div>\n' +
         '  <div class="row">' +
         '    <div class="form-group col-sm-6">\n' +
         '        <div class="">\n' +
         '            <select class="form-control" id="search_reader_gender">\n' +
-        '                <option value="0">Gender</option>\n' +
-        '                <option value="1">female</option>\n' +
-        '                <option value="2">male</option>\n' +
+        '                <option value="0">' + application_language.profile_gender_title + '</option>\n' +
+        '                <option value="1">' + application_language.profile_gender_female_title + '</option>\n' +
+        '                <option value="2">' + application_language.profile_gender_male_title + '</option>\n' +
         '            </select>\n' +
         '        </div>\n' +
         '    </div>\n' +
         '    <div class="form-group col-sm-offset-3 col-sm-3">\n' +
-        '      <button type="submit" class="btn btn-default right" onclick="searchReadersByCriteria(); return false">Search</button>\n' +
+        '      <button type="submit" class="btn btn-default right" onclick="searchReadersByCriteria(); return false">' +
+        application_language.search_button_title + '</button>\n' +
         '    </div>\n' +
         '  </div>\n';
     setPageSubtitle(searchForm);
@@ -328,12 +334,12 @@ function searchReadersByCriteria() {
             let list = JSON.parse(this.response);
             let size = list.length;
             if (size == 0) {
-                showWarningModal('nothing found');
+                showWarningModal(application_language.noReaderWasFound_title);
             }
             displayFoundReaders(this.responseText);
         }
         if (this.readyState === 4 && this.status == 404) {
-            showWarningModal('No reader fitting your criteria was found. Try to soften the borders');
+            showWarningModal(application_language.noReaderWasFound_title);
         }
 
     };
@@ -368,10 +374,10 @@ function displayFoundReaders(response) {
             '        <h4 class="panel-title">\n' +
             '            <a data-toggle="collapse" onclick="clickReader(' + reader.id + '); return false;" data-parent="#accordion" href="#collapse' + reader.id + '"\n' +
             '               aria-expanded="true" aria-controls="collapse' + reader.id + '">\n' + reader.name + ' ' + reader.surname +
-            '            <h5 class="text-muted"> Country: ' + notNull(reader.country) + '</h5>\n' +
-            '            <h5 class="text-muted"> City: ' + notNull(reader.city) + '</h5>\n' +
-            '            <h5 class="text-muted"> District: ' + notNull(reader.district) + '</h5>\n' +
-            '            <h5 class="text-muted"> Gender: ' + genderToString(reader.gender) +'</h5>\n' +
+            '            <h5 class="text-muted">' + application_language.profile_country_title + ': ' + notNull(reader.country) + '</h5>\n' +
+            '            <h5 class="text-muted">' + application_language.profile_city_title + ': ' + notNull(reader.city) + '</h5>\n' +
+            '            <h5 class="text-muted">' + application_language.profile_district_title + ': ' + notNull(reader.district) + '</h5>\n' +
+            '            <h5 class="text-muted">' + application_language.profile_gender_title + ': ' + genderToString(reader.gender) + '</h5>\n' +
             '            </a>\n' +
             '        </h4>\n' +
             '    </div>\n' +

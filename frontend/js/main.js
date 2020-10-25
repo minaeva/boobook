@@ -130,10 +130,10 @@ function notNull(str) {
 
 function genderToString(gender) {
     if (gender == 1) {
-        return 'female';
+        return application_language.profile_gender_female_title;
     }
     if (gender == 2) {
-        return 'male';
+        return profile_gender_female_title.profile_gender_male_title;
     }
     return '';
 }

@@ -781,6 +781,11 @@ function searchBooksByCriteria() {
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (this.readyState === 4 && this.status == 200) {
+            let list = JSON.parse(this.response);
+            let size = list.length;
+            if (size == 0) {
+                showWarningModal(application_language.noBookWasFound_title);
+            }
             displayFoundBooks(this.responseText);
         }
         if (this.readyState === 4 && this.status == 404) {

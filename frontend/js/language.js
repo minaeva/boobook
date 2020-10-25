@@ -146,6 +146,18 @@ let ru = {
   "profile_viber_title": "Viber",
   "profile_update_button_title": "Обновить",
 
+  "readerDetailsWithId_title": "Детали читателя с id ",
+  "cannotBeFound_title": " не находятся",
+  "noneFriendYet_title": "Пока что вы никого не добавили в друзья. Нажмите на иконку ",
+  "iconNextToReader_title": " около читателя, которого вы хотите добавить в друзья",
+  "notFound_title": " не найдено",
+  "isAlreadyFriendOf_title": " уже друг ",
+  "hasBeenAddedToFriends": " успешно стал вашим другом",
+  "isNotAFriendOf_title": " не является другом ",
+  "hasBeenRemovedFromFriends": " успешно был удалён из друзей",
+  "noReaderWasFound_title": "По вашему запросу не было найдено ни одного читателя. Попробуйте смягчить критерии",
+
+
   //
   "details_edit_book_button_title": "Редактировать",
   "details_set_inactive_button_title": "Деактивировать",
@@ -180,7 +192,7 @@ let ru = {
   "hasBeenEdited_title": " была успешно изменена",
   "cannotBeAdded_title": " не может быть добавлена",
   "hasBeenAdded_title": " была успешно добавлена",
-  "noBookWasFound_title": "По вашему запросу не было найдено ни одной книги. Может, попробуете смягчить критерии?",
+  "noBookWasFound_title": "По вашему запросу не было найдено ни одной книги. Попробуйте смягчить критерии",
   "goodDayToStartAddingBooks_title": "Сегодня - отличный день, чтобы начать добавлять книги",
 
 
@@ -334,6 +346,17 @@ let ua = {
   "profile_viber_title": "Viber",
   "profile_update_button_title": "Поновити",
 
+  "readerDetailsWithId_title": "Деталі користувача з id ",
+  "cannotBeFound_title": " не знаходяться",
+  "noneFriendYet_title": "Наразі ви нікого не додали в друзі. Тицьніть іконку ",
+  "iconNextToReader_title": " біля читача, якого хочете додати в друзі",
+  "notFound_title": " не знайдено",
+  "isAlreadyFriendOf_title": " вже є другом ",
+  "hasBeenAddedToFriends": " було успішно додано в друзі",
+  "isNotAFriendOf_title": " не є другом ",
+  "hasBeenRemovedFromFriends": " було успішно видалено з друзів",
+  "noReaderWasFound_title": "За вашим запитом не було знайдено жодного читача. Спробуйте пом'ягшити критерії",
+
   "details_edit_book_button_title": "Редагувати",
   "details_set_inactive_button_title": "Приховати",
   "details_set_active_button_title": "Показати",
@@ -367,7 +390,7 @@ let ua = {
   "hasBeenEdited_title": " була успішно змінена",
   "cannotBeAdded_title": " не може бути доданою",
   "hasBeenAdded_title": " була успішно додана",
-  "noBookWasFound_title": "За вашим запитом не було знайдено жодної книги. Може, спробувати пом'ягшити критерії?",
+  "noBookWasFound_title": "За вашим запитом не було знайдено жодної книги. Спробуйте пом'ягшити критерії",
   "goodDayToStartAddingBooks_title": "Сьогодні - чудовий день, аби почати додавати книжки",
 
 
@@ -520,6 +543,18 @@ let en = {
   "profile_telegram_title": "Telegram",
   "profile_viber_title": "Viber",
   "profile_update_button_title": "Update",
+
+  //
+  "readerDetailsWithId_title": "Reader details for reader with id ",
+  "cannotBeFound_title": " cannot be found",
+  "noneFriendYet_title": "None friend yet added yet. Click on ",
+  "iconNextToReader_title": " icon next to a reader",
+  "notFound_title": " not found",
+  "isAlreadyFriendOf_title": " is already a friend of ",
+  "hasBeenAddedToFriends": " has been successfully added to friends",
+  "isNotAFriendOf_title": " is not a friend of ",
+  "hasBeenRemovedFromFriends": " has been successfully removed from friends",
+  "noReaderWasFound_title": "No reader fitting your criteria was found. Try to soften the borders",
 
   //
   "details_edit_book_button_title": "Edit",
