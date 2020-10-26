@@ -65,15 +65,10 @@ function validateExistentReader(email, password) {
     let emailIsEmpty = false;
 
     if (!validateNotEmptyField(email, 'login_email_group')) {
-        errorText += 'Email cannot be empty<br>';
+        errorText += application_language.emailCannotBeEmpty_title + '<br>';
         isValidated = false;
         emailIsEmpty = true;
     }
-    if (!emailIsEmpty && !validateFieldLength('login_email_group', email, NAME_SURNAME_EMAIL_HERO_50)) {
-        errorText += 'Email cannot be longer that 50 symbols<br>';
-        isValidated = false;
-    }
-
     if (!validateNotEmptyField(password, 'login_password_group')) {
         errorText += 'Password cannot be empty<br>';
         isValidated = false;
@@ -130,7 +125,8 @@ function validateProfileInfo(name, yearOfBirth) {
     let isValidated = true;
     let errorText = "";
     if (!validateNotEmptyField(name, 'profile_name_group')) {
-        errorText += 'Name cannot be empty<br>';
+        errorText += application_language.nameCannotBeEmpty_title + '<br>';
+        //todo
         isValidated = false;
     }
     if (!validateYearOfBirth(yearOfBirth)) {
@@ -250,7 +246,7 @@ function validateBook(book_title, author_name, author_surname, year) {
         return true;
     }
 
-    showWarningModal(errorText);
+    // showWarningModal(errorText);
     return false;
 }
 
@@ -337,7 +333,7 @@ function validateEditBook(book_title, author_name, author_surname, year) {
         return true;
     }
 
-    showWarningModal(errorText);
+//    showWarningModal(errorText);
     return false;
 }
 

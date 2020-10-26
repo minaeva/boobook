@@ -51,27 +51,22 @@
                             <label for="new_name" id="register_name_title">
                                 <span style="color:red;">*</span>
                             </label>
-                            <input type="text" class="form-control" id="new_name">
+                            <input type="text" class="form-control" id="new_name" maxlength="50">
                         </div>
-                        <!--
-                                                <div class="form-group">
-                                                    <label for="new_surname">Last name</label>
-                                                    <input type="email" class="form-control" id="new_surname">
-                                                </div>
-                        -->
                         <div class="form-group" id="register_email_group">
                             <label for="new_email" id="register_email_title">
                                 <span style="color:red;">*</span>
                             </label>
-                            <input type="email" class="form-control" id="new_email">
+                            <input type="email" class="form-control" id="new_email" maxlength="50">
                         </div>
                         <div class="form-group" id="register_password_group">
                             <label for="new_password" id="register_password_title">
                                 <span style="color:red;">*</span>
                             </label>
-                            <input type="password" class="form-control" id="new_password">
+                            <input type="password" class="form-control" id="new_password" maxlength="50">
                         </div>
-                        <a href="#" onclick="registerAReader(this); return false" class="btn btn-primary" id="register_register_button_title"></a>
+                        <a href="#" onclick="registerAReader(this); return false" class="btn btn-primary"
+                           id="register_register_button_title"></a>
                         <a href="index.html" class="btn btn-default" id="register_login_button_title"></a><br>
                     </form>
 
@@ -98,7 +93,8 @@
                             <div class="modal-body" id="smallModalBody">
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-info" data-dismiss="modal" id="register_close_title">
+                                <button type="button" class="btn btn-info" data-dismiss="modal"
+                                        id="register_close_title">
                                 </button>
                             </div>
                         </div>

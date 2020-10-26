@@ -513,8 +513,6 @@ function displayFoundBooks(response) {
 
 function showOwnersBooks() {
 
-    resetLanguage();
-
     setPageTitle(application_language.menu_my_books_title);
     setPageSubtitle('');
 
@@ -541,7 +539,7 @@ function showOwnersBooks() {
                         '        <h4 class="panel-title">\n' +
                         '            <a data-toggle="collapse" onclick="showBookDetails(' + book.id + ', ' + book.ownerId + '); return false;" data-parent="#accordion" href="#collapse' + book.id + '"\n' +
                         '               aria-expanded="true" aria-controls="collapse' + book.id + '">\n' + book.title +
-                        '            <h5 class="text-muted"> by ' + notNull(book.authorName) + ' ' + notNull(book.authorSurname) + '</h5>\n' +
+                        '            <h5 class="text-muted">' + notNull(book.authorName) + ' ' + notNull(book.authorSurname) + '</h5>\n' +
                         '            </a>\n' +
                         '        </h4>\n' +
                         '    </div>\n' +

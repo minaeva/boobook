@@ -75,4 +75,6 @@ function activateProfile() {
 function openCabinet() {
     resetLanguageOnCabinet();
     showOwnersBooks();
+    resetLanguage();
+
 }

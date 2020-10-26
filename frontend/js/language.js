@@ -118,7 +118,7 @@ let ru = {
   "message_close_button_title": "Закрыть",
 
   "delete_book_modal_title_title": "Удалить книгу",
-  "delete_book_modal_body_title": "Вы точно этого хотите?",
+  "delete_book_modal_body_title": "Вы точно хотите удалить ",
   "delete_book_close_title": "Закрыть",
   "delete_book_delete_title": "Удалить",
 
@@ -182,8 +182,8 @@ let ru = {
   "search_book_year_from_title": "От года",
   "search_book_year_to_title": "До года",
   "search_button_title": "Искать",
-  "doNotDelete_warning_title": "Если вы не хотите, чтобы другие читатели видели эту книгу, достаточно её деактивировать",
-  "doYouStillWantToDelete_title": "Всё равно хотите удалить?",
+  "doNotDelete_warning_title": "Если вы не хотите, чтобы другие читатели видели эту книгу, достаточно её деактивировать.",
+  "doYouStillWantToDelete_title": "Всё равно хотите удалить ",
   "book_title": "Книга ",
   "hasBeenDeleted_title": " была успешно удалена",
   "hasBeenSetActive_title": " теперь активна",
@@ -318,7 +318,7 @@ let ua = {
   "message_close_button_title": "Закрити",
 
   "delete_book_modal_title_title": "Видалити книгу",
-  "delete_book_modal_body_title": "Ви точно цього хочете?",
+  "delete_book_modal_body_title": "Ви точно хочете видалити ",
   "delete_book_close_title": "Закрити",
   "delete_book_delete_title": "Видалити",
 
@@ -380,8 +380,8 @@ let ua = {
   "search_book_year_from_title": "Від року",
   "search_book_year_to_title": "До року",
   "search_button_title": "Шукати",
-  "doNotDelete_warning_title": "Якщо ви не хочете, аби інші читачі бачили цю книгу, достатьо її деактивувати",
-  "doYouStillWantToDelete_title": "Все рівно хочете видалити?",
+  "doNotDelete_warning_title": "Якщо ви не хочете, аби інші читачі бачили цю книгу, достатьо її деактивувати.",
+  "doYouStillWantToDelete_title": "Все рівно хочете видалити ",
   "book_title": "Книга ",
   "hasBeenDeleted_title": " була успішно видалена",
   "hasBeenSetActive_title": " наразі активна",
@@ -398,6 +398,9 @@ let ua = {
 }
 
 let en = {
+  "emailCannotBeEmpty_title": "Email cannot be empty.",
+  "nameCannotBeEmpty_title": "Name cannot be empty.",
+
   "menu_add_book_title": "Add book",
   "menu_my_books_title": "My books",
   "menu_books_title": "Books",
@@ -523,6 +526,7 @@ let en = {
   "image_close_button_title": "Close",
   "image_preview_modal_title": "Image preview",
   "image_close_button_footer_title": "Close",
+  "image_close_button_footer_title": "When adding the image, there is a server error",
 
   "profile_name_title": "Name ",
   "profile_surname_title": "Surname",

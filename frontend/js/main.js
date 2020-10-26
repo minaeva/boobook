@@ -267,8 +267,6 @@ function resetLanguage() {
     $('#add_book_close_title').text(application_language.add_book_close_title);
     $('#add_book_button_title').text(application_language.add_book_button_title);
 
-
-
     $('#edit_book_modal_title').text(application_language.edit_book_modal_title);
     $('#edit_book_title_title').text(application_language.edit_book_title_title);
     $('#edit_book_active_title').text(application_language.edit_book_active_title);
@@ -307,6 +305,16 @@ function resetLanguage() {
     $('#edit_book_close_title').text(application_language.edit_book_close_title);
     $('#edit_book_button_title').text(application_language.edit_book_button_title);
 
+    $('#message_close_button_title').text(application_language.message_close_button_title);
+    $('#delete_book_modal_body_title').text(application_language.delete_book_modal_body_title);
+    $('#delete_book_modal_title_title').text(application_language.delete_book_modal_title_title);
+    $('#delete_book_close_title').text(application_language.delete_book_close_title);
+    $('#delete_book_delete_title').text(application_language.delete_book_delete_title);
+
+    $('#image_close_button_title').text(application_language.image_close_button_title);
+    $('#image_preview_modal_title').text(application_language.image_preview_modal_title);
+    $('#image_close_button_footer_title').text(application_language.image_close_button_footer_title);
+
     $('#profile_name_title').text(application_language.profile_name_title);
     $('#profile_surname_title').text(application_language.profile_surname_title);
     $('#profile_book_to_the_moon_title').text(application_language.profile_book_to_the_moon_title);
@@ -317,9 +325,16 @@ function resetLanguage() {
     $('#profile_gender_female_title').text(application_language.profile_gender_female_title);
     $('#profile_gender_male_title').text(application_language.profile_gender_male_title);
     $('#profile_super_power_title').text(application_language.profile_super_power_title);
-//TODO
+    $('#profile_book_of_the_year_title').text(application_language.profile_book_of_the_year_title);
+    $('#profile_hobby_title').text(application_language.profile_hobby_title);
+    $('#profile_country_title').text(application_language.profile_country_title);
+    $('#profile_city_title').text(application_language.profile_city_title);
+    $('#profile_district_title').text(application_language.profile_district_title);
+    $('#profile_fb_title').text(application_language.profile_fb_title);
+    $('#profile_telegram_title').text(application_language.profile_telegram_title);
+    $('#profile_viber_title').text(application_language.profile_viber_title);
+    $('#profile_update_button_title').text(application_language.profile_update_button_title);
 
-    // $('#').text(application_language.);
 
     setPageTitle(application_language.menu_my_books_title);
     // showSearchBooksHeader();
