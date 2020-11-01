@@ -6,7 +6,7 @@ function showProfile() {
     showProfilePreview(src, target);
 
     // $('#edit_profile_name').focus();
-    $('#update_profile_btn').addClass('disabled');
+    $('#profile_update_button_title').addClass('disabled');
     PROFILE_IMAGE_EDITED = false;
 
     initYearPicker();
@@ -44,7 +44,7 @@ function showProfile() {
                 $("#edit_profile_viber").val(readerDetails.viber);
                 addProfileUpdateListeners();
 
-                $("#update_profile_btn").click(function () {
+                $("#profile_update_button_title").click(function () {
                         let changedImage = retrieveProfileImage();
 
                         updateProfile(readerDetails.id,
@@ -159,7 +159,7 @@ function saveProfileImage(readerId, image) {
 }
 
 function enableOnChange(event) {
-    let elem = document.getElementById('update_profile_btn');
+    let elem = document.getElementById('profile_update_button_title');
     if (elem.classList.contains('disabled')) {
         elem.classList.remove('disabled');
     }
@@ -174,25 +174,9 @@ function addProfileUpdateListeners() {
     });
     document.getElementById('edit_profile_gender')
         .addEventListener('change', enableOnChange);
+    $( "#edit_profile_year_of_birth" ).bind( "click", function() {
+        enableOnChange();
+    });
 }
 
-function openEditProfileModal(name, surname, city, telegram, fb, viber, skype, whatsapp) {
-    $('#editProfileModal').modal('show');
-    $('#editProfileModal').on('shown.bs.modal', function () {
-        $('#edit_profile_name').focus();
-    })
-
-    let src = document.getElementById("edit_reader_src");
-    let target = document.getElementById("edit_reader_target");
-    showOnePreview(src, target);
-
-    $('#edit_profile_name').val(name);
-    $('#edit_profile_surname').val(surname);
-    $('#edit_profile_city').val(city);
-    $('#edit_profile_telegram').val(telegram);
-    $('#edit_profile_fb').val(fb);
-    $('#edit_profile_viber').val(viber);
-
-    return false;
-}
 

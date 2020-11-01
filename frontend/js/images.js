@@ -214,10 +214,10 @@ function saveImages(filesToUpload, bookId) {
     xhr.onreadystatechange = function () {
         if (this.readyState == 4) {
             if (this.status == 500) {
-                showWarningModal("");
+                showWarningModal(application_language.addingImageProblem_title);
                 return false;
             } else if (this.status == 403) {
-                showWarningModal("When adding the image, there is a problem with authentication");
+                showWarningModal(application_language.addingImageAuthProblem_title);
                 return false;
             } else if (this.status == 200) {
                 console.log("Images added!");
@@ -242,10 +242,10 @@ function updateImages(filesToUpload, bookId) {
     xhr.onreadystatechange = function () {
         if (this.readyState == 4) {
             if (this.status == 500) {
-                showWarningModal("When updating the images, there was a server error");
+                showWarningModal(application_language.updatingImageProblem_title);
                 return false;
             } else if (this.status == 403) {
-                showWarningModal("When updating the images, there was a problem with authentication");
+                showWarningModal(application_language.updatingImageAuthProblem_title);
                 return false;
             } else if (this.status == 200) {
                 console.log("Images updated");

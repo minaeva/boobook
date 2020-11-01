@@ -232,7 +232,7 @@ function addFriend(friend1, friend2, friend2NameSurname, heartId) {
 
         if (this.readyState === 4) {
             if (this.status === 404) {
-                showWarningModal(friend2 + application_language.notFound_title)
+                showWarningModal(friend2 + application_language.cannotBeFound_title)
             } else if (this.status === 403) {
                 showWarningModal(friend2 + application_language.isAlreadyFriendOf_title + friend1);
             } else if (this.status === 200) {
@@ -258,7 +258,7 @@ function removeFriend(friend1, friend2, friend2NameSurname, heartId) {
 
         if (this.readyState === 4) {
             if (this.status === 404) {
-                showWarningModal(friend2 + application_language.notFound_title)
+                showWarningModal(friend2 + application_language.cannotBeFound_title);
             } else if (this.status === 403) {
                 showWarningModal(friend2 + application_language.isNotAFriendOf_title + friend1);
             } else if (this.status === 200) {

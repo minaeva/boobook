@@ -5,13 +5,13 @@ function authenticateNewlyCreatedReader(email, password) {
 
         if (this.readyState == 4) {
             if (this.status == 404) {
-                showWarningModal("Reader with email " + email + " is not found");
+                showWarningModal(application_language.readerWithEmail_title + email + application_language.cannotBeFound_title);
                 document.getElementById("reader_email").value = '';
                 document.getElementById("reader_password").value = '';
                 return false;
             }
             if (this.status == 401) {
-                showWarningModal("Incorrect password for a reader with email " + email);
+                showWarningModal(application_language.incorrectPassword_title + email);
                 document.getElementById("reader_password").value = '';
                 return false;
             }
@@ -59,13 +59,13 @@ function registerAReader() {
 
         if (this.readyState == 4) {
             if (this.status == 400) {
-                showWarningModal("User with email " + new_email + " cannot be created");
+                showWarningModal(application_language.readerWithEmail_title + new_email + application_language.cannotBeCreated_title);
                 document.getElementById("new_email").value = '';
                 document.getElementById("new_password").value = '';
                 document.getElementById("new_name").value = '';
                 return false;
             } else if (this.status == 200) {
-                showSuccessModal("User with email " + new_email + " was created");
+                showSuccessModal(application_language.readerWithEmail_title + new_email + application_language.hasBeenCreated_title);
                 authenticateNewlyCreatedReader(new_email, new_password);
             }
         }

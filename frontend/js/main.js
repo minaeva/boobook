@@ -150,6 +150,59 @@ function clearContent() {
     document.getElementById("accordion").innerHTML = '';
 }
 
+function initYearPicker() {
+    $('.yearpicker').yearpicker({
+
+        // Initial Year
+        year: null,
+        // new Date().getFullYear(),
+
+        // Start Year
+        startYear: 1900,
+
+        // End Year
+        endYear: new Date().getFullYear(),
+
+        // Element tag
+        itemTag: 'li',
+
+        // Default CSS classes
+        selectedClass: 'selected',
+        disabledClass: 'disabled',
+        hideClass: 'hide',
+
+        // Custom template
+        template: `<div class="yearpicker-container">
+              <div class="yearpicker-header">
+                  <div class="yearpicker-prev" data-view="yearpicker-prev">&lsaquo;</div>
+                  <div class="yearpicker-current" data-view="yearpicker-current">SelectedYear</div>
+                  <div class="yearpicker-next" data-view="yearpicker-next">&rsaquo;</div>
+              </div>
+              <div class="yearpicker-body">
+                  <ul class="yearpicker-year" data-view="years">
+                  </ul>
+              </div>
+          </div>
+  `,
+    });
+
+    $('.yearpicker').yearpicker({
+        onShow: null,
+        onHide: null,
+        onChange: null
+    });
+
+    $('.yearpicker').keypress(function(e) {
+        e.preventDefault();
+    });
+
+// // to disable backspace & delete
+//     $('.yearpicker').keydown(function (event) {
+//             event.preventDefault();
+//     });
+}
+
+
 function setRussianLanguage() {
     localStorage.setItem('language', 'ru');
     application_language = ru;
