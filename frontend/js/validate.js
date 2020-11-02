@@ -89,27 +89,29 @@ function validateNewReader(name, email, password) {
     let emailIsEmpty = false;
 
     if (!validateNotEmptyField(name, 'register_name_group')) {
-        errorText += 'Name cannot be empty<br>';
+        errorText += application_language.nameCannotBeEmpty_title + '<br>';
         isValidated = false;
         nameIsEmpty = true;
     }
+/*
     if (!nameIsEmpty && !validateFieldLength('register_name_group', name, NAME_SURNAME_EMAIL_HERO_50)) {
         errorText += 'Name cannot be longer that 50 symbols<br>';
         isValidated = false;
     }
+*/
 
     if (!validateNotEmptyField(email, 'register_email_group')) {
-        errorText += 'Email cannot be empty<br>';
+        errorText += application_language.emailCannotBeEmpty_title + '<br>';
         isValidated = false;
         emailIsEmpty = true;
     }
-    if (!emailIsEmpty && !validateFieldLength('register_email_group', email, NAME_SURNAME_EMAIL_HERO_50)) {
+/*    if (!emailIsEmpty && !validateFieldLength('register_email_group', email, NAME_SURNAME_EMAIL_HERO_50)) {
         errorText += 'Email cannot be longer that 50 symbols<br>';
         isValidated = false;
-    }
+    }*/
 
     if (!validateNotEmptyField(password, 'register_password_group')) {
-        errorText += 'Password cannot be empty<br>';
+        errorText += application_language.passwordCannotBeEmpty_title + '<br>';
         isValidated = false;
     }
 
@@ -220,37 +222,23 @@ function validateProfileInfoWithLengths(name, surname, bookToTheMoon, hero, year
 
 function validateBook(book_title, author_name, author_surname, year) {
     let isValidated = true;
-    let errorText = "";
     if (!validateNotEmptyField(book_title, 'book_title_group')) {
-        errorText += application_language.titleCannotBeEmpty_title + '<br>';
         isValidated = false;
     }
     if (!validateNotEmptyField(author_name, 'author_name_group')) {
-        errorText += application_language.authorNameCannotBeEmpty_title + '<br>';
         isValidated = false;
     }
     if (!validateNotEmptyField(author_surname, 'author_surname_group')) {
-        errorText += application_language.authorSurnameCannotBeEmpty_title + '<br>';
         isValidated = false;
     }
     if (!yearIsEmptyOrGoodNumber(year,'year_group')) {
         isValidated = false;
     }
-/*
-    else if (yearIsNonEmpty(year) && year < 1454) {
-        errorText += "The Gutenberg Bible, also known as the 42-line Bible, is listed by the Guinness Book of World records as the world's oldest mechanically printed book – the first copies of which were printed in 1454-1455 AD<br>";
-        isValidated = false;
-    } else if (yearIsNonEmpty(year) && year > new Date().getFullYear()) {
-        errorText += 'We expect you not to share the books from the future<br>';
-        isValidated = false;
-    }
-*/
 
     if (isValidated) {
         return true;
     }
 
-    // showWarningModal(errorText);
     return false;
 }
 

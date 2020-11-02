@@ -133,7 +133,7 @@ function genderToString(gender) {
         return application_language.profile_gender_female_title;
     }
     if (gender == 2) {
-        return profile_gender_female_title.profile_gender_male_title;
+        return application_language.profile_gender_male_title;
     }
     return '';
 }

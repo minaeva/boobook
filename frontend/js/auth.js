@@ -5,7 +5,7 @@ function authenticateNewlyCreatedReader(email, password) {
 
         if (this.readyState == 4) {
             if (this.status == 404) {
-                showWarningModal(application_language.readerWithEmail_title + email + application_language.cannotBeFound_title);
+                showWarningModal(application_language.readerWithEmail_title + email + application_language.singleNotFound_title);
                 document.getElementById("reader_email").value = '';
                 document.getElementById("reader_password").value = '';
                 return false;
