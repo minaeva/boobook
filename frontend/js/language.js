@@ -140,6 +140,7 @@ let ru = {
     "profile_city_title": "Город",
     "profile_district_title": "Район",
     "profile_fb_title": "Facebook",
+    "open_title": "открыть",
     "profile_telegram_title": "Telegram",
     "profile_viber_title": "Viber",
     "profile_update_button_title": "Обновить",
@@ -350,6 +351,7 @@ let ua = {
     "profile_city_title": "Місто",
     "profile_district_title": "Район",
     "profile_fb_title": "Facebook",
+    "open_title": "вiдкрити",
     "profile_telegram_title": "Telegram",
     "profile_viber_title": "Viber",
     "profile_update_button_title": "Поновити",
@@ -426,6 +428,7 @@ let en = {
     "menu_favorite_readers_title": "Readers",
     "favorite_readers_title": "Favorite Readers",
     "logo_title": "BooBook",
+    //todo add Add reader to favorites, Remove from favorites, Write a message
 
     "register_page_title": "BooBook - Register Page",
     "register_form_title": "Create an account", //not
@@ -559,6 +562,7 @@ let en = {
     "profile_city_title": "City",
     "profile_district_title": "District",
     "profile_fb_title": "Facebook",
+    "open_title": "open",
     "profile_telegram_title": "Telegram",
     "profile_viber_title": "Viber",
     "profile_update_button_title": "Update",

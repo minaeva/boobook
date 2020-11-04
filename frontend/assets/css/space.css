@@ -90,6 +90,15 @@ a:hover {
     color: #999999;
 }
 
+.underline-blue {
+    color: #2f73c8;
+    text-decoration: underline;
+}
+.underline-blue:hover {
+    text-decoration: underline;
+    color: #11488c;
+}
+
 
 p {
     line-height: 1.6;

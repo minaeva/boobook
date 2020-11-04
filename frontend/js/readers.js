@@ -10,6 +10,7 @@ function showReaderDetails(readerId) {
                 let detail = JSON.parse(this.responseText);
                 console.log(detail);
                 let nameSurname = notNull(detail.name) + ' ' + notNull(detail.surname);
+/*
                 let heartId = 'heart' + detail.id;
                 let nameSurnameHeart = nameSurname + '<i href="#" style="float: right" id="' + heartId + '" ';
 
@@ -22,47 +23,109 @@ function showReaderDetails(readerId) {
                         getCurrentUserId() + ', ' + readerId + ', \'' + nameSurname + '\', \'' + heartId + '\'); ' +
                         'return false;"></i>';
                 }
+*/
 
-                setPageTitle(nameSurnameHeart);
+                setPageTitle(nameSurname);
 
                 let html =
                     '<div class="row">\n' +
-                    '  <div class="form-group col-sm-6">\n' +
-                    '    <div class="text-muted">' + application_language.profile_country_title + ':</div>\n' +
-                    '    <div>' + notNull(detail.country) + '</div><br>\n' +
-                    '    <div class="text-muted">' + application_language.profile_city_title + ':</div>\n' +
-                    '    <div>' + notNull(detail.city) + '</div><br>\n' +
-                    '    <div class="text-muted">' + application_language.profile_district_title + ':</div>\n' +
-                    '    <div>' + notNull(detail.district) + '</div><br>\n' +
-                    '    <div class="text-muted">' + application_language.profile_telegram_title + ':</div>\n' +
-                    '    <div>' + notNull(detail.telegram) + '</div><br>\n' +
-                    '    <div class="text-muted">' + application_language.profile_viber_title + ':</div>\n' +
-                    '    <div>' + notNull(detail.viber) + '</div><br>\n' +
-                    '    <div class="text-muted">' + application_language.profile_year_title + ':</div>\n' +
-                    '    <div>' + notNull(detail.yearOfBirth) + '</div><br>\n' +
-                    '    <div class="text-muted">' + application_language.profile_gender_title + ':</div>\n' +
-                    '    <div>' + genderToString(detail.gender) + '</div><br>\n' +
-                    '    <div class="text-muted">' + application_language.profile_super_power_title + ':</div>\n' +
-                    '    <div>' + genderToString(detail.superPower) + '</div><br>\n' +
+                    '  <div class="form-group col-sm-6">\n';
+
+                if (detail.country != null) {
+                    html +=
+                        '    <div class="text-muted">' + application_language.profile_country_title + ':</div>\n' +
+                        '    <div>' + notNull(detail.country) + '</div><br>\n';
+                }
+                if (detail.city != null) {
+                    html +=
+                        '    <div class="text-muted">' + application_language.profile_city_title + ':</div>\n' +
+                        '    <div>' + notNull(detail.city) + '</div><br>\n';
+                }
+                if (detail.district != null) {
+                    html +=
+                        '    <div class="text-muted">' + application_language.profile_district_title + ':</div>\n' +
+                        '    <div>' + notNull(detail.district) + '</div><br>\n';
+                }
+                if (detail.telegram != null) {
+                    html +=
+                        '    <div class="text-muted">' + application_language.profile_telegram_title + ':</div>\n' +
+                        '    <div>' + notNull(detail.telegram) + '</div><br>\n';
+                }
+                if (detail.viber != null) {
+                    html +=
+                        '    <div class="text-muted">' + application_language.profile_viber_title + ':</div>\n' +
+                        '    <div>' + notNull(detail.viber) + '</div><br>\n';
+                }
+                if (detail.yearOfBirth != null) {
+                    html +=
+                        '    <div class="text-muted">' + application_language.profile_year_title + ':</div>\n' +
+                        '    <div>' + notNull(detail.yearOfBirth) + '</div><br>\n';
+                }
+                if (detail.gender != null) {
+                    html +=
+                        '    <div class="text-muted">' + application_language.profile_gender_title + ':</div>\n' +
+                        '    <div>' + genderToString(detail.gender) + '</div><br>\n';
+                }
+                if (detail.superPower != null) {
+                    html +=
+                        '    <div class="text-muted">' + application_language.profile_super_power_title + ':</div>\n' +
+                        '    <div>' + notNull(detail.superPower) + '</div><br>\n';
+                }
+                if (detail.bookToTheMoon != null) {
+                    html +=
+                        '<div class="text-muted">' + application_language.profile_book_to_the_moon_title + ':</div>\n' +
+                        '<div>' + notNull(detail.bookToTheMoon) + '</div><br>\n';
+                }
+                if (detail.hobby != null) {
+                    html +=
+                        '<div class="text-muted">' + application_language.profile_hobby_title + ':</div>\n' +
+                        '<div>' + notNull(detail.hobby) + '</div><br>\n';
+                }
+                if (detail.hero != null) {
+                    html +=
+                        '<div class="text-muted">' + application_language.profile_hero_title + ':</div>\n' +
+                        '<div>' + notNull(detail.hero) + '</div><br>\n';
+                }
+                if (detail.bookOfTheYear != null) {
+                    html +=
+                        '<div class="text-muted">' + application_language.profile_book_of_the_year_title + ':</div>\n' +
+                        '<div>' + notNull(detail.bookOfTheYear) + '</div><br>\n';
+                }
+                if (detail.fbPage != null) {
+                    html +=
+                        '<div class="text-muted">' + application_language.profile_fb_title + ': </div>' +
+                        '<div><a href=' + detail.fbPage + ' target="_blank" class="underline-blue">' + application_language.open_title + '</a></div>\n';
+                    ;
+                }
+
+                html +=
                     '  </div>\n' +
                     '  <div class="form-group col-sm-6">\n' +
                     '    <img id="selected_reader_image" src="images/reader-girl.png" class="reader-image">\n' +
                     '  </div>\n' +
-                    '</div>\n' +
-                    '<span class="text-muted">' + application_language.profile_book_to_the_moon_title + ': ' + notNull(detail.bookToTheMoon) + '</span><br/>\n' +
-                    '<span class="text-muted">' + application_language.profile_hobby_title + ': ' + notNull(detail.hobby) + '</span><br/>\n' +
-                    '<span class="text-muted">' + application_language.profile_hero_title + ': ' + notNull(detail.hero) + '</span><br/>\n' +
-                    '<span class="text-muted">' + application_language.profile_book_of_the_year_title + ': ' + notNull(detail.bookOfTheYear) + '</span><br/>\n';
+                    '</div>\n';
 
-                if (detail.fbPage != null) {
+                let heartId = 'heart' + detail.id;
+                html += '<i href="#" id="' + heartId + '" ';
+
+                if (detail.friend) {
                     html +=
-                        '<span class="text-muted">' + application_language.profile_fb_title + ': </span>' +
-                        '    <a href=' + detail.fbPage + ' target="_blank" class="underline">Facebook</a></h5>\n';
+                        'class="fa fa-heart underlined" title="Remove" onclick="removeFriend(' +
+                        getCurrentUserId() + ', ' + readerId + ', \'' + nameSurname + '\', \'' + heartId + '\'); ' +
+                        'return false;"></i>';
+                } else {
+                    html +=
+                        'class="fa fa-heart-o underlined" title="Add" onclick="addFriend(' +
+                        getCurrentUserId() + ', ' + readerId + ', \'' + nameSurname + '\', \'' + heartId + '\'); ' +
+                        'return false;"></i>';
                 }
 
-                html += '<h5><a href="#" class="right-sidebar-toggle"\n' +
+
+                html +=
+                    '&nbsp; <a href="#" class="right-sidebar-toggle" title="Write a message"\n' +
                     '    onclick="openConversation(' + detail.id + ',\'' + nameSurname + '\');"\n' +
-                    '    data-sidebar-id="main-right-sidebar"><i class="fa fa-envelope"></i></a></h5>';
+                    '    data-sidebar-id="main-right-sidebar"><i class="fa fa-envelope"></i></a>';
+
                 setPageSubtitle(html);
 
                 if (detail.image != null) {
