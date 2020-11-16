@@ -1,7 +1,7 @@
 function clickHome() {
     activateCabinet();
     selectMenu("menu_home");
-    setPageTitle('My Books');
+    setPageTitle(application_language.menu_my_books_title);
     setPageSubtitle('');
     clearContent();
     showOwnersBooks();
@@ -10,7 +10,7 @@ function clickHome() {
 function clickAllBooks() {
     activateCabinet();
     selectMenu("menu_books");
-    setPageTitle('Search');
+    setPageTitle(application_language.menu_books_title);
     setPageSubtitle('');
     clearContent();
 
@@ -20,11 +20,12 @@ function clickAllBooks() {
 function clickAllReaders() {
     activateCabinet();
     selectMenu("menu_readers");
-    setPageTitle('Readers');
+    setPageTitle(application_language.menu_readers_title);
     setPageSubtitle('');
     clearContent();
 
-    showAllReaders();
+    showSearchReadersHeader();
+    // showAllReaders();
 }
 
 function clickReader(readerId) {
@@ -35,7 +36,7 @@ function clickReader(readerId) {
         showReaderDetails(readerId);
     } else {
         selectMenu("menu_home");
-        setPageTitle('My Books');
+        setPageTitle(application_language.menu_my_books_title);
         setPageSubtitle('');
     }
     clearContent();
@@ -47,7 +48,7 @@ function clickReader(readerId) {
 function clickFavoriteReaders() {
     activateCabinet();
     selectMenu('menu_favorite_readers');
-    setPageTitle('My favorite readers');
+    setPageTitle(application_language.favorite_readers_title);
     setPageSubtitle('');
     clearContent();
 
@@ -62,11 +63,18 @@ function clickProfile() {
 }
 
 function activateCabinet() {
-    addClassToElement("page-inner-profile", "hidden");
-    removeClassFromElement("page-inner-cabinet", "hidden");
+    addClassToElement("profile_body", "hidden");
+    removeClassFromElement("books_readers_body", "hidden");
 }
 
 function activateProfile() {
-    addClassToElement("page-inner-cabinet", "hidden");
-    removeClassFromElement("page-inner-profile", "hidden");
+    addClassToElement("books_readers_body", "hidden");
+    removeClassFromElement("profile_body", "hidden");
+}
+
+function openCabinet() {
+    resetLanguageOnCabinet();
+    showOwnersBooks();
+    resetLanguage();
+
 }

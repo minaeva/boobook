@@ -1,5 +1,6 @@
 let stompClient;
 let insideTheList = false;
+let newMessagesFrom = [];
 
 function connectToChat() {
     let userId = getCurrentUserId();
@@ -38,7 +39,8 @@ function sendMessage(from, to) {
 }
 
 function formatDate() {
-    mlist = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    //todo
+    let mlist = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
     let d = new Date(),
         month = '' + mlist[d.getMonth()],
@@ -46,7 +48,6 @@ function formatDate() {
         year = d.getFullYear();
 
     if (day.length < 2) day = '0' + day;
-
     let time = d.toLocaleTimeString().replace(/([\d]+:[\d]{2})(:[\d]{2})(.*)/, "$1$3");
 
     return day + ' ' + month + ' ' + year + ', ' + time;
@@ -81,9 +82,10 @@ function getUserConversationalists() {
         }
         let allUsersHtml =
             '    <div class="chat-list">\n' +
-            '       <span class="chat-title">Recent</span>\n' + userDataHtml +
+            '       <span class="chat-title" id="recent_title"></span>\n' + userDataHtml +
             '    </div>\n';
         $('#chat').html(allUsersHtml);
+        $('#recent_title').text(application_language.recent_title);
     });
 }
 
@@ -117,6 +119,12 @@ function convertMessageToHtml(message, conversationalistId) {
 }
 
 function openConversation(conversationalistId, userNameSurname) {
+    if (newMessagesFrom.includes(conversationalistId)) {
+        newMessagesFrom.pop(conversationalistId);
+    }
+    if (newMessagesFrom.length == 0) {
+        allNewMessagesAreSeen();
+    }
     console.log("open chat for user " + conversationalistId + ' ' + userNameSurname);
     openChatWindow();
 
@@ -168,12 +176,16 @@ function openConversation(conversationalistId, userNameSurname) {
 function receiveMessage(event) {
     console.log('received event');
     console.log(insideTheList);
+
+    let jsonObject = JSON.parse(event.body);
+    if (!newMessagesFrom.includes(jsonObject.from)) {
+        newMessagesFrom.push(jsonObject.from);
+    }
+
     if (insideTheList) {
-        let jsonObject = JSON.parse(event.body);
         appendNewMessage(jsonObject, jsonObject.from);
     } else {
-        console.log('not inside the list')
-        document.getElementById("new_event_dropdown_id").style.color = 'red';
+        document.getElementById("envelope").style.color = 'darkorange';
     }
 }
 
@@ -197,7 +209,7 @@ function appendNewMessage(message, conversationalistId) {
     $('#chat-new-text').focus();
 }
 
-function notificationIsSeen() {
-    document.getElementById("new_event_dropdown_id").style.color = 'black';
-    getUserConversationalists();
+function allNewMessagesAreSeen() {
+    document.getElementById("envelope").style.color = 'black';
+    // getUserConversationalists();
 }

@@ -40,10 +40,10 @@ public class BookServiceTest {
     private ReaderRepository readerRepository;
 
     @InjectMocks
-    public BookServiceImpl bookService;
+    private BookServiceImpl bookService;
 
-    private static Book aBook;
     private static Reader aReader;
+    private static Book aBook;
     private static Author anAuthor;
     private static BookDto aBookDto;
     private BookMapper mapper = Mappers.getMapper(BookMapper.class);

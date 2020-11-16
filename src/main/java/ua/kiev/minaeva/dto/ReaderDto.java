@@ -1,27 +1,30 @@
 package ua.kiev.minaeva.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import lombok.ToString;
-import ua.kiev.minaeva.entity.Gender;
 import ua.kiev.minaeva.entity.RegistrationType;
 
 @Data
-@ToString(exclude = "password")
 public class ReaderDto {
 
     private Long id;
     private String email;
+
+    @JsonIgnore
     private String password;
+
     private String name;
     private String surname;
 
+    private String country;
     private String city;
+    private String district;
     private String fbPage;
     private String telegram;
     private String viber;
 
     private Integer yearOfBirth;
-    private Gender gender;
+    private Integer gender;
 
     private String bookToTheMoon;
     private String bookOfTheYear;

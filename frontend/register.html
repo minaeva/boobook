@@ -4,13 +4,13 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="BooBook - book sharing helper">
-    <meta name="keywords" content="book, library, share">
+    <meta name="description" content="Responsive Admin Dashboard Template">
+    <meta name="keywords" content="admin,dashboard">
     <meta name="author" content="sveta minaeva">
     <!-- The above 6 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Title -->
-    <title id="login_page_title"></title>
+    <title id="register_page_title"></title>
 
     <!-- Styles -->
     <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
@@ -25,7 +25,7 @@
 
     <!-- Theme Styles -->
     <link href="assets/css/space.css" rel="stylesheet">
-    <!--    <link href="assets/css/space.min.css" rel="stylesheet">-->
+    <!--        <link href="assets/css/space.min.css" rel="stylesheet">-->
     <link href="assets/css/themes/admin2.css" rel="stylesheet">
     <link href="assets/css/custom.css" rel="stylesheet">
 
@@ -41,41 +41,43 @@
 <!-- Page Container -->
 <div class="page-container">
     <!-- Page Inner -->
-    <div class="page-inner login-page">
+    <div class="page-inner register-page">
         <div id="main-wrapper" class="container-fluid">
             <div class="row">
                 <div class="col-sm-6 col-md-3 login-box">
-                    <h4 class="login-title" id="login_login_form_title"></h4>
+                    <h4 class="login-title" id="register_form_title"></h4>
                     <form>
-                        <div class="form-group" id="login_email_group">
-                            <label for="reader_email" id="login_email_title">
-                            </label><span style="color:red;"> *</span>
-                            <input type="email" class="form-control" id="reader_email" autocomplete="on" maxlength="50">
+                        <div class="form-group" id="register_name_group">
+                            <label for="new_name" id="register_name_title">
+                            </label>
+                            <span style="color:red;"> *</span>
+                            <input type="text" class="form-control" id="new_name" maxlength="50">
                         </div>
-                        <div class="form-group" id="login_password_group">
-                            <label for="reader_password" id="login_password_title">
-                            </label><span style="color:red;"> *</span>
-                            <input type="password" class="form-control" id="reader_password" autocomplete="off"
-                                   maxlength="50">
+                        <div class="form-group" id="register_email_group">
+                            <label for="new_email" id="register_email_title">
+                            </label>
+                            <span style="color:red;"> *</span>
+                            <input type="email" class="form-control" id="new_email" maxlength="50">
                         </div>
-                        <a href="#" class="btn btn-primary" id="login_login_button_title"
-                           onclick="authenticateAReader(document.getElementById('reader_email').value, document.getElementById('reader_password').value); return false">
-                            </a>
-                        <a href="register.html" class="btn btn-default" id="login_register_button_title">
-                            </a><br>
-                        <!--                                    <a href="index.html" class="forgot-link">Forgot password?</a>-->
+                        <div class="form-group" id="register_password_group">
+                            <label for="new_password" id="register_password_title">
+                            </label>
+                            <span style="color:red;"> *</span>
+                            <input type="password" class="form-control" id="new_password" maxlength="50">
+                        </div>
+                        <a href="#" onclick="registerAReader(this); return false" class="btn btn-primary"
+                           id="register_register_button_title"></a>
+                        <a href="index.html" class="btn btn-default" id="register_login_button_title"></a><br>
                     </form>
-<!--
-                    <div class="social-login">
-                        <span class="social-label">Or login with</span>
-                        <ul class="socials">
-                            <li><a href="#" onclick='fb_login();return false;'>
-                                <i class="display-flex-center zmdi zmdi-facebook"></i></a></li>
-                        </ul>
-                    </div>
--->
 
-
+                    <!-- <div class="social-login">
+                         <span class="social-label">Or login with</span>
+                         <ul class="socials">
+                             <li><a href="#" onclick='fb_login();return false;'>
+                                 <i class="display-flex-center zmdi zmdi-facebook"></i></a></li>
+                             &lt;!&ndash;                            <li><a href="#"><i class="display-flex-center zmdi zmdi-google"></i></a></li>&ndash;&gt;
+                         </ul>
+                     </div>-->
                 </div>
 
                 <div class="modal fade bs-example-modal-sm border" tabindex="-1" role="dialog"
@@ -91,8 +93,8 @@
                             <div class="modal-body" id="smallModalBody">
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-info" data-dismiss="modal">
-                                    Close
+                                <button type="button" class="btn btn-info" data-dismiss="modal"
+                                        id="register_close_title">
                                 </button>
                             </div>
                         </div>
@@ -117,10 +119,10 @@
 <script src="js/auth.js"></script>
 <script src="js/fb.js"></script>
 <script src="js/language.js"></script>
-<script src="js/validate.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="js/validate.js"></script>
 
-<script>loadIndex()</script>
+<script>resetLanguageOnRegister()</script>
 
 </body>
 </html>

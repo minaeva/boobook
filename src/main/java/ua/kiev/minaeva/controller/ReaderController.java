@@ -2,14 +2,19 @@ package ua.kiev.minaeva.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ua.kiev.minaeva.dto.ReaderDto;
+import ua.kiev.minaeva.dto.SearchReaderDto;
 import ua.kiev.minaeva.exception.BoobookNotFoundException;
 import ua.kiev.minaeva.exception.BoobookValidationException;
 import ua.kiev.minaeva.service.FriendshipService;
 import ua.kiev.minaeva.service.ReaderService;
 
+import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 
 @RestController
@@ -29,9 +34,24 @@ public class ReaderController {
     }
 
     @PutMapping
-    public ReaderDto updateReader(@RequestBody ReaderDto readerDto) throws BoobookNotFoundException, BoobookValidationException {
+    public ReaderDto updateReader(@RequestBody ReaderDto readerDto) throws BoobookNotFoundException,
+            BoobookValidationException {
         log.info("handling UPDATE READER request: " + readerDto);
         return readerService.updateReader(readerDto);
+    }
+
+    @PutMapping("/{readerId}")
+    public ResponseEntity<ResponseMessage> saveReaderImage(@RequestParam("file") MultipartFile file,
+                                                           @PathVariable final Long readerId) throws IOException, BoobookNotFoundException {
+        log.info("handling UPDATE READER IMAGE request: " + readerId);
+        if (file.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage("None file was selected for save"));
+        }
+
+        byte[] encodedByteArray = Base64.getEncoder().encode(file.getBytes());
+        readerService.updateImage(encodedByteArray, readerId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage("Uploaded successfully: " + file.getOriginalFilename()));
     }
 
     @GetMapping("/email")
@@ -61,13 +81,21 @@ public class ReaderController {
     @GetMapping("/{id}")
     public ReaderDto getById(@PathVariable final Long id) throws BoobookNotFoundException {
         log.info("handling get READER by ID request: " + id);
-        return readerService.getById(id);
+        ReaderDto foundReader = readerService.getById(id);
+        if (foundReader.getImage() != null) {
+            foundReader.setImage(Base64.getDecoder().decode(foundReader.getImage()));
+        }
+        return foundReader;
     }
 
     @GetMapping("/{id}/{friendOfId}")
     public ReaderDto getByIdWithIsFriend(@PathVariable final Long id, @PathVariable final Long friendOfId) throws BoobookNotFoundException {
         log.info("handling get READER BY ID + IS FRIEND OF USER with id: " + id);
-        return readerService.getByIdWithIsFriend(id, friendOfId);
+        ReaderDto foundReader = readerService.getByIdWithIsFriend(id, friendOfId);
+        if (foundReader.getImage() != null) {
+            foundReader.setImage(Base64.getDecoder().decode(foundReader.getImage()));
+        }
+        return foundReader;
     }
 
     @GetMapping("/friends/{id}")
@@ -90,4 +118,15 @@ public class ReaderController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/search")
+    public List<ReaderDto> getByQuery(@RequestBody SearchReaderDto searchReaderDto)
+            throws BoobookValidationException, BoobookNotFoundException {
+        if (searchReaderDto == null) {
+            throw new BoobookValidationException("At least one search criteria should be specified");
+        }
+        log.info("handling SEARCH READER request, name: " + searchReaderDto.getName() + ", surname: " + searchReaderDto.getSurname() +
+                ", country: " + searchReaderDto.getCountry() + ", city: " + searchReaderDto.getCity() +
+                ", district: " + searchReaderDto.getDistrict() + ", gender: " + searchReaderDto.getGender());
+        return readerService.getByQuery(searchReaderDto);
+    }
 }

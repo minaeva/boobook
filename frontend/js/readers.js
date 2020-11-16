@@ -4,12 +4,13 @@ function showReaderDetails(readerId) {
 
         if (this.readyState === 4) {
             if (this.status === 404) {
-                showWarningModal("Reader details for reader with id " + readerId + " cannot be found");
+                showWarningModal(application_language.readerDetailsWithId_title + readerId + application_language.cannotBeFound_title);
                 return false;
             } else if (this.status === 200) {
                 let detail = JSON.parse(this.responseText);
                 console.log(detail);
                 let nameSurname = notNull(detail.name) + ' ' + notNull(detail.surname);
+/*
                 let heartId = 'heart' + detail.id;
                 let nameSurnameHeart = nameSurname + '<i href="#" style="float: right" id="' + heartId + '" ';
 
@@ -22,20 +23,114 @@ function showReaderDetails(readerId) {
                         getCurrentUserId() + ', ' + readerId + ', \'' + nameSurname + '\', \'' + heartId + '\'); ' +
                         'return false;"></i>';
                 }
+*/
 
-                setPageTitle(nameSurnameHeart);
+                setPageTitle(nameSurname);
 
-                let html = '<span class="text-muted">City: ' + notNull(detail.city) + '</span><br/>\n';
-                if (detail.fbPage != null) {
+                let html =
+                    '<div class="row">\n' +
+                    '  <div class="form-group col-sm-6">\n';
+
+                if (!isEmpty(detail.country)) {
                     html +=
-                        '<span class="text-muted">Facebook: </span>' +
-                        '    <a href=' + detail.fbPage + ' target="_blank" class="underline">view</a></h5>\n';
+                        '    <div class="text-muted">' + application_language.profile_country_title + ':</div>\n' +
+                        '    <div>' + notNull(detail.country) + '</div><br>\n';
+                }
+                if (!isEmpty(detail.city)) {
+                    html +=
+                        '    <div class="text-muted">' + application_language.profile_city_title + ':</div>\n' +
+                        '    <div>' + notNull(detail.city) + '</div><br>\n';
+                }
+                if (!isEmpty(detail.district)) {
+                    html +=
+                        '    <div class="text-muted">' + application_language.profile_district_title + ':</div>\n' +
+                        '    <div>' + notNull(detail.district) + '</div><br>\n';
+                }
+                if (!isEmpty(detail.telegram)) {
+                    html +=
+                        '    <div class="text-muted">' + application_language.profile_telegram_title + ':</div>\n' +
+                        '    <div>' + notNull(detail.telegram) + '</div><br>\n';
+                }
+                if (!isEmpty(detail.viber)) {
+                    html +=
+                        '    <div class="text-muted">' + application_language.profile_viber_title + ':</div>\n' +
+                        '    <div>' + notNull(detail.viber) + '</div><br>\n';
+                }
+                if (!isEmpty(detail.yearOfBirth)) {
+                    html +=
+                        '    <div class="text-muted">' + application_language.profile_year_title + ':</div>\n' +
+                        '    <div>' + notNull(detail.yearOfBirth) + '</div><br>\n';
+                }
+                if (!isEmpty(detail.gender)) {
+                    html +=
+                        '    <div class="text-muted">' + application_language.profile_gender_title + ':</div>\n' +
+                        '    <div>' + genderToString(detail.gender) + '</div><br>\n';
+                }
+                if (!isEmpty(detail.superPower)) {
+                    html +=
+                        '    <div class="text-muted">' + application_language.profile_super_power_title + ':</div>\n' +
+                        '    <div>' + notNull(detail.superPower) + '</div><br>\n';
+                }
+                if (!isEmpty(detail.bookToTheMoon)) {
+                    html +=
+                        '<div class="text-muted">' + application_language.profile_book_to_the_moon_title + ':</div>\n' +
+                        '<div>' + notNull(detail.bookToTheMoon) + '</div><br>\n';
+                }
+                if (!isEmpty(detail.hobby)) {
+                    html +=
+                        '<div class="text-muted">' + application_language.profile_hobby_title + ':</div>\n' +
+                        '<div>' + notNull(detail.hobby) + '</div><br>\n';
+                }
+                if (!isEmpty(detail.hero)) {
+                    html +=
+                        '<div class="text-muted">' + application_language.profile_hero_title + ':</div>\n' +
+                        '<div>' + notNull(detail.hero) + '</div><br>\n';
+                }
+                if (!isEmpty(detail.bookOfTheYear)) {
+                    html +=
+                        '<div class="text-muted">' + application_language.profile_book_of_the_year_title + ':</div>\n' +
+                        '<div>' + notNull(detail.bookOfTheYear) + '</div><br>\n';
+                }
+                if (!isEmpty(detail.fbPage)) {
+                    html +=
+                        '<div class="text-muted">' + application_language.profile_fb_title + ': </div>' +
+                        '<div><a href=' + detail.fbPage + ' target="_blank" class="underline-blue">' + application_language.open_title + '</a></div>\n';
                 }
 
-                html += '<h5><a href="#" class="right-sidebar-toggle"\n' +
+                html +=
+                    '  </div>\n' +
+                    '  <div class="form-group col-sm-6">\n' +
+                    '    <img id="selected_reader_image" src="images/reader-girl.png" class="reader-image">\n' +
+                    '  </div>\n' +
+                    '</div>\n';
+
+                let heartId = 'heart' + detail.id;
+                html += '<i href="#" id="' + heartId + '" ';
+
+                if (detail.friend) {
+                    html +=
+                        'class="fa fa-heart underlined" title="' + application_language.remove_reader_from_favorites_title + '" onclick="removeFriend(' +
+                        getCurrentUserId() + ', ' + readerId + ', \'' + nameSurname + '\', \'' + heartId + '\'); ' +
+                        'return false;"></i>';
+                } else {
+                    html +=
+                        'class="fa fa-heart-o underlined" title="' + application_language.add_reader_to_favorites_title + '" onclick="addFriend(' +
+                        getCurrentUserId() + ', ' + readerId + ', \'' + nameSurname + '\', \'' + heartId + '\'); ' +
+                        'return false;"></i>';
+                }
+
+
+                html +=
+                    '&nbsp; <a href="#" class="right-sidebar-toggle" title="' + application_language.send_message_title + '"\n' +
                     '    onclick="openConversation(' + detail.id + ',\'' + nameSurname + '\');"\n' +
-                    '    data-sidebar-id="main-right-sidebar"><i class="fa fa-envelope"></i></a></h5>';
+                    '    data-sidebar-id="main-right-sidebar"><i class="fa fa-envelope"></i></a>';
+
                 setPageSubtitle(html);
+
+                if (detail.image != null) {
+                    console.log(detail.image);
+                    showReaderImage(detail.image);
+                }
             }
         }
     }
@@ -65,7 +160,7 @@ function openReaderPage(readerId) {
                         '        <h4 class="panel-title">\n' +
                         '            <a data-toggle="collapse" onclick="showBookDetails(' + book.id + ', ' + book.ownerId + '); return false;" data-parent="#accordion" href="#collapse' + book.id + '"\n' +
                         '               aria-expanded="true" aria-controls="collapse' + book.id + '">\n' + book.title +
-                        '            <h5 class="text-muted"> by ' + notNull(book.authorName) + ' ' + notNull(book.authorSurname) + '</h5>\n' +
+                        '            <h5 class="text-muted">' + notNull(book.authorName) + ' ' + notNull(book.authorSurname) + '</h5>\n' +
                         '            </a>\n' +
                         '        </h4>\n' +
                         '    </div>\n' +
@@ -146,7 +241,7 @@ function showFavoriteReaders() {
 
         if (this.readyState === 4) {
             if (404 === this.status) {
-                showWarningModal('Not any friend added yet. Click on <i class="fa fa-heart-o"></i> icon next to any reader')
+                showWarningModal(application_language.noneFriendYet_title + '<i class="fa fa-heart-o"></i>' + application_language.iconNextToReader_title)
             } else if (200 === this.status) {
                 let readers = JSON.parse(this.responseText);
                 let html = '';
@@ -165,12 +260,12 @@ function showFavoriteReaders() {
                     let nameSurname = notNull(reader.name) + ' ' + notNull(reader.surname);
                     html += nameSurname +
                         ' <i class="fa fa-heart" id = \'' + heartId + '\' style="float: right"></i>' +
-                        ' <h5><span class="text-muted"> City: </span> ' + notNull(reader.city) + '</h5>\n';
+                        ' <h5><span class="text-muted">' + application_language.profile_city_title + ': </span> ' + notNull(reader.city) + '</h5>\n';
 
                     if (reader.fbPage != null) {
                         html +=
-                            ' <h5><span class="text-muted"> Facebook page: </span> ' +
-                            '     <a href=' + reader.fbPage + ' target="_blank" class="underline">view</a></h5>\n';
+                            ' <h5><span class="text-muted">' + application_language.profile_fb_title + ': </span> ' +
+                            '     <a href=' + reader.fbPage + ' target="_blank" class="underline">Facebook</a></h5>\n';
                     }
                     html +=
                         '               </a>\n' +
@@ -199,11 +294,11 @@ function addFriend(friend1, friend2, friend2NameSurname, heartId) {
 
         if (this.readyState === 4) {
             if (this.status === 404) {
-                showWarningModal('not found')
+                showWarningModal(friend2 + application_language.cannotBeFound_title)
             } else if (this.status === 403) {
-                showWarningModal(friend2 + ' is already a friend of ' + friend1);
+                showWarningModal(friend2 + application_language.isAlreadyFriendOf_title + friend1);
             } else if (this.status === 200) {
-                showSuccessModal(friend2NameSurname + ' has been successfully added to friends');
+                showSuccessModal(friend2NameSurname + application_language.hasBeenAddedToFriends);
                 showReaderDetails(friend2);
             }
         }
@@ -225,11 +320,11 @@ function removeFriend(friend1, friend2, friend2NameSurname, heartId) {
 
         if (this.readyState === 4) {
             if (this.status === 404) {
-                showWarningModal('not found')
+                showWarningModal(friend2 + application_language.cannotBeFound_title);
             } else if (this.status === 403) {
-                showWarningModal(friend2 + ' is not a friend of ' + friend1);
+                showWarningModal(friend2 + application_language.isNotAFriendOf_title + friend1);
             } else if (this.status === 200) {
-                showSuccessModal(friend2NameSurname + ' has been successfully removed from friends');
+                showSuccessModal(friend2NameSurname + application_language.hasBeenRemovedFromFriends);
                 showReaderDetails(friend2);
             }
         }
@@ -240,5 +335,132 @@ function removeFriend(friend1, friend2, friend2NameSurname, heartId) {
     addAuthorization(xhr);
     xhr.send();
 
+    return false;
+}
+
+function showSearchReadersHeader() {
+    let searchForm =
+        '  <div class="row">' +
+        '    <div class="form-group col-md-6">\n' +
+        '      <input type="text" class="form-control" id="search_reader_name" placeholder="' +
+        application_language.profile_name_title + '">\n' +
+        '    </div>\n' +
+        '    <div class="form-group col-md-6">\n' +
+        '      <input type="text" class="form-control" id="search_reader_surname" placeholder="' +
+        application_language.profile_surname_title + '">\n' +
+        '    </div>\n' +
+        '  </div>\n' +
+        '  <div class="row">' +
+        '    <div class="form-group col-sm-4">\n' +
+        '      <input type="text" class="form-control" id="search_reader_country" placeholder="' +
+        application_language.profile_country_title + '">\n' +
+        '    </div>\n' +
+        '    <div class="form-group col-sm-4">\n' +
+        '      <input type="text" class="form-control" id="search_reader_city" placeholder="' +
+        application_language.profile_city_title + '">\n' +
+        '    </div>\n' +
+        '    <div class="form-group col-sm-4">\n' +
+        '      <input type="text" class="form-control" id="search_reader_district" placeholder="' +
+        application_language.profile_district_title + '">\n' +
+        '    </div>\n' +
+        '  </div>\n' +
+        '  <div class="row">' +
+        '    <div class="form-group col-sm-6">\n' +
+        '        <div class="">\n' +
+        '            <select class="form-control" id="search_reader_gender">\n' +
+        '                <option value="0">' + application_language.profile_gender_title + '</option>\n' +
+        '                <option value="1">' + application_language.profile_gender_female_title + '</option>\n' +
+        '                <option value="2">' + application_language.profile_gender_male_title + '</option>\n' +
+        '            </select>\n' +
+        '        </div>\n' +
+        '    </div>\n' +
+        '    <div class="form-group col-sm-offset-3 col-sm-3">\n' +
+        '      <button type="submit" class="btn btn-default right" onclick="searchReadersByCriteria(); return false">' +
+        application_language.search_button_title + '</button>\n' +
+        '    </div>\n' +
+        '  </div>\n';
+    setPageSubtitle(searchForm);
+}
+
+function searchReadersByCriteria() {
+    let search_name = document.getElementById('search_reader_name').value;
+    let search_surname = document.getElementById('search_reader_surname').value;
+    let search_country = document.getElementById('search_reader_country').value;
+    let search_city = document.getElementById('search_reader_city').value;
+    let search_district = document.getElementById('search_reader_district').value;
+    let search_gender = document.getElementById('search_reader_gender').value;
+
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status == 200) {
+            let list = JSON.parse(this.response);
+            let size = list.length;
+            if (size == 0) {
+                showWarningModal(application_language.noReaderWasFound_title);
+            }
+            displayFoundReaders(this.responseText);
+        }
+        if (this.readyState === 4 && this.status == 404) {
+            showWarningModal(application_language.noReaderWasFound_title);
+        }
+
+    };
+
+    const requestBody = {
+        "name": search_name,
+        "surname": search_surname,
+        "country": search_country,
+        "city": search_city,
+        "district": search_district,
+        "gender": search_gender
+    };
+    console.log(requestBody);
+    let requestUrl = HOME_PAGE + "/users/search";
+    xhr.open("POST", requestUrl);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    addAuthorization(xhr);
+    xhr.send(JSON.stringify(requestBody));
+
+    return false;
+}
+
+function displayFoundReaders(response) {
+    let readers = JSON.parse(response);
+    let html = '';
+    for (let i = 0; i < readers.length; i++) {
+        let reader = readers[i];
+        console.log(reader);
+        html +=
+            '<div class="panel panel-default">\n' +
+            '    <div class="panel-heading" role="tab" id="heading' + reader.id + '">\n' +
+            '        <h4 class="panel-title">\n' +
+            '            <a data-toggle="collapse" onclick="clickReader(' + reader.id + '); return false;" data-parent="#accordion" href="#collapse' + reader.id + '"\n' +
+            '               aria-expanded="true" aria-controls="collapse' + reader.id + '">\n' + reader.name + ' ' + reader.surname;
+        if (!isEmpty(reader.country)) {
+            html +=
+                '            <h5 class="text-muted">' + application_language.profile_country_title + ': ' + notNull(reader.country) + '</h5>\n';
+        }
+        if (!isEmpty(reader.city)) {
+            html +=
+                '            <h5 class="text-muted">' + application_language.profile_city_title + ': ' + notNull(reader.city) + '</h5>\n';
+        }
+        if (!isEmpty(reader.district)) {
+            html +=
+                '            <h5 class="text-muted">' + application_language.profile_district_title + ': ' + notNull(reader.district) + '</h5>\n';
+        }
+        if (!isEmpty(reader.gender)) {
+            html +=
+                '            <h5 class="text-muted">' + application_language.profile_gender_title + ': ' + genderToString(reader.gender) + '</h5>\n';
+        }
+        html +=
+            '            </a>\n' +
+            '        </h4>\n' +
+            '    </div>\n' +
+            '    <div id="collapse' + reader.id + '" class="panel-collapse collapse" role="tabpanel"\n' +
+            '         aria-labelledby="heading' + reader.id + '">\n' +
+            '    </div>\n' +
+            '</div>'
+    }
+    document.getElementById("accordion").innerHTML = html;
     return false;
 }

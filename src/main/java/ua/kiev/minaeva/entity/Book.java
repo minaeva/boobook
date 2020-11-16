@@ -40,23 +40,23 @@ public class Book extends MapId {
     private String publisher;
 
     @Column(name = "age_group")
-    private int ageGroup;
+    private Integer ageGroup;
 
     @Column(name = "description")
     private String description;
 
     @Column(name = "cover")
-    private int cover;
+    private Integer cover;
 
     @Column(name = "language")
-    private int language;
+    private Integer language;
 
     @Column(name = "illustrations")
-    private int illustrations;
+    private Integer illustrations;
 
     @Column(name = "pages_quantity")
-    int pagesQuantity;
+    private int pagesQuantity;
 
     @Column(name = "active")
-    boolean isActive;
+    private boolean isActive;
 }

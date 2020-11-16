@@ -26,8 +26,14 @@ public class Reader extends MapId {
     @Column(name = "surname")
     private String surname;
 
+    @Column(name = "country")
+    private String country;
+
     @Column(name = "city")
     private String city;
+
+    @Column(name = "district")
+    private String district;
 
     @Column(name = "fb_page")
     private String fbPage;
@@ -42,8 +48,7 @@ public class Reader extends MapId {
     private Integer yearOfBirth;
 
     @Column(name = "gender")
-    @Enumerated(EnumType.STRING)
-    private Gender gender;
+    private Integer gender;
 
     @Column(name = "book_to_the_moon")
     private String bookToTheMoon;
