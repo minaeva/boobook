@@ -8,7 +8,6 @@ import org.springframework.util.unit.DataSize;
 
 import javax.servlet.MultipartConfigElement;
 
-//comment
 @SpringBootApplication
 public class BoobookApplication {
 

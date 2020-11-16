@@ -166,6 +166,7 @@ let ru = {
     "isAlreadyFriendOf_title": " уже друг ",
     "hasBeenAddedToFriends": " теперь ваш друг.",
     "isNotAFriendOf_title": " не является другом ",
+    "reader_title": "Читатель ",
     "hasBeenRemovedFromFriends": " был удалён из друзей.",
     "noReaderWasFound_title": "По вашему запросу не было найдено ни одного читателя. Попробуйте смягчить критерии поиска.",
 
@@ -385,6 +386,7 @@ let ua = {
     "isAlreadyFriendOf_title": " вже є другом ",
     "hasBeenAddedToFriends": " було успішно додано в друзі.",
     "isNotAFriendOf_title": " не є другом ",
+    "reader_title": "Читача ",
     "hasBeenRemovedFromFriends": " було успішно видалено з друзів.",
     "noReaderWasFound_title": "За вашим запитом не було знайдено жодного читача. Спробуйте пом'якшити критерії.",
 
@@ -603,6 +605,7 @@ let en = {
     "isAlreadyFriendOf_title": " is already a friend of ",
     "hasBeenAddedToFriends": " has been successfully added to friends.",
     "isNotAFriendOf_title": " is not a friend of ",
+    "reader_title": "Reader ",
     "hasBeenRemovedFromFriends": " has been successfully removed from friends.",
     "noReaderWasFound_title": "No reader fitting your criteria was found. Try to soften the borders.",
 
