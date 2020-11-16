@@ -7,6 +7,9 @@ let ru = {
     "menu_favorite_readers_title": "Читатели",
     "favorite_readers_title": "Избранные читатели",
     "logo_title": "Бубук",
+    "add_reader_to_favorites_title": "Добавить читателя в избранные",
+    "remove_reader_from_favorites_title": "Удалить читателя из избранных",
+    "send_message_title": "Отправить сообщение",
 
     "register_page_title": "Бубук - Регистрация",
     "register_form_title": "Создать аккаунт",
@@ -134,16 +137,20 @@ let ru = {
     "profile_gender_female_title": "женский",
     "profile_gender_male_title": "мужской",
     "profile_super_power_title": "Супер-сила",
-    "profile_book_of_the_year_title": "Книги, впечатлившие вас в последнее вре за прошлый год",
+    "profile_book_of_the_year_title": "Книги, наиболее впечатлившие из последних прочитанных",
     "profile_hobby_title": "Что вы делаете, когда нечего читать",
     "profile_country_title": "Страна",
     "profile_city_title": "Город",
+    "profile_city_set_me_title": "укажите, пожалуйста",
     "profile_district_title": "Район",
     "profile_fb_title": "Facebook",
     "open_title": "открыть",
     "profile_telegram_title": "Telegram",
     "profile_viber_title": "Viber",
     "profile_update_button_title": "Обновить",
+    "profile_has_been_updated_title": "Изменения профиля были успешно сохранены.",
+    "profile_update_server_error_title": "Изменить профиль не получилось из-за ошибки сервера.",
+    "profile_update_auth_error_title": "Изменить профиль не получилось из-за ошибки аутентификации.",
 
     "emailCannotBeEmpty_title": "Email не может быть пустым.",
     "passwordCannotBeEmpty_title": "Пароль не может быть пустым.",
@@ -157,9 +164,9 @@ let ru = {
     "noneFriendYet_title": "Пока что вы никого не добавили в друзья. Нажмите на иконку ",
     "iconNextToReader_title": " около читателя, которого вы хотите добавить в друзья.",
     "isAlreadyFriendOf_title": " уже друг ",
-    "hasBeenAddedToFriends": " успешно стал вашим другом.",
+    "hasBeenAddedToFriends": " теперь ваш друг.",
     "isNotAFriendOf_title": " не является другом ",
-    "hasBeenRemovedFromFriends": " успешно был удалён из друзей.",
+    "hasBeenRemovedFromFriends": " был удалён из друзей.",
     "noReaderWasFound_title": "По вашему запросу не было найдено ни одного читателя. Попробуйте смягчить критерии поиска.",
 
     "cannotBeAdded_title": " не может быть добавлена.",
@@ -192,6 +199,7 @@ let ru = {
     "details_ageGroup_title": "Возраст: ",
     "details_pages_title": "Страниц: ",
     "details_description_title": "Описание: ",
+    "details_owner_title": "Хозяин: ",
 
     "search_book_title_title": "Название",
     "search_book_author_name_title": "Имя автора",
@@ -218,6 +226,9 @@ let ua = {
     "menu_favorite_readers_title": "Читачі",
     "favorite_readers_title": "Улюблені читачі",
     "logo_title": "Бубук",
+    "add_reader_to_favorites_title": "Додати читача до улюблених",
+    "remove_reader_from_favorites_title": "Прибрати читача з улюблених",
+    "send_message_title": "Написати повідомлення",
 
     "register_page_title": "Бубук - Реєстрацiя",
     "register_form_title": "Створити акаунт",
@@ -349,19 +360,23 @@ let ua = {
     "profile_hobby_title": "Що ви робите, коли нема чого читати",
     "profile_country_title": "Країна",
     "profile_city_title": "Місто",
+    "profile_city_set_me_title": "зазначте, будь ласка",
     "profile_district_title": "Район",
     "profile_fb_title": "Facebook",
     "open_title": "вiдкрити",
     "profile_telegram_title": "Telegram",
     "profile_viber_title": "Viber",
     "profile_update_button_title": "Поновити",
+    "profile_has_been_updated_title": "Зміни профіля успішно збережені.",
+    "profile_update_server_error_title": "Профіль не можна змінити через помилку сервера.",
+    "profile_update_auth_error_title": "Профіль не можна змінити через помилку автентифікації.",
 
     "emailCannotBeEmpty_title": "Email не може бути вiдсутнiм.",
     "passwordCannotBeEmpty_title": "Пароль не може бути вiдсутнiм.",
     "nameCannotBeEmpty_title": "Iм'я не може бути вiдсутнiм.",
     "readerWithEmail_title": "Читач з email-ом ",
     "singleNotFound_title": " не знаходиться.",
-    "incorrectPassword_title": "Incorrect password for a reader with email ",
+    "incorrectPassword_title": "Невірний пароль для читача з email-ом ",
 
     "readerDetailsWithId_title": "Вiдомостi користувача з id ",
     "cannotBeFound_title": " не можуть бути знайденi.",
@@ -402,6 +417,7 @@ let ua = {
     "details_ageGroup_title": "Вік читача: ",
     "details_pages_title": "Сторінок: ",
     "details_description_title": "Опис: ",
+    "details_owner_title": "Володар: ",
 
     "search_book_title_title": "Назва",
     "search_book_author_name_title": "Ім'я автора",
@@ -428,7 +444,9 @@ let en = {
     "menu_favorite_readers_title": "Readers",
     "favorite_readers_title": "Favorite Readers",
     "logo_title": "BooBook",
-    //todo add Add reader to favorites, Remove from favorites, Write a message
+    "add_reader_to_favorites_title": "Add reader to favorites",
+    "remove_reader_from_favorites_title": "Remove reader from favorites",
+    "send_message_title": "Send a message",
 
     "register_page_title": "BooBook - Register Page",
     "register_form_title": "Create an account", //not
@@ -560,12 +578,16 @@ let en = {
     "profile_hobby_title": "What do you do when there's nothing to read",
     "profile_country_title": "Country",
     "profile_city_title": "City",
+    "profile_city_set_me_title": "set me please",
     "profile_district_title": "District",
     "profile_fb_title": "Facebook",
     "open_title": "open",
     "profile_telegram_title": "Telegram",
     "profile_viber_title": "Viber",
     "profile_update_button_title": "Update",
+    "profile_has_been_updated_title": "Profile data has been updated.",
+    "profile_update_server_error_title": "When updating the reader info, there was a server error.",
+    "profile_update_auth_error_title": "When updating the reader info, there was a problem with authentication.",
 
     "emailCannotBeEmpty_title": "Email cannot be empty.",
     "passwordCannotBeEmpty_title": "Password cannot be empty.",
@@ -613,6 +635,7 @@ let en = {
     "details_ageGroup_title": "Age group: ",
     "details_pages_title": "Pages: ",
     "details_description_title": "Description: ",
+    "details_owner_title": "Owner: ",
 
     "search_book_title_title": "Title",
     "search_book_author_name_title": "Author name",
@@ -631,4 +654,4 @@ let en = {
 }
 
 
-let application_language = en;
+// let application_language = en;

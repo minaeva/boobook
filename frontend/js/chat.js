@@ -1,5 +1,6 @@
 let stompClient;
 let insideTheList = false;
+let newMessagesFrom = [];
 
 function connectToChat() {
     let userId = getCurrentUserId();
@@ -38,6 +39,7 @@ function sendMessage(from, to) {
 }
 
 function formatDate() {
+    //todo
     let mlist = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
     let d = new Date(),
@@ -117,6 +119,12 @@ function convertMessageToHtml(message, conversationalistId) {
 }
 
 function openConversation(conversationalistId, userNameSurname) {
+    if (newMessagesFrom.includes(conversationalistId)) {
+        newMessagesFrom.pop(conversationalistId);
+    }
+    if (newMessagesFrom.length == 0) {
+        allNewMessagesAreSeen();
+    }
     console.log("open chat for user " + conversationalistId + ' ' + userNameSurname);
     openChatWindow();
 
@@ -168,11 +176,15 @@ function openConversation(conversationalistId, userNameSurname) {
 function receiveMessage(event) {
     console.log('received event');
     console.log(insideTheList);
+
+    let jsonObject = JSON.parse(event.body);
+    if (!newMessagesFrom.includes(jsonObject.from)) {
+        newMessagesFrom.push(jsonObject.from);
+    }
+
     if (insideTheList) {
-        let jsonObject = JSON.parse(event.body);
         appendNewMessage(jsonObject, jsonObject.from);
     } else {
-        //todo check
         document.getElementById("envelope").style.color = 'darkorange';
     }
 }
@@ -197,8 +209,7 @@ function appendNewMessage(message, conversationalistId) {
     $('#chat-new-text').focus();
 }
 
-function notificationIsSeen() {
-    //todo check the icon
+function allNewMessagesAreSeen() {
     document.getElementById("envelope").style.color = 'black';
-    getUserConversationalists();
+    // getUserConversationalists();
 }

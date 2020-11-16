@@ -91,17 +91,17 @@ function updateProfile(id, name, surname, bookToTheMoon, hero, yearOfBirth, gend
     xhr.onreadystatechange = function () {
         if (this.readyState == 4) {
             if (this.status == 500) {
-                showWarningModal("When updating the reader info, there was a server error");
+                showWarningModal(application_language.profile_update_server_error_title);
                 return false;
             } else if (this.status == 403) {
-                showWarningModal("When updating the reader info, there was a problem with authentication");
+                showWarningModal(application_language.profile_update_auth_error_title);
                 return false;
             } else if (this.status == 200) {
                 console.log("User info updated!");
                 if (PROFILE_IMAGE_EDITED == true && changedImage != null) {
                     saveProfileImage(id, changedImage)
                 }
-                showSuccessModal('Profile data has been updated');
+                showSuccessModal(application_language.profile_has_been_updated_title);
                 showProfile();
             }
         }
@@ -141,6 +141,7 @@ function saveProfileImage(readerId, image) {
     xhr.onreadystatechange = function () {
         if (this.readyState == 4) {
             if (this.status == 500) {
+                //todo
                 showWarningModal("When updating the images, there was a server error");
                 return false;
             } else if (this.status == 403) {

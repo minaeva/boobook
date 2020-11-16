@@ -31,71 +31,70 @@ function showReaderDetails(readerId) {
                     '<div class="row">\n' +
                     '  <div class="form-group col-sm-6">\n';
 
-                if (detail.country != null) {
+                if (!isEmpty(detail.country)) {
                     html +=
                         '    <div class="text-muted">' + application_language.profile_country_title + ':</div>\n' +
                         '    <div>' + notNull(detail.country) + '</div><br>\n';
                 }
-                if (detail.city != null) {
+                if (!isEmpty(detail.city)) {
                     html +=
                         '    <div class="text-muted">' + application_language.profile_city_title + ':</div>\n' +
                         '    <div>' + notNull(detail.city) + '</div><br>\n';
                 }
-                if (detail.district != null) {
+                if (!isEmpty(detail.district)) {
                     html +=
                         '    <div class="text-muted">' + application_language.profile_district_title + ':</div>\n' +
                         '    <div>' + notNull(detail.district) + '</div><br>\n';
                 }
-                if (detail.telegram != null) {
+                if (!isEmpty(detail.telegram)) {
                     html +=
                         '    <div class="text-muted">' + application_language.profile_telegram_title + ':</div>\n' +
                         '    <div>' + notNull(detail.telegram) + '</div><br>\n';
                 }
-                if (detail.viber != null) {
+                if (!isEmpty(detail.viber)) {
                     html +=
                         '    <div class="text-muted">' + application_language.profile_viber_title + ':</div>\n' +
                         '    <div>' + notNull(detail.viber) + '</div><br>\n';
                 }
-                if (detail.yearOfBirth != null) {
+                if (!isEmpty(detail.yearOfBirth)) {
                     html +=
                         '    <div class="text-muted">' + application_language.profile_year_title + ':</div>\n' +
                         '    <div>' + notNull(detail.yearOfBirth) + '</div><br>\n';
                 }
-                if (detail.gender != null) {
+                if (!isEmpty(detail.gender)) {
                     html +=
                         '    <div class="text-muted">' + application_language.profile_gender_title + ':</div>\n' +
                         '    <div>' + genderToString(detail.gender) + '</div><br>\n';
                 }
-                if (detail.superPower != null) {
+                if (!isEmpty(detail.superPower)) {
                     html +=
                         '    <div class="text-muted">' + application_language.profile_super_power_title + ':</div>\n' +
                         '    <div>' + notNull(detail.superPower) + '</div><br>\n';
                 }
-                if (detail.bookToTheMoon != null) {
+                if (!isEmpty(detail.bookToTheMoon)) {
                     html +=
                         '<div class="text-muted">' + application_language.profile_book_to_the_moon_title + ':</div>\n' +
                         '<div>' + notNull(detail.bookToTheMoon) + '</div><br>\n';
                 }
-                if (detail.hobby != null) {
+                if (!isEmpty(detail.hobby)) {
                     html +=
                         '<div class="text-muted">' + application_language.profile_hobby_title + ':</div>\n' +
                         '<div>' + notNull(detail.hobby) + '</div><br>\n';
                 }
-                if (detail.hero != null) {
+                if (!isEmpty(detail.hero)) {
                     html +=
                         '<div class="text-muted">' + application_language.profile_hero_title + ':</div>\n' +
                         '<div>' + notNull(detail.hero) + '</div><br>\n';
                 }
-                if (detail.bookOfTheYear != null) {
+                if (!isEmpty(detail.bookOfTheYear)) {
                     html +=
                         '<div class="text-muted">' + application_language.profile_book_of_the_year_title + ':</div>\n' +
                         '<div>' + notNull(detail.bookOfTheYear) + '</div><br>\n';
                 }
-                if (detail.fbPage != null) {
+                if (!isEmpty(detail.fbPage)) {
                     html +=
                         '<div class="text-muted">' + application_language.profile_fb_title + ': </div>' +
                         '<div><a href=' + detail.fbPage + ' target="_blank" class="underline-blue">' + application_language.open_title + '</a></div>\n';
-                    ;
                 }
 
                 html +=
@@ -110,19 +109,19 @@ function showReaderDetails(readerId) {
 
                 if (detail.friend) {
                     html +=
-                        'class="fa fa-heart underlined" title="Remove" onclick="removeFriend(' +
+                        'class="fa fa-heart underlined" title="' + application_language.remove_reader_from_favorites_title + '" onclick="removeFriend(' +
                         getCurrentUserId() + ', ' + readerId + ', \'' + nameSurname + '\', \'' + heartId + '\'); ' +
                         'return false;"></i>';
                 } else {
                     html +=
-                        'class="fa fa-heart-o underlined" title="Add" onclick="addFriend(' +
+                        'class="fa fa-heart-o underlined" title="' + application_language.add_reader_to_favorites_title + '" onclick="addFriend(' +
                         getCurrentUserId() + ', ' + readerId + ', \'' + nameSurname + '\', \'' + heartId + '\'); ' +
                         'return false;"></i>';
                 }
 
 
                 html +=
-                    '&nbsp; <a href="#" class="right-sidebar-toggle" title="Write a message"\n' +
+                    '&nbsp; <a href="#" class="right-sidebar-toggle" title="' + application_language.send_message_title + '"\n' +
                     '    onclick="openConversation(' + detail.id + ',\'' + nameSurname + '\');"\n' +
                     '    data-sidebar-id="main-right-sidebar"><i class="fa fa-envelope"></i></a>';
 
@@ -436,11 +435,24 @@ function displayFoundReaders(response) {
             '    <div class="panel-heading" role="tab" id="heading' + reader.id + '">\n' +
             '        <h4 class="panel-title">\n' +
             '            <a data-toggle="collapse" onclick="clickReader(' + reader.id + '); return false;" data-parent="#accordion" href="#collapse' + reader.id + '"\n' +
-            '               aria-expanded="true" aria-controls="collapse' + reader.id + '">\n' + reader.name + ' ' + reader.surname +
-            '            <h5 class="text-muted">' + application_language.profile_country_title + ': ' + notNull(reader.country) + '</h5>\n' +
-            '            <h5 class="text-muted">' + application_language.profile_city_title + ': ' + notNull(reader.city) + '</h5>\n' +
-            '            <h5 class="text-muted">' + application_language.profile_district_title + ': ' + notNull(reader.district) + '</h5>\n' +
-            '            <h5 class="text-muted">' + application_language.profile_gender_title + ': ' + genderToString(reader.gender) + '</h5>\n' +
+            '               aria-expanded="true" aria-controls="collapse' + reader.id + '">\n' + reader.name + ' ' + reader.surname;
+        if (!isEmpty(reader.country)) {
+            html +=
+                '            <h5 class="text-muted">' + application_language.profile_country_title + ': ' + notNull(reader.country) + '</h5>\n';
+        }
+        if (!isEmpty(reader.city)) {
+            html +=
+                '            <h5 class="text-muted">' + application_language.profile_city_title + ': ' + notNull(reader.city) + '</h5>\n';
+        }
+        if (!isEmpty(reader.district)) {
+            html +=
+                '            <h5 class="text-muted">' + application_language.profile_district_title + ': ' + notNull(reader.district) + '</h5>\n';
+        }
+        if (!isEmpty(reader.gender)) {
+            html +=
+                '            <h5 class="text-muted">' + application_language.profile_gender_title + ': ' + genderToString(reader.gender) + '</h5>\n';
+        }
+        html +=
             '            </a>\n' +
             '        </h4>\n' +
             '    </div>\n' +

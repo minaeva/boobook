@@ -49,15 +49,14 @@
                     <form>
                         <div class="form-group" id="login_email_group">
                             <label for="reader_email" id="login_email_title">
-                                <span style="color:red;">*</span>
-                            </label>
+                            </label><span style="color:red;"> *</span>
                             <input type="email" class="form-control" id="reader_email" autocomplete="on" maxlength="50">
                         </div>
                         <div class="form-group" id="login_password_group">
                             <label for="reader_password" id="login_password_title">
-                                <span style="color:red;">*</span>
-                            </label>
-                            <input type="password" class="form-control" id="reader_password" autocomplete="off"  maxlength="50">
+                            </label><span style="color:red;"> *</span>
+                            <input type="password" class="form-control" id="reader_password" autocomplete="off"
+                                   maxlength="50">
                         </div>
                         <a href="#" class="btn btn-primary" id="login_login_button_title"
                            onclick="authenticateAReader(document.getElementById('reader_email').value, document.getElementById('reader_password').value); return false">

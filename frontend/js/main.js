@@ -1,7 +1,7 @@
-const HOME_PAGE = "http://localhost:8008";
-const MESSAGE_SERVICE_HOME = 'http://localhost:8010';
-// const HOME_PAGE = "https://enigmatic-coast-66167.herokuapp.com";
-// const MESSAGE_SERVICE_HOME = 'https://boobook-messages.herokuapp.com';
+// const HOME_PAGE = "http://localhost:8008";
+// const MESSAGE_SERVICE_HOME = 'http://localhost:8010';
+const HOME_PAGE = "https://104.236.211.234:8008";
+const MESSAGE_SERVICE_HOME = 'https://104.236.211.234:8010';
 
 const MESSAGE_CONTROLLER = MESSAGE_SERVICE_HOME + '/messages';
 const BEARER = 'Bearer ';
@@ -128,6 +128,14 @@ function notNull(str) {
     return str;
 }
 
+function isEmpty(str) {
+    if (str === null || str === '') {
+        return true;
+    }
+    return false;
+
+}
+
 function genderToString(gender) {
     if (gender == 1) {
         return application_language.profile_gender_female_title;
@@ -192,7 +200,7 @@ function initYearPicker() {
         onChange: null
     });
 
-    $('.yearpicker').keypress(function(e) {
+    $('.yearpicker').keypress(function (e) {
         e.preventDefault();
     });
 
@@ -253,7 +261,7 @@ function setEnLanguageOnUI() {
 
 function getLanguageFromLocalStorage() {
     let savedLanguage = localStorage.getItem('language');
-    if (savedLanguage == null || savedLanguage == 'en') {
+    if (savedLanguage == null || savedLanguage == "null" || savedLanguage == 'en') {
         application_language = en;
     } else if (savedLanguage == 'ru') {
         application_language = ru;
@@ -382,15 +390,14 @@ function resetLanguage() {
     $('#profile_hobby_title').text(application_language.profile_hobby_title);
     $('#profile_country_title').text(application_language.profile_country_title);
     $('#profile_city_title').text(application_language.profile_city_title);
+    $('#edit_profile_city').attr("placeholder", application_language.profile_city_set_me_title);
     $('#profile_district_title').text(application_language.profile_district_title);
     $('#profile_fb_title').text(application_language.profile_fb_title);
     $('#profile_telegram_title').text(application_language.profile_telegram_title);
     $('#profile_viber_title').text(application_language.profile_viber_title);
     $('#profile_update_button_title').text(application_language.profile_update_button_title);
 
-
-    setPageTitle(application_language.menu_my_books_title);
-    // showSearchBooksHeader();
+    clickHome();
 }
 
 
