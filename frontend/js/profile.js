@@ -121,7 +121,7 @@ function updateProfile(id, name, surname, bookToTheMoon, hero, yearOfBirth, gend
         "country": country,
         "city": city,
         "district": district,
-        "fb": fb,
+        "fbPage": fb,
         "telegram": telegram,
         "viber": viber
     };
