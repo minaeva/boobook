@@ -8,15 +8,14 @@ import org.springframework.util.unit.DataSize;
 
 import javax.servlet.MultipartConfigElement;
 
-//comment
 @SpringBootApplication
 public class BoobookApplication {
 
     @Bean
     public MultipartConfigElement multipartConfigElement() {
         MultipartConfigFactory factory = new MultipartConfigFactory();
-        factory.setMaxFileSize(DataSize.parse("10MB"));
-        factory.setMaxRequestSize(DataSize.parse("10MB"));
+        factory.setMaxFileSize(DataSize.parse("20MB"));
+        factory.setMaxRequestSize(DataSize.parse("100MB"));
         return factory.createMultipartConfig();
     }
 

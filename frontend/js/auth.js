@@ -65,7 +65,7 @@ function registerAReader() {
                 document.getElementById("new_name").value = '';
                 return false;
             } else if (this.status == 200) {
-                showSuccessModal(application_language.readerWithEmail_title + new_email + application_language.hasBeenCreated_title);
+                // showSuccessModal(application_language.readerWithEmail_title + new_email + application_language.hasBeenCreated_title);
                 authenticateNewlyCreatedReader(new_email, new_password);
             }
         }

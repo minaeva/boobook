@@ -623,9 +623,10 @@
         <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
              aria-hidden="true">
             <div class="modal-dialog">
-                <div class="modal-content">
+                <div class="modal-content" id="image_modal_content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span>
+                        <button type="button" class="close" data-dismiss="modal"
+                                onclick="closeImageModal(); return false"><span aria-hidden="true">&times;</span>
                             <span class="sr-only" id="image_close_button_title"></span></button>
                         <h4 class="modal-title" id="image_preview_modal_title"></h4>
                     </div>
@@ -649,6 +650,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal"
+                                onclick="closeImageModal(); return false"
                                 id="image_close_button_footer_title"></button>
                     </div>
                 </div>
@@ -711,13 +713,15 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="form-group col-sm-6" id="profile_book_to_the_moon_group">
+                                    <div class="form-group col-sm-12" id="profile_book_to_the_moon_group">
                                         <label class="control-label" for="edit_profile_book_to_the_moon"
                                                id="profile_book_to_the_moon_title"></label>
                                         <input type="text" class="form-control" id="edit_profile_book_to_the_moon"
                                                placeholder="" maxlength="200">
                                     </div>
-                                    <div class="form-group col-sm-6" id="profile_hero_group">
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-sm-12" id="profile_hero_group">
                                         <label class="control-label" for="edit_profile_hero"
                                                id="profile_hero_title"></label>
                                         <input type="text" class="form-control" id="edit_profile_hero" placeholder=""

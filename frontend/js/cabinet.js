@@ -35,12 +35,9 @@ function clickReader(readerId) {
         setPageSubtitle('');
         showReaderDetails(readerId);
     } else {
-        selectMenu("menu_home");
-        setPageTitle(application_language.menu_my_books_title);
-        setPageSubtitle('');
+        clickHome();
     }
     clearContent();
-    // document.getElementById("accordion").innerHTML = '';
 
     openReaderPage(readerId);
 }

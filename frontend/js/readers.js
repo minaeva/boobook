@@ -61,7 +61,7 @@ function showReaderDetails(readerId) {
                         '    <div class="text-muted">' + application_language.profile_year_title + ':</div>\n' +
                         '    <div>' + notNull(detail.yearOfBirth) + '</div><br>\n';
                 }
-                if (!isEmpty(detail.gender)) {
+                if (!isEmpty(detail.gender) && detail.gender != 0) {
                     html +=
                         '    <div class="text-muted">' + application_language.profile_gender_title + ':</div>\n' +
                         '    <div>' + genderToString(detail.gender) + '</div><br>\n';
@@ -259,10 +259,13 @@ function showFavoriteReaders() {
                         '               aria-expanded="true" aria-controls="collapse' + reader.id + '">\n';
                     let nameSurname = notNull(reader.name) + ' ' + notNull(reader.surname);
                     html += nameSurname +
-                        ' <i class="fa fa-heart" id = \'' + heartId + '\' style="float: right"></i>' +
-                        ' <h5><span class="text-muted">' + application_language.profile_city_title + ': </span> ' + notNull(reader.city) + '</h5>\n';
+                        ' <i class="fa fa-heart" id = \'' + heartId + '\' style="float: right"></i>';
+                    if (!isEmpty(reader.city)) {
+                        html +=
+                            ' <h5><span class="text-muted">' + application_language.profile_city_title + ': </span> ' + notNull(reader.city) + '</h5>\n';
+                    }
 
-                    if (reader.fbPage != null) {
+                    if (!isEmpty(reader.fbPage)) {
                         html +=
                             ' <h5><span class="text-muted">' + application_language.profile_fb_title + ': </span> ' +
                             '     <a href=' + reader.fbPage + ' target="_blank" class="underline">Facebook</a></h5>\n';
@@ -298,7 +301,7 @@ function addFriend(friend1, friend2, friend2NameSurname, heartId) {
             } else if (this.status === 403) {
                 showWarningModal(friend2 + application_language.isAlreadyFriendOf_title + friend1);
             } else if (this.status === 200) {
-                showSuccessModal(friend2NameSurname + application_language.hasBeenAddedToFriends);
+                showSuccessModal(application_language.reader_title + friend2NameSurname + application_language.hasBeenAddedToFriends);
                 showReaderDetails(friend2);
             }
         }
@@ -324,7 +327,7 @@ function removeFriend(friend1, friend2, friend2NameSurname, heartId) {
             } else if (this.status === 403) {
                 showWarningModal(friend2 + application_language.isNotAFriendOf_title + friend1);
             } else if (this.status === 200) {
-                showSuccessModal(friend2NameSurname + application_language.hasBeenRemovedFromFriends);
+                showSuccessModal(application_language.reader_title + friend2NameSurname + application_language.hasBeenRemovedFromFriends);
                 showReaderDetails(friend2);
             }
         }
@@ -435,7 +438,10 @@ function displayFoundReaders(response) {
             '    <div class="panel-heading" role="tab" id="heading' + reader.id + '">\n' +
             '        <h4 class="panel-title">\n' +
             '            <a data-toggle="collapse" onclick="clickReader(' + reader.id + '); return false;" data-parent="#accordion" href="#collapse' + reader.id + '"\n' +
-            '               aria-expanded="true" aria-controls="collapse' + reader.id + '">\n' + reader.name + ' ' + reader.surname;
+            '               aria-expanded="true" aria-controls="collapse' + reader.id + '">\n' + reader.name;
+        if (!isEmpty(reader.surname)) {
+            html += ' ' + reader.surname;
+        }
         if (!isEmpty(reader.country)) {
             html +=
                 '            <h5 class="text-muted">' + application_language.profile_country_title + ': ' + notNull(reader.country) + '</h5>\n';
@@ -448,7 +454,7 @@ function displayFoundReaders(response) {
             html +=
                 '            <h5 class="text-muted">' + application_language.profile_district_title + ': ' + notNull(reader.district) + '</h5>\n';
         }
-        if (!isEmpty(reader.gender)) {
+        if (!isEmpty(reader.gender) && reader.gender != 0) {
             html +=
                 '            <h5 class="text-muted">' + application_language.profile_gender_title + ': ' + genderToString(reader.gender) + '</h5>\n';
         }

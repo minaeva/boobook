@@ -2,13 +2,20 @@ package ua.kiev.minaeva.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ua.kiev.minaeva.exception.BoobookNotFoundException;
+import ua.kiev.minaeva.exception.BoobookValidationException;
 import ua.kiev.minaeva.service.BookImageService;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,7 +44,7 @@ public class BookImageController {
     @PostMapping
     public ResponseEntity<ResponseMessage> saveFiles(@RequestParam("files") MultipartFile[] files,
                                                      @RequestParam("bookId") final Long bookId)
-            throws IOException, BoobookNotFoundException {
+            throws IOException, BoobookNotFoundException, BoobookValidationException {
         log.info("handling SAVE IMAGES BY BOOK ID request: " + bookId);
         if (files.length == 0) {
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage("None file was selected for save"));
@@ -45,8 +52,7 @@ public class BookImageController {
 
         List<String> fileNames = new ArrayList<>();
         for (MultipartFile file : Arrays.asList(files)) {
-            byte[] encodedByteArray = Base64.getEncoder().encode(file.getBytes());
-            bookImageService.save(encodedByteArray, bookId);
+            bookImageService.save(resizeEncode(file), bookId);
             fileNames.add(file.getOriginalFilename());
         }
 
@@ -56,20 +62,55 @@ public class BookImageController {
     @PutMapping
     public ResponseEntity<ResponseMessage> updateFiles(@RequestParam("files") MultipartFile[] files,
                                                        @RequestParam("bookId") final Long bookId)
-            throws IOException, BoobookNotFoundException {
+            throws IOException, BoobookNotFoundException, BoobookValidationException {
         log.info("handling UPDATE IMAGES BY BOOK ID request: " + bookId);
 
         List<String> fileNames = new ArrayList<>();
         List<byte[]> encodedFiles = new ArrayList<>();
 
         for (MultipartFile file : Arrays.asList(files)) {
-            byte[] encodedByteArray = Base64.getEncoder().encode(file.getBytes());
-            encodedFiles.add(encodedByteArray);
+            byte[] resizedEncoded = resizeEncode(file);
+            encodedFiles.add(resizedEncoded);
             fileNames.add(file.getOriginalFilename());
         }
         bookImageService.update(encodedFiles, bookId);
 
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage("Uploaded successfully: " + fileNames));
+    }
+
+    private byte[] resizeEncode(MultipartFile file) throws IOException, BoobookValidationException {
+        String extension = FilenameUtils.getExtension(file.getOriginalFilename());
+        byte[] originalImage = file.getBytes();
+
+        BufferedImage image;
+        try (ByteArrayInputStream in = new ByteArrayInputStream(originalImage)) {
+            image = ImageIO.read(in);
+        }
+
+        BufferedImage resizedImage = resizeImage(image, 1200, 0);
+
+        byte[] resizedImageArray;
+        try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+            ImageIO.write(resizedImage, extension, outputStream);
+            resizedImageArray = outputStream.toByteArray();
+        }
+
+        return Base64.getEncoder().encode(resizedImageArray);
+    }
+
+    private BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) {
+        if (targetHeight == 0) {
+            targetHeight = (targetWidth * originalImage.getHeight()) / originalImage.getWidth();
+        }
+        if (targetWidth == 0) {
+            targetWidth = (targetHeight * originalImage.getWidth()) / originalImage.getHeight();
+        }
+
+        BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
+        Graphics2D graphics2D = resizedImage.createGraphics();
+        graphics2D.drawImage(originalImage, 0, 0, targetWidth, targetHeight, null);
+        graphics2D.dispose();
+        return resizedImage;
     }
 
 }
