@@ -5,7 +5,8 @@ const NO_READER_IMAGE = 'reader-girl.png';
 let IMAGE_EDITED;
 const IMAGE_TO_SAVE = 'target';
 const IMAGE_TO_EDIT = 'edit_target';
-
+let ADD_BOOK_MODAL_LISTENER_ADDED = false;
+let EDIT_BOOK_MODAL_LISTENER_ADDED = false;
 
 function saveBook() {
 
@@ -116,10 +117,10 @@ function editBook() {
                 showWarningModal(application_language.book_title + '\'' + book_title + '\'' + application_language.cannotBeEdited_title);
                 return false;
             } else if (this.status === 200) {
-                showSuccessModal(application_language.book_title + '\'' + book_title + '\'' + application_language.hasBeenEdited_title);
                 if (IMAGE_EDITED) {
                     updateImages(allFiles, book_id);
                 }
+                showSuccessModal(application_language.book_title + '\'' + book_title + '\'' + application_language.hasBeenEdited_title);
                 showOwnersBooks();
             }
         }
@@ -213,13 +214,15 @@ function openAddBookModal() {
     let fileButton = document.getElementById("fileButton"),
         fileInput = document.getElementById("fileInput");
 
-    fileButton.addEventListener("click", function (e) {
-        if (fileInput) {
-            fileInput.click();
-        }
-        e.preventDefault();
-    }, false);
-
+    if (ADD_BOOK_MODAL_LISTENER_ADDED == false) {
+        fileButton.addEventListener("click", function (e) {
+            if (fileInput) {
+                fileInput.click();
+            }
+            e.preventDefault();
+        }, false);
+        ADD_BOOK_MODAL_LISTENER_ADDED = true;
+    }
     let src0 = document.getElementById("src0");
     let target0 = document.getElementById("target0");
     showOnePreview(src0, target0);
@@ -273,32 +276,36 @@ function closeAddBookModal() {
 }
 
 function openImageModal(iString, size) {
-    // alert('size = ' + size + ', i = ' + iString);
     let i = Number.parseInt(iString, 10);
     $('#imageModal').modal('show');
     let src = "data:image/png;base64," + imagesToShow[i];
     $('#imagepreview').attr("src", src);
 
-
     let previous = (i > 0) ? i - 1 : size - 1;
     let next = (i == size - 1) ? 0 : i + 1;
+
     $("#left_arrow").attr("onclick", "openImageModal('" + previous + "', '" + size + "')");
     $("#right_arrow").attr("onclick", "openImageModal('" + next + "', '" + size + "')");
 
-    window.addEventListener('keydown', e => {
-        switch (e.code) {
-            case "ArrowLeft":
+    $('#imageModal').off();
+
+    $('#imageModal').on('keydown', e => {
+        switch (e.which) {
+            case 37: // left
                 openImageModal(previous, size);
                 break;
-            case "ArrowRight":
+            case 39: // right
                 openImageModal(next, size);
                 break;
             default:
-            /* don't do anything */
+                return; // exit this handler for other keys
         }
+        e.preventDefault(); // prevent the default action (scroll / move caret)
     });
+}
 
-
+function closeImageModal() {
+    $('#imageModal').modal('hide');
 }
 
 function openEditBookModal(book_id, title, authorName, authorSurname, publisher, language, year, cover, illustrations, ageGroup, pagesQuantity, description, active) {
@@ -313,13 +320,17 @@ function openEditBookModal(book_id, title, authorName, authorSurname, publisher,
     let fileButton = document.getElementById("edit_fileButton"),
         fileInput = document.getElementById("edit_fileInput");
 
-    fileButton.addEventListener("click", function (e) {
-        if (fileInput) {
-            fileInput.click();
-            IMAGE_EDITED = true;
-        }
-        e.preventDefault();
-    }, false);
+    if (EDIT_BOOK_MODAL_LISTENER_ADDED == false) {
+
+        fileButton.addEventListener("click", function (e) {
+            if (fileInput) {
+                fileInput.click();
+                IMAGE_EDITED = true;
+            }
+            e.preventDefault();
+        }, false);
+        EDIT_BOOK_MODAL_LISTENER_ADDED = true;
+    }
 
     let src0 = document.getElementById("edit_src0");
     let target0 = document.getElementById("edit_target0");
@@ -500,7 +511,7 @@ function showSearchBooksHeader() {
     $('#search_year_to').val('');
 }
 
-function displayFoundBooks(response) {
+function showFoundBooks(response) {
     let books = JSON.parse(response);
     let html = '';
     for (let i = 0; i < books.length; i++) {
@@ -816,7 +827,7 @@ function searchBooksByCriteria() {
             if (size == 0) {
                 showWarningModal(application_language.noBookWasFound_title);
             }
-            displayFoundBooks(this.responseText);
+            showFoundBooks(this.responseText);
         }
         if (this.readyState === 4 && this.status == 404) {
             showWarningModal(application_language.noBookWasFound_title);

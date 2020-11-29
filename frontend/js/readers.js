@@ -259,10 +259,13 @@ function showFavoriteReaders() {
                         '               aria-expanded="true" aria-controls="collapse' + reader.id + '">\n';
                     let nameSurname = notNull(reader.name) + ' ' + notNull(reader.surname);
                     html += nameSurname +
-                        ' <i class="fa fa-heart" id = \'' + heartId + '\' style="float: right"></i>' +
-                        ' <h5><span class="text-muted">' + application_language.profile_city_title + ': </span> ' + notNull(reader.city) + '</h5>\n';
+                        ' <i class="fa fa-heart" id = \'' + heartId + '\' style="float: right"></i>';
+                    if (!isEmpty(reader.city)) {
+                        html +=
+                            ' <h5><span class="text-muted">' + application_language.profile_city_title + ': </span> ' + notNull(reader.city) + '</h5>\n';
+                    }
 
-                    if (reader.fbPage != null) {
+                    if (!isEmpty(reader.fbPage)) {
                         html +=
                             ' <h5><span class="text-muted">' + application_language.profile_fb_title + ': </span> ' +
                             '     <a href=' + reader.fbPage + ' target="_blank" class="underline">Facebook</a></h5>\n';
