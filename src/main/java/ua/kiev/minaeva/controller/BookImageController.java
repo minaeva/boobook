@@ -16,7 +16,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -70,9 +69,6 @@ public class BookImageController {
         List<byte[]> encodedFiles = new ArrayList<>();
 
         for (MultipartFile file : Arrays.asList(files)) {
-            //worked before resize
-//            byte[] encodedByteArray = Base64.getEncoder().encode(file.getBytes());
-
             byte[] resizedEncoded = resizeEncode(file);
             encodedFiles.add(resizedEncoded);
             fileNames.add(file.getOriginalFilename());
@@ -91,12 +87,7 @@ public class BookImageController {
             image = ImageIO.read(in);
         }
 
-        // resize didn't work
-        //        byte[] resizedImage = resizeImage(originalImage, extension, 1200, 0);
-
-        BufferedImage resizedImage = workingResizeImage(image, 1200, 0);
-
-//        ImageIO.write(resizedImage, "jpg", new File("/Users/sveta/Documents/! pictures/20-08-21 kotomka/1.jpg"));
+        BufferedImage resizedImage = resizeImage(image, 1200, 0);
 
         byte[] resizedImageArray;
         try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
@@ -107,7 +98,7 @@ public class BookImageController {
         return Base64.getEncoder().encode(resizedImageArray);
     }
 
-    private BufferedImage workingResizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) {
+    private BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) {
         if (targetHeight == 0) {
             targetHeight = (targetWidth * originalImage.getHeight()) / originalImage.getWidth();
         }
@@ -120,36 +111,6 @@ public class BookImageController {
         graphics2D.drawImage(originalImage, 0, 0, targetWidth, targetHeight, null);
         graphics2D.dispose();
         return resizedImage;
-    }
-
-    private byte[] resizeImage(byte[] originalImageArray, String extension, int targetWidth, int targetHeight) throws IOException {
-        BufferedImage image;
-        try (ByteArrayInputStream in = new ByteArrayInputStream(originalImageArray)) {
-            image = ImageIO.read(in);
-        }
-        if (targetHeight == 0) {
-            targetHeight = (targetWidth * image.getHeight()) / image.getWidth();
-        }
-        if (targetWidth == 0) {
-            targetWidth = (targetHeight * image.getWidth()) / image.getHeight();
-        }
-
-        BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
-        Graphics2D graphics2D = resizedImage.createGraphics();
-        graphics2D.drawImage(resizedImage, 0, 0, targetWidth, targetHeight, null);
-        graphics2D.dispose();
-
-        try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
-            ImageIO.write(resizedImage, extension, outputStream);
-            return outputStream.toByteArray();
-        }
-    }
-
-    public void test() throws IOException {
-        BufferedImage originalImage = ImageIO.read(new File("/Users/sveta/Documents/! pictures/20-08-21 " +
-                "kotomka/2V3A1015.JPG"));
-        BufferedImage outputImage = workingResizeImage(originalImage, 400, 300);
-        ImageIO.write(outputImage, "jpg", new File("/Users/sveta/Documents/! pictures/20-08-21 kotomka/1.jpg"));
     }
 
 }
