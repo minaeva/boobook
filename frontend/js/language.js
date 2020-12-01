@@ -129,8 +129,8 @@ let ru = {
 
     "profile_name_title": "Имя ",
     "profile_surname_title": "Фамилия",
-    "profile_book_to_the_moon_title": "Книга, которую вы бы взяли з собой на Марс",
-    "profile_hero_title": "Любимый литературный герой",
+    "profile_book_to_the_moon_title": "Книга, которую вы бы взяли с собой на Марс",
+    "profile_hero_title": "Любимый герой",
     "profile_year_title": "Год рождения",
     "profile_gender_title": "Пол",
     "profile_gender_select_title": "выбрать",
@@ -349,8 +349,8 @@ let ua = {
 
     "profile_name_title": "Ім'я ",
     "profile_surname_title": "Прізвище",
-    "profile_book_to_the_moon_title": "Книга, що ви б її взяли з собой на Марс",
-    "profile_hero_title": "Улюблений літературний герой",
+    "profile_book_to_the_moon_title": "Книга, що ви б її взяли з собою на Марс",
+    "profile_hero_title": "Улюблений герой",
     "profile_year_title": "Рік народження",
     "profile_gender_title": "Стать",
     "profile_gender_select_title": "обрати",
@@ -568,7 +568,7 @@ let en = {
 
     "profile_name_title": "Name ",
     "profile_surname_title": "Surname",
-    "profile_book_to_the_moon_title": "Book you'd take to the Mars",
+    "profile_book_to_the_moon_title": "Book you'd take to Mars",
     "profile_hero_title": "Hero you like",
     "profile_year_title": "Year of birth",
     "profile_gender_title": "Gender",
