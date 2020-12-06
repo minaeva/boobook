@@ -87,7 +87,7 @@ public class BookImageController {
             image = ImageIO.read(in);
         }
 
-        BufferedImage resizedImage = resizeImage(image, 1200, 0);
+        BufferedImage resizedImage = fitImage(image, 1000, 600);
 
         byte[] resizedImageArray;
         try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
@@ -98,13 +98,24 @@ public class BookImageController {
         return Base64.getEncoder().encode(resizedImageArray);
     }
 
-    private BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) {
+    private BufferedImage fitImage(BufferedImage originalImage, int targetWidth, int targetHeight) {
+        if (originalImage.getWidth() <= targetWidth && originalImage.getHeight() <= targetHeight) {
+            return originalImage;
+        }
+
+        if (originalImage.getHeight() > originalImage.getWidth()) { //vertical image => recalculate width
+            targetWidth = (targetHeight * originalImage.getWidth()) / originalImage.getHeight();
+        } else { //horizontal => target width is given, target height is recalculated
+            targetHeight = (targetWidth * originalImage.getHeight()) / originalImage.getWidth();
+        }
+/*
         if (targetHeight == 0) {
             targetHeight = (targetWidth * originalImage.getHeight()) / originalImage.getWidth();
         }
         if (targetWidth == 0) {
             targetWidth = (targetHeight * originalImage.getWidth()) / originalImage.getHeight();
         }
+*/
 
         BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
         Graphics2D graphics2D = resizedImage.createGraphics();
