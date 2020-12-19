@@ -10,21 +10,6 @@ function showReaderDetails(readerId) {
                 let detail = JSON.parse(this.responseText);
                 console.log(detail);
                 let nameSurname = notNull(detail.name) + ' ' + notNull(detail.surname);
-/*
-                let heartId = 'heart' + detail.id;
-                let nameSurnameHeart = nameSurname + '<i href="#" style="float: right" id="' + heartId + '" ';
-
-                if (detail.friend) {
-                    nameSurnameHeart += 'class="fa fa-heart underlined" onclick="removeFriend(' +
-                        getCurrentUserId() + ', ' + readerId + ', \'' + nameSurname + '\', \'' + heartId + '\'); ' +
-                        'return false;"></i>';
-                } else {
-                    nameSurnameHeart += 'class="fa fa-heart-o underlined" onclick="addFriend(' +
-                        getCurrentUserId() + ', ' + readerId + ', \'' + nameSurname + '\', \'' + heartId + '\'); ' +
-                        'return false;"></i>';
-                }
-*/
-
                 setPageTitle(nameSurname);
 
                 let html =
@@ -100,30 +85,37 @@ function showReaderDetails(readerId) {
                 html +=
                     '  </div>\n' +
                     '  <div class="form-group col-sm-6">\n' +
-                    '    <img id="selected_reader_image" src="images/reader-girl.png" class="reader-image">\n' +
+                    '    <img id="selected_reader_image" src="images/reader.png" class="reader-image">\n' +
                     '  </div>\n' +
                     '</div>\n';
 
                 let heartId = 'heart' + detail.id;
-                html += '<i href="#" id="' + heartId + '" ';
+                html +=
+                    '<button type="button" class="btn btn-default">' +
+                    '<a href="#" class="right-sidebar-toggle blue" title="' + application_language.send_message_title + '"\n' +
+                    '    onclick="openConversation(' + detail.id + ',\'' + nameSurname + '\');"\n' +
+                    '    data-sidebar-id="main-right-sidebar">' +
+                    '<i class="fa fa-envelope"></i>&nbsp;&nbsp;' + application_language.send_message_title +
+                    '</a>' +
+                    '</button>&nbsp;&nbsp;' +
+                    '<button class="btn btn-default"';
 
                 if (detail.friend) {
                     html +=
-                        'class="fa fa-heart underlined" title="' + application_language.remove_reader_from_favorites_title + '" onclick="removeFriend(' +
-                        getCurrentUserId() + ', ' + readerId + ', \'' + nameSurname + '\', \'' + heartId + '\'); ' +
-                        'return false;"></i>';
+                        ' onclick="removeFriend(' + getCurrentUserId() + ', ' + readerId + ', \'' + nameSurname + '\', \'' + heartId + '\'); ' +
+                        'return false;">' +
+                        '<i href="#" id="' + heartId + '" ' +
+                        'class="fa fa-heart underlined blue" title="' + application_language.remove_reader_from_favorites_title + '"' +
+                        '></i>&nbsp;&nbsp;' + application_language.remove_reader_from_favorites_title + '</button>';
                 } else {
                     html +=
-                        'class="fa fa-heart-o underlined" title="' + application_language.add_reader_to_favorites_title + '" onclick="addFriend(' +
-                        getCurrentUserId() + ', ' + readerId + ', \'' + nameSurname + '\', \'' + heartId + '\'); ' +
-                        'return false;"></i>';
+                        ' onclick="addFriend(' + getCurrentUserId() + ', ' + readerId + ', \'' + nameSurname + '\', \'' + heartId + '\'); ' +
+                        'return false;">' +
+                        '<i href="#" id="' + heartId + '" ' +
+                        'class="fa fa-heart-o underlined blue" title="' + application_language.add_reader_to_favorites_title + '"' +
+                        '></i>&nbsp;&nbsp;' + application_language.add_reader_to_favorites_title + '</button>';
                 }
 
-
-                html +=
-                    '&nbsp; <a href="#" class="right-sidebar-toggle" title="' + application_language.send_message_title + '"\n' +
-                    '    onclick="openConversation(' + detail.id + ',\'' + nameSurname + '\');"\n' +
-                    '    data-sidebar-id="main-right-sidebar"><i class="fa fa-envelope"></i></a>';
 
                 setPageSubtitle(html);
 

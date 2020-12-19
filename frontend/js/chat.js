@@ -73,7 +73,7 @@ function getUserConversationalists() {
                 '        <a href="#" onclick="openConversation(' + users[i].id + ', \'' + userNameSurname + '\')"' +
                 ' class="right-sidebar-toggle chat-item unread" data-sidebar-id="chat-right-sidebar">\n' +
                 '            <div class="user-avatar">\n' +
-                '                <img src="images/reader-girl.png" alt="">\n' +
+                '                <img src="images/reader.png" alt="">\n' +
                 '            </div>\n' +
                 '            <div class="chat-info">\n' +
                 '               <span class="chat-author">' + userNameSurname + '</span>' +
@@ -104,7 +104,7 @@ function convertMessageToHtml(message, conversationalistId) {
         chatBubbleOwner =
             '   <div class="chat-bubble them">\n' +
             '       <div class="chat-bubble-img-container">\n' +
-            '            <img src="images/reader-girl.png" alt="">\n' +
+            '            <img src="images/reader.png" alt="">\n' +
             '       </div>\n';
     } else {
         chatBubbleOwner =

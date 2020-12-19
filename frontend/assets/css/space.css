@@ -2643,7 +2643,6 @@ th {
 
 @media (min-width: 768px) {
     .navbar-nav {
-        float: left;
         margin-left: 0;
         margin-right: 0;
         padding: 0;
@@ -4080,11 +4079,13 @@ body.error-page {
     padding: 35px;
 }
 
+/*
 @media (max-width: 768px) {
     .login-box {
         width: 100%;
     }
 }
+*/
 
 .login-title {
     font-size: 22px;
@@ -4568,10 +4569,6 @@ body.error-page {
     
     .navbar-collapse {
         padding: 0px 25px!important;
-    }
-
-    .navbar-nav.navbar-right {
-        float: right;
     }
 
     /*

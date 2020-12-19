@@ -1,7 +1,7 @@
 const validImageTypes = ['image/gif', 'image/jpeg', 'image/jpg', 'image/png', 'image/bmp'];
 const PREVIEWS_QUANTITY = 5;
 const NO_IMAGE = 'images/book-placeholder.png';
-const NO_READER_IMAGE = 'reader-girl.png';
+const NO_READER_IMAGE = 'reader.png';
 let IMAGE_EDITED;
 const IMAGE_TO_SAVE = 'target';
 const IMAGE_TO_EDIT = 'edit_target';
@@ -278,6 +278,7 @@ function closeAddBookModal() {
 function openImageModal(iString, size) {
     let i = Number.parseInt(iString, 10);
     $('#imageModal').modal('show');
+
     let src = "data:image/png;base64," + imagesToShow[i];
     $('#imagepreview').attr("src", src);
 
@@ -286,6 +287,7 @@ function openImageModal(iString, size) {
 
     $("#left_arrow").attr("onclick", "openImageModal('" + previous + "', '" + size + "')");
     $("#right_arrow").attr("onclick", "openImageModal('" + next + "', '" + size + "')");
+
 
     $('#imageModal').off();
 
@@ -297,10 +299,20 @@ function openImageModal(iString, size) {
             case 39: // right
                 openImageModal(next, size);
                 break;
+            case 27:
+                $('#imageModal').modal('hide');
+                break;
             default:
                 return; // exit this handler for other keys
         }
         e.preventDefault(); // prevent the default action (scroll / move caret)
+    });
+
+    $(document).click(function (e) {
+        if ($(e.target).is('#imageModal')) {
+            $('#imageModal').modal('hide');
+        }
+
     });
 }
 
@@ -539,7 +551,15 @@ function showFoundBooks(response) {
 function showOwnersBooks() {
 
     setPageTitle(application_language.menu_my_books_title);
-    setPageSubtitle('');
+
+    let addBookButton =
+        '<div class="row"><div class="col-sm-12"> <button class="btn btn-default right" onclick="openAddBookModal(); return false" data-toggle="modal">' +
+        // '<i class="menu-icon icon-books"></i>' +
+        '<i class="menu-icon fa fa-book"></i>&nbsp;&nbsp;' +
+        '<span id="menu_add_book_title">' + application_language.menu_add_book_title + '</span>' +
+        '</button></div> </div>';
+
+    setPageSubtitle(addBookButton);
 
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
@@ -662,7 +682,7 @@ function showBookDetails(bookId, ownerId) {
                 } else {
                     html +=
                         '<div class="content">\n' +
-                        '<button type="button" class="btn btn-default margin-left-5px" style="float: right" data-toggle="modal"' +
+                        '<button type="button" class="btn btn-default margin-3px" style="float: right" data-toggle="modal"' +
                         'onclick="openEditBookModal(' + bookId + ',\'' + bookDetails.title +
                         '\',\'' + bookDetails.authorName + '\',\'' + bookDetails.authorSurname +
                         '\',\'' + bookDetails.publisher + '\',\'' + bookDetails.language + '\',\'' + parsedYear +
@@ -671,17 +691,17 @@ function showBookDetails(bookId, ownerId) {
                         'return false;">' + application_language.details_edit_book_button_title + '</button>&nbsp;';
                     if (bookDetails.active) {
                         html +=
-                            '<button type="button" class="btn btn-default margin-left-5px" style="float: right" ' +
+                            '<button type="button" class="btn btn-default margin-3px" style="float: right" ' +
                             'onclick="setInactive(' + bookId + ', \'' + bookDetails.title + '\'); return false; ">' +
                             application_language.details_set_inactive_button_title + '</button>';
                     } else {
                         html +=
-                            '<button type="button" class="btn btn-default margin-left-5px" style="float: right" ' +
+                            '<button type="button" class="btn btn-default margin-3px" style="float: right" ' +
                             'onclick="setActive(' + bookId + ', \'' + bookDetails.title + '\'); return false; ">' +
                             application_language.details_set_active_button_title + '</button>';
                     }
                     html +=
-                        '<button type="button" class="btn btn-default margin-left-5px" style="float: right" ' +
+                        '<button type="button" class="btn btn-default margin-3px" style="float: right" ' +
                         'onclick="openDeleteBookModal(' + bookId + ', \'' + bookDetails.title + '\'); return false;">' +
                         application_language.details_delete_button_title + '</button>' +
                         '</div>';
@@ -835,27 +855,27 @@ function searchBooksByCriteria() {
     }
     ;
 
-        const requestBody = {
-            "title": search_title,
-            "authorName": search_author_name,
-            "authorSurname": search_author_surname,
-            "city": search_city,
-            "yearFrom": search_year_from,
-            "yearTo": search_year_to,
-            "language": search_language,
-            "cover": search_cover,
-            "illustrations": search_illustrations,
-            "ageGroupFrom": search_age_from,
-            "ageGroupTo": search_age_to
-        };
-        console.log(requestBody);
-        let requestUrl = HOME_PAGE + "/books/search";
-        xhr.open("POST", requestUrl);
-        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        addAuthorization(xhr);
-        xhr.send(JSON.stringify(requestBody));
+    const requestBody = {
+        "title": search_title,
+        "authorName": search_author_name,
+        "authorSurname": search_author_surname,
+        "city": search_city,
+        "yearFrom": search_year_from,
+        "yearTo": search_year_to,
+        "language": search_language,
+        "cover": search_cover,
+        "illustrations": search_illustrations,
+        "ageGroupFrom": search_age_from,
+        "ageGroupTo": search_age_to
+    };
+    console.log(requestBody);
+    let requestUrl = HOME_PAGE + "/books/search";
+    xhr.open("POST", requestUrl);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    addAuthorization(xhr);
+    xhr.send(JSON.stringify(requestBody));
 
-        return false;
-    }
+    return false;
+}
 
 

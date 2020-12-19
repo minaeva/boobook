@@ -70,6 +70,12 @@ function logout() {
 function loadIndex() {
     clearRequestHeader();
     resetLanguageOnIndex();
+    attachAuthListenerOnEnter();
+}
+
+function loadRegister() {
+    resetLanguageOnRegister();
+    attachRegisterListenerOnEnter();
 }
 
 function clearRequestHeader() {
@@ -207,6 +213,7 @@ function initYearPicker() {
 
 
 function setRussianLanguage() {
+    $('#language_modal').modal('hide');
     localStorage.setItem('language', 'ru');
     application_language = ru;
     setRuLanguageOnUI();
@@ -215,6 +222,7 @@ function setRussianLanguage() {
 }
 
 function setUkrainianLanguage() {
+    $('#language_modal').modal('hide');
     localStorage.setItem('language', 'ua');
     application_language = ua;
     setUaLanguageOnUI();
@@ -224,6 +232,7 @@ function setUkrainianLanguage() {
 
 function setUaLanguageOnUI() {
     $('#selected_app_language').text('UA');
+    $('#selected_app_language_top').text('UA');
     $('#app_language_text_1').text('EN');
     $("#app_language_link_1").attr("onclick", "setEnglishLanguage()");
     $('#app_language_text_2').text('RU');
@@ -232,6 +241,7 @@ function setUaLanguageOnUI() {
 
 function setRuLanguageOnUI() {
     $('#selected_app_language').text('RU');
+    $('#selected_app_language_top').text('RU');
     $('#app_language_text_1').text('UA');
     $("#app_language_link_1").attr("onclick", "setUkrainianLanguage()");
     $('#app_language_text_2').text('EN');
@@ -239,6 +249,7 @@ function setRuLanguageOnUI() {
 }
 
 function setEnglishLanguage() {
+    $('#language_modal').modal('hide');
     localStorage.setItem('language', 'en');
     application_language = en;
     setEnLanguageOnUI();
@@ -248,6 +259,7 @@ function setEnglishLanguage() {
 
 function setEnLanguageOnUI() {
     $('#selected_app_language').text('EN');
+    $('#selected_app_language_top').text('EN');
     $('#app_language_text_1').text('RU');
     $("#app_language_link_1").attr("onclick", "setRussianLanguage()");
     $('#app_language_text_2').text('UA');
@@ -368,7 +380,7 @@ function resetLanguage() {
     $('#delete_book_delete_title').text(application_language.delete_book_delete_title);
 
     $('#image_close_button_title').text(application_language.image_close_button_title);
-    $('#image_preview_modal_title').text(application_language.image_preview_modal_title);
+    // $('#image_preview_modal_title').text(application_language.image_preview_modal_title);
     $('#image_close_button_footer_title').text(application_language.image_close_button_footer_title);
 
     $('#profile_name_title').text(application_language.profile_name_title);
@@ -391,6 +403,11 @@ function resetLanguage() {
     $('#profile_telegram_title').text(application_language.profile_telegram_title);
     $('#profile_viber_title').text(application_language.profile_viber_title);
     $('#profile_update_button_title').text(application_language.profile_update_button_title);
+    $('#change_language_title').text(application_language.change_language_title);
+    $('#change_language_close_title').text(application_language.change_language_close_title);
+    $('#menu_find_title').text(application_language.menu_find_title);
+    $('#log_out_title').text(application_language.log_out_title);
+    $('#profile_about_title').text(application_language.profile_about_title);
 
     clickHome();
 }

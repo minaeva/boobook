@@ -65,7 +65,6 @@ function registerAReader() {
                 document.getElementById("new_name").value = '';
                 return false;
             } else if (this.status == 200) {
-                // showSuccessModal(application_language.readerWithEmail_title + new_email + application_language.hasBeenCreated_title);
                 authenticateNewlyCreatedReader(new_email, new_password);
             }
         }
@@ -114,3 +113,35 @@ function registerAFbReader(fullName, email, id) {
 
     return false;
 }
+
+function attachAuthListenerOnEnter() {
+    $(window).off();
+
+    $(window).on('keydown', e => {
+        switch (e.which) {
+            case 13: // enter
+                authenticateAReader(document.getElementById('reader_email').value, document.getElementById('reader_password').value);
+                break;
+            default:
+                return; // exit this handler for other keys
+        }
+        e.preventDefault(); // prevent the default action (scroll / move caret)
+    });
+}
+
+function attachRegisterListenerOnEnter() {
+    $(window).off();
+
+    $(window).on('keydown', e => {
+        switch (e.which) {
+            case 13: // enter
+                registerAReader();
+                break;
+            default:
+                return; // exit this handler for other keys
+        }
+        e.preventDefault(); // prevent the default action (scroll / move caret)
+    });
+}
+
+

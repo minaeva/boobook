@@ -3045,7 +3045,7 @@ fieldset[disabled] .note-editor .btn-link:focus {
   margin-bottom: 1px;
 }
 @media (min-width: 768px) {
-  .note-editor .navbar-right .dropdown-menu {
+  .note-editor .dropdown-menu {
     right: 0;
     left: auto;
   }

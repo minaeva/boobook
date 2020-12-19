@@ -42,30 +42,26 @@
 
 <!-- Page Container -->
 <div class="page-container">
-    <!-- Page Sidebar -->
+    <!-- Page Sidebar start -->
     <div class="page-sidebar">
+
         <a class="logo-box" href="#">
             <span id="logo_title"></span>
             <i class="icon-radio_button_unchecked" id="fixed-sidebar-toggle-button"></i>
             <i class="icon-close" id="sidebar-toggle-button-close"></i>
         </a>
 
-        <!--        Left Menu start-->
+        <!-- Left Menu start-->
         <div class="page-sidebar-inner">
             <div class="page-sidebar-menu">
                 <ul class="accordion-menu">
-                    <li>
-                        <a onclick="openAddBookModal(); return false" data-toggle="modal">
-                            <i class="menu-icon fa fa-book"></i><span id="menu_add_book_title"></span>
-                        </a>
-                    </li>
-                    <li class="menu-divider"></li>
-
                     <li class="active-page" id="menu_home">
                         <a href="#" onclick="clickHome(); return false;">
                             <i class="menu-icon icon-home4"></i><span id="menu_my_books_title"></span>
                         </a>
                     </li>
+                    <li class="menu-divider"></li>
+
                     <li id="menu_books">
                         <a href="#" onclick="clickAllBooks(); return false">
                             <i class="menu-icon icon-books"></i><span id="menu_books_title"></span>
@@ -73,116 +69,94 @@
                     </li>
                     <li id="menu_readers">
                         <a href="#" onclick="clickAllReaders(); return false">
-                            <i class="menu-icon icon-reader"></i><span id="menu_readers_title"></span>
+                            <i class="menu-icon icon-users"></i><span id="menu_readers_title"></span>
                         </a>
                     </li>
-                    <li id="menu-favorite">
-                        <a href="javascript:void(0);">
-                            <i class="menu-icon fa fa-heart-o"></i><span id="menu_favorite_title"></span><i
-                                class="accordion-icon fa fa-angle-left"></i>
+                    <li id="menu_favorite_readers">
+                        <a href="#" onclick="clickFavoriteReaders(); return false;">
+                            <i class="menu-icon fa fa-heart-o"></i>
+                            <span id="menu_favorite_readers_title"></span>
                         </a>
-                        <ul class="sub-menu">
-                            <!-- <li id="menu_favorite_books"><a href="#">Books</a></li>-->
-                            <li id="menu_favorite_readers"><a href="#" onclick="clickFavoriteReaders(); return false"
-                                                              id="menu_favorite_readers_title"></a>
-                            </li>
-                        </ul>
                     </li>
+                    <li class="menu-divider"></li>
+
+                    <li id="menu_profile">
+                        <a href="#" onclick="clickProfile(); return false">
+                            <i class="menu-icon icon-reader"></i><span id="profile_title"></span>
+                        </a>
+                    </li>
+                    <li id="menu_logout">
+                        <a href="#" onclick="return logout();">
+                            <i class="menu-icon icon-exit"></i><span id="log_out_title"></span>
+                        </a>
+                    </li>
+
+
+                    <li class="menu-divider"></li>
+                    <li id="menu_about">
+                        <a href="#">
+                            <i class="menu-icon icon-info"></i><span id="profile_about_title"></span>
+                        </a>
+                    </li>
+
+
                 </ul>
             </div>
         </div>
         <!-- Left Menu End-->
-    </div><!-- /Page Sidebar -->
+
+    </div>
+    <!-- /Page Sidebar end -->
 
     <!-- Page Content -->
     <div class="page-content">
         <!-- Page Header -->
         <div class="page-header">
-            <div class="search-form">
-                <form action="#" method="GET">
-                    <div class="input-group">
-                        <input type="text" name="search" class="form-control search-input"
-                               placeholder="Type something...">
-                        <span class="input-group-btn">
-                                    <button class="btn btn-default" id="close-search" type="button">
-                                        <i class="icon-close"></i></button>
-                        </span>
-                    </div>
-                </form>
-            </div>
             <nav class="navbar navbar-default">
                 <div class="container-fluid">
                     <!-- Brand and toggle get grouped for better mobile display -->
                     <div class="navbar-header">
-                        <div class="logo-sm">
+                        <span class="logo-sm">
                             <a href="#" id="sidebar-toggle-button"><i class="fa fa-bars"></i></a>
                             <a class="logo-box" href="#"><span>Boobook</span></a>
-                        </div>
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                                data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                            <i class="fa fa-angle-down"></i>
-                        </button>
+                        </span>
                     </div>
-
-                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-
+                    <div class="navbar-right">
                         <ul class="nav navbar-nav navbar-right">
 
-                            <!-- menu - search - start -->
-                            <!--
-                                                        <li>
-                                                            <a href="#" id="search-button">
-                                                                <i class="fa fa-search"></i>
-                                                            </a>
-                                                        </li>
-                            -->
-                            <!-- menu - search - end -->
-
                             <!-- menu - fullscreen - start -->
-                            <li><a href="#" id="toggle-fullscreen">
-                                <i class="fa fa-expand"></i></a>
+                            <li>
+                                <a href="#" id="toggle-fullscreen">
+                                    <i class="fa fa-expand"></i>
+                                </a>
                             </li>
                             <!-- menu - fullscreen - end -->
 
                             <!-- menu - messages - start -->
-                            <li><a href="#" class="right-sidebar-toggle" onclick="getUserConversationalists();"
+                            <li>
+                                <a href="#" class="right-sidebar-toggle" onclick="getUserConversationalists();"
                                    data-sidebar-id="main-right-sidebar">
-                                <i class="fa fa-envelope" id="envelope"></i>
-                            </a>
+                                    <i class="fa fa-envelope" id="envelope"></i>
+                                </a>
                             </li>
                             <!-- menu - messages - end -->
 
                             <!-- menu - language - start -->
-                            <li class="dropdown">
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="selected_app_language"
-                                   role="button" aria-haspopup="true" aria-expanded="false">EN
+                            <li>
+                                <a data-toggle="modal" data-target="#language_modal" href="#"
+                                   id="selected_app_language_top" role="button">EN
                                 </a>
-                                <ul class="dropdown-menu dropdown-content">
-
-                                    <li class="slimscroll dropdown-notifications">
-                                        <ul class="list-unstyled dropdown-oc">
-                                            <li>
-                                                <a href="#" class="right-sidebar-toggle" onclick="setRussianLanguage();"
-                                                   id="app_language_link_1">
-                                                    <span class="notification-info" id="app_language_text_1">RU
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="right-sidebar-toggle"
-                                                   onclick="setUkrainianLanguage();" id="app_language_link_2">
-                                                    <span class="notification-info" id="app_language_text_2">UA
-                                                    </span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
                             </li>
-                            <!-- menu - notifications - end -->
+                            <!-- menu - language - end -->
 
                             <!-- menu - profile - start -->
-                            <li class="dropdown user-dropdown">
+                            <!--<li>
+                                <a href="#" onclick="clickProfile(); return false;">
+                                    <img src="images/reader-girl.png" alt="" class="img-circle">
+                                </a>
+                            </li>-->
+
+                            <!--<li class="dropdown user-dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                    aria-haspopup="true" aria-expanded="false">
                                     <img src="images/reader-girl.png" alt="" class="img-circle"></a>
@@ -191,7 +165,7 @@
                                     <li role="separator" class="divider"></li>
                                     <li onclick="return logout();"><a href="#" id="logout_title"></a></li>
                                 </ul>
-                            </li>
+                            </li>-->
                             <!-- menu - profile - end -->
 
                         </ul>
@@ -200,6 +174,42 @@
             </nav>
         </div>
         <!-- /Page Header -->
+
+        <!--        CHANGE LANGUAGE - modal - start-->
+        <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" id="language_modal"
+             aria-labelledby="change_language_title" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="change_language_title"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <a href="#" id="selected_app_language" class="btn btn-primary" role="button"
+                           aria-haspopup="true" aria-expanded="false">EN
+                        </a>
+
+                        <a href="#" class="btn btn-default" onclick="setRussianLanguage();"
+                           id="app_language_link_1">
+                            <span class="notification-info" id="app_language_text_1">RU</span>
+                        </a>
+
+                        <a href="#" class="btn btn-default" onclick="setUkrainianLanguage();"
+                           id="app_language_link_2">
+                            <span class="notification-info" id="app_language_text_2">UA</span>
+                        </a>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"
+                                id="change_language_close_title">
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!--        CHANGE LANGUAGE - modal - end-->
 
         <!--  ADD BOOK - modal - start-->
         <div class="modal fade border" id="addBookModal" tabindex="-1" role="dialog" aria-labelledby="add_book_title"
@@ -378,8 +388,7 @@
         <!--  ADD BOOK - modal - end-->
 
         <!--  EDIT BOOK - modal - start-->
-        <div class="modal fade border" id="editBookModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-             aria-hidden="true">
+        <div class="modal fade border" id="editBookModal" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -619,9 +628,7 @@
         <!-- MESSAGE - modal - end-->
 
         <!-- IMAGE PREVIEW - modal - start-->
-        <!-- Creates the bootstrap modal where the image will appear -->
-        <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-             aria-hidden="true">
+        <div class="modal fade border" tabindex="-1" role="dialog" aria-hidden="true" id="imageModal">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content" id="image_modal_content">
                     <div class="modal-header">
@@ -639,9 +646,6 @@
                                     onclick="closeImageModal(); return false"><span aria-hidden="true">&times;</span>
                                 <span class="sr-only" id="image_close_button_title"></span></button>
                         </div>
-
-
-                        <!--                        <h4 class="modal-title" id="image_preview_modal_title"></h4>-->
                     </div>
                     <div class="modal-body">
                         <div class="row">
@@ -688,23 +692,27 @@
                             <!--PROFILE-->
                             <div id="profile_body" class="hidden">
                                 <div class="row">
-                                    <div class="form-group col-sm-4 required" id="profile_name_group">
-                                        <label for="edit_profile_name" class="control-label"
-                                               id="profile_name_title"></label>
-                                        <input type="text" class="form-control" id="edit_profile_name" placeholder=""
-                                               maxlength="50">
+                                    <div class="col-sm-7">
+                                        <div class="form-group required" id="profile_name_group">
+                                            <label for="edit_profile_name" class="control-label"
+                                                   id="profile_name_title"></label>
+                                            <input type="text" class="form-control" id="edit_profile_name"
+                                                   placeholder=""
+                                                   maxlength="50">
+                                        </div>
+                                        <div class="form-group" id="profile_surname_group">
+                                            <label for="edit_profile_surname" class="control-label"
+                                                   id="profile_surname_title"></label>
+                                            <input type="text" class="form-control" id="edit_profile_surname"
+                                                   placeholder=""
+                                                   maxlength="50">
+                                        </div>
                                     </div>
-                                    <div class="form-group col-sm-5" id="profile_surname_group">
-                                        <label for="edit_profile_surname" class="control-label"
-                                               id="profile_surname_title"></label>
-                                        <input type="text" class="form-control" id="edit_profile_surname" placeholder=""
-                                               maxlength="50">
-                                    </div>
-                                    <div class="form-group col-sm-3">
+                                    <div class="form-group col-sm-5 big_image_container">
                                         <span class="nowrap">
                                             <label for="edit_reader_src">
-                                                <img id="edit_reader_target" src="images/reader-girl.png"
-                                                     class="thumbnail"/>
+                                                <img id="edit_reader_target" src="images/reader.png"
+                                                     class="reader-image"/>
                                             </label>
                                             <input id="edit_reader_src" type="file"/>
                                             <a class="remove" href="#"
