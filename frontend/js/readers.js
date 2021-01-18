@@ -91,14 +91,14 @@ function showReaderDetails(readerId) {
 
                 let heartId = 'heart' + detail.id;
                 html +=
-                    '<button type="button" class="btn btn-default">' +
+                    '<button type="button" class="btn btn-default margin-3px">' +
                     '<a href="#" class="right-sidebar-toggle blue" title="' + application_language.send_message_title + '"\n' +
                     '    onclick="openConversation(' + detail.id + ',\'' + nameSurname + '\');"\n' +
                     '    data-sidebar-id="main-right-sidebar">' +
                     '<i class="fa fa-envelope"></i>&nbsp;&nbsp;' + application_language.send_message_title +
                     '</a>' +
                     '</button>&nbsp;&nbsp;' +
-                    '<button class="btn btn-default"';
+                    '<button type="button" class="btn btn-default margin-3px"';
 
                 if (detail.friend) {
                     html +=
