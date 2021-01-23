@@ -409,7 +409,7 @@ function resetLanguage() {
     $('#log_out_title').text(application_language.log_out_title);
     $('#profile_about_title').text(application_language.profile_about_title);
 
-    clickHome();
+    clickHomeForTheFirstTime();
 }
 
 

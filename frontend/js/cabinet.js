@@ -1,4 +1,21 @@
+function hideLeftMenu() {
+    let body = $('body');
+    if ($('#left_menu').is(':visible')) {
+        body.toggleClass('page-sidebar-visible');
+    }
+    return false;
+}
+
 function clickHome() {
+    hideLeftMenu();
+    activateMyBooksMenu();
+}
+
+function clickHomeForTheFirstTime() {
+    activateMyBooksMenu();
+}
+
+function activateMyBooksMenu() {
     activateCabinet();
     selectMenu("menu_home");
     setPageTitle(application_language.menu_my_books_title);
@@ -8,6 +25,7 @@ function clickHome() {
 }
 
 function clickAllBooks() {
+    hideLeftMenu();
     activateCabinet();
     selectMenu("menu_books");
     setPageTitle(application_language.menu_books_title);
@@ -18,6 +36,7 @@ function clickAllBooks() {
 }
 
 function clickAllReaders() {
+    hideLeftMenu();
     activateCabinet();
     selectMenu("menu_readers");
     setPageTitle(application_language.menu_readers_title);
@@ -30,6 +49,7 @@ function clickAllReaders() {
 
 function clickReader(readerId) {
     if (readerId != getCurrentUserId()) {
+        hideLeftMenu();
         selectMenu("menu_readers");
         setPageTitle('');
         setPageSubtitle('');
@@ -43,6 +63,7 @@ function clickReader(readerId) {
 }
 
 function clickFavoriteReaders() {
+    hideLeftMenu();
     activateCabinet();
     selectMenu('menu_favorite_readers');
     setPageTitle(application_language.favorite_readers_title);
@@ -53,10 +74,19 @@ function clickFavoriteReaders() {
 }
 
 function clickProfile() {
+    hideLeftMenu();
     deselectActiveMenu();
+    selectMenu('menu_profile');
     activateProfile();
 
     showProfile();
+}
+
+function clickAbout() {
+    hideLeftMenu();
+    selectMenu('profile_about_title');
+    activateAbout();
+
 }
 
 function activateCabinet() {
@@ -67,6 +97,11 @@ function activateCabinet() {
 function activateProfile() {
     addClassToElement("books_readers_body", "hidden");
     removeClassFromElement("profile_body", "hidden");
+}
+
+function activateAbout() {
+    addClassToElement("books_readers_body", "hidden");
+    removeClassFromElement("about_body", "hidden");
 }
 
 function openCabinet() {

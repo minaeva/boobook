@@ -43,7 +43,7 @@
 <!-- Page Container -->
 <div class="page-container">
     <!-- Page Sidebar start -->
-    <div class="page-sidebar">
+    <div class="page-sidebar" id="left_menu">
 
         <a class="logo-box" href="#">
             <span id="logo_title"></span>
@@ -86,7 +86,7 @@
                         </a>
                     </li>
                     <li id="menu_logout">
-                        <a href="#" onclick="return logout();">
+                        <a href="#" onclick="return logout(); return false;">
                             <i class="menu-icon icon-exit"></i><span id="log_out_title"></span>
                         </a>
                     </li>
@@ -95,6 +95,7 @@
                     <li class="menu-divider"></li>
                     <li id="menu_about">
                         <a href="#">
+                            <!--                        <a href="#" onclick="clickAbout(); return false;">-->
                             <i class="menu-icon icon-info"></i><span id="profile_about_title"></span>
                         </a>
                     </li>
@@ -688,6 +689,16 @@
                                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                                 </div>
                             </div>
+
+                            <!--ABOUT-->
+                            <div id="about_body" class="hidden">
+                                <div class="row">
+                                    <div class="col-sm-7">
+                                        ABOUT TEXT
+                                    </div>
+                                </div>
+                            </div>
+
 
                             <!--PROFILE-->
                             <div id="profile_body" class="hidden">
