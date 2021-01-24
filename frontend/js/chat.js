@@ -68,7 +68,7 @@ function getUserConversationalists() {
         let users = response;
         let userDataHtml = '';
         for (let i = 0; i < users.length; i++) {
-            let userNameSurname = users[i].name + ' ' + users[i].surname;
+            let userNameSurname = getNotEmptyNameSurname(users[i]);
             userDataHtml +=
                 '        <a href="#" onclick="openConversation(' + users[i].id + ', \'' + userNameSurname + '\')"' +
                 ' class="right-sidebar-toggle chat-item unread" data-sidebar-id="chat-right-sidebar">\n' +
@@ -87,6 +87,18 @@ function getUserConversationalists() {
         $('#chat').html(allUsersHtml);
         $('#recent_title').text(application_language.recent_title);
     });
+}
+
+function getNotEmptyNameSurname(user) {
+    let name = notNull(user.name);
+    let surname = notNull(user.surname);
+    if (name != '' && surname != '') {
+        return name + ' ' + surname;
+    } else if (name == '' && surname == '') {
+        return user.email;
+    } else if (name == '' && surname != '') {
+        return surname;
+    } else return name; //name != empty, surname empty
 }
 
 function openChatWindow() {
