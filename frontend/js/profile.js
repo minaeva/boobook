@@ -142,13 +142,13 @@ function saveProfileImage(readerId, image) {
         if (this.readyState == 4) {
             if (this.status == 500) {
                 //todo
-                showWarningModal("When updating the images, there was a server error");
+                showWarningModal("When updating the image, there was a server error");
                 return false;
             } else if (this.status == 403) {
-                showWarningModal("When updating the images, there was a problem with authentication");
+                showWarningModal("When updating the image, there was a problem with authentication");
                 return false;
             } else if (this.status == 200) {
-                console.log("Images updated");
+                console.log("Image updated");
             }
         }
     };

@@ -48,8 +48,8 @@ function clickAllReaders() {
 }
 
 function clickReader(readerId) {
+    hideLeftMenu();
     if (readerId != getCurrentUserId()) {
-        hideLeftMenu();
         selectMenu("menu_readers");
         setPageTitle('');
         setPageSubtitle('');
@@ -91,16 +91,19 @@ function clickAbout() {
 
 function activateCabinet() {
     addClassToElement("profile_body", "hidden");
+    addClassToElement("about_body", "hidden");
     removeClassFromElement("books_readers_body", "hidden");
 }
 
 function activateProfile() {
     addClassToElement("books_readers_body", "hidden");
+    addClassToElement("about_body", "hidden");
     removeClassFromElement("profile_body", "hidden");
 }
 
 function activateAbout() {
     addClassToElement("books_readers_body", "hidden");
+    addClassToElement("profile_body", "hidden");
     removeClassFromElement("about_body", "hidden");
 }
 

@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
 
+import static ua.kiev.minaeva.controller.helper.ImageHelper.resizeEncode;
+
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
@@ -42,14 +44,15 @@ public class ReaderController {
 
     @PutMapping("/{readerId}")
     public ResponseEntity<ResponseMessage> saveReaderImage(@RequestParam("file") MultipartFile file,
-                                                           @PathVariable final Long readerId) throws IOException, BoobookNotFoundException {
+                                                           @PathVariable final Long readerId) throws IOException,
+            BoobookValidationException, BoobookNotFoundException {
         log.info("handling UPDATE READER IMAGE request: " + readerId);
         if (file.isEmpty()) {
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage("None file was selected for save"));
         }
 
-        byte[] encodedByteArray = Base64.getEncoder().encode(file.getBytes());
-        readerService.updateImage(encodedByteArray, readerId);
+        byte[] resizedEncoded = resizeEncode(file);
+        readerService.updateImage(resizedEncoded, readerId);
 
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage("Uploaded successfully: " + file.getOriginalFilename()));
     }
