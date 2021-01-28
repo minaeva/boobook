@@ -1,8 +1,5 @@
 function hideLeftMenu() {
-    let body = $('body');
-    if ($('#left_menu').is(':visible')) {
-        body.toggleClass('page-sidebar-visible');
-    }
+    $('#sidebar-toggle-button-close').click();
     return false;
 }
 
