@@ -24,8 +24,16 @@
     width: 30px;
 }
 
+.about-image {
+    border: 0px;
+    border-radius: 5px;
+    margin: 10px 0px 15px 0px;
+    padding: 0px;
+    display: block;
+    margin: 0 auto;
+}
+
 .reader-image {
-    /*height: 200px;*/
     border: 0px;
     border-radius: 5px;
     margin: 10px 0px 15px 0px;
@@ -49,6 +57,10 @@
     .reader-image {
         width: 200px;
     }
+
+    .about-image {
+        width: 200px;
+    }
 }
 
 @media (min-width: 388px) {
@@ -57,6 +69,10 @@
     }
 
     .reader-image {
+        width: 240px;
+    }
+
+    .about-image {
         width: 240px;
     }
 }
@@ -69,6 +85,10 @@
     .reader-image {
         width: 290px;
     }
+
+    .about-image {
+        width: 290px;
+    }
 }
 
 @media (min-width: 490px) {
@@ -76,7 +96,7 @@
         width: 74px;
     }
 
-    .reader-image {
+    .reader-image, .about-image {
         width: 340px;
     }
 }
@@ -86,7 +106,7 @@
         width: 84px;
     }
 
-    .reader-image {
+    .reader-image, .about-image {
         width: 390px;
     }
 }
@@ -96,7 +116,7 @@
         width: 84px;
     }
 
-    .reader-image {
+    .reader-image, .about-image {
         width: 440px;
     }
 }
@@ -109,6 +129,10 @@
     .reader-image {
         width: 240px;
     }
+
+    .about-image {
+        width: 600px;
+    }
 }
 
 @media (min-width: 992px) {
@@ -119,6 +143,10 @@
     .reader-image {
         width: 160px;
     }
+
+    .about-image {
+        width: 400px;
+    }
 }
 
 @media (min-width: 1200px) {
@@ -128,6 +156,10 @@
 
     .reader-image {
         width: 300px;
+    }
+
+    .about-image {
+        width: 700px;
     }
 }
 

@@ -45,13 +45,13 @@ function clickAllReaders() {
 }
 
 function clickReader(readerId) {
-    hideLeftMenu();
     if (readerId != getCurrentUserId()) {
         selectMenu("menu_readers");
         setPageTitle('');
         setPageSubtitle('');
         showReaderDetails(readerId);
     } else {
+        hideLeftMenu();
         clickHome();
     }
     clearContent();
@@ -83,6 +83,10 @@ function clickAbout() {
     hideLeftMenu();
     selectMenu('profile_about_title');
     activateAbout();
+
+    setPageTitle(application_language.profile_about_title);
+    setPageSubtitle('');
+    clearContent();
 
 }
 

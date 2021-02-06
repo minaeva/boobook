@@ -408,6 +408,8 @@ function resetLanguage() {
     $('#menu_find_title').text(application_language.menu_find_title);
     $('#log_out_title').text(application_language.log_out_title);
     $('#profile_about_title').text(application_language.profile_about_title);
+    $('#profile_about_text1').html(application_language.profile_about_text1);
+    $('#profile_about_text2').html(application_language.profile_about_text2);
 
     clickHomeForTheFirstTime();
 }
