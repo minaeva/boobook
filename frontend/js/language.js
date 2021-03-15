@@ -157,6 +157,7 @@ let ru = {
     "nameCannotBeEmpty_title": "Имя не может быть пустым.",
     "readerWithEmail_title": "Читатель с email-ом ",
     "singleNotFound_title": " не находится.",
+    "alreadyExists_title": " уже существует. Попробуйте войти с помощью Google.",
     "incorrectPassword_title": "Неверный пароль для читателя с email-ом ",
 
     "readerDetailsWithId_title": "Данные читателя с id ",
@@ -395,6 +396,7 @@ let ua = {
     "nameCannotBeEmpty_title": "Iм'я не може бути вiдсутнiм.",
     "readerWithEmail_title": "Читач з email-ом ",
     "singleNotFound_title": " не знаходиться.",
+    "alreadyExists_title": " вже існує. Спробуйте увійти за допомогою Google.",
     "incorrectPassword_title": "Невірний пароль для читача з email-ом ",
 
     "readerDetailsWithId_title": "Вiдомостi користувача з id ",
@@ -619,6 +621,7 @@ let en = {
     "nameCannotBeEmpty_title": "Name cannot be empty.",
     "readerWithEmail_title": "Reader with email ",
     "singleNotFound_title": " cannot be found.",
+    "alreadyExists_title": " already exists. Try logging with Google.",
     "incorrectPassword_title": "Incorrect password for a reader with email ",
 
     "readerDetailsWithId_title": "Reader details for reader with id ",

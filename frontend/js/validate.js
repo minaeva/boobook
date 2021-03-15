@@ -3,16 +3,6 @@ const COUNTRY_CITY_DISTRICT_TELEGRAM_VIBER_30 = 30;
 const FB_PAGE_100 = 100;
 const TITLE_MOON_BOOK_YEAR_HOBBY_POWER_200 = 200;
 
-/*
-function validateNamePassword(field, warningText) {
-    if (field == null || field == "") {
-        showWarningModal(warningText);
-        return false;
-    }
-    return true;
-}
-*/
-
 function validateImage(field, groupControlId) {
     let group = document.getElementById(groupControlId);
     if (field == null || field == "") {
@@ -59,15 +49,13 @@ function yearIsEmptyOrGoodNumber(year, groupId) {
     return true;
 }
 
-function validateExistentReader(email, password) {
+function validateEmailPassword(email, password) {
     let isValidated = true;
     let errorText = '';
-    let emailIsEmpty = false;
 
     if (!validateNotEmptyField(email, 'login_email_group')) {
         errorText += application_language.emailCannotBeEmpty_title + '<br>';
         isValidated = false;
-        emailIsEmpty = true;
     }
     if (!validateNotEmptyField(password, 'login_password_group')) {
         errorText += application_language.passwordCannotBeEmpty_title + '<br>';
@@ -82,33 +70,19 @@ function validateExistentReader(email, password) {
     return false;
 }
 
-function validateNewReader(name, email, password) {
+function validateNameEmailPassword(name, email, password) {
     let isValidated = true;
     let errorText = '';
-    let nameIsEmpty = false;
-    let emailIsEmpty = false;
 
     if (!validateNotEmptyField(name, 'register_name_group')) {
         errorText += application_language.nameCannotBeEmpty_title + '<br>';
         isValidated = false;
-        nameIsEmpty = true;
     }
-/*
-    if (!nameIsEmpty && !validateFieldLength('register_name_group', name, NAME_SURNAME_EMAIL_HERO_50)) {
-        errorText += 'Name cannot be longer that 50 symbols<br>';
-        isValidated = false;
-    }
-*/
 
     if (!validateNotEmptyField(email, 'register_email_group')) {
         errorText += application_language.emailCannotBeEmpty_title + '<br>';
         isValidated = false;
-        emailIsEmpty = true;
     }
-/*    if (!emailIsEmpty && !validateFieldLength('register_email_group', email, NAME_SURNAME_EMAIL_HERO_50)) {
-        errorText += 'Email cannot be longer that 50 symbols<br>';
-        isValidated = false;
-    }*/
 
     if (!validateNotEmptyField(password, 'register_password_group')) {
         errorText += application_language.passwordCannotBeEmpty_title + '<br>';

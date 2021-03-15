@@ -29,11 +29,6 @@ public class ReaderController {
     private final ReaderService readerService;
     private final FriendshipService friendshipService;
 
-    @PostMapping
-    public ReaderDto createReader(@RequestBody ReaderDto readerDto) throws BoobookValidationException {
-        log.info("handling CREATE READER request: " + readerDto);
-        return readerService.createReader(readerDto);
-    }
 
     @PutMapping
     public ReaderDto updateReader(@RequestBody ReaderDto readerDto) throws BoobookNotFoundException,

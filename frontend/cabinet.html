@@ -8,6 +8,8 @@
     <meta name="keywords" content="book, share, boobook">
     <meta name="author" content="sveta minaeva">
     <!-- The above 6 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="google-signin-client_id"
+          content="225049560926-gvnegbk3dnj6bgraot5h7d0gaoarge8b.apps.googleusercontent.com">
 
     <!-- Title -->
     <title id="cabinet_page_title"></title>
@@ -37,6 +39,10 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <!--    google api-->
+    <script src="https://apis.google.com/js/platform.js?onload=googleInit" async defer></script>
+
 </head>
 <body>
 
@@ -921,6 +927,7 @@
 <script src="js/profile.js"></script>
 <script src="js/readers.js"></script>
 <script src="js/validate.js"></script>
+<script src="js/google.js"></script>
 
 <script>openCabinet();</script>
 <script>connectToChat();</script>

@@ -549,7 +549,9 @@ function showFoundBooks(response) {
 }
 
 function showOwnersBooks() {
-
+    if (getCurrentUserId() == null) {
+        logout();
+    }
     setPageTitle(application_language.menu_my_books_title);
 
     let addBookButton =

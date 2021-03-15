@@ -455,11 +455,13 @@ list-type-ulli, .socials {
 /*  padding-bottom: 87px; }*/
 
 .social-login {
+  /*
   align-items: center;
   -moz-align-items: center;
   -webkit-align-items: center;
   -o-align-items: center;
   -ms-align-items: center;
+  */
   margin-top: 80px; }
 
 .social-label {
@@ -555,22 +557,22 @@ list-type-ulli, .socials {
 /*  .signup-form, .signup-image, .signin-form, .signin-image {*/
 /*    width: auto; }*/
 
-  .social-login {
-    justify-content: center;
-    -moz-justify-content: center;
-    -webkit-justify-content: center;
-    -o-justify-content: center;
-    -ms-justify-content: center; }
+/*.social-login {*/
+/*  justify-content: center;*/
+/*  -moz-justify-content: center;*/
+/*  -webkit-justify-content: center;*/
+/*  -o-justify-content: center;*/
+/*  -ms-justify-content: center; }*/
 
-  /*.form-button {*/
-  /*  text-align: center; }*/
+/*.form-button {*/
+/*  text-align: center; }*/
 
-  /*.signin-form {*/
-  /*  order: 1;*/
-  /*  -moz-order: 1;*/
-  /*  -webkit-order: 1;*/
-  /*  -o-order: 1;*/
-  /*  -ms-order: 1;*/
+/*.signin-form {*/
+/*  order: 1;*/
+/*  -moz-order: 1;*/
+/*  -webkit-order: 1;*/
+/*  -o-order: 1;*/
+/*  -ms-order: 1;*/
   /*  margin-right: 0px;*/
   /*  margin-left: 0px;*/
   /*  padding: 0 30px; }*/

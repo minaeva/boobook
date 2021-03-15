@@ -8,6 +8,8 @@
     <meta name="keywords" content="book, library, share">
     <meta name="author" content="sveta minaeva">
     <!-- The above 6 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="google-signin-client_id"
+          content="225049560926-gvnegbk3dnj6bgraot5h7d0gaoarge8b.apps.googleusercontent.com">
 
     <!-- Title -->
     <title id="login_page_title"></title>
@@ -35,6 +37,10 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <!--    google api-->
+    <script src="https://apis.google.com/js/platform.js?onload=googleInit" async defer></script>
+
 </head>
 <body>
 
@@ -59,22 +65,26 @@
                                    maxlength="50">
                         </div>
                         <a href="#" class="btn btn-primary" id="login_login_button_title"
-                           onclick="authenticateAReader(document.getElementById('reader_email').value, document.getElementById('reader_password').value); return false">
-                            </a>
+                           onclick="authenticate(document.getElementById('reader_email').value, document.getElementById('reader_password').value); return false">
+                        </a>
                         <a href="register.html" class="btn btn-default" id="login_register_button_title">
                             </a><br>
                         <!--                                    <a href="index.html" class="forgot-link">Forgot password?</a>-->
                     </form>
-<!--
-                    <div class="social-login">
-                        <span class="social-label">Or login with</span>
-                        <ul class="socials">
-                            <li><a href="#" onclick='fb_login();return false;'>
-                                <i class="display-flex-center zmdi zmdi-facebook"></i></a></li>
-                        </ul>
-                    </div>
--->
+                    <!--
+                                        <div class="social-login">
+                                            <span class="social-label">Or login with</span>
+                                            <ul class="socials">
+                                                <li><a href="#" onclick='fb_login();return false;'>
+                                                    <i class="display-flex-center zmdi zmdi-facebook"></i></a></li>
+                                            </ul>
+                                        </div>
+                    -->
 
+                    <div class="social-login">
+                        <span class="social-label">Or login with Google</span>
+                    </div>&nbsp;
+                    <div class="g-signin2" data-onsuccess="onSignIn"></div>
 
                 </div>
 
@@ -120,6 +130,7 @@
 <script src="js/language.js"></script>
 <script src="js/validate.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="js/google.js"></script>
 
 <script>loadIndex()</script>
 

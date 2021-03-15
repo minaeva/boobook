@@ -18,7 +18,6 @@ public class ReaderValidator {
         if (RegistrationType.CUSTOM.equals(readerDto.getRegistrationType()) &&
                 StringUtils.isEmpty(readerDto.getPassword())) {
             throw new BoobookValidationException("Password cannot be empty");
-
         }
 
         if (StringUtils.isEmpty(readerDto.getName())) {

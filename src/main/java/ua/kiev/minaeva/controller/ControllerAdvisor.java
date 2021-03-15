@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import ua.kiev.minaeva.exception.BoobookAlreadyExistsException;
 import ua.kiev.minaeva.exception.BoobookNotFoundException;
 import ua.kiev.minaeva.exception.BoobookUnauthorizedException;
 import ua.kiev.minaeva.exception.BoobookValidationException;
@@ -42,6 +43,14 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
         body.put(MESSAGE, "Validation error");
 
         return handleExceptionInternal(ex, body, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler(BoobookAlreadyExistsException.class)
+    public ResponseEntity<Object> handleAlreadyExistsException(BoobookAlreadyExistsException ex, WebRequest request) {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put(MESSAGE, "Already exists");
+
+        return handleExceptionInternal(ex, body, new HttpHeaders(), HttpStatus.CONFLICT, request);
     }
 
     @ExceptionHandler(IOException.class)

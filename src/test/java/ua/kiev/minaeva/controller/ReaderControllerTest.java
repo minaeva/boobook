@@ -19,7 +19,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ua.kiev.minaeva.prototype.ReaderPrototype.aReaderDto;
@@ -42,18 +41,6 @@ public class ReaderControllerTest {
         objectMapper = new ObjectMapper();
     }
 
-    @Test
-    void createReader() throws Exception {
-        when(readerService.createReader(any())).thenReturn(aReaderDto());
-
-        mockMvc.perform(post("/users")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(aReaderDto())))
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(objectMapper.writeValueAsString(aReaderDto())));
-    }
 
     @Test
     void getByEmail() throws Exception {

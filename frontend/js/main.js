@@ -4,6 +4,9 @@ const BEARER = 'Bearer ';
 function getCurrentUserId() {
     let tokenData = localStorage.getItem('tokenData');
     let jsonInside = JSON.parse(tokenData);
+    if (jsonInside == null) {
+        return null;
+    }
     return jsonInside.id;
 }
 
@@ -63,19 +66,33 @@ function addAuthorization(xhr) {
 
 function logout() {
     clearRequestHeader();
+    googleSignOut();
     window.location.href = 'index.html';
     return false;
 }
 
 function loadIndex() {
+    clearIndexForm();
     clearRequestHeader();
     resetLanguageOnIndex();
     attachAuthListenerOnEnter();
 }
 
+function clearIndexForm() {
+    $("#reader_email").removeAttr('value');
+    $('#reader_password').removeAttr('value');
+}
+
 function loadRegister() {
+    clearRegisterForm();
     resetLanguageOnRegister();
     attachRegisterListenerOnEnter();
+}
+
+function clearRegisterForm() {
+    $("#new_email").removeAttr('value');
+    $("#new_name").removeAttr('value');
+    $("#new_password").removeAttr('value');
 }
 
 function clearRequestHeader() {

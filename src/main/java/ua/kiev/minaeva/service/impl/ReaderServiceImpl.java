@@ -11,6 +11,7 @@ import ua.kiev.minaeva.dto.SearchOperation;
 import ua.kiev.minaeva.dto.SearchReaderDto;
 import ua.kiev.minaeva.entity.Reader;
 import ua.kiev.minaeva.entity.RegistrationType;
+import ua.kiev.minaeva.exception.BoobookAlreadyExistsException;
 import ua.kiev.minaeva.exception.BoobookNotFoundException;
 import ua.kiev.minaeva.exception.BoobookValidationException;
 import ua.kiev.minaeva.mapper.ReaderMapper;
@@ -20,9 +21,9 @@ import ua.kiev.minaeva.service.FriendshipService;
 import ua.kiev.minaeva.service.ReaderService;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static ua.kiev.minaeva.service.helper.ReaderValidator.validateReader;
 import static ua.kiev.minaeva.service.helper.ReaderValidator.validateReaderToUpdate;
 
 @Service
@@ -38,23 +39,36 @@ public class ReaderServiceImpl implements ReaderService {
 
     private ReaderMapper mapper = Mappers.getMapper(ReaderMapper.class);
 
-    public ReaderDto createReader(ReaderDto readerDto) throws BoobookValidationException {
-        validateReader(readerDto);
+    public ReaderDto createReader(ReaderDto readerDto) throws BoobookAlreadyExistsException {
 
-        Reader reader = mapper.dtoToReader(readerDto);
+        Reader reader = mapReaderFromDto(readerDto);
         if (RegistrationType.CUSTOM.equals(readerDto.getRegistrationType())) {
             reader.setPassword(passwordEncoder.encode(readerDto.getPassword()));
-        }
-
-        if (reader.getGender() == null) {
-            reader.setGender(0);
         }
 
         try {
             return mapper.readerToDto(readerRepository.save(reader));
         } catch (Exception e) {
-            throw new BoobookValidationException("Reader with email " + reader.getEmail() +
+            throw new BoobookAlreadyExistsException("Reader with email " + reader.getEmail() +
                     " already exists");
+        }
+    }
+
+    private Reader mapReaderFromDto(ReaderDto readerDto) {
+        Reader reader = mapper.dtoToReader(readerDto);
+        if (reader.getGender() == null) {
+            reader.setGender(0);
+        }
+        return reader;
+    }
+
+    public ReaderDto createGoogleReader(ReaderDto readerDto) throws BoobookValidationException {
+        Reader reader = mapReaderFromDto(readerDto);
+        Optional<Reader> existentReader = readerRepository.findByEmail(readerDto.getEmail());
+        if (existentReader.isPresent()) {
+            return mapper.readerToDto(existentReader.get());
+        } else {
+            return mapper.readerToDto(readerRepository.save(reader));
         }
     }
 

@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import ua.kiev.minaeva.dto.ReaderDto;
 import ua.kiev.minaeva.entity.Reader;
 import ua.kiev.minaeva.entity.RegistrationType;
+import ua.kiev.minaeva.exception.BoobookAlreadyExistsException;
 import ua.kiev.minaeva.exception.BoobookNotFoundException;
 import ua.kiev.minaeva.exception.BoobookValidationException;
 import ua.kiev.minaeva.mapper.ReaderMapper;
@@ -47,7 +48,7 @@ public class ReaderServiceTest {
 
 
     @Test
-    void createReader_successful() throws BoobookValidationException {
+    void createReader_successful() throws BoobookAlreadyExistsException {
         ReaderDto readerDto = aReaderDto();
         when(readerRepository.save(any())).thenReturn(aReader());
         when(passwordEncoder.encode(anyString())).thenReturn("encoded_test_password");

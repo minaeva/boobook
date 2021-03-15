@@ -13,7 +13,6 @@ public class RegistrationRequestPrototype {
         request.setEmail("test_request_email");
         request.setPassword("test_request_pass");
         request.setName("test_request_name");
-        request.setFbPage("test_request_fbPage");
         request.setRegistrationType(RegistrationType.CUSTOM);
 
         return request;
