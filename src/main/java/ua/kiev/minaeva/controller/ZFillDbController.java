@@ -10,6 +10,7 @@ import ua.kiev.minaeva.dto.BookDto;
 import ua.kiev.minaeva.dto.ReaderDto;
 import ua.kiev.minaeva.entity.Author;
 import ua.kiev.minaeva.entity.RegistrationType;
+import ua.kiev.minaeva.exception.BoobookAlreadyExistsException;
 import ua.kiev.minaeva.exception.BoobookNotFoundException;
 import ua.kiev.minaeva.exception.BoobookValidationException;
 import ua.kiev.minaeva.repository.AuthorRepository;
@@ -40,7 +41,7 @@ public class ZFillDbController {
     private Author author;
 
     @GetMapping
-    public void fillData() throws BoobookValidationException, BoobookNotFoundException {
+    public void fillData() throws BoobookValidationException, BoobookNotFoundException, BoobookAlreadyExistsException {
         createReaderAndAuthor();
 
         BookDto farenheit = new BookDto.Builder("451 in Fahrenheit", author.getId(), vovka.getId())
@@ -86,7 +87,7 @@ public class ZFillDbController {
         bookService.createBook(man);
     }
 
-    private void createReaderAndAuthor() throws BoobookValidationException {
+    private void createReaderAndAuthor() throws BoobookAlreadyExistsException {
         ReaderDto vovkaToSave = new ReaderDto();
         vovkaToSave.setName("Vladimir");
         vovkaToSave.setEmail("vmk64");
