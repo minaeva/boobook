@@ -211,7 +211,7 @@ public class ReaderServiceImpl implements ReaderService {
                     SearchOperation.MATCH));
         }
 
-        if (searchReaderDto.getGender() != null) {
+        if (searchReaderDto.getGender() != 0) {
             specification.add(new SearchCriteria(("gender"), searchReaderDto.getGender(),
                     SearchOperation.EQUAL));
         }
