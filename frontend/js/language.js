@@ -129,6 +129,7 @@ let ru = {
 
     "profile_name_title": "Имя ",
     "profile_surname_title": "Фамилия",
+    "delete_reader_image_title": "Удалить фотографию",
     "profile_book_to_the_moon_title": "Книга, которую вы бы взяли с собой на Марс",
     "profile_hero_title": "Любимый герой",
     "profile_year_title": "Год рождения",
@@ -368,6 +369,7 @@ let ua = {
 
     "profile_name_title": "Ім'я ",
     "profile_surname_title": "Прізвище",
+    "delete_reader_image_title": "Видалити фотографію",
     "profile_book_to_the_moon_title": "Книга, що ви б її взяли з собою на Марс",
     "profile_hero_title": "Улюблений герой",
     "profile_year_title": "Рік народження",
@@ -593,6 +595,7 @@ let en = {
 
     "profile_name_title": "Name ",
     "profile_surname_title": "Surname",
+    "delete_reader_image_title": "Delete the picture",
     "profile_book_to_the_moon_title": "Book you'd take to Mars",
     "profile_hero_title": "Hero you like",
     "profile_year_title": "Year of birth",

@@ -1,7 +1,7 @@
 const validImageTypes = ['image/gif', 'image/jpeg', 'image/jpg', 'image/png', 'image/bmp'];
 const PREVIEWS_QUANTITY = 5;
 const NO_IMAGE = 'images/book-placeholder.png';
-const NO_READER_IMAGE = 'reader.png';
+const NO_READER_IMAGE = 'images/reader.png';
 let IMAGE_EDITED;
 const IMAGE_TO_SAVE = 'target';
 const IMAGE_TO_EDIT = 'edit_target';

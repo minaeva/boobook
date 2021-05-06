@@ -427,7 +427,7 @@ function resetLanguage() {
     $('#profile_about_title').text(application_language.profile_about_title);
     $('#profile_about_text1').html(application_language.profile_about_text1);
     $('#profile_about_text2').html(application_language.profile_about_text2);
-
+    $('#delete_reader_image_title').prop('title', application_language.delete_reader_image_title);
     clickHomeForTheFirstTime();
 }
 
