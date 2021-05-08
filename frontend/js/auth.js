@@ -1,4 +1,41 @@
-function authenticateWithoutValidation(email, password) {
+function authenticateRegisterWithoutValidation(email, password) {
+
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+
+        if (this.readyState === 4) {
+            document.getElementById("new_password").value = '';
+            if (this.status === 404) {
+                showWarningModal(application_language.readerWithEmail_title + email + application_language.singleNotFound_title);
+                document.getElementById("new_email").value = '';
+                return false;
+            }
+            if (this.status === 401) {
+                showWarningModal(application_language.incorrectPassword_title + email);
+                return false;
+            }
+            if (this.status === 200) {
+                let token = JSON.parse(this.responseText);
+                localStorage.setItem('tokenData', JSON.stringify(token));
+                document.getElementById("new_email").value = '';
+                window.location.href = 'cabinet.html';
+            }
+        }
+    };
+
+    let requestUrl = HOME_PAGE + "/users/auth";
+    const requestBody = {
+        "email": email,
+        "password": password
+    };
+    xhr.open("POST", requestUrl);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr.send(JSON.stringify(requestBody));
+
+    return false;
+}
+
+function authenticateLoginWithoutValidation(email, password) {
 
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
@@ -33,14 +70,13 @@ function authenticateWithoutValidation(email, password) {
     xhr.send(JSON.stringify(requestBody));
 
     return false;
-
 }
 
 function authenticate(email, password) {
     if (!validateEmailPassword(email, password)) {
         return false;
     }
-    authenticateWithoutValidation(email, password);
+    authenticateLoginWithoutValidation(email, password);
 }
 
 function registerAReader() {
@@ -67,7 +103,7 @@ function registerAReader() {
                 showWarningModal(application_language.readerWithEmail_title + new_email + application_language.alreadyExists_title);
                 return false;
             } else if (this.status === 200) {
-                authenticateWithoutValidation(new_email, new_password);
+                authenticateRegisterWithoutValidation(new_email, new_password);
             }
         }
     };
