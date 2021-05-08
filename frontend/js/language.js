@@ -711,7 +711,7 @@ let en = {
     "log_out_title": "Log out",
     "profile_about_title": "About boobook",
     "profile_about_text1": "\"Book\" is for book, \"boo\" is for fun. <br><br>" +
-        "Boobook was created to help reading people meet each other.",
+        "Boobook was created to help reading people meet each other.<br><br>",
     "profile_about_text2": "<br><br>Idea belonged to my daughter Varya who, being 8-year-old, liked to read and to share. <br><br>" +
         "The point is the following:<br><br>" +
         "* Varya registers in the system, enters her cabinet, adds data for the books she has already read" +
@@ -720,8 +720,8 @@ let en = {
         " and has standing on her bookshelf.<br><br>" +
         "* Varya is searching for a book she would like to read and - miracle - finds it within the books Kira has" +
         " added.<br><br>" +
-        "* Varya is writing to Kira: Hello! I'm interested in your book \"Charlie and the Marshmallow Plant" +
-        " Could you please take a look on the books I have: maybe one of them will be of your interest?<br><br>" +
+        "* Varya is writing to Kira: Hello! I'm interested in your book \"Charlie and the Marshmallow Plant\"." +
+        " Could you please take a look on the books I have - maybe one of them will be of your interest?<br><br>" +
         "* Kira enters Varya's Boobook page, explores her books and finds out the book \"Warrior Cats Start to Wear" +
         " Hats\" -" +
         " exactly the one she was dreaming of. <br><br>" +

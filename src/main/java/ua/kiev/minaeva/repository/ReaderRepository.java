@@ -7,9 +7,12 @@ import ua.kiev.minaeva.entity.Reader;
 import java.util.List;
 import java.util.Optional;
 
-public interface ReaderRepository extends JpaRepository<Reader, Long>, JpaSpecificationExecutor<Reader> {
+public interface ReaderRepository extends JpaRepository<Reader, Long>,
+        JpaSpecificationExecutor<Reader> {
 
-    Optional<Reader> findByEmail(String email);
+    //    Optional<Reader> findByEmail(String email);
+
+    Optional<Reader> findByEmailIgnoreCase(String email);
 
     Optional<Reader> findById(Long id);
 

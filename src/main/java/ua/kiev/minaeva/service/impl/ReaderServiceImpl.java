@@ -64,7 +64,8 @@ public class ReaderServiceImpl implements ReaderService {
 
     public ReaderDto createGoogleReader(ReaderDto readerDto) throws BoobookValidationException {
         Reader reader = mapReaderFromDto(readerDto);
-        Optional<Reader> existentReader = readerRepository.findByEmail(readerDto.getEmail());
+        Optional<Reader> existentReader =
+                readerRepository.findByEmailIgnoreCase(readerDto.getEmail());
         if (existentReader.isPresent()) {
             return mapper.readerToDto(existentReader.get());
         } else {
@@ -103,9 +104,8 @@ public class ReaderServiceImpl implements ReaderService {
     }
 
     public ReaderDto getByEmail(String email) throws BoobookNotFoundException {
-        Reader reader = readerRepository.findByEmail(email)
-                .orElseThrow(() ->
-                        new BoobookNotFoundException(NO_READER_FOUND_WITH_EMAIL + email));
+        Reader reader =
+                readerRepository.findByEmailIgnoreCase(email).orElseThrow(() -> new BoobookNotFoundException(NO_READER_FOUND_WITH_EMAIL + email));
         return mapper.readerToDto(reader);
     }
 

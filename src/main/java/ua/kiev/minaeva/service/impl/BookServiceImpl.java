@@ -223,7 +223,7 @@ public class BookServiceImpl implements BookService {
         }
 
         foundBooks = bookRepository.findAll(specification);
-        return foundBooks.stream()
+        return foundBooks.stream().filter(book -> book.isActive())
                 .map(b -> mapper.bookToDto(b))
                 .collect(Collectors.toList());
 

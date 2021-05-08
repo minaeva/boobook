@@ -160,7 +160,7 @@ public class ReaderServiceTest {
 
     @Test
     void getByEmail() throws BoobookNotFoundException {
-        when(readerRepository.findByEmail(eq("email")))
+        when(readerRepository.findByEmailIgnoreCase(eq("email")))
                 .thenReturn(Optional.of(aReader()));
 
         ReaderDto foundReader = readerService.getByEmail("email");
@@ -171,7 +171,7 @@ public class ReaderServiceTest {
 
     @Test
     void getByEmail_notFound() {
-        when(readerRepository.findByEmail(anyString()))
+        when(readerRepository.findByEmailIgnoreCase(anyString()))
                 .thenReturn(Optional.empty());
 
         assertThrows(BoobookNotFoundException.class,
@@ -182,7 +182,7 @@ public class ReaderServiceTest {
     void getByEmailAndPassword() throws BoobookNotFoundException {
         Reader reader = aReader();
         reader.setRegistrationType(RegistrationType.FB);
-        when(readerRepository.findByEmail(anyString()))
+        when(readerRepository.findByEmailIgnoreCase(anyString()))
                 .thenReturn(Optional.of(reader));
 
         ReaderDto foundReader = readerService.getByEmailAndPassword("email", "password");
@@ -193,7 +193,7 @@ public class ReaderServiceTest {
 
     @Test
     void getByEmailAndPassword_notFound() {
-        when(readerRepository.findByEmail(anyString())).thenReturn(Optional.empty());
+        when(readerRepository.findByEmailIgnoreCase(anyString())).thenReturn(Optional.empty());
 
         assertThrows(BoobookNotFoundException.class,
                 () -> readerService.getByEmailAndPassword("mail", "password"));
