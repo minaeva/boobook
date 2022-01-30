@@ -8,8 +8,6 @@
     <meta name="keywords" content="book, library, share">
     <meta name="author" content="sveta minaeva">
     <!-- The above 6 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="google-signin-client_id"
-          content="225049560926-gvnegbk3dnj6bgraot5h7d0gaoarge8b.apps.googleusercontent.com">
 
     <!-- Title -->
     <title id="login_page_title"></title>
@@ -39,7 +37,7 @@
     <![endif]-->
 
     <!--    google api-->
-    <script src="https://apis.google.com/js/platform.js?onload=googleInit" async defer></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 
 </head>
 <body>
@@ -52,6 +50,8 @@
             <div class="row">
                 <div class="col-sm-6 col-md-3 login-box">
                     <h4 class="login-title" id="login_login_form_title"></h4>
+
+
                     <form>
                         <div class="form-group" id="login_email_group">
                             <label for="reader_email" id="login_email_title">
@@ -69,22 +69,18 @@
                         </a>
                         <a href="register.html" class="btn btn-default" id="login_register_button_title">
                             </a><br>
-                        <!--                                    <a href="index.html" class="forgot-link">Forgot password?</a>-->
                     </form>
-                    <!--
-                                        <div class="social-login">
-                                            <span class="social-label">Or login with</span>
-                                            <ul class="socials">
-                                                <li><a href="#" onclick='fb_login();return false;'>
-                                                    <i class="display-flex-center zmdi zmdi-facebook"></i></a></li>
-                                            </ul>
-                                        </div>
-                    -->
+
 
                     <div class="social-login">
                         <span class="social-label">Or login with Google</span>
                     </div>&nbsp;
-                    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                    <div id="g_id_onload"
+                         data-client_id="225049560926-gvnegbk3dnj6bgraot5h7d0gaoarge8b.apps.googleusercontent.com"
+                         data-callback="handleCredentialResponse">
+                    </div>
+                    <div class="g_id_signin" data-type="standard"></div>
+
 
                 </div>
 

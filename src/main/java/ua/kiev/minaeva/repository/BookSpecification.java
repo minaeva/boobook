@@ -15,7 +15,7 @@ import java.util.List;
 public class BookSpecification implements Specification<Book> {
 
     public static final String PERCENT = "%";
-    private List<SearchCriteria> list;
+    private final List<SearchCriteria> list;
 
     public BookSpecification() {
         this.list = new ArrayList<>();
