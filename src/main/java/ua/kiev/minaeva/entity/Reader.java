@@ -2,6 +2,7 @@ package ua.kiev.minaeva.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.hibernate.annotations.Type;
 
@@ -10,6 +11,7 @@ import java.util.Set;
 
 @Data
 @ToString(exclude = "friends")
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "reader")
 public class Reader extends MapId {

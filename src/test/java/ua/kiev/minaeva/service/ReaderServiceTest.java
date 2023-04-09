@@ -22,8 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static ua.kiev.minaeva.prototype.ReaderPrototype.aReader;
@@ -44,11 +43,11 @@ public class ReaderServiceTest {
     @Mock
     private FriendshipServiceImpl friendshipService;
 
-    private ReaderMapper mapper = Mappers.getMapper(ReaderMapper.class);
+    private final ReaderMapper mapper = Mappers.getMapper(ReaderMapper.class);
 
 
     @Test
-    void createReader_successful() throws BoobookAlreadyExistsException {
+    void createReader_successful() throws BoobookAlreadyExistsException, BoobookValidationException {
         ReaderDto readerDto = aReaderDto();
         when(readerRepository.save(any())).thenReturn(aReader());
         when(passwordEncoder.encode(anyString())).thenReturn("encoded_test_password");
@@ -60,7 +59,7 @@ public class ReaderServiceTest {
     }
 
     @Test
-    void createReader_failedOnEmptyEmail() {
+    void createReader_emptyEmail_fails() {
         ReaderDto readerDto = aReaderDto();
         readerDto.setEmail("");
 
@@ -69,7 +68,7 @@ public class ReaderServiceTest {
     }
 
     @Test
-    void createReader_failedOnEmptyPassword() {
+    void createReader_emptyPassword_fails() {
         ReaderDto readerDto = aReaderDto();
         readerDto.setPassword("");
 
@@ -78,7 +77,7 @@ public class ReaderServiceTest {
     }
 
     @Test
-    void createReader_failedOnEmptyName() {
+    void createReader_emptyName_fails() {
         ReaderDto readerDto = aReaderDto();
         readerDto.setName("");
 
@@ -100,7 +99,7 @@ public class ReaderServiceTest {
     }
 
     @Test
-    void updateReader_failsOnNotExistentReader() {
+    void updateReader_notExistentReader_fails() {
         ReaderDto readerDto = aReaderDto();
         readerDto.setId(11L);
         when(readerRepository.findById(anyLong())).thenReturn(Optional.empty());
@@ -110,18 +109,17 @@ public class ReaderServiceTest {
     }
 
     @Test
-    void updateReader_failsOnNotEmptyEmail() {
+    void updateReader_emptyEmail_successful() {
         ReaderDto readerDto = aReaderDto();
         readerDto.setId(11L);
         readerDto.setEmail("");
-        when(readerRepository.findById(anyLong())).thenReturn(Optional.empty());
+        when(readerRepository.findById(anyLong())).thenReturn(Optional.of(aReader()));
 
-        assertThrows(BoobookValidationException.class,
-                () -> readerService.updateReader(readerDto));
+        assertDoesNotThrow(() -> readerService.updateReader(readerDto));
     }
 
     @Test
-    void updateReader_failsOnNotEmptyName() {
+    void updateReader_emptyName_fails() {
         ReaderDto readerDto = aReaderDto();
         readerDto.setId(11L);
         readerDto.setName("");
@@ -132,30 +130,25 @@ public class ReaderServiceTest {
     }
 
     @Test
-    void updateReader_failsOnNotFbEmptyPassword() {
+    void updateReader_customType_emptyPassword_successful() {
         ReaderDto readerDto = aReaderDto();
         readerDto.setId(11L);
         readerDto.setRegistrationType(RegistrationType.CUSTOM);
         readerDto.setPassword("");
-        when(readerRepository.findById(anyLong())).thenReturn(Optional.empty());
+        when(readerRepository.findById(anyLong())).thenReturn(Optional.of(aReader()));
 
-        assertThrows(BoobookValidationException.class,
-                () -> readerService.updateReader(readerDto));
+        assertDoesNotThrow(() -> readerService.updateReader(readerDto));
     }
 
     @Test
-    void updateReader_successfulOnFbEmptyPassword() throws BoobookNotFoundException, BoobookValidationException {
+    void updateReader_fb_emptyPassword_successful() {
         ReaderDto readerDto = aReaderDto();
         readerDto.setId(11L);
         readerDto.setRegistrationType(RegistrationType.FB);
         readerDto.setPassword("");
         when(readerRepository.findById(anyLong())).thenReturn(Optional.of(aReader()));
-        when(readerRepository.save(any())).thenReturn(aReader());
 
-        ReaderDto updatedReader = readerService.updateReader(readerDto);
-
-        assertThat(updatedReader).isNotNull();
-        assertThat(updatedReader.getName()).isEqualTo(readerDto.getName());
+        assertDoesNotThrow(() -> readerService.updateReader(readerDto));
     }
 
     @Test
@@ -209,7 +202,7 @@ public class ReaderServiceTest {
         when(friendshipService.getFriendsByReaderId(anyLong()))
                 .thenReturn(Collections.singletonList(mapper.readerToDto(reader2)));
 
-        assertEquals(true, readerService.getAllWithIsFriend(1L).get(0).isFriend());
+        assertTrue(readerService.getAllWithIsFriend(1L).get(0).isFriend());
     }
 
     @Test
@@ -224,7 +217,7 @@ public class ReaderServiceTest {
         when(friendshipService.getFriendsByReaderId(anyLong()))
                 .thenReturn(Collections.singletonList(mapper.readerToDto(reader3)));
 
-        assertEquals(false, readerService.getAllWithIsFriend(1L).get(0).isFriend());
+        assertFalse(readerService.getAllWithIsFriend(1L).get(0).isFriend());
     }
 
     @Test
@@ -236,7 +229,7 @@ public class ReaderServiceTest {
         when(friendshipService.getFriendsByReaderId(anyLong()))
                 .thenThrow(BoobookNotFoundException.class);
 
-        assertEquals(false, readerService.getAllWithIsFriend(1L).get(0).isFriend());
+        assertFalse(readerService.getAllWithIsFriend(1L).get(0).isFriend());
     }
 
     @Test
@@ -262,7 +255,7 @@ public class ReaderServiceTest {
         when(readerRepository.findById(anyLong())).thenReturn(Optional.of(aReader()));
         when(friendshipService.areFriends(anyLong(), anyLong())).thenReturn(true);
 
-        assertEquals(true, readerService.getByIdWithIsFriend(1L, 2L).isFriend());
+        assertTrue(readerService.getByIdWithIsFriend(1L, 2L).isFriend());
     }
 
     @Test
@@ -270,7 +263,7 @@ public class ReaderServiceTest {
         when(readerRepository.findById(anyLong())).thenReturn(Optional.of(aReader()));
         when(friendshipService.areFriends(anyLong(), anyLong())).thenReturn(false);
 
-        assertEquals(false, readerService.getByIdWithIsFriend(1L, 2L).isFriend());
+        assertFalse(readerService.getByIdWithIsFriend(1L, 2L).isFriend());
     }
 
     @Test

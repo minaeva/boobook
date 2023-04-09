@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface ReaderService {
 
-    ReaderDto createReader(ReaderDto readerDto) throws BoobookAlreadyExistsException;
+    ReaderDto createReader(ReaderDto readerDto) throws BoobookAlreadyExistsException, BoobookValidationException;
 
     ReaderDto createGoogleReader(ReaderDto readerDto) throws BoobookValidationException;
 

@@ -1,3 +1,5 @@
+--not needed
+
 UPDATE pg_database SET datallowconn = 'false' WHERE datname = 'bubuk';
 
 SELECT pg_terminate_backend(pid)

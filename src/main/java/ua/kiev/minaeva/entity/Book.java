@@ -3,6 +3,7 @@ package ua.kiev.minaeva.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import java.util.List;
 
 @Data
 @ToString(exclude = {"author", "owner"})
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "book")
 public class Book extends MapId {

@@ -1,13 +1,14 @@
 package ua.kiev.minaeva.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "book_image")
 public class BookImage extends MapId {
@@ -17,7 +18,7 @@ public class BookImage extends MapId {
     @Type(type = "org.hibernate.type.BinaryType")
     private byte[] image;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
+    //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JsonManagedReference
 //    @JoinColumn(name = "book_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)

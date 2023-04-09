@@ -2,6 +2,7 @@ package ua.kiev.minaeva.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Table(name = "friendship")
+@EqualsAndHashCode(callSuper = true)
 public class Friendship extends MapId {
 
     @OneToOne

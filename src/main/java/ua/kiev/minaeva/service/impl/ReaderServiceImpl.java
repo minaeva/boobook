@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static ua.kiev.minaeva.service.helper.ReaderValidator.validateReader;
 import static ua.kiev.minaeva.service.helper.ReaderValidator.validateReaderToUpdate;
 
 @Service
@@ -37,9 +38,11 @@ public class ReaderServiceImpl implements ReaderService {
     private final PasswordEncoder passwordEncoder;
     private final FriendshipService friendshipService;
 
-    private ReaderMapper mapper = Mappers.getMapper(ReaderMapper.class);
+    private final ReaderMapper mapper = Mappers.getMapper(ReaderMapper.class);
 
-    public ReaderDto createReader(ReaderDto readerDto) throws BoobookAlreadyExistsException {
+    public ReaderDto createReader(ReaderDto readerDto) throws BoobookAlreadyExistsException, BoobookValidationException {
+
+        validateReader(readerDto);
 
         Reader reader = mapReaderFromDto(readerDto);
         if (RegistrationType.CUSTOM.equals(readerDto.getRegistrationType())) {
@@ -54,15 +57,7 @@ public class ReaderServiceImpl implements ReaderService {
         }
     }
 
-    private Reader mapReaderFromDto(ReaderDto readerDto) {
-        Reader reader = mapper.dtoToReader(readerDto);
-        if (reader.getGender() == null) {
-            reader.setGender(0);
-        }
-        return reader;
-    }
-
-    public ReaderDto createGoogleReader(ReaderDto readerDto) throws BoobookValidationException {
+    public ReaderDto createGoogleReader(ReaderDto readerDto) {
         Reader reader = mapReaderFromDto(readerDto);
         Optional<Reader> existentReader =
                 readerRepository.findByEmailIgnoreCase(readerDto.getEmail());
@@ -83,13 +78,12 @@ public class ReaderServiceImpl implements ReaderService {
                 .orElseThrow(() -> new BoobookNotFoundException(NO_READER_FOUND_WITH_ID + readerDto.getId()));
 
         Reader readerToUpdate = mapper.dtoToReader(readerDto);
-        readerToUpdate.setEmail(existentReader.getEmail());
-        readerToUpdate.setPassword(existentReader.getPassword());
-        readerToUpdate.setRegistrationType(existentReader.getRegistrationType());
+        existentReader.setEmail(readerToUpdate.getEmail());
+        existentReader.setPassword(readerToUpdate.getPassword());
+        existentReader.setRegistrationType(readerToUpdate.getRegistrationType());
 
-        return mapper.readerToDto(readerRepository.save(readerToUpdate));
+        return mapper.readerToDto(readerRepository.save(existentReader));
     }
-
 
     public ReaderDto updateImage(byte[] image, Long readerId) throws BoobookNotFoundException {
         Reader reader = readerRepository.findById(readerId)
@@ -126,7 +120,7 @@ public class ReaderServiceImpl implements ReaderService {
     public List<ReaderDto> getAll() {
         return readerRepository.findAll()
                 .stream()
-                .map(reader -> mapper.readerToDto(reader))
+                .map(mapper::readerToDto)
                 .collect(Collectors.toList());
     }
 
@@ -134,7 +128,7 @@ public class ReaderServiceImpl implements ReaderService {
         List<ReaderDto> foundReaders = readerRepository.findAll()
                 .stream()
                 .filter(reader -> !friend1Id.equals(reader.getId()))
-                .map(reader -> mapper.readerToDto(reader))
+                .map(mapper::readerToDto)
                 .collect(Collectors.toList());
         List<ReaderDto> foundFriends;
 
@@ -179,7 +173,7 @@ public class ReaderServiceImpl implements ReaderService {
         }
 
         return readers.stream()
-                .map(reader -> mapper.readerToDto(reader))
+                .map(mapper::readerToDto)
                 .collect(Collectors.toList());
     }
 
@@ -218,10 +212,16 @@ public class ReaderServiceImpl implements ReaderService {
 
         foundReaders = readerRepository.findAll(specification);
         return foundReaders.stream()
-                .map(r -> mapper.readerToDto(r))
+                .map(mapper::readerToDto)
                 .collect(Collectors.toList());
-
     }
 
+    private Reader mapReaderFromDto(ReaderDto readerDto) {
+        Reader reader = mapper.dtoToReader(readerDto);
+        if (reader.getGender() == null) {
+            reader.setGender(0);
+        }
+        return reader;
+    }
 
 }

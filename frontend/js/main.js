@@ -66,7 +66,7 @@ function addAuthorization(xhr) {
 
 function logout() {
     clearRequestHeader();
-    googleSignOut();
+//    googleSignOut();
     window.location.href = 'index.html';
     return false;
 }

@@ -87,7 +87,7 @@ public class ZFillDbController {
         bookService.createBook(man);
     }
 
-    private void createReaderAndAuthor() throws BoobookAlreadyExistsException {
+    private void createReaderAndAuthor() throws BoobookAlreadyExistsException, BoobookValidationException {
         ReaderDto vovkaToSave = new ReaderDto();
         vovkaToSave.setName("Vladimir");
         vovkaToSave.setEmail("vmk64");

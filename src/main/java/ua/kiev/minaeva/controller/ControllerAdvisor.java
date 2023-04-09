@@ -40,7 +40,7 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
     @ExceptionHandler(BoobookValidationException.class)
     public ResponseEntity<Object> handleValidationException(BoobookValidationException ex, WebRequest request) {
         Map<String, Object> body = new LinkedHashMap<>();
-        body.put(MESSAGE, "Validation error");
+        body.put(MESSAGE, "Validation error: " + ex.getMessage());
 
         return handleExceptionInternal(ex, body, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }

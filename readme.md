@@ -1,10 +1,22 @@
-mvn clean verify -P sonar \
--Dsonar.host.url=https://sonarcloud.io \
--Dsonar.organization=minaeva \
--Dsonar.login=bbc3ea0958857e945d7f3b0abfc9cf45ec8e89a1 -DskipTests
+1.1. run 
+boobook/src/main/resources/db/1_create_db.sql
+and 
+boobook/src/main/resources/db/2_create_insert.sql
 
-•••
-DOCKER instruction:
+1.2. set the properties in the application-docker.properties
 
-cd boobook-reader-service/local
-docker-compose up
+1.3. run mvn spring-boot:run -Dspring-boot.run.profiles=docker 
+
+***
+
+2.1. run boobook_messaging/src/main/resources/db/createDB.sql
+
+2.2. set the properties in the application-docker.properties
+
+2.3. run mvn spring-boot:run -Dspring-boot.run.profiles=docker 
+
+
+***
+3.1. in boobook/frontend/js/environment.js
+set
+HOME_PAGE and MESSAGE_SERVICE_HOME

@@ -8,6 +8,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import ua.kiev.minaeva.config.jwt.JwtProvider;
+import ua.kiev.minaeva.controller.helper.RegistrationRequestValidator;
 import ua.kiev.minaeva.dto.ReaderDto;
 import ua.kiev.minaeva.entity.RegistrationType;
 import ua.kiev.minaeva.service.ReaderService;
@@ -103,20 +104,18 @@ public class AuthControllerTest {
     }
 
     @Test
-    void registerReader_fbReader() throws Exception {
+    void registerReader_notCustomType_exception() throws Exception {
         RegistrationRequest request = aRequest();
-        request.setRegistrationType(RegistrationType.FB);
-        ReaderDto readerDto = aReaderDto();
-        readerDto.setRegistrationType(RegistrationType.FB);
-        when(readerService.createReader(any(ReaderDto.class))).thenReturn(readerDto);
-        when(jwtProvider.generateToken(anyString())).thenReturn("test_request_token");
+        request.setRegistrationType(RegistrationType.GOOGLE);
 
-        mockMvc.perform(post("/users/register")
+        MvcResult result = mockMvc.perform(post("/users/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(objectMapper.writeValueAsString(aResponse())));
+                .andExpect(status().isBadRequest())
+                .andReturn();
+
+        String message = result.getResponse().getContentAsString();
+        assertTrue(message.contains("Custom registration type of request expected"));
     }
 
     @Test

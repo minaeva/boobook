@@ -5,7 +5,7 @@ import lombok.ToString;
 import ua.kiev.minaeva.entity.RegistrationType;
 
 @Data
-@ToString(exclude = "password")
+//@ToString(exclude = "password")
 public class GoogleRegistrationRequest {
 
     private String email;
